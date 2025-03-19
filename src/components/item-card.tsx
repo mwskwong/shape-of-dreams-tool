@@ -1,3 +1,14 @@
+// rarity
+import "@radix-ui/themes/tokens/colors/sky.css";
+import "@radix-ui/themes/tokens/colors/purple.css";
+import "@radix-ui/themes/tokens/colors/red.css";
+import "@radix-ui/themes/tokens/colors/amber.css";
+
+//  special text colors, e.g. damage type
+import "@radix-ui/themes/tokens/colors/orange.css";
+import "@radix-ui/themes/tokens/colors/cyan.css";
+import "@radix-ui/themes/tokens/colors/yellow.css";
+
 import { Badge, type BadgeProps } from "@radix-ui/themes/components/badge";
 import { Card, type CardProps } from "@radix-ui/themes/components/card";
 import { Flex } from "@radix-ui/themes/components/flex";
@@ -96,8 +107,9 @@ export const ItemCard: FC<ItemCardProps> = ({
                     }
                     default: {
                       mappedColor = color;
-                    } // Fallback to original color if no match
+                    }
                   }
+
                   return `<i style="color: ${mappedColor};">${content}</i>`;
                 },
               ),
