@@ -25,7 +25,7 @@ export const CheckboxGroupSelect: FC<CheckboxGroupSelectProps> = ({
           <IconChevronDown size={16} />
         </Button>
       </Popover.Trigger>
-      <Popover.Content>
+      <Popover.Content minWidth="150px">
         <CheckboxGroup.Root {...props}>
           {options.map(({ value, label }) => (
             <CheckboxGroup.Item key={value} value={value}>
