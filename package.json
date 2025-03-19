@@ -13,9 +13,11 @@
   },
   "dependencies": {
     "@radix-ui/themes": "^3.2.1",
+    "@tabler/icons-react": "^3.31.0",
     "clsx": "^2.1.1",
     "dedent": "^1.5.3",
     "next": "15.2.3",
+    "nuqs": "^2.4.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },

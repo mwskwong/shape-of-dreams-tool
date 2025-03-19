@@ -61,10 +61,17 @@ const config = {
       ],
     },
   ],
+  // eslint-disable-next-line @typescript-eslint/require-await
+  redirects: async () => [
+    {
+      source: "/",
+      destination: "/memories",
+      permanent: false,
+    },
+  ],
   logging: { fetches: { fullUrl: true } },
   experimental: {
     typedEnv: true,
-    useCache: true,
     reactCompiler: true,
     optimizePackageImports: ["@radix-ui/themes", "radix-ui"],
   },
