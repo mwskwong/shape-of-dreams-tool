@@ -94,9 +94,7 @@ export const Toolbar: FC = () => {
         onValueChange={setTags}
       >
         Tag
-        {travelers.length > 0 && (
-          <Badge color="indigo">{travelers.length}</Badge>
-        )}
+        {tags.length > 0 && <Badge color="indigo">{tags.length}</Badge>}
       </CheckboxGroupSelect>
       <Separator orientation="vertical" size="2" />
       <Button
@@ -107,6 +105,7 @@ export const Toolbar: FC = () => {
           void setRarities([]);
           void setTypes([]);
           void setTravelers([]);
+          void setTags([]);
         }}
       >
         Reset
