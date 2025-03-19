@@ -36,7 +36,7 @@ const getRarityColor = (
 
 export const ItemCard: FC<ItemCardProps> = ({
   name,
-  cooldownTime = 0,
+  cooldownTime,
   maxCharges = 0,
   description,
   rarity,
@@ -47,38 +47,33 @@ export const ItemCard: FC<ItemCardProps> = ({
 }) => {
   return (
     <Card>
-      <Flex gap="3">
-        <Image
-          alt={name}
-          className="rt-AvatarRoot rt-r-size-6"
-          height={96}
-          src={`/images/${image}`}
-          width={96}
-        />
-        <div>
-          <Heading as="h2" size="5">
-            {name}
-          </Heading>
-          <Text color={getRarityColor(rarity)}>
-            {rarity}
-            {traveler ? ` · ${traveler.replace("Hero_", "")}` : undefined}
-          </Text>
-          <Flex gap="2" mt="2" wrap="wrap">
-            {tags.map((tag) => (
-              <Badge key={tag} color="gray">
-                {tag}
-              </Badge>
-            ))}
-          </Flex>
-        </div>
-      </Flex>
-      <Text as="p" color="gray" mt="3">
-        {cooldownTime === 0 ? "Passive" : `Cooldown: ${cooldownTime}s`}
-        {maxCharges > 1 ? ` | Charges: ${maxCharges}` : undefined}
-        {!type || type === "Normal" ? undefined : ` | ${type}`}
-      </Text>
-      <Text as="p" mt="3">
-        <div
+      <Flex direction="column" gap="3" height="100%">
+        <Flex gap="3">
+          <Image
+            alt={name}
+            className="rt-AvatarRoot rt-r-size-4"
+            height={96}
+            src={`/images/${image}`}
+            width={96}
+          />
+          <div>
+            <Heading as="h2" size="5">
+              {name}
+            </Heading>
+            <Text color={getRarityColor(rarity)}>
+              {rarity}
+              {traveler ? ` · ${traveler.replace("Hero_", "")}` : undefined}
+            </Text>
+          </div>
+        </Flex>
+        <Text as="p" color="gray">
+          {typeof cooldownTime === "number" &&
+            (cooldownTime === 0 ? "Passive" : `Cooldown: ${cooldownTime}s`)}
+          {maxCharges > 1 ? ` | Charges: ${maxCharges}` : undefined}
+          {!type || type === "Normal" ? undefined : ` | ${type}`}
+        </Text>
+        <Text
+          as="p"
           dangerouslySetInnerHTML={{
             __html: description
               .replaceAll("\n", "<br>")
@@ -108,7 +103,16 @@ export const ItemCard: FC<ItemCardProps> = ({
               ),
           }}
         />
-      </Text>
+        {tags.length > 0 && (
+          <Flex gap="2" mt="auto" wrap="wrap">
+            {tags.map((tag) => (
+              <Badge key={tag} color="gray">
+                {tag}
+              </Badge>
+            ))}
+          </Flex>
+        )}
+      </Flex>
     </Card>
   );
 };

@@ -1,0 +1,7 @@
+.search {
+  width: 100%;
+
+  @media (--xs) {
+    width: auto;
+  }
+}
