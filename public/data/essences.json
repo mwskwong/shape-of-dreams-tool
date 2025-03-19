@@ -1,0 +1,314 @@
+﻿{
+  "Gem_C_Charcoal": {
+    "name": "Essence of Charcoal",
+    "description": "When this memory <color=yellow>hits</color> an enemy, it fires a charcoal fragment, dealing <sprite=1><color=#16D7FF>60%</color><sprite=5> <color=yellow>damage</color>. If the target is already <color=yellow>burning</color>, it deals <sprite=1><color=#16D7FF>100%</color><sprite=5> <color=yellow>fire damage</color> instead.",
+    "rarity": "Common",
+    "image": "Gem_C_Charcoal.png"
+  },
+  "Gem_C_Confidence": {
+    "name": "Essence of Confidence",
+    "description": "Damage dealt by this memory to nearby enemies is increased by 40%<sprite=5>.",
+    "rarity": "Common",
+    "image": "Gem_C_Confidence.PNG"
+  },
+  "Gem_C_Efficiency": {
+    "name": "Essence of Efficiency",
+    "description": "This Memory gains 36<sprite=5> <color=yellow>Memory Haste</color>, reducing its <color=yellow>Cooldown</color> by 26%<sprite=5>.",
+    "rarity": "Common",
+    "image": "Gem_C_Efficiency.png"
+  },
+  "Gem_C_Guidance": {
+    "name": "Essence of Guidance",
+    "description": "This Memory's <color=yellow>Healing Amount</color> is increased by 40%<sprite=5>. 30% of the excess healing from this Memory is converted into a <color=yellow>Barrier</color> that lasts for 2 seconds.",
+    "rarity": "Common",
+    "image": "Gem_C_Guidance.PNG"
+  },
+  "Gem_C_Lethality": {
+    "name": "Essence of Lethality",
+    "description": "This memory's damage against enemies with 70% or more health is increased by 60%<sprite=5>.",
+    "rarity": "Common",
+    "image": "Gem_C_Lethality.PNG"
+  },
+  "Gem_C_Quicksilver": {
+    "name": "Essence of Quicksilver",
+    "description": "When <color=yellow>casting</color> this memory or dealing <color=yellow>fire damage</color> with it, <color=yellow>movement speed</color> increases by 30%<sprite=5> and returns to normal over 2.5 seconds.",
+    "rarity": "Common",
+    "image": "Gem_C_Quicksilver.png"
+  },
+  "Gem_C_Regeneration": {
+    "name": "Essence of Regeneration",
+    "description": "If this memory is <color=yellow>Cast</color> <color=yellow>in Combat</color>, it <color=yellow>Restores</color> your health by 41<sprite=5> over 7 seconds.",
+    "rarity": "Common",
+    "image": "Gem_C_Regeneration.PNG"
+  },
+  "Gem_C_Sharp": {
+    "name": "Essence of Sharpness",
+    "description": "<color=yellow>Casting</color> this memory fires 5 arrows that deal <sprite=1><color=#16D7FF>90%</color><sprite=5> <color=yellow>damage</color> to random enemies.",
+    "rarity": "Common",
+    "image": "Gem_C_Sharp.PNG"
+  },
+  "Gem_C_Shatter": {
+    "name": "Essence of Shatter",
+    "description": "Every 10 seconds, the <color=yellow>Cast</color> of this Memory is <color=yellow>Empowered</color>. Damage dealt to enemies by <color=yellow>Empowered Cast</color> is increased by 40%<sprite=5>. If it deals <color=yellow>Light Damage</color>, it is increased by 72%<sprite=5> instead.",
+    "rarity": "Common",
+    "image": "Gem_C_Shatter.PNG"
+  },
+  "Gem_C_Talc": {
+    "name": "Essence of Talc",
+    "description": "Every 10 seconds, the <color=yellow>Cast</color> of this Memory is <color=yellow>Empowered</color>. The initial damage dealt to each enemy by <color=yellow>Empowered Cast</color> is increased by <sprite=1><color=#16D7FF>480%</color><sprite=5>.",
+    "rarity": "Common",
+    "image": "Gem_C_Talc.PNG"
+  },
+  "Gem_C_Void": {
+    "name": "Essence of the Void",
+    "description": "After casting this memory, your next <color=yellow>attack</color> within 4 seconds will explode, dealing <sprite=2><color=#FF8A2D>250%</color><sprite=5> <color=yellow>dark damage</color> to the target and nearby enemies.",
+    "rarity": "Common",
+    "image": "Gem_C_Void.PNG"
+  },
+  "Gem_C_Wind": {
+    "name": "Essence of Wind",
+    "description": "Casting this memory increases <color=yellow>Attack Speed</color> by 33%<sprite=5> for 5 seconds.",
+    "rarity": "Common",
+    "image": "Gem_C_Wind.PNG"
+  },
+  "Gem_E_Clemency": {
+    "name": "Essence of Clemency",
+    "description": "Heal <color=yellow>self</color> for 7%<sprite=5> of the <color=yellow>damage</color> dealt by this Memory.",
+    "rarity": "Epic",
+    "image": "Gem_E_Clemency.PNG"
+  },
+  "Gem_E_Direness": {
+    "name": "Essence of Direness",
+    "description": "The lower my <color=yellow>Health</color>, the shorter the <color=yellow>Cooldown</color> of this Memory. When my <color=yellow>Health</color> is at 30%, the <color=yellow>Cooldown</color> is reduced by up to 55%<sprite=5>.",
+    "rarity": "Epic",
+    "image": "Gem_E_Direness.PNG"
+  },
+  "Gem_E_Insight": {
+    "name": "Essence of Insight",
+    "description": "When this Memory deals any <color=yellow>damage</color> to an enemy, it deals an additional <sprite=1><color=#16D7FF>200%</color><sprite=5> <color=yellow>Light Damage</color> to up to 3<sprite=5> enemies and increases <color=yellow>Memory Haste</color> by 20<sprite=5> for 5 seconds. Can only trigger once every 3 seconds.",
+    "rarity": "Epic",
+    "image": "Gem_E_Insight.PNG"
+  },
+  "Gem_E_Metal": {
+    "name": "Essence of Metal",
+    "description": "When you <color=yellow>Slay</color> an enemy, the <color=yellow>Cooldown</color> of this Memory is <color=yellow>reduced</color> by 1<sprite=5> seconds.",
+    "rarity": "Epic",
+    "image": "Gem_E_Metal.png"
+  },
+  "Gem_E_Pain": {
+    "name": "Essence of Pain",
+    "description": "All <color=yellow>Damage</color> dealt by this Memory deals 40%<sprite=5> <color=yellow>Area Damage</color> around the target. This <color=yellow>Area Damage</color> shares the elemental type with the original damage.",
+    "rarity": "Epic",
+    "image": "Gem_E_Pain.PNG"
+  },
+  "Gem_E_Predation": {
+    "name": "Essence of Predation",
+    "description": "This Memory deals 60%<sprite=5> increased damage to <color=yellow>Boss</color> and <color=yellow>Hunter</color> enemies. Defeating a <color=yellow>Hunter</color> drops 1 <color=yellow>Orb of Power</color>, while defeating a <color=yellow>Boss</color> drops 3. When you collect an <color=yellow>Orb of Power</color>, either <color=yellow>Attack Damage</color> or <color=yellow>Ability Power</color> permanently increases by 1 at random.",
+    "rarity": "Epic",
+    "image": "Gem_E_Predation.png"
+  },
+  "Gem_E_Thunder": {
+    "name": "Essence of Thunder",
+    "description": "When you <color=yellow>Cast</color> <color=yellow>another Memory</color> or use <color=yellow>Dodge</color>, gain 1 stack of <color=yellow>Thunder</color>, up to 7<sprite=5> times. When you <color=yellow>Cast</color> this Memory, consume all stacks of <color=yellow>Thunder</color> to call down lightning on nearby enemies, once for each stack. Each lightning deals <sprite=1><color=#16D7FF>117%</color><sprite=5> <color=yellow>Light Damage</color>.",
+    "rarity": "Epic",
+    "image": "Gem_E_Thunder.png"
+  },
+  "Gem_E_Twilight": {
+    "name": "Essence of Twilight",
+    "description": "Your <color=yellow>Basic Attacks</color> are converted to <color=yellow>Dark Damage</color>. When this Memory deals damage to an enemy with 3 or more <color=yellow>Dark Stacks</color>, consumes all stacks to deal <sprite=1><color=#16D7FF>54%</color><sprite=5> <color=yellow>Damage</color> per stack and <color=yellow>Heal</color> for 6<sprite=5> per stack.",
+    "rarity": "Epic",
+    "image": "Gem_E_Twilight.PNG"
+  },
+  "Gem_E_Virtuousness": {
+    "name": "Essence of Virtue",
+    "description": "The number of charges for this Memory increases by 1<sprite=5>. Each 150% increase in quality raises the number of charges by 1.",
+    "rarity": "Epic",
+    "image": "Gem_E_Virtuousness.PNG"
+  },
+  "Gem_L_Embertail": {
+    "name": "Embertail",
+    "description": "My <color=yellow>Attacks</color> ricochet to deal <sprite=1><color=#16D7FF>100%</color><sprite=5> <color=yellow>Fire Damage</color> to a nearby enemy. For each nearby enemy engulfed in flames, this memory's <color=yellow>Damage</color> and <color=yellow>Healing</color> are increased by 8%<sprite=5> and its <color=yellow>Cooldown</color> is reduced 8%<sprite=5> faster. My fire damage over time is increased by 100%.",
+    "rarity": "Legendary",
+    "image": "Gem_L_Embertail.PNG"
+  },
+  "Gem_L_GlacialCore": {
+    "name": "Glacial Core",
+    "description": "Every 5 seconds, if you deal <color=yellow>damage</color> with this memory, you <color=yellow>recover</color> <color=yellow>health</color> equal to 3.6%<sprite=5> of your maximum health. If it is <color=yellow>cold damage</color>, the effect is increased by 100%. 272%<sprite=5> of all <color=yellow>health recovery</color> you receive is converted into <color=yellow>cold damage</color> and fires <color=yellow>ice shards</color> at enemies.",
+    "rarity": "Legendary",
+    "image": "Gem_L_GlacialCore.PNG"
+  },
+  "Gem_L_Paranoia": {
+    "name": "Essence of Paranoia",
+    "description": "When you take any <color=yellow>damage</color>, this Memory gains 150<sprite=5> <color=yellow>Memory Haste</color> for 6 seconds, reducing its <color=yellow>Cooldown</color> by 60%<sprite=5>, but it is <color=yellow>Automatically Cast</color> on nearby enemies.",
+    "rarity": "Legendary",
+    "image": "Gem_L_Paranoia.PNG"
+  },
+  "Gem_L_Perfect": {
+    "name": "Perfection",
+    "description": "Increases Attack Damage by 7<sprite=5>, Ability Power by 7<sprite=5>, maximum Health by 35<sprite=5>, Attack Speed by 10%<sprite=5>, Critical Strike Chance by 6%<sprite=5>, and Memory Haste by 10<sprite=5>.",
+    "rarity": "Legendary",
+    "image": "Gem_L_Perfect.PNG"
+  },
+  "Gem_R_Blade": {
+    "name": "Essence of Blade",
+    "description": "Each time this memory <color=yellow>hits</color> an enemy, it summons blades that lacerate the target for <sprite=2><color=#FF8A2D>58%</color><sprite=5> damage 3<sprite=5> times. Can only trigger once every 2 seconds for each enemy.",
+    "rarity": "Rare",
+    "image": "Gem_R_Blade.PNG"
+  },
+  "Gem_R_Celestial": {
+    "name": "Essence of the Celestial",
+    "description": "Every 10 seconds, this Memory's <color=yellow>Cast</color> is <color=yellow>Empowered</color>. When an <color=yellow>Empowered Cast</color> hits an enemy for the first time, it drops 4 meteors that deal <sprite=1><color=#16D7FF>130%</color><sprite=5> <color=yellow>Light Damage</color> each.",
+    "rarity": "Rare",
+    "image": "Gem_R_Celestial.PNG"
+  },
+  "Gem_R_Dusk": {
+    "name": "Essence of Dusk",
+    "description": "Upon casting this Memory, fire 2 <color=yellow>Dusk Shards</color> that deal <sprite=2><color=#FF8A2D>50%</color><sprite=5> <color=yellow>Dark Damage</color> each time you <color=yellow>Attack</color> an enemy for 5 seconds.",
+    "rarity": "Rare",
+    "image": "Gem_R_Dusk.png"
+  },
+  "Gem_R_Flow": {
+    "name": "Essence of Flow",
+    "description": "When dealing <color=yellow>Light Damage</color> with any memory, reduces this memory's <color=yellow>Cooldown</color> by 6%<sprite=5>. For ultimate abilities, only 40% of the effect is applied. <color=yellow>Cooldown Reduction</color> effects this memory receives also apply to equipped <color=yellow>Essences</color>.",
+    "rarity": "Rare",
+    "image": "Gem_R_Flow.PNG"
+  },
+  "Gem_R_Frost": {
+    "name": "Essence of Frost",
+    "description": "When this memory deals <color=yellow>Cold Damage</color>, it deals additional <color=yellow>Cold Damage</color> equal to 10%<sprite=5> of your <color=yellow>Maximum Health</color> and briefly <color=yellow>Stuns</color> them. Can only trigger once every 5 seconds per enemy. Each time this triggers, permanently increase your <color=yellow>Maximum Health</color> by 1.",
+    "rarity": "Rare",
+    "image": "Gem_R_Frost.PNG"
+  },
+  "Gem_R_Glaciate": {
+    "name": "Essence of Glaciation",
+    "description": "When this Memory is <color=yellow>cast</color>, releases a burst of frost that deals <sprite=1><color=#16D7FF>160%</color><sprite=5> <color=yellow>Cold Damage</color> to enemies. The area of effect increases with quality.",
+    "rarity": "Rare",
+    "image": "Gem_R_Glaciate.png"
+  },
+  "Gem_R_Insatiable": {
+    "name": "Essence of Voracity",
+    "description": "For 5 seconds after casting this memory, <color=yellow>Attack Damage</color> is increased by 15%<sprite=5> and <color=yellow>heal</color> 6<sprite=5> health on each <color=yellow>Attack</color>.",
+    "rarity": "Rare",
+    "image": "Gem_R_Insatiable.png"
+  },
+  "Gem_R_Momentum": {
+    "name": "Essence of Momentum",
+    "description": "Each time you <color=yellow>Attack</color> an enemy, the <color=yellow>Cooldown</color> of this Memory is <color=yellow>reduced</color> by 0.4<sprite=5> seconds.",
+    "rarity": "Rare",
+    "image": "Gem_R_Momentum.PNG"
+  },
+  "Gem_R_NightSky": {
+    "name": "Essence of Night Sky",
+    "description": "Each time this Memory <color=yellow>Hits</color> an enemy, your <color=yellow>Attack Speed</color> increases by 10%<sprite=5> for 3 seconds, up to a maximum of 20%<sprite=5>. If it deals <color=yellow>Dark Damage</color>, it can increase up to a maximum of 40%<sprite=5>. Attacking an enemy refreshes the duration of this effect.",
+    "rarity": "Rare",
+    "image": "Gem_R_NightSky.PNG"
+  },
+  "Gem_R_Scorched": {
+    "name": "Essence of Scorch",
+    "description": "When this memory is <color=yellow>cast</color>, it drops 3<sprite=5> <color=yellow>Fireballs</color> that deal <sprite=1><color=#16D7FF>47%</color><sprite=5> <color=yellow>Fire Damage</color> to nearby enemies.",
+    "rarity": "Rare",
+    "image": "Gem_R_Scorched.PNG"
+  },
+  "Gem_R_Spiral": {
+    "name": "Essence of Spiral",
+    "description": "Periodically fires a fireball at a random nearby enemy, dealing <sprite=1><color=#16D7FF>90%</color><sprite=5> <color=yellow>Fire Damage</color>. Higher quality increases the firing speed.",
+    "rarity": "Rare",
+    "image": "Gem_R_Spiral.png"
+  },
+  "Gem_R_Wealth": {
+    "name": "Essence of Wealth",
+    "description": "When an enemy damaged by this memory is killed within 6 seconds, they drop 3<sprite=5> gold. Gold is shared among all Travelers.",
+    "rarity": "Rare",
+    "image": "Gem_R_Wealth.PNG"
+  },
+  "Gem_L_DivineFaith": {
+    "name": "Divine Faith",
+    "description": "Each time you <color=yellow>Kill</color> an enemy with this memory, gain a stack of <color=yellow>Faith</color> up to 75<sprite=5> stacks. For each stack of <color=yellow>Faith</color>, this memory's <color=yellow>Damage</color> to enemies and <color=yellow>Healing</color> to allies increases by 0.5%, and your maximum Health increases by 4.",
+    "rarity": "Legendary",
+    "image": "Gem_L_DivineFaith.PNG"
+  },
+  "Gem_E_Flexibility": {
+    "name": "Essence of Flexibility",
+    "description": "While this Memory is on cooldown, 37%<sprite=5> of damage taken is split over 4 seconds. This split damage is reduced by 20%.",
+    "rarity": "Epic",
+    "image": "Gem_E_Flexibility.PNG"
+  },
+  "Gem_C_Vengeance": {
+    "name": "Essence of Vengeance",
+    "description": "When you take any damage, fire 2 blades that deal <sprite=1><color=#16D7FF>102%</color><sprite=5> <color=yellow>damage</color> to nearby enemies. After taking damage, this memory's <color=yellow>damage</color> and <color=yellow>healing</color> are increased by 34%<sprite=5> for 5 seconds.",
+    "rarity": "Rare",
+    "image": "Gem_C_Vengeance.png"
+  },
+  "Gem_E_Omega": {
+    "name": "Essence of Finality",
+    "description": "While this Memory is not on <color=yellow>Cooldown</color>, gain <color=yellow>Finality</color> stacks every second up to 20 stacks. When stacks are present, this Memory's <color=yellow>Cast</color> is <color=yellow>Empowered</color>, increasing <color=yellow>Damage</color> by 5%<sprite=5> per stack.",
+    "rarity": "Epic",
+    "image": "Gem_E_Omega.PNG"
+  },
+  "Gem_R_Rigidity": {
+    "name": "Essence of Rigidity",
+    "description": "When this Memory <color=yellow>Hits</color> an enemy, gain a 9<sprite=5> <color=yellow>Barrier</color> that lasts for 2 seconds. If it deals <color=yellow>Cold Damage</color>, this effect is increased by 80%.",
+    "rarity": "Rare",
+    "image": "Gem_R_Rigidity.PNG"
+  },
+  "Gem_E_Might": {
+    "name": "Essence of the Giant",
+    "description": "Increases maximum Health by 260<sprite=5>. This Memory's damage increases by 1% for every 50 of your <color=yellow>Maximum Health</color>.",
+    "rarity": "Epic",
+    "image": "Gem_E_Might.PNG"
+  },
+  "Gem_L_SolarEye": {
+    "name": "Eye of the Sun",
+    "description": "Every 20 seconds, this Memory's <color=yellow>Cast</color> is <color=yellow>Empowered</color>, raining <color=yellow>Solar Light</color> upon all nearby enemies who are <color=yellow>Burning</color>. <color=yellow>Solar Light</color> deals <sprite=1><color=#16D7FF>360%</color><sprite=5> <color=yellow>Fire Damage</color> over 1.5 seconds and increases <color=yellow>Burn</color> stacks by 9<sprite=5>.\nIncreases my Fire damage over time by 100%.",
+    "rarity": "Legendary",
+    "image": "Gem_L_SolarEye.png"
+  },
+  "Gem_C_Sulfur": {
+    "name": "Essence of Sulfur",
+    "description": "All <color=yellow>Damage</color> dealt by this memory is increased by 15%<sprite=5> and converted to <color=yellow>Fire Damage</color>. My fire damage over time is increased by 50%<sprite=5>.",
+    "rarity": "Common",
+    "image": "Gem_C_Sulfur.PNG"
+  },
+  "Gem_E_Overload": {
+    "name": "Essence of Overload",
+    "description": "When you <color=yellow>Cast</color> this memory, <color=yellow>Sacrifice</color> 20% of your current Health to <color=yellow>Empower</color> the <color=yellow>Cast</color>. The <color=yellow>Damage</color> and <color=yellow>Healing</color> dealt by the <color=yellow>Empowered Cast</color> are increased by 45%<sprite=5>.",
+    "rarity": "Epic",
+    "image": "Gem_E_Overload.PNG"
+  },
+  "Gem_R_Contempt": {
+    "name": "Essence of Contempt",
+    "description": "The <color=yellow>damage</color> dealt by this memory increases as the target's health gets lower, up to 60%<sprite=5> <color=yellow>increase</color> when their health is 20%.",
+    "rarity": "Rare",
+    "image": "Gem_R_Contempt.png"
+  },
+  "Gem_R_Bleak": {
+    "name": "Essence of Bleakness",
+    "description": "This Memory deals 50%<sprite=5> increased damage to enemies affected by <color=yellow>Cold</color>, <color=yellow>Slow</color>, <color=yellow>Bind</color>, or <color=yellow>Stun</color>.",
+    "rarity": "Rare",
+    "image": "Gem_R_Bleak.png"
+  },
+  "Gem_L_PureWhite": {
+    "name": "Pure White",
+    "description": "Every 10 seconds, the <color=yellow>Cast</color> of this memory is <color=yellow>Empowered</color>. The <color=yellow>Empowered Cast</color> fires 3 <color=yellow>Projectiles</color> that deal <color=yellow>Light Damage</color> equal to 20%<sprite=5> of the <color=yellow>Damage</color> it first deals to each enemy. The number of shots increases by the number of <color=yellow>Light Stacks</color> on each target.",
+    "rarity": "Legendary",
+    "image": "Gem_L_PureWhite.PNG"
+  },
+  "Gem_R_Wound": {
+    "name": "Essence of Wound",
+    "description": "When this memory deals damage to an enemy, it applies a <color=yellow>Mark</color>. Each <color=yellow>Attack</color> on a marked target deals <sprite=1><color=#16D7FF>44%</color><sprite=5> <color=yellow>Damage</color>. After 3 attacks, the <color=yellow>Mark</color> explodes, dealing <sprite=1><color=#16D7FF>275%</color><sprite=5> <color=yellow>Damage</color> to all nearby enemies.",
+    "rarity": "Rare",
+    "image": "Gem_R_Wound.PNG"
+  },
+  "Gem_E_Protection": {
+    "name": "Essence of Protection",
+    "description": "When you <color=yellow>cast</color> this memory, gain 40<sprite=5> <color=yellow>Defense</color> for 3 seconds, reducing damage taken and becoming <color=yellow>Unstoppable</color>. Can only trigger once every 5 seconds.",
+    "rarity": "Epic",
+    "image": "Gem_E_Protection.PNG"
+  },
+  "Gem_E_Fever": {
+    "name": "Essence of Fever",
+    "description": "When this Memory deals <color=yellow>Fire Damage</color> to an enemy, it infects them with <color=yellow>Fever</color>. Enemies infected with <color=yellow>Fever</color> explode after 2 seconds, dealing <sprite=1><color=#16D7FF>130%</color><sprite=5> <color=yellow>Fire Damage</color> to themselves and nearby enemies. For each stack of <color=yellow>Burn</color> on the target, the explosion radius increases by 30% and explosion damage increases by 10%.",
+    "rarity": "Epic",
+    "image": "Gem_E_Fever.PNG"
+  }
+}
