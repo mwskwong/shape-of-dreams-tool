@@ -23,7 +23,9 @@ const allTypes = [...new Set(Object.values(memories).map(({ type }) => type))];
 
 const allTravelers = [
   ...new Set(Object.values(memories).map(({ traveler }) => traveler)),
-].filter(Boolean);
+]
+  .filter(Boolean)
+  .toSorted();
 
 const allTags = [
   ...new Set(Object.values(memories).flatMap(({ tags }) => tags)),
