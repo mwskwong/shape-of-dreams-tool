@@ -13,11 +13,19 @@ export const compareRarities = (a: string, b: string) =>
   rarityOrders.indexOf(a) - rarityOrders.indexOf(b);
 
 export const searchParams = {
-  search: parseAsString.withDefault(""),
-  rarities: parseAsArrayOf(parseAsString).withDefault([]),
-  types: parseAsArrayOf(parseAsString).withDefault([]),
-  travelers: parseAsArrayOf(parseAsString).withDefault([]),
-  tags: parseAsArrayOf(parseAsString).withDefault([]),
+  search: parseAsString.withDefault("").withOptions({ shallow: false }),
+  rarities: parseAsArrayOf(parseAsString)
+    .withDefault([])
+    .withOptions({ shallow: false }),
+  types: parseAsArrayOf(parseAsString)
+    .withDefault([])
+    .withOptions({ shallow: false }),
+  travelers: parseAsArrayOf(parseAsString)
+    .withDefault([])
+    .withOptions({ shallow: false }),
+  tags: parseAsArrayOf(parseAsString)
+    .withDefault([])
+    .withOptions({ shallow: false }),
 };
 
 export const loadSearchParams = createLoader(searchParams);
