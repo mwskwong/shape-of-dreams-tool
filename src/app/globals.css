@@ -1,42 +1,245 @@
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@import "@radix-ui/themes/tokens/base.css";
+@import "@radix-ui/themes/components.css";
+@import "@radix-ui/themes/utilities.css";
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+/* CSS reset. Ref: https://github.com/tailwindlabs/tailwindcss/blob/main/packages/tailwindcss/preflight.css */
 
-html,
-body {
-  max-width: 100vw;
-  overflow-x: hidden;
-}
-
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-* {
+*,
+::after,
+::before,
+::backdrop,
+::file-selector-button {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
+  border: 0 solid;
+}
+
+html,
+:host {
+  font-family: var(--default-font-family);
+  line-height: 1.5;
+  tab-size: 4;
+  text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+}
+
+hr {
+  height: 0;
+  color: inherit;
+  border-top-width: 1px;
+}
+
+body {
+  line-height: inherit;
+}
+
+abbr {
+  &:where([title]) {
+    text-decoration: underline dotted;
+  }
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-size: inherit;
+  font-weight: inherit;
 }
 
 a {
   color: inherit;
-  text-decoration: none;
+  text-decoration: inherit;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
+b,
+strong {
+  font-weight: bolder;
+}
+
+code,
+kbd,
+samp,
+pre {
+  font-family: var(--code-font-family);
+  font-size: 1em;
+}
+
+small {
+  font-size: 80%;
+}
+
+sub,
+sup {
+  position: relative;
+  font-size: 75%;
+  line-height: 0;
+  vertical-align: baseline;
+}
+
+sub {
+  bottom: -0.25em;
+}
+
+sup {
+  top: -0.5em;
+}
+
+table {
+  text-indent: 0;
+  border-collapse: collapse;
+  border-color: inherit;
+}
+
+:-moz-focusring {
+  outline: auto;
+}
+
+progress {
+  vertical-align: baseline;
+}
+
+summary {
+  display: list-item;
+}
+
+ol,
+ul,
+menu {
+  list-style: none;
+}
+
+img,
+svg,
+video,
+canvas,
+audio,
+iframe,
+embed,
+object {
+  display: block;
+  vertical-align: middle;
+}
+
+img,
+video {
+  max-width: 100%;
+}
+
+button,
+input,
+select,
+optgroup,
+textarea,
+::file-selector-button {
+  font: inherit;
+  font-variation-settings: inherit;
+  font-feature-settings: inherit;
+  color: inherit;
+  letter-spacing: inherit;
+  background-color: transparent;
+  border-radius: 0;
+  opacity: 1;
+}
+
+:where(select:is([multiple], [size])) {
+  & optgroup {
+    font-weight: bolder;
+
+    & option {
+      padding-inline-start: 20px;
+    }
+  }
+}
+
+::file-selector-button {
+  margin-inline-end: 4px;
+}
+
+::placeholder {
+  color: color-mix(in oklab, currentcolor 50%, transparent);
+  opacity: 1;
+}
+
+textarea {
+  resize: vertical;
+}
+
+::-webkit-search-decoration {
+  appearance: none;
+}
+
+::-webkit-date-and-time-value {
+  min-height: 1lh;
+  text-align: inherit;
+}
+
+::-webkit-datetime-edit {
+  display: inline-flex;
+}
+
+::-webkit-datetime-edit-fields-wrapper {
+  padding: 0;
+}
+
+::-webkit-datetime-edit,
+::-webkit-datetime-edit-year-field,
+::-webkit-datetime-edit-month-field,
+::-webkit-datetime-edit-day-field,
+::-webkit-datetime-edit-hour-field,
+::-webkit-datetime-edit-minute-field,
+::-webkit-datetime-edit-second-field,
+::-webkit-datetime-edit-millisecond-field,
+::-webkit-datetime-edit-meridiem-field {
+  padding-block: 0;
+}
+
+:-moz-ui-invalid {
+  box-shadow: none;
+}
+
+button,
+input:where([type="button"], [type="reset"], [type="submit"]),
+::file-selector-button {
+  appearance: auto;
+}
+
+::-webkit-inner-spin-button,
+::-webkit-outer-spin-button {
+  height: auto;
+}
+
+[hidden] {
+  &:where(:not([hidden="until-found"])) {
+    display: none !important;
+  }
+}
+
+/* stylelint-disable selector-class-pattern */
+
+.radix-themes {
+  --default-font-family: var(--font-geist);
+  --em-font-family: var(--font-ibm-plex-serif);
+  --quote-font-family: var(--font-ibm-plex-serif);
+  --code-font-family: var(--font-geist-mono);
+}
+
+.rt-Container {
+  padding-right: var(--space-5);
+  padding-left: var(--space-5);
+}
+
+.rt-Link {
+  &:where(:any-link, button) {
+    &:where(:active:not(:focus-visible, [data-state="open"])) {
+      @media (pointer: coarse) {
+        outline: 0.15em solid var(--accent-a4);
+        outline-offset: 0;
+        background-color: var(--accent-a4);
+      }
+    }
   }
 }

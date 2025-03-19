@@ -10,9 +10,7 @@
     "type": "Normal",
     "traveler": "Hero_Lacerta",
     "travelerMemoryLocation": "Identity",
-    "tags": [
-      "Attack"
-    ],
+    "tags": ["Attack"],
     "image": "St_D_DoubleTap.PNG"
   },
   "St_D_SalamanderPowder": {
@@ -26,10 +24,7 @@
     "type": "Normal",
     "traveler": "Hero_Lacerta",
     "travelerMemoryLocation": "Identity",
-    "tags": [
-      "Fire",
-      "Attack"
-    ],
+    "tags": ["Fire", "Attack"],
     "image": "St_D_SalamanderPowder.PNG"
   },
   "St_Q_HandCannon": {
@@ -43,11 +38,7 @@
     "type": "Normal",
     "traveler": "Hero_Lacerta",
     "travelerMemoryLocation": "Q",
-    "tags": [
-      "Fire",
-      "Melee",
-      "HardCC"
-    ],
+    "tags": ["Fire", "Melee", "HardCC"],
     "image": "St_Q_HandCannon.png"
   },
   "St_Q_IncendiaryRounds": {
@@ -61,11 +52,7 @@
     "type": "Normal",
     "traveler": "Hero_Lacerta",
     "travelerMemoryLocation": "Q",
-    "tags": [
-      "Fire",
-      "Attack",
-      "Mobility"
-    ],
+    "tags": ["Fire", "Attack", "Mobility"],
     "image": "St_Q_IncendiaryRounds.png"
   },
   "St_R_PrecisionShot": {
@@ -79,9 +66,7 @@
     "type": "Normal",
     "traveler": "Hero_Lacerta",
     "travelerMemoryLocation": "R",
-    "tags": [
-      "HardCC"
-    ],
+    "tags": ["HardCC"],
     "image": "St_R_PrecisionShot.png"
   },
   "St_R_QuickTrigger": {
@@ -109,10 +94,7 @@
     "type": "Normal",
     "traveler": "Hero_Mist",
     "travelerMemoryLocation": "Identity",
-    "tags": [
-      "Shield",
-      "Attack"
-    ],
+    "tags": ["Shield", "Attack"],
     "image": "St_D_AstridsMasterpiece.PNG"
   },
   "St_Q_Fleche": {
@@ -126,12 +108,7 @@
     "type": "Normal",
     "traveler": "Hero_Mist",
     "travelerMemoryLocation": "Q",
-    "tags": [
-      "Light",
-      "Heal",
-      "Attack",
-      "Mobility"
-    ],
+    "tags": ["Light", "Heal", "Attack", "Mobility"],
     "image": "St_Q_Fleche.png"
   },
   "St_Q_Lunge": {
@@ -145,11 +122,7 @@
     "type": "Normal",
     "traveler": "Hero_Mist",
     "travelerMemoryLocation": "Q",
-    "tags": [
-      "Melee",
-      "Attack",
-      "Mobility"
-    ],
+    "tags": ["Melee", "Attack", "Mobility"],
     "image": "St_Q_Lunge.png"
   },
   "St_R_Parry": {
@@ -163,10 +136,7 @@
     "type": "Normal",
     "traveler": "Hero_Mist",
     "travelerMemoryLocation": "R",
-    "tags": [
-      "Melee",
-      "HardCC"
-    ],
+    "tags": ["Melee", "HardCC"],
     "image": "St_R_Parry.PNG"
   },
   "St_R_UnbreakableDetermination": {
@@ -180,9 +150,7 @@
     "type": "Ultimate",
     "traveler": "Hero_Mist",
     "travelerMemoryLocation": "R",
-    "tags": [
-      "Heal"
-    ],
+    "tags": ["Heal"],
     "image": "St_R_UnbreakableDetermination.PNG"
   },
   "St_D_Resolve": {
@@ -196,10 +164,7 @@
     "type": "Normal",
     "traveler": "Hero_Vesper",
     "travelerMemoryLocation": "Identity",
-    "tags": [
-      "Heal",
-      "Attack"
-    ],
+    "tags": ["Heal", "Attack"],
     "image": "St_D_Resolve.png"
   },
   "St_Q_CruelSun": {
@@ -213,11 +178,7 @@
     "type": "Normal",
     "traveler": "Hero_Vesper",
     "travelerMemoryLocation": "Q",
-    "tags": [
-      "Fire",
-      "Melee",
-      "HardCC"
-    ],
+    "tags": ["Fire", "Melee", "HardCC"],
     "image": "St_Q_CruelSun.png"
   },
   "St_R_SanctuaryOfEl": {
@@ -231,11 +192,7 @@
     "type": "Ultimate",
     "traveler": "Hero_Vesper",
     "travelerMemoryLocation": "R",
-    "tags": [
-      "Light",
-      "Melee",
-      "Shield"
-    ],
+    "tags": ["Light", "Melee", "Shield"],
     "image": "St_R_SanctuaryOfEl.png"
   },
   "St_D_ConvergencePoint": {
@@ -249,9 +206,7 @@
     "type": "Normal",
     "traveler": "Hero_Yubar",
     "travelerMemoryLocation": "Identity",
-    "tags": [
-      "Attack"
-    ],
+    "tags": ["Attack"],
     "image": "St_D_ConvergencePoint.PNG"
   },
   "St_D_ExoticMatter": {
@@ -265,10 +220,7 @@
     "type": "Normal",
     "traveler": "Hero_Yubar",
     "travelerMemoryLocation": "Identity",
-    "tags": [
-      "Light",
-      "Attack"
-    ],
+    "tags": ["Light", "Attack"],
     "image": "St_D_ExoticMatter.png"
   },
   "St_Q_EtherealInfluence": {
@@ -282,10 +234,7 @@
     "type": "Normal",
     "traveler": "Hero_Yubar",
     "travelerMemoryLocation": "Q",
-    "tags": [
-      "Light",
-      "HardCC"
-    ],
+    "tags": ["Light", "HardCC"],
     "image": "St_Q_EtherealInfluence.png"
   },
   "St_Q_SuperNova": {
@@ -299,9 +248,7 @@
     "type": "Normal",
     "traveler": "Hero_Yubar",
     "travelerMemoryLocation": "Q",
-    "tags": [
-      "Light"
-    ],
+    "tags": ["Light"],
     "image": "St_Q_SuperNova.png"
   },
   "St_R_Cataclysm": {
@@ -315,11 +262,7 @@
     "type": "Ultimate",
     "traveler": "Hero_Yubar",
     "travelerMemoryLocation": "R",
-    "tags": [
-      "Light",
-      "HardCC",
-      "Shield"
-    ],
+    "tags": ["Light", "HardCC", "Shield"],
     "image": "St_R_Cataclysm.png"
   },
   "St_R_Tranquility": {
@@ -333,10 +276,7 @@
     "type": "Normal",
     "traveler": "Hero_Yubar",
     "travelerMemoryLocation": "R",
-    "tags": [
-      "Light",
-      "Mobility"
-    ],
+    "tags": ["Light", "Mobility"],
     "image": "St_R_Tranquility.png"
   },
   "St_C_BeamOfLight": {
@@ -350,10 +290,7 @@
     "type": "Normal",
     "traveler": "",
     "travelerMemoryLocation": "",
-    "tags": [
-      "Light",
-      "Heal"
-    ],
+    "tags": ["Light", "Heal"],
     "image": "St_C_BeamOfLight.png"
   },
   "St_C_DarkBolt": {
@@ -367,10 +304,7 @@
     "type": "Normal",
     "traveler": "",
     "travelerMemoryLocation": "",
-    "tags": [
-      "Dark",
-      "Attack"
-    ],
+    "tags": ["Dark", "Attack"],
     "image": "St_C_DarkBolt.PNG"
   },
   "St_C_DarkSpear": {
@@ -384,12 +318,7 @@
     "type": "Normal",
     "traveler": "",
     "travelerMemoryLocation": "",
-    "tags": [
-      "Dark",
-      "Melee",
-      "HardCC",
-      "Attack"
-    ],
+    "tags": ["Dark", "Melee", "HardCC", "Attack"],
     "image": "St_C_DarkSpear.png"
   },
   "St_C_GlacialStomp": {
@@ -403,12 +332,7 @@
     "type": "Normal",
     "traveler": "",
     "travelerMemoryLocation": "",
-    "tags": [
-      "Cold",
-      "Melee",
-      "HardCC",
-      "Shield"
-    ],
+    "tags": ["Cold", "Melee", "HardCC", "Shield"],
     "image": "St_C_GlacialStomp.png"
   },
   "St_C_IceBlock": {
@@ -422,10 +346,7 @@
     "type": "Normal",
     "traveler": "",
     "travelerMemoryLocation": "",
-    "tags": [
-      "Cold",
-      "Shield"
-    ],
+    "tags": ["Cold", "Shield"],
     "image": "St_C_IceBlock.PNG"
   },
   "St_C_IceClaw": {
@@ -439,11 +360,7 @@
     "type": "Normal",
     "traveler": "",
     "travelerMemoryLocation": "",
-    "tags": [
-      "Cold",
-      "Melee",
-      "HardCC"
-    ],
+    "tags": ["Cold", "Melee", "HardCC"],
     "image": "St_C_IceClaw.PNG"
   },
   "St_C_PressurePoint": {
@@ -457,10 +374,7 @@
     "type": "Normal",
     "traveler": "",
     "travelerMemoryLocation": "",
-    "tags": [
-      "Melee",
-      "HardCC"
-    ],
+    "tags": ["Melee", "HardCC"],
     "image": "St_C_PressurePoint.PNG"
   },
   "St_C_Starfall": {
@@ -474,9 +388,7 @@
     "type": "Normal",
     "traveler": "",
     "travelerMemoryLocation": "",
-    "tags": [
-      "Light"
-    ],
+    "tags": ["Light"],
     "image": "St_C_Starfall.PNG"
   },
   "St_E_AntiGravity": {
@@ -490,9 +402,7 @@
     "type": "Normal",
     "traveler": "",
     "travelerMemoryLocation": "",
-    "tags": [
-      "HardCC"
-    ],
+    "tags": ["HardCC"],
     "image": "St_E_AntiGravity.png"
   },
   "St_E_Blink": {
@@ -506,10 +416,7 @@
     "type": "Normal",
     "traveler": "",
     "travelerMemoryLocation": "",
-    "tags": [
-      "Fire",
-      "Mobility"
-    ],
+    "tags": ["Fire", "Mobility"],
     "image": "St_E_Blink.PNG"
   },
   "St_E_ChainLightning": {
@@ -523,9 +430,7 @@
     "type": "Normal",
     "traveler": "",
     "travelerMemoryLocation": "",
-    "tags": [
-      "Light"
-    ],
+    "tags": ["Light"],
     "image": "St_E_ChainLightning.PNG"
   },
   "St_E_FlameJet": {
@@ -539,9 +444,7 @@
     "type": "Normal",
     "traveler": "",
     "travelerMemoryLocation": "",
-    "tags": [
-      "Fire"
-    ],
+    "tags": ["Fire"],
     "image": "St_E_FlameJet.png"
   },
   "St_E_SearingCharge": {
@@ -555,10 +458,7 @@
     "type": "Normal",
     "traveler": "",
     "travelerMemoryLocation": "",
-    "tags": [
-      "Fire",
-      "Mobility"
-    ],
+    "tags": ["Fire", "Mobility"],
     "image": "St_E_SearingCharge.png"
   },
   "St_E_UmbralEdge": {
@@ -572,10 +472,7 @@
     "type": "Normal",
     "traveler": "",
     "travelerMemoryLocation": "",
-    "tags": [
-      "Dark",
-      "Attack"
-    ],
+    "tags": ["Dark", "Attack"],
     "image": "St_E_UmbralEdge.png"
   },
   "St_E_WinterDive": {
@@ -589,11 +486,7 @@
     "type": "Normal",
     "traveler": "",
     "travelerMemoryLocation": "",
-    "tags": [
-      "Cold",
-      "HardCC",
-      "Mobility"
-    ],
+    "tags": ["Cold", "HardCC", "Mobility"],
     "image": "St_E_WinterDive.png"
   },
   "St_L_Hysteria": {
@@ -607,13 +500,7 @@
     "type": "Normal",
     "traveler": "",
     "travelerMemoryLocation": "",
-    "tags": [
-      "Dark",
-      "Melee",
-      "HardCC",
-      "Heal",
-      "Attack"
-    ],
+    "tags": ["Dark", "Melee", "HardCC", "Heal", "Attack"],
     "image": "St_L_Hysteria.PNG"
   },
   "St_L_Multishot": {
@@ -627,9 +514,7 @@
     "type": "Normal",
     "traveler": "",
     "travelerMemoryLocation": "",
-    "tags": [
-      "Attack"
-    ],
+    "tags": ["Attack"],
     "image": "St_L_Multishot.PNG"
   },
   "St_L_WorldCracker": {
@@ -643,9 +528,7 @@
     "type": "Normal",
     "traveler": "",
     "travelerMemoryLocation": "",
-    "tags": [
-      "Light"
-    ],
+    "tags": ["Light"],
     "image": "St_L_WorldCracker.png"
   },
   "St_R_Chomp": {
@@ -659,10 +542,7 @@
     "type": "Normal",
     "traveler": "",
     "travelerMemoryLocation": "",
-    "tags": [
-      "Heal",
-      "Mobility"
-    ],
+    "tags": ["Heal", "Mobility"],
     "image": "St_R_Chomp.png"
   },
   "St_R_FlamingWhip": {
@@ -676,9 +556,7 @@
     "type": "Normal",
     "traveler": "",
     "travelerMemoryLocation": "",
-    "tags": [
-      "Fire"
-    ],
+    "tags": ["Fire"],
     "image": "St_R_FlamingWhip.PNG"
   },
   "St_R_Frostbite": {
@@ -692,11 +570,7 @@
     "type": "Normal",
     "traveler": "",
     "travelerMemoryLocation": "",
-    "tags": [
-      "Cold",
-      "Shield",
-      "Attack"
-    ],
+    "tags": ["Cold", "Shield", "Attack"],
     "image": "St_R_Frostbite.png"
   },
   "St_R_GlacialHammer": {
@@ -710,11 +584,7 @@
     "type": "Normal",
     "traveler": "",
     "travelerMemoryLocation": "",
-    "tags": [
-      "Cold",
-      "Melee",
-      "HardCC"
-    ],
+    "tags": ["Cold", "Melee", "HardCC"],
     "image": "St_R_GlacialHammer.PNG"
   },
   "St_R_Ignite": {
@@ -728,9 +598,7 @@
     "type": "Normal",
     "traveler": "",
     "travelerMemoryLocation": "",
-    "tags": [
-      "Fire"
-    ],
+    "tags": ["Fire"],
     "image": "St_R_Ignite.png"
   },
   "St_R_PillarOfFlame": {
@@ -744,9 +612,7 @@
     "type": "Normal",
     "traveler": "",
     "travelerMemoryLocation": "",
-    "tags": [
-      "Fire"
-    ],
+    "tags": ["Fire"],
     "image": "St_R_PillarOfFlame.PNG"
   },
   "St_R_RepulsiveShield": {
@@ -774,11 +640,7 @@
     "type": "Normal",
     "traveler": "",
     "travelerMemoryLocation": "",
-    "tags": [
-      "Dark",
-      "Melee",
-      "Attack"
-    ],
+    "tags": ["Dark", "Melee", "Attack"],
     "image": "St_R_Scattershot.PNG"
   },
   "St_R_ShadowWalk": {
@@ -792,11 +654,7 @@
     "type": "Normal",
     "traveler": "",
     "travelerMemoryLocation": "",
-    "tags": [
-      "Dark",
-      "Attack",
-      "Mobility"
-    ],
+    "tags": ["Dark", "Attack", "Mobility"],
     "image": "St_R_ShadowWalk.PNG"
   },
   "St_R_StaticDischarge": {
@@ -810,11 +668,7 @@
     "type": "Normal",
     "traveler": "",
     "travelerMemoryLocation": "",
-    "tags": [
-      "Light",
-      "Melee",
-      "HardCC"
-    ],
+    "tags": ["Light", "Melee", "HardCC"],
     "image": "St_R_StaticDischarge.png"
   },
   "St_E_Rewind": {
@@ -842,11 +696,7 @@
     "type": "Normal",
     "traveler": "Hero_Vesper",
     "travelerMemoryLocation": "Q",
-    "tags": [
-      "Light",
-      "Attack",
-      "Mobility"
-    ],
+    "tags": ["Light", "Attack", "Mobility"],
     "image": "St_Q_Discipline.png"
   },
   "St_D_MercyOfEl": {
@@ -860,9 +710,7 @@
     "type": "Normal",
     "traveler": "Hero_Vesper",
     "travelerMemoryLocation": "Identity",
-    "tags": [
-      "Attack"
-    ],
+    "tags": ["Attack"],
     "image": "St_D_MercyOfEl.PNG"
   },
   "St_M_NimbleDodge": {
@@ -876,9 +724,7 @@
     "type": "Normal",
     "traveler": "Hero_Lacerta",
     "travelerMemoryLocation": "Movement",
-    "tags": [
-      "Mobility"
-    ],
+    "tags": ["Mobility"],
     "image": "St_M_NimbleDodge.PNG"
   },
   "St_M_Charge": {
@@ -892,10 +738,7 @@
     "type": "Normal",
     "traveler": "Hero_Vesper",
     "travelerMemoryLocation": "Movement",
-    "tags": [
-      "Shield",
-      "Mobility"
-    ],
+    "tags": ["Shield", "Mobility"],
     "image": "St_M_Charge.PNG"
   },
   "St_M_FastFeet": {
@@ -909,9 +752,7 @@
     "type": "Normal",
     "traveler": "Hero_Mist",
     "travelerMemoryLocation": "Movement",
-    "tags": [
-      "Mobility"
-    ],
+    "tags": ["Mobility"],
     "image": "St_M_FastFeet.PNG"
   },
   "St_M_Flicker": {
@@ -925,9 +766,7 @@
     "type": "Normal",
     "traveler": "Hero_Yubar",
     "travelerMemoryLocation": "Movement",
-    "tags": [
-      "Mobility"
-    ],
+    "tags": ["Mobility"],
     "image": "St_M_Flicker.PNG"
   },
   "St_D_DisintegratingClaw": {
@@ -941,10 +780,7 @@
     "type": "Normal",
     "traveler": "Hero_Aurena",
     "travelerMemoryLocation": "Identity",
-    "tags": [
-      "Heal",
-      "Attack"
-    ],
+    "tags": ["Heal", "Attack"],
     "image": "St_D_DisintegratingClaw.png"
   },
   "St_M_FeatheryDash": {
@@ -958,9 +794,7 @@
     "type": "Normal",
     "traveler": "Hero_Aurena",
     "travelerMemoryLocation": "Movement",
-    "tags": [
-      "Mobility"
-    ],
+    "tags": ["Mobility"],
     "image": "St_M_FeatheryDash.PNG"
   },
   "St_Q_GoldenBurst": {
@@ -974,11 +808,7 @@
     "type": "Normal",
     "traveler": "Hero_Aurena",
     "travelerMemoryLocation": "Q",
-    "tags": [
-      "Light",
-      "Melee",
-      "Heal"
-    ],
+    "tags": ["Light", "Melee", "Heal"],
     "image": "St_Q_GoldenBurst.png"
   },
   "St_R_DangerousTheory": {
@@ -992,12 +822,7 @@
     "type": "Normal",
     "traveler": "Hero_Aurena",
     "travelerMemoryLocation": "R",
-    "tags": [
-      "Melee",
-      "Heal",
-      "Attack",
-      "Mobility"
-    ],
+    "tags": ["Melee", "Heal", "Attack", "Mobility"],
     "image": "St_R_DangerousTheory.png"
   },
   "St_C_Sneeze": {
@@ -1025,9 +850,7 @@
     "type": "Normal",
     "traveler": "",
     "travelerMemoryLocation": "",
-    "tags": [
-      "Dark"
-    ],
+    "tags": ["Dark"],
     "image": "St_L_MentalCorruption.png"
   },
   "St_R_BlackArbalest": {
@@ -1041,10 +864,7 @@
     "type": "Normal",
     "traveler": "",
     "travelerMemoryLocation": "",
-    "tags": [
-      "Dark",
-      "Attack"
-    ],
+    "tags": ["Dark", "Attack"],
     "image": "St_R_BlackArbalest.PNG"
   },
   "St_E_ClutchesOfMalice": {
@@ -1058,9 +878,7 @@
     "type": "Normal",
     "traveler": "",
     "travelerMemoryLocation": "",
-    "tags": [
-      "HardCC"
-    ],
+    "tags": ["HardCC"],
     "image": "St_E_ClutchesOfMalice.PNG"
   },
   "St_R_Smite": {
@@ -1074,11 +892,7 @@
     "type": "Normal",
     "traveler": "",
     "travelerMemoryLocation": "",
-    "tags": [
-      "Fire",
-      "Light",
-      "HardCC"
-    ],
+    "tags": ["Fire", "Light", "HardCC"],
     "image": "St_R_Smite.PNG"
   },
   "St_C_BackStep": {
@@ -1092,10 +906,7 @@
     "type": "Normal",
     "traveler": "",
     "travelerMemoryLocation": "",
-    "tags": [
-      "HardCC",
-      "Mobility"
-    ],
+    "tags": ["HardCC", "Mobility"],
     "image": "St_C_BackStep.png"
   },
   "St_C_Purgatory": {
@@ -1109,9 +920,7 @@
     "type": "Normal",
     "traveler": "",
     "travelerMemoryLocation": "",
-    "tags": [
-      "Heal"
-    ],
+    "tags": ["Heal"],
     "image": "St_C_Purgatory.png"
   },
   "St_R_GreatFrostSword": {
@@ -1125,11 +934,7 @@
     "type": "Normal",
     "traveler": "",
     "travelerMemoryLocation": "",
-    "tags": [
-      "Cold",
-      "Melee",
-      "HardCC"
-    ],
+    "tags": ["Cold", "Melee", "HardCC"],
     "image": "St_R_GreatFrostSword.PNG"
   },
   "St_L_ShoutOfOblivion": {
@@ -1143,10 +948,7 @@
     "type": "Ultimate",
     "traveler": "",
     "travelerMemoryLocation": "",
-    "tags": [
-      "Dark",
-      "HardCC"
-    ],
+    "tags": ["Dark", "HardCC"],
     "image": "St_L_ShoutOfOblivion.png"
   },
   "St_C_Whirlwind": {
@@ -1160,10 +962,7 @@
     "type": "Normal",
     "traveler": "",
     "travelerMemoryLocation": "",
-    "tags": [
-      "Melee",
-      "Attack"
-    ],
+    "tags": ["Melee", "Attack"],
     "image": "St_C_Whirlwind.png"
   }
 }
