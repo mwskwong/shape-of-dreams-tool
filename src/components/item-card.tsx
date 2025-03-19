@@ -110,7 +110,7 @@ export const ItemCard: FC<ItemCardProps> = ({
                     }
                   }
 
-                  return `<i style="color: ${mappedColor};">${content}</i>`;
+                  return `<em style="font-family: var(--font-ibm-plex-serif); color: ${mappedColor}">${content}</em>`;
                 },
               ),
           }}
