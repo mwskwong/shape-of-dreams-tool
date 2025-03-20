@@ -17,6 +17,7 @@
     "@tabler/icons-react": "^3.31.0",
     "clsx": "^2.1.1",
     "dedent": "^1.5.3",
+    "html-react-parser": "^5.2.2",
     "next": "15.2.3",
     "nuqs": "^2.4.1",
     "react": "^19.0.0",
