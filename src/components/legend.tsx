@@ -14,7 +14,7 @@ const entries = [
 export type LegendProps = Omit<FlexProps, "children">;
 export const Legend: FC = () => {
   return (
-    <Flex gap="3">
+    <Flex gapX="5" gapY="3" wrap="wrap">
       {entries.map(({ name, image }) => (
         <Text key={name} as="p">
           <Image
