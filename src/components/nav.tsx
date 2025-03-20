@@ -1,6 +1,7 @@
 "use client";
 
 import * as TabNav from "@radix-ui/themes/components/tab-nav";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { type FC } from "react";
 
@@ -20,12 +21,8 @@ const Nav: FC = () => {
   return (
     <TabNav.Root>
       {paths.map((path) => (
-        <TabNav.Link
-          key={path.href}
-          active={path.href === pathname}
-          href={path.href}
-        >
-          {path.name}
+        <TabNav.Link key={path.href} asChild active={path.href === pathname}>
+          <Link href={path.href}>{path.name}</Link>
         </TabNav.Link>
       ))}
     </TabNav.Root>
