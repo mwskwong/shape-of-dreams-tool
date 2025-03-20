@@ -13,7 +13,9 @@ export const compareRarities = (a: string, b: string) =>
   rarityOrders.indexOf(a) - rarityOrders.indexOf(b);
 
 export const searchParams = {
-  search: parseAsString.withDefault("").withOptions({ shallow: false }),
+  search: parseAsString
+    .withDefault("")
+    .withOptions({ throttleMs: 300, shallow: false }),
   rarities: parseAsArrayOf(parseAsString)
     .withDefault([])
     .withOptions({ shallow: false }),
