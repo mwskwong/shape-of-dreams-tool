@@ -17,11 +17,20 @@ import { Text } from "@radix-ui/themes/components/text";
 import Image from "next/image";
 import { type FC } from "react";
 
-import { type Essence, type Memory } from "@/lib/types";
-
-export type ItemCardProps = Omit<CardProps, "children"> &
-  (Pick<Memory, keyof Memory & keyof Essence> &
-    Partial<Omit<Memory, keyof Memory & keyof Essence>>);
+export interface ItemCardProps extends Omit<CardProps, "children"> {
+  name: string;
+  cooldownTime?: number;
+  maxCharges?: number;
+  addedCharges?: number;
+  description: string;
+  shortDescription?: string | null;
+  rarity: string;
+  type?: string;
+  traveler?: string;
+  tags?: string[];
+  image: string;
+  unlockedBy?: string;
+}
 
 const getRarityColor = (
   rarity: ItemCardProps["rarity"],
@@ -48,13 +57,14 @@ const getRarityColor = (
 export const ItemCard: FC<ItemCardProps> = ({
   name,
   cooldownTime,
-  maxCharges = 0,
+  maxCharges,
   description,
   rarity,
   type,
   traveler,
   tags = [],
   image,
+  unlockedBy,
 }) => {
   return (
     <Card>
@@ -77,12 +87,19 @@ export const ItemCard: FC<ItemCardProps> = ({
             </Text>
           </div>
         </Flex>
-        <Text as="p" color="gray">
-          {typeof cooldownTime === "number" &&
-            (cooldownTime === 0 ? "Passive" : `Cooldown: ${cooldownTime}s`)}
-          {maxCharges > 1 ? ` | Charges: ${maxCharges}` : undefined}
-          {!type || type === "Normal" ? undefined : ` | ${type}`}
-        </Text>
+        {(cooldownTime ?? maxCharges ?? type) && (
+          <Text as="p" color="gray">
+            {cooldownTime !== undefined &&
+              (cooldownTime === 0 ? "Passive" : `Cooldown: ${cooldownTime}s`)}
+            {maxCharges && maxCharges > 1 && ` | Charges: ${maxCharges}`}
+            {!type || type === "Normal" ? undefined : ` | ${type}`}
+          </Text>
+        )}
+        {unlockedBy && (
+          <Text as="p" color="gray">
+            Unlocked By: {unlockedBy}
+          </Text>
+        )}
         <Text
           as="p"
           dangerouslySetInnerHTML={{
