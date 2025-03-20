@@ -14,6 +14,10 @@ const paths = [
     name: "Essences",
     href: "/essences",
   },
+  {
+    name: "Travelers",
+    href: "/travelers",
+  },
 ];
 
 const Nav: FC = () => {
