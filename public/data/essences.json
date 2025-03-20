@@ -106,7 +106,7 @@
     "description": "This Memory deals 60%<sprite=5> increased damage to <color=yellow>Boss</color> and <color=yellow>Hunter</color> enemies. Defeating a <color=yellow>Hunter</color> drops 1 <color=yellow>Orb of Power</color>, while defeating a <color=yellow>Boss</color> drops 3. When you collect an <color=yellow>Orb of Power</color>, either <color=yellow>Attack Damage</color> or <color=yellow>Ability Power</color> permanently increases by 1 at random.",
     "rarity": "Epic",
     "image": "Gem_E_Predation.png",
-    "unlockedBy": "Defeat the Hunter 70 times"
+    "unlockBy": "Defeat the Hunter 70 times"
   },
   "Gem_E_Thunder": {
     "name": "Essence of Thunder",

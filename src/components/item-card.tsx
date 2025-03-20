@@ -29,7 +29,7 @@ export interface ItemCardProps extends Omit<CardProps, "children"> {
   traveler?: string;
   tags?: string[];
   image: string;
-  unlockedBy?: string;
+  unlockBy?: string;
 }
 
 const getRarityColor = (
@@ -64,7 +64,7 @@ export const ItemCard: FC<ItemCardProps> = ({
   traveler,
   tags = [],
   image,
-  unlockedBy,
+  unlockBy,
 }) => {
   return (
     <Card>
@@ -95,9 +95,9 @@ export const ItemCard: FC<ItemCardProps> = ({
             {!type || type === "Normal" ? undefined : ` | ${type}`}
           </Text>
         )}
-        {unlockedBy && (
+        {unlockBy && (
           <Text as="p" color="gray">
-            Unlocked By: {unlockedBy}
+            Unlock By: {unlockBy}
           </Text>
         )}
         <Text
