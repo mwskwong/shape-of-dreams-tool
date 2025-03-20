@@ -501,7 +501,8 @@
     "traveler": "",
     "travelerMemoryLocation": "",
     "tags": ["Dark", "Melee", "HardCC", "Heal", "Attack"],
-    "image": "St_L_Hysteria.PNG"
+    "image": "St_L_Hysteria.PNG",
+    "unlockBy": "Defeat the Demon of the Forest (1st region boss) for the first time."
   },
   "St_L_Multishot": {
     "name": "Arrow Storm",
