@@ -18,6 +18,8 @@ import parse, { Element } from "html-react-parser";
 import Image from "next/image";
 import { type FC } from "react";
 
+import styles from "./item-card.module.css";
+
 export interface ItemCardProps extends Omit<CardProps, "children"> {
   name: string;
   cooldownTime?: number;
@@ -119,6 +121,7 @@ export const ItemCard: FC<ItemCardProps> = ({
                   return (
                     <Image
                       alt={domNode.attribs.alt}
+                      className={styles.sprite}
                       height={16}
                       src={domNode.attribs.src}
                       width={16}
