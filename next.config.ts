@@ -73,6 +73,7 @@ const config = {
   experimental: {
     typedEnv: true,
     reactCompiler: true,
+    useCache: true,
     optimizePackageImports: ["@radix-ui/themes", "radix-ui"],
   },
 } satisfies NextConfig;

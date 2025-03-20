@@ -1,8 +1,12 @@
 import { Octokit } from "@octokit/core";
+import { unstable_cacheLife as cacheLife } from "next/cache";
 
 const octokit = new Octokit();
 
 export const getEssencesDataLastUpdatedDate = async () => {
+  "use cache";
+  cacheLife("days");
+
   const { data } = await octokit.request("GET /repos/{owner}/{repo}/commits", {
     owner: "mwskwong",
     repo: "shape-of-dreams-tool",
@@ -17,6 +21,9 @@ export const getEssencesDataLastUpdatedDate = async () => {
 };
 
 export const getMemoriesDataLastUpdatedDate = async () => {
+  "use cache";
+  cacheLife("days");
+
   const { data } = await octokit.request("GET /repos/{owner}/{repo}/commits", {
     owner: "mwskwong",
     repo: "shape-of-dreams-tool",
