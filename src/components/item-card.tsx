@@ -73,9 +73,9 @@ export const ItemCard: FC<ItemCardProps> = ({
           <Image
             alt={name}
             className="rt-AvatarRoot rt-r-size-4"
-            height={96}
+            height={48}
             src={`/images/${image}`}
-            width={96}
+            width={48}
           />
           <div>
             <Heading as="h2" size="5">
