@@ -5,8 +5,9 @@ const rarityOrders = [
   "Rare",
   "Epic",
   "Legendary",
-  "Character",
+  "Traveler",
   "Identity",
+  "Evasion",
 ];
 
 export const compareRarities = (a: string, b: string) =>
