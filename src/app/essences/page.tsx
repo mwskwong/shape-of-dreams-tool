@@ -21,7 +21,7 @@ const Memories: FC<MemoriesProps> = async ({ searchParams }) => {
     <Flex direction="column" gap="3">
       <Toolbar />
       <Legend />
-      <Grid columns={{ initial: "1", sm: "2", md: "3" }} gap="3" mt="3">
+      <Grid columns={{ initial: "1", sm: "2", md: "3" }} gap="3">
         {Object.entries(essences)
           .toSorted(
             ([, a], [, b]) =>
