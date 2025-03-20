@@ -10,6 +10,22 @@ import { Toolbar } from "@/components/memories/toolbar";
 import { compareRarities, loadSearchParams } from "@/lib/utils";
 import memories from "@public/data/memories.json";
 
+const allRarities = [
+  ...new Set(Object.values(memories).map(({ rarity }) => rarity)),
+].toSorted(compareRarities);
+
+const allTypes = [...new Set(Object.values(memories).map(({ type }) => type))];
+
+const allTravelers = [
+  ...new Set(Object.values(memories).map(({ traveler }) => traveler)),
+]
+  .filter(Boolean)
+  .toSorted();
+
+const allTags = [
+  ...new Set(Object.values(memories).flatMap(({ tags }) => tags)),
+].toSorted();
+
 interface MemoriesProps {
   searchParams: Promise<SearchParams>;
 }
@@ -20,7 +36,12 @@ const Memories: FC<MemoriesProps> = async ({ searchParams }) => {
 
   return (
     <Flex direction="column" gap="3" pt="3">
-      <Toolbar />
+      <Toolbar
+        allRarities={allRarities}
+        allTags={allTags}
+        allTravelers={allTravelers}
+        allTypes={allTypes}
+      />
       <Legend />
       <Grid columns={{ initial: "1", sm: "2", md: "3" }} gap="3">
         {Object.entries(memories)

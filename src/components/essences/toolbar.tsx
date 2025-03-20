@@ -2,7 +2,7 @@
 
 import { Badge } from "@radix-ui/themes/components/badge";
 import { Button } from "@radix-ui/themes/components/button";
-import { Flex } from "@radix-ui/themes/components/flex";
+import { Flex, type FlexProps } from "@radix-ui/themes/components/flex";
 import { Separator } from "@radix-ui/themes/components/separator";
 import * as TextField from "@radix-ui/themes/components/text-field";
 import { IconSearch } from "@tabler/icons-react";
@@ -10,16 +10,15 @@ import { useQueryState } from "nuqs";
 import { type FC } from "react";
 
 import { CheckboxGroupSelect } from "@/components/checkbox-group-select";
-import { compareRarities, searchParams } from "@/lib/utils";
-import essences from "@public/data/essences.json";
+import { searchParams } from "@/lib/utils";
 
 import styles from "./toolbar.module.css";
 
-const allRarities = [
-  ...new Set(Object.values(essences).map(({ rarity }) => rarity)),
-].toSorted(compareRarities);
+export interface ToolbarProps extends Omit<FlexProps, "children"> {
+  allRarities?: string[];
+}
 
-export const Toolbar: FC = () => {
+export const Toolbar: FC<ToolbarProps> = ({ allRarities = [], ...props }) => {
   const [search, setSearch] = useQueryState("search", searchParams.search);
   const [rarities, setRarities] = useQueryState(
     "rarities",
@@ -27,7 +26,7 @@ export const Toolbar: FC = () => {
   );
 
   return (
-    <Flex align="center" gap="3" wrap="wrap">
+    <Flex align="center" gap="3" wrap="wrap" {...props}>
       <TextField.Root
         className={styles.search}
         placeholder="Search..."
