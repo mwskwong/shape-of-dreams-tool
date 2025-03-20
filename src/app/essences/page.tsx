@@ -10,6 +10,10 @@ import { Legend } from "@/components/legend";
 import { compareRarities, loadSearchParams } from "@/lib/utils";
 import essences from "@public/data/essences.json";
 
+const allRarities = [
+  ...new Set(Object.values(essences).map(({ rarity }) => rarity)),
+].toSorted(compareRarities);
+
 interface MemoriesProps {
   searchParams: Promise<SearchParams>;
 }
@@ -19,7 +23,7 @@ const Memories: FC<MemoriesProps> = async ({ searchParams }) => {
 
   return (
     <Flex direction="column" gap="3" pt="3">
-      <Toolbar />
+      <Toolbar allRarities={allRarities} />
       <Legend />
       <Grid columns={{ initial: "1", sm: "2", md: "3" }} gap="3">
         {Object.entries(essences)

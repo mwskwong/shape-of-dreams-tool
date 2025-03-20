@@ -3,6 +3,7 @@ import "@radix-ui/themes/tokens/colors/sky.css";
 import "@radix-ui/themes/tokens/colors/purple.css";
 import "@radix-ui/themes/tokens/colors/red.css";
 import "@radix-ui/themes/tokens/colors/amber.css";
+import "@radix-ui/themes/tokens/colors/yellow.css";
 
 import { Badge, type BadgeProps } from "@radix-ui/themes/components/badge";
 import { Card, type CardProps } from "@radix-ui/themes/components/card";
@@ -104,7 +105,11 @@ export const ItemCard: FC<ItemCardProps> = ({
               .replaceAll("\n", "<br>")
               .replaceAll(
                 /<color=(.*?)>(.*?)<\/color>/g,
-                '<em style="font-family: var(--font-ibm-plex-serif); color: $1">$2</em>',
+                (_, color: string, content: string) => {
+                  const newColor =
+                    color === "yellow" ? "var(--yellow-a11)" : color;
+                  return `<em class="rt-Em" style="--em-font-size-adjust: 1; color: ${newColor}">${content}</em>`;
+                },
               )
               .replaceAll(
                 /<sprite=(\d+)>/g,

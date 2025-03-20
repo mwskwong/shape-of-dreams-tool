@@ -2,7 +2,7 @@
 
 import { Badge } from "@radix-ui/themes/components/badge";
 import { Button } from "@radix-ui/themes/components/button";
-import { Flex } from "@radix-ui/themes/components/flex";
+import { Flex, type FlexProps } from "@radix-ui/themes/components/flex";
 import { Separator } from "@radix-ui/themes/components/separator";
 import * as TextField from "@radix-ui/themes/components/text-field";
 import { IconSearch } from "@tabler/icons-react";
@@ -10,28 +10,24 @@ import { useQueryState } from "nuqs";
 import { type FC } from "react";
 
 import { CheckboxGroupSelect } from "@/components/checkbox-group-select";
-import { compareRarities, searchParams } from "@/lib/utils";
-import memories from "@public/data/memories.json";
+import { searchParams } from "@/lib/utils";
 
 import styles from "./toolbar.module.css";
 
-const allRarities = [
-  ...new Set(Object.values(memories).map(({ rarity }) => rarity)),
-].toSorted(compareRarities);
+export interface ToolbarProps extends Omit<FlexProps, "children"> {
+  allRarities?: string[];
+  allTypes?: string[];
+  allTravelers?: string[];
+  allTags?: string[];
+}
 
-const allTypes = [...new Set(Object.values(memories).map(({ type }) => type))];
-
-const allTravelers = [
-  ...new Set(Object.values(memories).map(({ traveler }) => traveler)),
-]
-  .filter(Boolean)
-  .toSorted();
-
-const allTags = [
-  ...new Set(Object.values(memories).flatMap(({ tags }) => tags)),
-].toSorted();
-
-export const Toolbar: FC = () => {
+export const Toolbar: FC<ToolbarProps> = ({
+  allRarities = [],
+  allTypes = [],
+  allTravelers = [],
+  allTags = [],
+  ...props
+}) => {
   const [search, setSearch] = useQueryState("search", searchParams.search);
   const [rarities, setRarities] = useQueryState(
     "rarities",
@@ -45,7 +41,7 @@ export const Toolbar: FC = () => {
   const [tags, setTags] = useQueryState("tags", searchParams.tags);
 
   return (
-    <Flex align="center" gap="3" wrap="wrap">
+    <Flex align="center" gap="3" wrap="wrap" {...props}>
       <TextField.Root
         className={styles.search}
         placeholder="Search..."
