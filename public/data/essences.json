@@ -238,7 +238,8 @@
     "name": "Essence of Vengeance",
     "description": "When you take any damage, fire 2 blades that deal <sprite=1><color=#16D7FF>102%</color><sprite=5> <color=yellow>damage</color> to nearby enemies. After taking damage, this memory's <color=yellow>damage</color> and <color=yellow>healing</color> are increased by 34%<sprite=5> for 5 seconds.",
     "rarity": "Rare",
-    "image": "Gem_C_Vengeance.png"
+    "image": "Gem_C_Vengeance.png",
+    "unlockBy": "Defeat the Demon of the Forest (1st region boss) by clawing it."
   },
   "Gem_E_Omega": {
     "name": "Essence of Finality",
