@@ -85,7 +85,7 @@ export const ItemCard: FC<ItemCardProps> = ({
             </Text>
           </div>
         </Flex>
-        {(cooldownTime ?? maxCharges ?? type) && (
+        {(cooldownTime !== undefined || maxCharges !== undefined || type) && (
           <Text as="p" color="gray">
             {cooldownTime !== undefined &&
               (cooldownTime === 0 ? "Passive" : `Cooldown: ${cooldownTime}s`)}
