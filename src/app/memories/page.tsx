@@ -50,7 +50,7 @@ const Memories: FC<MemoriesProps> = async ({ searchParams }) => {
               (rarities.length === 0 || rarities.includes(rarity)) &&
               (types.length === 0 || types.includes(type)) &&
               (travelers.length === 0 || travelers.includes(traveler)) &&
-              (tags.length === 0 || _tags.some((tag) => tags.includes(tag))),
+              tags.every((tag) => (_tags as string[]).includes(tag)),
           )
           .map(([key, memory]) => (
             <ItemCard key={key} {...memory} />

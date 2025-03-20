@@ -501,7 +501,8 @@
     "traveler": "",
     "travelerMemoryLocation": "",
     "tags": ["Dark", "Melee", "HardCC", "Heal", "Attack"],
-    "image": "St_L_Hysteria.PNG"
+    "image": "St_L_Hysteria.PNG",
+    "unlockBy": "Defeat the Demon of the Forest (1st region boss) for the first time."
   },
   "St_L_Multishot": {
     "name": "Arrow Storm",
@@ -851,7 +852,8 @@
     "traveler": "",
     "travelerMemoryLocation": "",
     "tags": ["Dark"],
-    "image": "St_L_MentalCorruption.png"
+    "image": "St_L_MentalCorruption.png",
+    "unlockBy": "Interact with the black cat, who will begin spawning in the lobby areas randomly after entering NG+."
   },
   "St_R_BlackArbalest": {
     "name": "Black Arbalest",
