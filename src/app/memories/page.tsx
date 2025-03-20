@@ -19,7 +19,7 @@ const Memories: FC<MemoriesProps> = async ({ searchParams }) => {
     await loadSearchParams(searchParams);
 
   return (
-    <Flex direction="column" gap="3" py="3">
+    <Flex direction="column" gap="3" pt="3">
       <Toolbar />
       <Legend />
       <Grid columns={{ initial: "1", sm: "2", md: "3" }} gap="3">
