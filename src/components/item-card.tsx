@@ -71,7 +71,7 @@ export const ItemCard: FC<ItemCardProps> = ({
             <Heading as="h2" size="5">
               {name}
             </Heading>
-            <Text color={getRarityColor(rarity)}>
+            <Text as="p" color={getRarityColor(rarity)}>
               {rarity}
               {traveler ? ` · ${traveler.replace("Hero_", "")}` : undefined}
             </Text>
