@@ -97,7 +97,7 @@ export const ItemCard: FC<ItemCardProps> = ({
         )}
         {unlockBy && (
           <Text as="p" color="gray">
-            Unlock By: {unlockBy}
+            Unlock by: {unlockBy}
           </Text>
         )}
         <Text
