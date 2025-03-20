@@ -56,7 +56,10 @@ const RootLayout: FC<PropsWithChildren> = ({ children }) => (
 );
 
 export const metadata: Metadata = {
-  title: "Shape of Dreams Tool",
+  title: {
+    template: "%s | Shape of Dreams Tool",
+    default: "Shape of Dreams Tool",
+  },
 };
 
 export default RootLayout;

@@ -1,5 +1,6 @@
 import { Box } from "@radix-ui/themes/components/box";
 import { Grid } from "@radix-ui/themes/components/grid";
+import { type Metadata } from "next";
 import { type SearchParams } from "nuqs/server";
 import { type FC } from "react";
 
@@ -57,6 +58,10 @@ const Memories: FC<MemoriesProps> = async ({ searchParams }) => {
       </Grid>
     </Box>
   );
+};
+
+export const metadata: Metadata = {
+  title: "Memories",
 };
 
 export default Memories;
