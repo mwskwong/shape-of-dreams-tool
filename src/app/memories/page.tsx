@@ -1,10 +1,11 @@
-import { Box } from "@radix-ui/themes/components/box";
+import { Flex } from "@radix-ui/themes/components/flex";
 import { Grid } from "@radix-ui/themes/components/grid";
 import { type Metadata } from "next";
 import { type SearchParams } from "nuqs/server";
 import { type FC } from "react";
 
 import { ItemCard } from "@/components/item-card";
+import { Legend } from "@/components/legend";
 import { Toolbar } from "@/components/memories/toolbar";
 import { compareRarities, loadSearchParams } from "@/lib/utils";
 import memories from "@public/data/memories.json";
@@ -18,9 +19,10 @@ const Memories: FC<MemoriesProps> = async ({ searchParams }) => {
     await loadSearchParams(searchParams);
 
   return (
-    <Box py="3">
+    <Flex direction="column" gap="3" py="3">
       <Toolbar />
-      <Grid columns={{ initial: "1", sm: "2", md: "3" }} gap="3" mt="3">
+      <Legend />
+      <Grid columns={{ initial: "1", sm: "2", md: "3" }} gap="3">
         {Object.entries(memories)
           .toSorted(
             ([, a], [, b]) =>
@@ -56,7 +58,7 @@ const Memories: FC<MemoriesProps> = async ({ searchParams }) => {
             <ItemCard key={key} {...memory} />
           ))}
       </Grid>
-    </Box>
+    </Flex>
   );
 };
 

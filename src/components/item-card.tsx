@@ -4,18 +4,16 @@ import "@radix-ui/themes/tokens/colors/purple.css";
 import "@radix-ui/themes/tokens/colors/red.css";
 import "@radix-ui/themes/tokens/colors/amber.css";
 
-//  special text colors, e.g. damage type
-import "@radix-ui/themes/tokens/colors/orange.css";
-import "@radix-ui/themes/tokens/colors/cyan.css";
-import "@radix-ui/themes/tokens/colors/yellow.css";
-
 import { Badge, type BadgeProps } from "@radix-ui/themes/components/badge";
 import { Card, type CardProps } from "@radix-ui/themes/components/card";
 import { Flex } from "@radix-ui/themes/components/flex";
 import { Heading } from "@radix-ui/themes/components/heading";
 import { Text } from "@radix-ui/themes/components/text";
+import parse, { Element } from "html-react-parser";
 import Image from "next/image";
 import { type FC } from "react";
+
+import styles from "./item-card.module.css";
 
 export interface ItemCardProps extends Omit<CardProps, "children"> {
   name: string;
@@ -100,38 +98,35 @@ export const ItemCard: FC<ItemCardProps> = ({
             Unlock by: {unlockBy}
           </Text>
         )}
-        <Text
-          as="p"
-          dangerouslySetInnerHTML={{
-            __html: description
+        <Text as="p">
+          {parse(
+            description
               .replaceAll("\n", "<br>")
               .replaceAll(
                 /<color=(.*?)>(.*?)<\/color>/g,
-                (_, color: string, content: string) => {
-                  let mappedColor;
-                  switch (color.toLowerCase()) {
-                    case "#ff8a2d": {
-                      mappedColor = "var(--orange-a11)";
-                      break;
-                    }
-                    case "#16d7ff": {
-                      mappedColor = "var(--cyan-a11)";
-                      break;
-                    }
-                    case "yellow": {
-                      mappedColor = "var(--yellow-a11)";
-                      break;
-                    }
-                    default: {
-                      mappedColor = color;
-                    }
-                  }
-
-                  return `<em style="font-family: var(--font-ibm-plex-serif); color: ${mappedColor}">${content}</em>`;
-                },
+                '<em style="font-family: var(--font-ibm-plex-serif); color: $1">$2</em>',
+              )
+              .replaceAll(
+                /<sprite=(\d+)>/g,
+                '<img src="/images/$1.png" alt="sprite $1" />',
               ),
-          }}
-        />
+            {
+              replace: (domNode) => {
+                if (domNode instanceof Element && domNode.name === "img") {
+                  return (
+                    <Image
+                      alt={domNode.attribs.alt}
+                      className={styles.sprite}
+                      height={16}
+                      src={domNode.attribs.src}
+                      width={16}
+                    />
+                  );
+                }
+              },
+            },
+          )}
+        </Text>
         {tags.length > 0 && (
           <Flex gap="2" mt="auto" wrap="wrap">
             {tags.map((tag) => (
