@@ -22,9 +22,8 @@ import { type FC } from "react";
 import styles from "./traveler-card.module.css";
 
 export interface TravelerCardProps extends Omit<CardProps, "children"> {
-  color?: HeadingProps["color"];
+  color: HeadingProps["color"];
   name: string;
-  difficulty?: string;
   class: string;
   health: number;
   attackDamage: number;
