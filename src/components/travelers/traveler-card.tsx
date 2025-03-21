@@ -11,13 +11,6 @@ import { Inset } from "@radix-ui/themes/components/inset";
 import * as Tabs from "@radix-ui/themes/components/tabs";
 import { Text } from "@radix-ui/themes/components/text";
 import { Tooltip } from "@radix-ui/themes/components/tooltip";
-import {
-  IconHeart,
-  IconMenu3,
-  IconShield,
-  IconSparkles,
-  IconSword,
-} from "@tabler/icons-react";
 import Image from "next/image";
 import { type FC } from "react";
 
@@ -74,26 +67,30 @@ export const TravelerCard: FC<TravelerCardProps> = ({
 }) => {
   const stats = [
     {
-      Icon: IconHeart,
+      image: "/images/5.png",
       name: "Health",
       value: health,
       statGrowth: statsGrowthPerLv.health,
     },
     {
-      Icon: IconSword,
+      image: "/images/2.png",
       name: "Attack Damage",
       value: attackDamage,
       statGrowth: statsGrowthPerLv.attackDamage,
     },
     {
-      Icon: IconSparkles,
+      image: "/images/1.png",
       name: "Ability Power",
       value: abilityPower,
       statGrowth: statsGrowthPerLv.abilityPower,
     },
-    { Icon: IconMenu3, name: "Attack Speed", value: attackSpeed.toFixed(2) },
+    {
+      image: "/images/5.png",
+      name: "Attack Speed",
+      value: attackSpeed.toFixed(2),
+    },
     armor && {
-      Icon: IconShield,
+      image: "/images/5.png",
       name: "Armor",
       value: armor,
       statGrowth: statsGrowthPerLv.armor,
@@ -127,11 +124,16 @@ export const TravelerCard: FC<TravelerCardProps> = ({
                   {travelerClass}
                 </Text>
                 <Flex gap="3" justify="center" wrap="wrap">
-                  {stats.map(({ Icon, name, value, statGrowth }) => (
+                  {stats.map(({ image, name, value, statGrowth }) => (
                     <Card key={name} className={styles.stat}>
                       <Tooltip content={name}>
                         <Flex align="center" direction="column" gap="2" pb="2">
-                          <Icon size={20} />
+                          <Image
+                            alt={name}
+                            height={20}
+                            src={image}
+                            width={20}
+                          />
                           <Text>{value}</Text>
                         </Flex>
                       </Tooltip>
