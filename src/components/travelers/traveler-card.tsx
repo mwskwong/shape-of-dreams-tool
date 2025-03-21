@@ -1,3 +1,5 @@
+"use client";
+
 import { Box } from "@radix-ui/themes/components/box";
 import { Card, type CardProps } from "@radix-ui/themes/components/card";
 import { Flex } from "@radix-ui/themes/components/flex";
@@ -19,6 +21,7 @@ import {
 import Image from "next/image";
 import { type FC } from "react";
 
+import { MemoryCard } from "./memory-card";
 import styles from "./traveler-card.module.css";
 
 export interface TravelerCardProps extends Omit<CardProps, "children"> {
@@ -44,15 +47,13 @@ export interface TravelerCardProps extends Omit<CardProps, "children"> {
     name: string;
     cooldownTime?: number;
     maxCharges?: number;
-    addedCharges?: number;
     description: string;
     shortDescription?: string | null;
-    rarity: string;
     type?: string;
-    traveler?: string;
     tags?: string[];
     image: string;
     unlockBy?: string;
+    mutuallyExclusive?: string[];
   }[];
 }
 
@@ -157,24 +158,8 @@ export const TravelerCard: FC<TravelerCardProps> = ({
 
             <Tabs.Content asChild value="memories">
               <Flex direction="column" gap="3">
-                {memories.map(({ name, image, shortDescription }) => (
-                  <Flex key={name} gap="3">
-                    <Image
-                      alt={name}
-                      className="rt-AvatarRoot rt-r-size-4"
-                      height={48}
-                      src={`/images/${image}`}
-                      width={48}
-                    />
-                    <div>
-                      <Heading as="h3" size="3">
-                        {name}
-                      </Heading>
-                      <Text as="p" color="gray">
-                        {shortDescription}
-                      </Text>
-                    </div>
-                  </Flex>
+                {memories.map((memory) => (
+                  <MemoryCard key={memory.name} {...memory} />
                 ))}
               </Flex>
             </Tabs.Content>

@@ -68,9 +68,10 @@ export const ItemCard: FC<ItemCardProps> = ({
   image,
   unlockBy,
   mutuallyExclusive = [],
+  ...props
 }) => {
   return (
-    <Card>
+    <Card {...props}>
       <Flex direction="column" gap="3" height="100%">
         <Flex gap="3">
           <Image
@@ -90,76 +91,14 @@ export const ItemCard: FC<ItemCardProps> = ({
             </Text>
           </div>
         </Flex>
-        {(cooldownTime !== undefined || maxCharges !== undefined || type) && (
-          <Text as="p" color="gray">
-            {cooldownTime !== undefined &&
-              (cooldownTime === 0 ? "Passive" : `Cooldown: ${cooldownTime}s`)}
-            {maxCharges && maxCharges > 1 && ` | Charges: ${maxCharges}`}
-            {!type || type === "Normal" ? undefined : ` | ${type}`}
-          </Text>
-        )}
-        {mutuallyExclusive.length > 0 && (
-          <Text as="p" color="gray">
-            Mutually exclusive with:{" "}
-            {mutuallyExclusive.map((memory, index) => (
-              <Fragment key={memory}>
-                <em
-                  key={memory}
-                  className="rt-Em"
-                  style={{
-                    // @ts-expect-error -- override em font size
-                    "--em-font-size-adjust": 1,
-                    color: "var(--yellow-a11)",
-                  }}
-                >
-                  {memory}
-                </em>
-                {index < mutuallyExclusive.length - 1 && ", "}
-              </Fragment>
-            ))}
-          </Text>
-        )}
-        {unlockBy && (
-          <Text as="p" color="gray">
-            Unlock by: {unlockBy}
-          </Text>
-        )}
-        <Text as="p">
-          {parse(
-            description
-              .replaceAll("\n", "<br>")
-              .replaceAll(
-                /<color=(.*?)>(.*?)<\/color>/g,
-                (_, color: string, content: string) => {
-                  const newColor =
-                    color === "yellow" ? "var(--yellow-a11)" : color;
-                  return `<em class="rt-Em" style="--em-font-size-adjust: 1; color: ${newColor}">${content}</em>`;
-                },
-              )
-              .replaceAll(
-                /<sprite=(\d+)>/g,
-                '<img src="/images/$1.png" data-sprite="$1" />',
-              ),
-            {
-              replace: (domNode) => {
-                if (domNode instanceof Element && domNode.name === "img") {
-                  return (
-                    <Image
-                      className={styles.sprite}
-                      height={16}
-                      src={domNode.attribs.src}
-                      width={16}
-                      alt={
-                        spriteNames[Number(domNode.attribs["data-sprite"])] ??
-                        ""
-                      }
-                    />
-                  );
-                }
-              },
-            },
-          )}
-        </Text>
+        <ItemCardContent
+          cooldownTime={cooldownTime}
+          description={description}
+          maxCharges={maxCharges}
+          mutuallyExclusive={mutuallyExclusive}
+          type={type}
+          unlockBy={unlockBy}
+        />
         {tags.length > 0 && (
           <Flex gap="2" mt="auto" wrap="wrap">
             {tags.map((tag) => (
@@ -171,5 +110,99 @@ export const ItemCard: FC<ItemCardProps> = ({
         )}
       </Flex>
     </Card>
+  );
+};
+
+export interface ItemCardContentProps extends Omit<CardProps, "children"> {
+  cooldownTime?: number;
+  maxCharges?: number;
+  description: string;
+  type?: string;
+  traveler?: string;
+  tags?: string[];
+  unlockBy?: string;
+  mutuallyExclusive?: string[];
+}
+
+export const ItemCardContent: FC<ItemCardContentProps> = ({
+  cooldownTime,
+  maxCharges,
+  description,
+  type,
+  unlockBy,
+  mutuallyExclusive = [],
+}) => {
+  return (
+    <>
+      {(cooldownTime !== undefined || maxCharges !== undefined || type) && (
+        <Text as="p" color="gray">
+          {cooldownTime !== undefined &&
+            (cooldownTime === 0 ? "Passive" : `Cooldown: ${cooldownTime}s`)}
+          {maxCharges && maxCharges > 1 && ` | Charges: ${maxCharges}`}
+          {!type || type === "Normal" ? undefined : ` | ${type}`}
+        </Text>
+      )}
+      {mutuallyExclusive.length > 0 && (
+        <Text as="p" color="gray">
+          Mutually exclusive with:{" "}
+          {mutuallyExclusive.map((memory, index) => (
+            <Fragment key={memory}>
+              <em
+                key={memory}
+                className="rt-Em"
+                style={{
+                  // @ts-expect-error -- override em font size
+                  "--em-font-size-adjust": 1,
+                  color: "var(--yellow-a11)",
+                }}
+              >
+                {memory}
+              </em>
+              {index < mutuallyExclusive.length - 1 && ", "}
+            </Fragment>
+          ))}
+        </Text>
+      )}
+      {unlockBy && (
+        <Text as="p" color="gray">
+          Unlock by: {unlockBy}
+        </Text>
+      )}
+      <Text as="p">
+        {parse(
+          description
+            .replaceAll("\n", "<br>")
+            .replaceAll(
+              /<color=(.*?)>(.*?)<\/color>/g,
+              (_, color: string, content: string) => {
+                const newColor =
+                  color === "yellow" ? "var(--yellow-a11)" : color;
+                return `<em class="rt-Em" style="--em-font-size-adjust: 1; color: ${newColor}">${content}</em>`;
+              },
+            )
+            .replaceAll(
+              /<sprite=(\d+)>/g,
+              '<img src="/images/$1.png" data-sprite="$1" />',
+            ),
+          {
+            replace: (domNode) => {
+              if (domNode instanceof Element && domNode.name === "img") {
+                return (
+                  <Image
+                    className={styles.sprite}
+                    height={16}
+                    src={domNode.attribs.src}
+                    width={16}
+                    alt={
+                      spriteNames[Number(domNode.attribs["data-sprite"])] ?? ""
+                    }
+                  />
+                );
+              }
+            },
+          },
+        )}
+      </Text>
+    </>
   );
 };

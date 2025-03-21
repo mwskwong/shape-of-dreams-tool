@@ -41,6 +41,18 @@ const Travelers: FC = () => {
       {Object.entries(travelers).map(([key, traveler]) => {
         const travelerMemories = Object.values(memories)
           .filter((memory) => memory.traveler === key)
+          .map((memory) => ({
+            ...memory,
+            mutuallyExclusive: Object.values(memories)
+              .filter(
+                ({ name, traveler, travelerMemoryLocation }) =>
+                  name !== memory.name &&
+                  traveler &&
+                  traveler === memory.traveler &&
+                  travelerMemoryLocation === memory.travelerMemoryLocation,
+              )
+              .map(({ name }) => name),
+          }))
           .toSorted((a, b) => compareRarities(a.rarity, b.rarity));
         return (
           <TravelerCard
