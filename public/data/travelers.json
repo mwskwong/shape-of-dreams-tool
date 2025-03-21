@@ -12,7 +12,8 @@
       "attackDamage": "+1",
       "abilityPower": "+2"
     },
-    "description": "Lacerta is a former Royal Guard sniper and hunter proficient in handling firearms and gunpowder. He is accustomed to taking out enemies from long range."
+    "description": "Lacerta is a former Royal Guard sniper and hunter proficient in handling firearms and gunpowder. He is accustomed to taking out enemies from long range.",
+    "image": "https://placehold.co/512x512?text=Lacerta%20Avatar"
   },
   "Hero_Mist": {
     "name": "Mist",
@@ -28,7 +29,8 @@
       "attackDamage": "+1",
       "abilityPower": "+2"
     },
-    "description": "Mist is a courageous duelist of noble birth. With agile combat techniques, she can evade dangerous attacks and swiftly dispatch enemies."
+    "description": "Mist is a courageous duelist of noble birth. With agile combat techniques, she can evade dangerous attacks and swiftly dispatch enemies.",
+    "image": "https://placehold.co/512x512?text=Mist%20Avatar"
   },
   "Hero_Yubar": {
     "name": "Yubar",
@@ -44,7 +46,8 @@
       "abilityPower": "+2"
     },
     "description": "Yubar is a fairy tale being from dreams, a god who governs the creation and destruction of stars. He can deal high damage from long range using magic.",
-    "unlockBy": "Acquire a total of 300 Dream Dust."
+    "unlockBy": "Acquire a total of 300 Dream Dust.",
+    "image": "https://placehold.co/512x512?text=Yubar%20Avatar"
   },
   "Hero_Vesper": {
     "name": "Vesper",
@@ -61,7 +64,8 @@
       "abilityPower": "+2"
     },
     "description": "Vesper is the leader and cruel inquisitor of the Order of the Sacred Flame. He can block enemies in melee range while dealing high damage.",
-    "unlockBy": "Reach the Dream of the Night Sky."
+    "unlockBy": "Reach the Dream of the Night Sky.",
+    "image": "https://placehold.co/512x512?text=Vesper%20Avatar"
   },
   "Hero_Aurena": {
     "name": "Aurena",
@@ -78,6 +82,7 @@
       "abilityPower": "+2"
     },
     "description": "Aurena is a sage from the Lunar Conclave of Arcanum who was expelled for researching forbidden knowledge. She is a battle healer who utilizes her own life force.",
-    "unlockBy": "Heal yourself or allies for a total of 25,000 health."
+    "unlockBy": "Heal yourself or allies for a total of 25,000 health.",
+    "image": "https://placehold.co/512x512?text=Aurena%20Avatar"
   }
 }
