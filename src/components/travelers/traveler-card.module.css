@@ -8,3 +8,7 @@
   padding-bottom: var(--space-2);
   background-color: var(--card-background-color);
 }
+
+.paragraph {
+  align-self: flex-start;
+}

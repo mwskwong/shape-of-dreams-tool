@@ -35,7 +35,7 @@ export interface TravelerCardProps extends Omit<CardProps, "children"> {
     armor?: string;
   };
   description: string;
-  unlocked?: string;
+  unlockBy?: string;
   image: string;
 }
 
@@ -50,8 +50,8 @@ export const TravelerCard: FC<TravelerCardProps> = ({
   attackSpeed,
   armor,
   statsGrowthPerLv,
-  //   description,
-  //   unlockBy,
+  description,
+  unlockBy,
   image,
 }) => {
   const stats = [
@@ -100,7 +100,7 @@ export const TravelerCard: FC<TravelerCardProps> = ({
         <Flex gap="3" justify="center" wrap="wrap">
           {stats.map(({ Icon, name, value, statGrowth }) => (
             <Card key={name} className={styles.stat}>
-              <Flex align="center" direction="column" gap="2" minWidth="3.75ch">
+              <Flex align="center" direction="column" gap="2" minWidth="56px">
                 <Icon size={20} />
                 <Text>{value}</Text>
               </Flex>
@@ -110,12 +110,20 @@ export const TravelerCard: FC<TravelerCardProps> = ({
                 side="bottom"
               >
                 <Text align="center" as="div" size="1">
-                  {statGrowth ?? "-"}
+                  {statGrowth ? `${statGrowth} / lv` : "-"}
                 </Text>
               </Inset>
             </Card>
           ))}
         </Flex>
+        {unlockBy && (
+          <Text as="p" className={styles.paragraph} color="gray">
+            Unlock by: {unlockBy}
+          </Text>
+        )}
+        <Text as="p" className={styles.paragraph}>
+          {description}
+        </Text>
       </Flex>
     </Card>
   );
