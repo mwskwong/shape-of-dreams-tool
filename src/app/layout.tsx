@@ -63,7 +63,6 @@ export const metadata: Metadata = {
   description:
     "Discover Shape of Dreams Tool, featuring detailed character profiles, skills and items descriptions, and a character builder for an immersive gaming experience.",
   authors: { name: "Matthew Kwong", url: "https://mwskwong.com" },
-  metadataBase: new URL("https://shape-of-dreams-tool.vercel.app/"),
   openGraph: {
     url: "/",
     type: "website",
