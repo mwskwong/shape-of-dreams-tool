@@ -68,7 +68,7 @@ const Memories: FC<MemoriesProps> = async ({ searchParams }) => {
                 name.toLowerCase().includes(search.toLowerCase()) ||
                 description.toLowerCase().includes(search.toLowerCase()) ||
                 shortDescription
-                  ?.toLowerCase()
+                  .toLowerCase()
                   .includes(search.toLowerCase())) &&
               (rarities.length === 0 || rarities.includes(rarity)) &&
               (types.length === 0 || types.includes(type)) &&
