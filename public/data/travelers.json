@@ -3,33 +3,52 @@
     "name": "Lacerta",
     "difficulty": "Easy",
     "class": "Ranged Attacker",
-    "health": 220,
-    "attackDamage": 43,
-    "abilityPower": 41,
-    "attackSpeed": 1.41,
-    "armor": 0,
+    "baseStats": {
+      "health": 220,
+      "attackDamage": 43,
+      "abilityPower": 41,
+      "attackSpeed": 1.41
+    },
+    "statsGrowthOnLvUp": {
+      "health": "+20%",
+      "attackDamage": "+1",
+      "abilityPower": "+2"
+    },
     "description": "Lacerta is a former Royal Guard sniper and hunter proficient in handling firearms and gunpowder. He is accustomed to taking out enemies from long range."
   },
   "Hero_Mist": {
     "name": "Mist",
     "difficulty": "Hard",
     "class": "Melee Attacker",
-    "health": 250,
-    "attackDamage": 51,
-    "abilityPower": 33,
-    "attackSpeed": 1.43,
-    "armor": 5,
+    "baseStats": {
+      "health": 250,
+      "attackDamage": 51,
+      "abilityPower": 33,
+      "attackSpeed": 1.43,
+      "armor": 5
+    },
+    "statsGrowthOnLvUp": {
+      "health": "+20%",
+      "attackDamage": "+1",
+      "abilityPower": "+2"
+    },
     "description": "Mist is a courageous duelist of noble birth. With agile combat techniques, she can evade dangerous attacks and swiftly dispatch enemies."
   },
   "Hero_Yubar": {
     "name": "Yubar",
     "difficulty": "Medium",
     "class": "Ranged Mage",
-    "health": 180,
-    "attackDamage": 32,
-    "abilityPower": 43,
-    "attackSpeed": 2.0,
-    "armor": 0,
+    "baseStats": {
+      "health": 180,
+      "attackDamage": 32,
+      "abilityPower": 43,
+      "attackSpeed": 2.0
+    },
+    "statsGrowthOnLvUp": {
+      "health": "+20%",
+      "attackDamage": "+1",
+      "abilityPower": "+2"
+    },
     "description": "Yubar is a fairy tale being from dreams, a god who governs the creation and destruction of stars. He can deal high damage from long range using magic.",
     "unlockBy": "Acquire a total of 300 Dream Dust."
   },
@@ -37,11 +56,18 @@
     "name": "Vesper",
     "difficulty": "Medium",
     "class": "Melee Tank",
-    "health": 280,
-    "attackDamage": 54,
-    "abilityPower": 33,
-    "attackSpeed": 1.0,
-    "armor": 5,
+    "baseStats": {
+      "health": 280,
+      "attackDamage": 54,
+      "abilityPower": 33,
+      "attackSpeed": 1.0,
+      "armor": 5
+    },
+    "statsGrowthOnLvUp": {
+      "health": "+20%",
+      "attackDamage": "+1",
+      "abilityPower": "+2"
+    },
     "description": "Vesper is the leader and cruel inquisitor of the Order of the Sacred Flame. He can block enemies in melee range while dealing high damage.",
     "unlockBy": "Reach the Dream of the Night Sky."
   },
@@ -49,11 +75,18 @@
     "name": "Aurena",
     "difficulty": "Very Hard",
     "class": "Melee Support",
-    "health": 250,
-    "attackDamage": 28,
-    "abilityPower": 36,
-    "attackSpeed": 1.05,
-    "armor": 5,
+    "baseStats": {
+      "health": 250,
+      "attackDamage": 28,
+      "abilityPower": 36,
+      "attackSpeed": 1.05,
+      "armor": 5
+    },
+    "statsGrowthOnLvUp": {
+      "health": "+20%",
+      "attackDamage": "+1",
+      "abilityPower": "+2"
+    },
     "description": "Aurena is a sage from the Lunar Conclave of Arcanum who was expelled for researching forbidden knowledge. She is a battle healer who utilizes her own life force.",
     "unlockBy": "Heal yourself or allies for a total of 25,000 health."
   }
