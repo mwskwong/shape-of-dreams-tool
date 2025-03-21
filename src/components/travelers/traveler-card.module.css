@@ -1,5 +1,9 @@
+.tabRoot {
+  width: 100%;
+}
+
 .stat {
-  flex-shrink: 0;
+  min-width: 64px;
   padding: var(--space-2);
 }
 

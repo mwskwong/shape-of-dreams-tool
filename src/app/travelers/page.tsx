@@ -1,4 +1,4 @@
-import "@radix-ui/themes/tokens/colors/tomato.css";
+import "@radix-ui/themes/tokens/colors/orange.css";
 import "@radix-ui/themes/tokens/colors/mint.css";
 import "@radix-ui/themes/tokens/colors/ruby.css";
 import "@radix-ui/themes/tokens/colors/amber.css";
@@ -16,7 +16,7 @@ import travelers from "@public/data/travelers.json";
 const getTravelerColor = (travelerId: string): TravelerCardProps["color"] => {
   switch (travelerId) {
     case "Hero_Lacerta": {
-      return "tomato";
+      return "orange";
     }
     case "Hero_Mist": {
       return "mint";
@@ -29,9 +29,6 @@ const getTravelerColor = (travelerId: string): TravelerCardProps["color"] => {
     }
     case "Hero_Aurena": {
       return "yellow";
-    }
-    default: {
-      return "indigo";
     }
   }
 };

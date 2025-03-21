@@ -1,3 +1,4 @@
+import { Box } from "@radix-ui/themes/components/box";
 import { Card, type CardProps } from "@radix-ui/themes/components/card";
 import { Flex } from "@radix-ui/themes/components/flex";
 import {
@@ -5,6 +6,7 @@ import {
   type HeadingProps,
 } from "@radix-ui/themes/components/heading";
 import { Inset } from "@radix-ui/themes/components/inset";
+import * as Tabs from "@radix-ui/themes/components/tabs";
 import { Text } from "@radix-ui/themes/components/text";
 import {
   IconHeart,
@@ -21,7 +23,7 @@ import styles from "./traveler-card.module.css";
 export interface TravelerCardProps extends Omit<CardProps, "children"> {
   color?: HeadingProps["color"];
   name: string;
-  difficulty: string;
+  difficulty?: string;
   class: string;
   health: number;
   attackDamage: number;
@@ -29,9 +31,10 @@ export interface TravelerCardProps extends Omit<CardProps, "children"> {
   attackSpeed: number;
   armor?: number;
   statsGrowthPerLv: {
-    health: string;
-    attackDamage: string;
-    abilityPower: string;
+    health?: string;
+    attackDamage?: string;
+    attackSpeed?: string;
+    abilityPower?: string;
     armor?: string;
   };
   description: string;
@@ -42,7 +45,6 @@ export interface TravelerCardProps extends Omit<CardProps, "children"> {
 export const TravelerCard: FC<TravelerCardProps> = ({
   color = "indigo",
   name,
-  difficulty,
   class: travelerClass,
   health,
   attackDamage,
@@ -81,6 +83,7 @@ export const TravelerCard: FC<TravelerCardProps> = ({
       statGrowth: statsGrowthPerLv.armor,
     },
   ].filter(Boolean);
+
   return (
     <Card>
       <Flex align="center" direction="column" gap="3">
@@ -94,42 +97,55 @@ export const TravelerCard: FC<TravelerCardProps> = ({
         <Heading as="h2" color={color} size="5">
           {name}
         </Heading>
-        <Text align="center" as="p">
-          {travelerClass} · {difficulty}
-        </Text>
-        <Flex gap="3" justify="center" wrap="wrap">
-          {stats.map(({ Icon, name, value, statGrowth }) => (
-            <Card key={name} className={styles.stat}>
-              <Flex
-                align="center"
-                direction="column"
-                gap="2"
-                minWidth="56px"
-                pb="2"
-              >
-                <Icon size={20} />
-                <Text>{value}</Text>
-              </Flex>
-              <Inset
-                className={styles.statGrowth}
-                clip="padding-box"
-                side="bottom"
-              >
-                <Text align="center" as="div" size="1">
-                  {statGrowth ? `${statGrowth} / lv` : "-"}
+
+        <Tabs.Root className={styles.tabRoot} defaultValue="stats">
+          <Tabs.List color={color}>
+            <Tabs.Trigger value="stats">Stats</Tabs.Trigger>
+            <Tabs.Trigger value="memories">Memories</Tabs.Trigger>
+          </Tabs.List>
+
+          <Box pt="3">
+            <Tabs.Content asChild value="stats">
+              <Flex direction="column" gap="3">
+                <Text align="center" as="p">
+                  {travelerClass}
                 </Text>
-              </Inset>
-            </Card>
-          ))}
-        </Flex>
-        {unlockBy && (
-          <Text as="p" className={styles.paragraph} color="gray">
-            Unlock by: {unlockBy}
-          </Text>
-        )}
-        <Text as="p" className={styles.paragraph}>
-          {description}
-        </Text>
+                <Flex gap="3" justify="center" wrap="wrap">
+                  {stats.map(({ Icon, name, value, statGrowth }) => (
+                    <Card key={name} className={styles.stat}>
+                      <Flex align="center" direction="column" gap="2" pb="2">
+                        <Icon size={20} />
+                        <Text>{value}</Text>
+                      </Flex>
+                      <Inset className={styles.statGrowth} side="bottom">
+                        <Text
+                          align="center"
+                          as="div"
+                          color={statGrowth ? undefined : "gray"}
+                          size="1"
+                        >
+                          {statGrowth ? `${statGrowth} / lv` : "-"}
+                        </Text>
+                      </Inset>
+                    </Card>
+                  ))}
+                </Flex>
+                {unlockBy && (
+                  <Text as="p" className={styles.paragraph} color="gray">
+                    Unlock by: {unlockBy}
+                  </Text>
+                )}
+                <Text as="p" className={styles.paragraph}>
+                  {description}
+                </Text>
+              </Flex>
+            </Tabs.Content>
+
+            <Tabs.Content value="memories">
+              <Text size="2">Access and update your documents.</Text>
+            </Tabs.Content>
+          </Box>
+        </Tabs.Root>
       </Flex>
     </Card>
   );

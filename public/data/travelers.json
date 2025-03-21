@@ -10,7 +10,7 @@
     "statsGrowthPerLv": {
       "health": "+20%",
       "attackDamage": "+1",
-      "abilityPower": "+2"
+      "abilityPower": "+1"
     },
     "description": "Lacerta is a former Royal Guard sniper and hunter proficient in handling firearms and gunpowder. He is accustomed to taking out enemies from long range.",
     "image": "Hero_Lacerta.png"
@@ -25,9 +25,10 @@
     "attackSpeed": 1.43,
     "armor": 5,
     "statsGrowthPerLv": {
-      "health": "+20%",
-      "attackDamage": "+1",
-      "abilityPower": "+2"
+      "health": "+30%",
+      "attackDamage": "+2",
+      "abilityPower": "+2",
+      "armor": "+2"
     },
     "description": "Mist is a courageous duelist of noble birth. With agile combat techniques, she can evade dangerous attacks and swiftly dispatch enemies.",
     "image": "Hero_Mist.png"
@@ -42,7 +43,6 @@
     "attackSpeed": 2.0,
     "statsGrowthPerLv": {
       "health": "+20%",
-      "attackDamage": "+1",
       "abilityPower": "+2"
     },
     "description": "Yubar is a fairy tale being from dreams, a god who governs the creation and destruction of stars. He can deal high damage from long range using magic.",
@@ -59,9 +59,10 @@
     "attackSpeed": 1.0,
     "armor": 5,
     "statsGrowthPerLv": {
-      "health": "+20%",
-      "attackDamage": "+1",
-      "abilityPower": "+2"
+      "health": "+30%",
+      "attackDamage": "+2",
+      "abilityPower": "+2",
+      "armor": "+2"
     },
     "description": "Vesper is the leader and cruel inquisitor of the Order of the Sacred Flame. He can block enemies in melee range while dealing high damage.",
     "unlockBy": "Reach the Dream of the Night Sky.",
@@ -77,9 +78,10 @@
     "attackSpeed": 1.05,
     "armor": 5,
     "statsGrowthPerLv": {
-      "health": "+20%",
-      "attackDamage": "+1",
-      "abilityPower": "+2"
+      "health": "+30%",
+      "attackDamage": "+2",
+      "abilityPower": "+2",
+      "armor": "+2"
     },
     "description": "Aurena is a sage from the Lunar Conclave of Arcanum who was expelled for researching forbidden knowledge. She is a battle healer who utilizes her own life force.",
     "unlockBy": "Heal yourself or allies for a total of 25,000 health.",

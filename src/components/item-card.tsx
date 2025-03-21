@@ -3,6 +3,8 @@ import "@radix-ui/themes/tokens/colors/sky.css";
 import "@radix-ui/themes/tokens/colors/purple.css";
 import "@radix-ui/themes/tokens/colors/red.css";
 import "@radix-ui/themes/tokens/colors/amber.css";
+
+// keyword
 import "@radix-ui/themes/tokens/colors/yellow.css";
 
 import { Badge, type BadgeProps } from "@radix-ui/themes/components/badge";
