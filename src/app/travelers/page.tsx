@@ -5,6 +5,7 @@ import "@radix-ui/themes/tokens/colors/amber.css";
 import "@radix-ui/themes/tokens/colors/yellow.css";
 
 import { Grid } from "@radix-ui/themes/components/grid";
+import { type Metadata } from "next";
 import { type FC } from "react";
 
 import {
@@ -65,6 +66,10 @@ const Travelers: FC = () => {
       })}
     </Grid>
   );
+};
+
+export const metadata: Metadata = {
+  title: "Travelers",
 };
 
 export default Travelers;
