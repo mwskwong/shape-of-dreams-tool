@@ -8,6 +8,7 @@ import {
 import { Inset } from "@radix-ui/themes/components/inset";
 import * as Tabs from "@radix-ui/themes/components/tabs";
 import { Text } from "@radix-ui/themes/components/text";
+import { Tooltip } from "@radix-ui/themes/components/tooltip";
 import {
   IconHeart,
   IconMenu3,
@@ -113,20 +114,19 @@ export const TravelerCard: FC<TravelerCardProps> = ({
                 <Flex gap="3" justify="center" wrap="wrap">
                   {stats.map(({ Icon, name, value, statGrowth }) => (
                     <Card key={name} className={styles.stat}>
-                      <Flex align="center" direction="column" gap="2" pb="2">
-                        <Icon size={20} />
-                        <Text>{value}</Text>
-                      </Flex>
-                      <Inset className={styles.statGrowth} side="bottom">
-                        <Text
-                          align="center"
-                          as="div"
-                          color={statGrowth ? undefined : "gray"}
-                          size="1"
-                        >
-                          {statGrowth ? `${statGrowth} / lv` : "-"}
-                        </Text>
-                      </Inset>
+                      <Tooltip content={name}>
+                        <Flex align="center" direction="column" gap="2" pb="2">
+                          <Icon size={20} />
+                          <Text>{value}</Text>
+                        </Flex>
+                      </Tooltip>
+                      <Tooltip content="Stat growth / lv">
+                        <Inset className={styles.statGrowth} side="bottom">
+                          <Text align="center" as="div" color="gray" size="1">
+                            {statGrowth ?? "-"}
+                          </Text>
+                        </Inset>
+                      </Tooltip>
                     </Card>
                   ))}
                 </Flex>
