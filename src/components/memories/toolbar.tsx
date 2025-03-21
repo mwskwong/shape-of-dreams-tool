@@ -75,7 +75,7 @@ export const Toolbar: FC<ToolbarProps> = ({
         value={travelers}
         options={allTravelers.map((traveler) => ({
           value: traveler,
-          label: traveler.replace("Hero_", ""),
+          name: traveler.replace("Hero_", ""),
         }))}
         onReset={() => setTravelers([])}
         onValueChange={setTravelers}
