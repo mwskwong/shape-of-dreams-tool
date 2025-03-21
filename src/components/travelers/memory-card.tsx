@@ -58,18 +58,17 @@ export const MemoryCard: FC<MemoryCardProps> = ({
           </Flex>
         </button>
       </Card>
-      {expand && (
-        <Flex direction="column" gap="3">
-          <ItemCardContent
-            cooldownTime={cooldownTime}
-            description={description}
-            maxCharges={maxCharges}
-            mutuallyExclusive={mutuallyExclusive}
-            type={type}
-            unlockBy={unlockBy}
-          />
-        </Flex>
-      )}
+
+      <Flex direction="column" display={expand ? "flex" : "none"} gap="3">
+        <ItemCardContent
+          cooldownTime={cooldownTime}
+          description={description}
+          maxCharges={maxCharges}
+          mutuallyExclusive={mutuallyExclusive}
+          type={type}
+          unlockBy={unlockBy}
+        />
+      </Flex>
     </>
   );
 };
