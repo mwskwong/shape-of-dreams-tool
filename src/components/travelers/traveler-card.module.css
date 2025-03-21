@@ -5,5 +5,6 @@
 
 .statGrowth {
   padding: var(--space-1);
+  padding-bottom: var(--space-2);
   background-color: var(--card-background-color);
 }

@@ -55,13 +55,32 @@ export const TravelerCard: FC<TravelerCardProps> = ({
   image,
 }) => {
   const stats = [
-    { Icon: IconHeart, name: "Health", value: health },
-    { Icon: IconSword, name: "Attack Damage", value: attackDamage },
-    { Icon: IconSparkles, name: "Ability Power", value: abilityPower },
+    {
+      Icon: IconHeart,
+      name: "Health",
+      value: health,
+      statGrowth: statsGrowthPerLv.health,
+    },
+    {
+      Icon: IconSword,
+      name: "Attack Damage",
+      value: attackDamage,
+      statGrowth: statsGrowthPerLv.attackDamage,
+    },
+    {
+      Icon: IconSparkles,
+      name: "Ability Power",
+      value: abilityPower,
+      statGrowth: statsGrowthPerLv.abilityPower,
+    },
     { Icon: IconMenu3, name: "Attack Speed", value: attackSpeed.toFixed(2) },
-    armor && { Icon: IconShield, name: "Armor", value: armor },
+    armor && {
+      Icon: IconShield,
+      name: "Armor",
+      value: armor,
+      statGrowth: statsGrowthPerLv.armor,
+    },
   ].filter(Boolean);
-
   return (
     <Card>
       <Flex align="center" direction="column" gap="3">
@@ -79,15 +98,19 @@ export const TravelerCard: FC<TravelerCardProps> = ({
           {travelerClass} · {difficulty}
         </Text>
         <Flex gap="3" justify="center" wrap="wrap">
-          {stats.map(({ Icon, name, value }) => (
+          {stats.map(({ Icon, name, value, statGrowth }) => (
             <Card key={name} className={styles.stat}>
               <Flex align="center" direction="column" gap="2" minWidth="3.75ch">
                 <Icon size={20} />
                 <Text>{value}</Text>
               </Flex>
-              <Inset className={styles.statGrowth} side="bottom">
+              <Inset
+                className={styles.statGrowth}
+                clip="padding-box"
+                side="bottom"
+              >
                 <Text align="center" as="div" size="1">
-                  {statsGrowthPerLv.health}
+                  {statGrowth ?? "-"}
                 </Text>
               </Inset>
             </Card>
