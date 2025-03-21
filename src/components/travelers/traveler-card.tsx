@@ -1,6 +1,5 @@
 import { Card, type CardProps } from "@radix-ui/themes/components/card";
 import { Flex } from "@radix-ui/themes/components/flex";
-import { Grid } from "@radix-ui/themes/components/grid";
 import {
   Heading,
   type HeadingProps,
@@ -15,6 +14,8 @@ import {
 } from "@tabler/icons-react";
 import Image from "next/image";
 import { type FC } from "react";
+
+import styles from "./traveler-card.module.css";
 
 export interface TravelerCardProps extends Omit<CardProps, "children"> {
   color?: HeadingProps["color"];
@@ -76,16 +77,16 @@ export const TravelerCard: FC<TravelerCardProps> = ({
         <Text align="center" as="p">
           {travelerClass} · {difficulty}
         </Text>
-        <Grid columns={stats.length.toString()} gap="3">
+        <Flex className={styles.stats} gap="3" justify="center" wrap="wrap">
           {stats.map(({ Icon, name, value }) => (
-            <Card key={name} size="1">
-              <Flex align="center" direction="column" gap="2">
+            <Card key={name}>
+              <Flex align="center" direction="column" gap="2" width="32px">
                 <Icon size={20} />
-                {value}
+                <Text>{value}</Text>
               </Flex>
             </Card>
           ))}
-        </Grid>
+        </Flex>
       </Flex>
     </Card>
   );
