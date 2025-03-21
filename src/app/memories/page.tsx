@@ -78,7 +78,8 @@ const Memories: FC<MemoriesProps> = async ({ searchParams }) => {
           .map(([key, memory]) => {
             const mutuallyExclusive = Object.values(memories)
               .filter(
-                ({ traveler, travelerMemoryLocation }) =>
+                ({ name, traveler, travelerMemoryLocation }) =>
+                  name !== memory.name &&
                   traveler &&
                   traveler === memory.traveler &&
                   travelerMemoryLocation === memory.travelerMemoryLocation,
