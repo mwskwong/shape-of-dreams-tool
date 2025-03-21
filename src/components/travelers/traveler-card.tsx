@@ -40,6 +40,20 @@ export interface TravelerCardProps extends Omit<CardProps, "children"> {
   description: string;
   unlockBy?: string;
   image: string;
+  memories?: {
+    name: string;
+    cooldownTime?: number;
+    maxCharges?: number;
+    addedCharges?: number;
+    description: string;
+    shortDescription?: string | null;
+    rarity: string;
+    type?: string;
+    traveler?: string;
+    tags?: string[];
+    image: string;
+    unlockBy?: string;
+  }[];
 }
 
 export const TravelerCard: FC<TravelerCardProps> = ({
@@ -55,6 +69,7 @@ export const TravelerCard: FC<TravelerCardProps> = ({
   description,
   unlockBy,
   image,
+  memories = [],
 }) => {
   const stats = [
     {
@@ -140,8 +155,28 @@ export const TravelerCard: FC<TravelerCardProps> = ({
               </Flex>
             </Tabs.Content>
 
-            <Tabs.Content value="memories">
-              <Text size="2">Access and update your documents.</Text>
+            <Tabs.Content asChild value="memories">
+              <Flex direction="column" gap="3">
+                {memories.map(({ name, image, shortDescription }) => (
+                  <Flex key={name} gap="3">
+                    <Image
+                      alt={name}
+                      className="rt-AvatarRoot rt-r-size-4"
+                      height={48}
+                      src={`/images/${image}`}
+                      width={48}
+                    />
+                    <div>
+                      <Heading as="h3" size="3">
+                        {name}
+                      </Heading>
+                      <Text as="p" color="gray">
+                        {shortDescription}
+                      </Text>
+                    </div>
+                  </Flex>
+                ))}
+              </Flex>
             </Tabs.Content>
           </Box>
         </Tabs.Root>

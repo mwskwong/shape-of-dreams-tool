@@ -11,6 +11,8 @@ import {
   TravelerCard,
   type TravelerCardProps,
 } from "@/components/travelers/traveler-card";
+import { compareRarities } from "@/lib/utils";
+import memories from "@public/data/memories.json";
 import travelers from "@public/data/travelers.json";
 
 const getTravelerColor = (travelerId: string): TravelerCardProps["color"] => {
@@ -36,9 +38,19 @@ const getTravelerColor = (travelerId: string): TravelerCardProps["color"] => {
 const Travelers: FC = () => {
   return (
     <Grid columns={{ initial: "1", sm: "2", md: "3" }} gap="3" pt="3">
-      {Object.entries(travelers).map(([key, traveler]) => (
-        <TravelerCard key={key} color={getTravelerColor(key)} {...traveler} />
-      ))}
+      {Object.entries(travelers).map(([key, traveler]) => {
+        const travelerMemories = Object.values(memories)
+          .filter((memory) => memory.traveler === key)
+          .toSorted((a, b) => compareRarities(a.rarity, b.rarity));
+        return (
+          <TravelerCard
+            key={key}
+            color={getTravelerColor(key)}
+            {...traveler}
+            memories={travelerMemories}
+          />
+        );
+      })}
     </Grid>
   );
 };

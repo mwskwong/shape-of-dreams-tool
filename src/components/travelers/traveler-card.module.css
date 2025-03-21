@@ -16,3 +16,7 @@
 .paragraph {
   align-self: flex-start;
 }
+
+.sprite {
+  display: inline-block;
+}
