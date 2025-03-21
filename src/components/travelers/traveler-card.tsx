@@ -100,7 +100,13 @@ export const TravelerCard: FC<TravelerCardProps> = ({
         <Flex gap="3" justify="center" wrap="wrap">
           {stats.map(({ Icon, name, value, statGrowth }) => (
             <Card key={name} className={styles.stat}>
-              <Flex align="center" direction="column" gap="2" minWidth="56px">
+              <Flex
+                align="center"
+                direction="column"
+                gap="2"
+                minWidth="56px"
+                pb="2"
+              >
                 <Icon size={20} />
                 <Text>{value}</Text>
               </Flex>
