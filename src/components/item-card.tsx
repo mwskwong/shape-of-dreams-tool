@@ -14,6 +14,8 @@ import parse, { Element } from "html-react-parser";
 import Image from "next/image";
 import { type FC } from "react";
 
+import { spriteNames } from "@/lib/constants";
+
 import styles from "./item-card.module.css";
 
 export interface ItemCardProps extends Omit<CardProps, "children"> {
@@ -113,18 +115,21 @@ export const ItemCard: FC<ItemCardProps> = ({
               )
               .replaceAll(
                 /<sprite=(\d+)>/g,
-                '<img src="/images/$1.png" alt="sprite $1" />',
+                '<img src="/images/$1.png" data-sprite="$1" />',
               ),
             {
               replace: (domNode) => {
                 if (domNode instanceof Element && domNode.name === "img") {
                   return (
                     <Image
-                      alt={domNode.attribs.alt}
                       className={styles.sprite}
                       height={16}
                       src={domNode.attribs.src}
                       width={16}
+                      alt={
+                        spriteNames[Number(domNode.attribs["data-sprite"])] ??
+                        ""
+                      }
                     />
                   );
                 }
