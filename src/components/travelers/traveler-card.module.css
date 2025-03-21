@@ -1,5 +1,8 @@
-.stats {
-  & > * {
-    flex-shrink: 0;
-  }
+.stat {
+  flex-shrink: 0;
+  padding: var(--space-2);
+}
+
+.statValue {
+  min-width: 3.75ch;
 }
