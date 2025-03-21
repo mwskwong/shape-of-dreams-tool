@@ -33,9 +33,7 @@ export interface ItemCardProps extends Omit<CardProps, "children"> {
   unlockBy?: string;
 }
 
-const getRarityColor = (
-  rarity: ItemCardProps["rarity"],
-): BadgeProps["color"] => {
+const getRarityColor = (rarity: string): BadgeProps["color"] => {
   switch (rarity) {
     case "Common": {
       return "gray";
