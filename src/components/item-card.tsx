@@ -14,7 +14,7 @@ import { Heading } from "@radix-ui/themes/components/heading";
 import { Text } from "@radix-ui/themes/components/text";
 import parse, { Element } from "html-react-parser";
 import Image from "next/image";
-import { type FC } from "react";
+import { type FC, Fragment } from "react";
 
 import { spriteNames } from "@/lib/constants";
 
@@ -33,6 +33,7 @@ export interface ItemCardProps extends Omit<CardProps, "children"> {
   tags?: string[];
   image: string;
   unlockBy?: string;
+  mutuallyExclusive?: string[];
 }
 
 const getRarityColor = (rarity: string): BadgeProps["color"] => {
@@ -66,6 +67,7 @@ export const ItemCard: FC<ItemCardProps> = ({
   tags = [],
   image,
   unlockBy,
+  mutuallyExclusive = [],
 }) => {
   return (
     <Card>
@@ -79,7 +81,7 @@ export const ItemCard: FC<ItemCardProps> = ({
             width={48}
           />
           <div>
-            <Heading as="h2" size="5">
+            <Heading as="h2" size="4">
               {name}
             </Heading>
             <Text as="p" color={getRarityColor(rarity)}>
@@ -94,6 +96,27 @@ export const ItemCard: FC<ItemCardProps> = ({
               (cooldownTime === 0 ? "Passive" : `Cooldown: ${cooldownTime}s`)}
             {maxCharges && maxCharges > 1 && ` | Charges: ${maxCharges}`}
             {!type || type === "Normal" ? undefined : ` | ${type}`}
+          </Text>
+        )}
+        {mutuallyExclusive.length > 0 && (
+          <Text as="p" color="gray">
+            Mutually exclusive with:{" "}
+            {mutuallyExclusive.map((memory, index) => (
+              <Fragment key={memory}>
+                <em
+                  key={memory}
+                  className="rt-Em"
+                  style={{
+                    // @ts-expect-error -- override em font size
+                    "--em-font-size-adjust": 1,
+                    color: "var(--yellow-a11)",
+                  }}
+                >
+                  {memory}
+                </em>
+                {index < mutuallyExclusive.length - 1 && ", "}
+              </Fragment>
+            ))}
           </Text>
         )}
         {unlockBy && (

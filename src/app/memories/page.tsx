@@ -75,9 +75,24 @@ const Memories: FC<MemoriesProps> = async ({ searchParams }) => {
               (travelers.length === 0 || travelers.includes(traveler)) &&
               tags.every((tag) => (_tags as string[]).includes(tag)),
           )
-          .map(([key, memory]) => (
-            <ItemCard key={key} {...memory} />
-          ))}
+          .map(([key, memory]) => {
+            const mutuallyExclusive = Object.values(memories)
+              .filter(
+                ({ traveler, travelerMemoryLocation }) =>
+                  traveler &&
+                  traveler === memory.traveler &&
+                  travelerMemoryLocation === memory.travelerMemoryLocation,
+              )
+              .map(({ name }) => name);
+
+            return (
+              <ItemCard
+                key={key}
+                {...memory}
+                mutuallyExclusive={mutuallyExclusive}
+              />
+            );
+          })}
       </Grid>
     </Flex>
   );
