@@ -7,7 +7,11 @@ import { type FC } from "react";
 import { ItemCard } from "@/components/item-card";
 import { Legend } from "@/components/legend";
 import { Toolbar } from "@/components/memories/toolbar";
-import { compareRarities, loadSearchParams } from "@/lib/utils";
+import {
+  compareMemories,
+  compareRarities,
+  loadSearchParams,
+} from "@/lib/utils";
 import memories from "@public/data/memories.json";
 
 const allRarities = [
@@ -45,12 +49,7 @@ const Memories: FC<MemoriesProps> = async ({ searchParams }) => {
       <Legend />
       <Grid columns={{ initial: "1", sm: "2", md: "3" }} gap="3">
         {Object.entries(memories)
-          .toSorted(
-            ([, a], [, b]) =>
-              compareRarities(a.rarity, b.rarity) ||
-              a.traveler.localeCompare(b.traveler) ||
-              a.name.localeCompare(b.name),
-          )
+          .toSorted(([, a], [, b]) => compareMemories(a, b))
           .filter(
             ([
               ,

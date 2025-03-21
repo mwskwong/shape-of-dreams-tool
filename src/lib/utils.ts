@@ -1,4 +1,7 @@
 import { createLoader, parseAsArrayOf, parseAsString } from "nuqs/server";
+import { type ValueOf } from "type-fest";
+
+import type memories from "@public/data/memories.json";
 
 const rarityOrders = [
   "Common",
@@ -12,6 +15,13 @@ const rarityOrders = [
 
 export const compareRarities = (a: string, b: string) =>
   rarityOrders.indexOf(a) - rarityOrders.indexOf(b);
+
+type Memory = ValueOf<typeof memories>;
+
+export const compareMemories = (a: Memory, b: Memory) =>
+  compareRarities(a.rarity, b.rarity) ||
+  a.traveler.localeCompare(b.traveler) ||
+  a.name.localeCompare(b.name);
 
 export const searchParams = {
   search: parseAsString

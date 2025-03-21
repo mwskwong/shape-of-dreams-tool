@@ -12,7 +12,7 @@ import {
   TravelerCard,
   type TravelerCardProps,
 } from "@/components/travelers/traveler-card";
-import { compareRarities } from "@/lib/utils";
+import { compareMemories } from "@/lib/utils";
 import memories from "@public/data/memories.json";
 import travelers from "@public/data/travelers.json";
 
@@ -54,7 +54,7 @@ const Travelers: FC = () => {
               )
               .map(({ name }) => name),
           }))
-          .toSorted((a, b) => compareRarities(a.rarity, b.rarity));
+          .toSorted((a, b) => compareMemories(a, b));
         return (
           <TravelerCard
             key={key}
