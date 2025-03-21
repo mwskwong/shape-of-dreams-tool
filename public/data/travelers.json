@@ -7,7 +7,7 @@
     "attackDamage": 43,
     "abilityPower": 41,
     "attackSpeed": 1.41,
-    "statsGrowthOnLvUp": {
+    "statsGrowthPerLv": {
       "health": "+20%",
       "attackDamage": "+1",
       "abilityPower": "+2"
@@ -24,7 +24,7 @@
     "abilityPower": 33,
     "attackSpeed": 1.43,
     "armor": 5,
-    "statsGrowthOnLvUp": {
+    "statsGrowthPerLv": {
       "health": "+20%",
       "attackDamage": "+1",
       "abilityPower": "+2"
@@ -40,7 +40,7 @@
     "attackDamage": 32,
     "abilityPower": 43,
     "attackSpeed": 2.0,
-    "statsGrowthOnLvUp": {
+    "statsGrowthPerLv": {
       "health": "+20%",
       "attackDamage": "+1",
       "abilityPower": "+2"
@@ -58,7 +58,7 @@
     "abilityPower": 33,
     "attackSpeed": 1.0,
     "armor": 5,
-    "statsGrowthOnLvUp": {
+    "statsGrowthPerLv": {
       "health": "+20%",
       "attackDamage": "+1",
       "abilityPower": "+2"
@@ -76,7 +76,7 @@
     "abilityPower": 36,
     "attackSpeed": 1.05,
     "armor": 5,
-    "statsGrowthOnLvUp": {
+    "statsGrowthPerLv": {
       "health": "+20%",
       "attackDamage": "+1",
       "abilityPower": "+2"

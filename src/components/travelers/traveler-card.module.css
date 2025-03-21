@@ -3,6 +3,7 @@
   padding: var(--space-2);
 }
 
-.statValue {
-  min-width: 3.75ch;
+.statGrowth {
+  padding: var(--space-1);
+  background-color: var(--card-background-color);
 }

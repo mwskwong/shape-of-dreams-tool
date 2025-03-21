@@ -4,6 +4,7 @@ import {
   Heading,
   type HeadingProps,
 } from "@radix-ui/themes/components/heading";
+import { Inset } from "@radix-ui/themes/components/inset";
 import { Text } from "@radix-ui/themes/components/text";
 import {
   IconHeart,
@@ -27,7 +28,7 @@ export interface TravelerCardProps extends Omit<CardProps, "children"> {
   abilityPower: number;
   attackSpeed: number;
   armor?: number;
-  statsGrowthOnLvUp: {
+  statsGrowthPerLv: {
     health: string;
     attackDamage: string;
     abilityPower: string;
@@ -48,7 +49,7 @@ export const TravelerCard: FC<TravelerCardProps> = ({
   abilityPower,
   attackSpeed,
   armor,
-  //   statsGrowthOnLvUp,
+  statsGrowthPerLv,
   //   description,
   //   unlockBy,
   image,
@@ -84,6 +85,11 @@ export const TravelerCard: FC<TravelerCardProps> = ({
                 <Icon size={20} />
                 <Text>{value}</Text>
               </Flex>
+              <Inset className={styles.statGrowth} side="bottom">
+                <Text align="center" as="div" size="1">
+                  {statsGrowthPerLv.health}
+                </Text>
+              </Inset>
             </Card>
           ))}
         </Flex>
