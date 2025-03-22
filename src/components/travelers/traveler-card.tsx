@@ -9,6 +9,7 @@ import * as Tabs from "@radix-ui/themes/components/tabs";
 import { Text } from "@radix-ui/themes/components/text";
 import { Theme, type ThemeProps } from "@radix-ui/themes/components/theme";
 import { Tooltip } from "@radix-ui/themes/components/tooltip";
+import { clsx } from "clsx";
 import Image from "next/image";
 import { type FC } from "react";
 
@@ -74,6 +75,7 @@ export interface TravelerCardProps extends Omit<CardProps, "children"> {
 }
 
 export const TravelerCard: FC<TravelerCardProps> = ({
+  className,
   color,
   name,
   class: travelerClass,
@@ -126,7 +128,7 @@ export const TravelerCard: FC<TravelerCardProps> = ({
 
   return (
     <Theme accentColor={color}>
-      <Card {...props}>
+      <Card className={clsx(styles.card, className)} {...props}>
         <Flex align="center" direction="column" gap="3">
           <Image
             alt={name}
@@ -178,8 +180,8 @@ export const TravelerCard: FC<TravelerCardProps> = ({
                             <Text>{value}</Text>
                           </Flex>
                         </Tooltip>
-                        <Tooltip content="Stat growth / lv">
-                          <Inset mt="2" side="bottom">
+                        <Inset mt="2" side="bottom">
+                          <Tooltip content="Stat growth / lv">
                             <Text
                               align="center"
                               as="div"
@@ -189,13 +191,18 @@ export const TravelerCard: FC<TravelerCardProps> = ({
                             >
                               {statGrowth ?? "-"}
                             </Text>
-                          </Inset>
-                        </Tooltip>
+                          </Tooltip>
+                        </Inset>
                       </Card>
                     ))}
                   </Flex>
                   {unlockBy && (
-                    <Text as="p" className={styles.paragraph} color="gray">
+                    <Text
+                      as="p"
+                      className={styles.paragraph}
+                      color="gray"
+                      wrap="pretty"
+                    >
                       Unlock by: {unlockBy}
                     </Text>
                   )}
