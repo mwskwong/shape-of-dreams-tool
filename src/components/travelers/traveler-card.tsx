@@ -51,6 +51,7 @@ export interface TravelerCardProps extends Omit<CardProps, "children"> {
   constellations?: {
     name: string;
     description: string;
+    image: string;
   }[];
 }
 
@@ -183,15 +184,31 @@ export const TravelerCard: FC<TravelerCardProps> = ({
 
               <Tabs.Content asChild value="constellations">
                 <Flex direction="column" gap="3">
-                  {constellations.map(({ name, description }) => (
-                    <div key={name}>
-                      <Heading as="h3" size="4">
-                        {name}
-                      </Heading>
-                      <ItemDescription color="gray">
-                        {description}
-                      </ItemDescription>
-                    </div>
+                  {constellations.map(({ name, description, image }) => (
+                    <Flex key={name} gap="3">
+                      {
+                        <Image
+                          alt={name}
+                          height={48}
+                          src={`/images/${image}`}
+                          width={48}
+                          className={
+                            color &&
+                            styles[
+                              `constellationFilter${color.charAt(0).toUpperCase() + color.slice(1)}`
+                            ]
+                          }
+                        />
+                      }
+                      <div>
+                        <Heading as="h3" size="4">
+                          {name}
+                        </Heading>
+                        <ItemDescription color="gray">
+                          {description}
+                        </ItemDescription>
+                      </div>
+                    </Flex>
                   ))}
                 </Flex>
               </Tabs.Content>
