@@ -17,6 +17,24 @@ import { ItemDescription } from "../item-card";
 import { MemoryCard } from "./memory-card";
 import styles from "./traveler-card.module.css";
 
+const getClassIcon = (travelerClass: string) => {
+  if (travelerClass.toLowerCase().includes("attacker")) {
+    return "/images/iconAttacker.png";
+  }
+
+  if (travelerClass.toLowerCase().includes("mage")) {
+    return "/images/iconSpellCaster.png";
+  }
+
+  if (travelerClass.toLowerCase().includes("tank")) {
+    return "/images/iconTank.png";
+  }
+
+  if (travelerClass.toLowerCase().includes("support")) {
+    return "/images/iconSupporter.png";
+  }
+};
+
 export interface TravelerCardProps extends Omit<CardProps, "children"> {
   color: ThemeProps["accentColor"];
   name: string;
@@ -104,6 +122,8 @@ export const TravelerCard: FC<TravelerCardProps> = ({
     },
   ].filter(Boolean);
 
+  const classIcon = getClassIcon(travelerClass);
+
   return (
     <Card {...props}>
       <Theme accentColor={color}>
@@ -130,6 +150,15 @@ export const TravelerCard: FC<TravelerCardProps> = ({
               <Tabs.Content asChild value="stats">
                 <Flex direction="column" gap="3">
                   <Text align="center" as="p">
+                    {classIcon && (
+                      <Image
+                        alt={travelerClass}
+                        className={styles.classIcon}
+                        height={16}
+                        src={classIcon}
+                        width={16}
+                      />
+                    )}
                     {travelerClass}
                   </Text>
                   <Flex gap="3" justify="center" wrap="wrap">

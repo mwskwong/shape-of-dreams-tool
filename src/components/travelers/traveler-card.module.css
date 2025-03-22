@@ -2,6 +2,11 @@
   width: 100%;
 }
 
+.classIcon {
+  display: inline-block;
+  margin-right: var(--space-2);
+}
+
 .stat {
   --card-padding: var(--space-2);
 
