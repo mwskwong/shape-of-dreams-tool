@@ -12,6 +12,8 @@ import { Tooltip } from "@radix-ui/themes/components/tooltip";
 import Image from "next/image";
 import { type FC } from "react";
 
+import { ItemDescription } from "../item-card";
+
 import { MemoryCard } from "./memory-card";
 import styles from "./traveler-card.module.css";
 
@@ -46,6 +48,10 @@ export interface TravelerCardProps extends Omit<CardProps, "children"> {
     unlockBy?: string;
     mutuallyExclusive?: string[];
   }[];
+  constellations?: {
+    name: string;
+    description: string;
+  }[];
 }
 
 export const TravelerCard: FC<TravelerCardProps> = ({
@@ -62,6 +68,7 @@ export const TravelerCard: FC<TravelerCardProps> = ({
   unlockBy,
   image,
   memories = [],
+  constellations = [],
   ...props
 }) => {
   const stats = [
@@ -115,6 +122,7 @@ export const TravelerCard: FC<TravelerCardProps> = ({
             <Tabs.List>
               <Tabs.Trigger value="stats">Stats</Tabs.Trigger>
               <Tabs.Trigger value="memories">Memories</Tabs.Trigger>
+              <Tabs.Trigger value="constellations">Constellations</Tabs.Trigger>
             </Tabs.List>
 
             <Box pt="3">
@@ -169,6 +177,21 @@ export const TravelerCard: FC<TravelerCardProps> = ({
                 <Flex direction="column" gap="3">
                   {memories.map((memory) => (
                     <MemoryCard key={memory.name} {...memory} />
+                  ))}
+                </Flex>
+              </Tabs.Content>
+
+              <Tabs.Content asChild value="constellations">
+                <Flex direction="column" gap="3">
+                  {constellations.map(({ name, description }) => (
+                    <div key={name}>
+                      <Heading as="h3" size="4">
+                        {name}
+                      </Heading>
+                      <ItemDescription color="gray">
+                        {description}
+                      </ItemDescription>
+                    </div>
                   ))}
                 </Flex>
               </Tabs.Content>

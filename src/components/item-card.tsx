@@ -11,7 +11,7 @@ import { Badge, type BadgeProps } from "@radix-ui/themes/components/badge";
 import { Card, type CardProps } from "@radix-ui/themes/components/card";
 import { Flex } from "@radix-ui/themes/components/flex";
 import { Heading } from "@radix-ui/themes/components/heading";
-import { Text } from "@radix-ui/themes/components/text";
+import { Text, type TextProps } from "@radix-ui/themes/components/text";
 import { Tooltip } from "@radix-ui/themes/components/tooltip";
 import parse, { Element } from "html-react-parser";
 import Image from "next/image";
@@ -167,9 +167,20 @@ export const ItemCardContent: FC<ItemCardContentProps> = ({
           Unlock by: {unlockBy}
         </Text>
       )}
-      <Text as="p">
-        {parse(
-          description
+      <ItemDescription>{description}</ItemDescription>
+    </>
+  );
+};
+
+export type ItemDescriptionProps = TextProps;
+export const ItemDescription: FC<ItemDescriptionProps> = ({
+  children,
+  ...props
+}) => (
+  <Text as="p" {...props}>
+    {typeof children === "string"
+      ? parse(
+          children
             .replaceAll("\n", "<br>")
             .replaceAll(
               /<color=(.*?)>(.*?)<\/color>/g,
@@ -202,8 +213,7 @@ export const ItemCardContent: FC<ItemCardContentProps> = ({
               }
             },
           },
-        )}
-      </Text>
-    </>
-  );
-};
+        )
+      : children}
+  </Text>
+);
