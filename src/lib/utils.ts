@@ -1,5 +1,5 @@
 import { createLoader, parseAsArrayOf, parseAsString } from "nuqs/server";
-import { type ValueOf } from "type-fest";
+import { type SetRequired, type ValueOf } from "type-fest";
 
 import type memories from "@public/data/memories.json";
 
@@ -16,7 +16,10 @@ const rarityOrders = [
 export const compareRarities = (a: string, b: string) =>
   rarityOrders.indexOf(a) - rarityOrders.indexOf(b);
 
-type Memory = ValueOf<typeof memories>;
+type Memory = SetRequired<
+  Partial<ValueOf<typeof memories>>,
+  "name" | "rarity" | "traveler"
+>;
 
 export const compareMemories = (a: Memory, b: Memory) =>
   compareRarities(a.rarity, b.rarity) ||

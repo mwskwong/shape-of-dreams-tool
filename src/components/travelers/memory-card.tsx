@@ -9,7 +9,8 @@ import { type FC, useState } from "react";
 
 import { ItemCardContent } from "../item-card";
 
-export interface MemoryCardProps extends Omit<CardProps, "children"> {
+export interface MemoryCardProps
+  extends Omit<CardProps, "asChild" | "children"> {
   name: string;
   cooldownTime?: number;
   maxCharges?: number;
@@ -32,12 +33,13 @@ export const MemoryCard: FC<MemoryCardProps> = ({
   image,
   unlockBy,
   mutuallyExclusive = [],
+  ...props
 }) => {
   const [expand, setExpand] = useState(false);
 
   return (
     <>
-      <Card asChild variant="ghost">
+      <Card asChild variant="ghost" {...props}>
         <button onClick={() => setExpand((prev) => !prev)}>
           <Flex gap="3">
             <Image

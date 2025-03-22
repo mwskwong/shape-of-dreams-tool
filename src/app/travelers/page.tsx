@@ -42,18 +42,24 @@ const Travelers: FC = () => {
       {Object.entries(travelers).map(([key, traveler]) => {
         const travelerMemories = Object.values(memories)
           .filter((memory) => memory.traveler === key)
-          .map((memory) => ({
-            ...memory,
-            mutuallyExclusive: Object.values(memories)
-              .filter(
-                ({ name, traveler, travelerMemoryLocation }) =>
-                  name !== memory.name &&
-                  traveler &&
-                  traveler === memory.traveler &&
-                  travelerMemoryLocation === memory.travelerMemoryLocation,
-              )
-              .map(({ name }) => name),
-          }))
+          .map(
+            ({
+              addedCharges,
+              travelerMemoryLocation: _travelerMemoryLocation,
+              ...memory
+            }) => ({
+              ...memory,
+              mutuallyExclusive: Object.values(memories)
+                .filter(
+                  ({ name, traveler, travelerMemoryLocation }) =>
+                    name !== memory.name &&
+                    traveler &&
+                    traveler === memory.traveler &&
+                    travelerMemoryLocation === _travelerMemoryLocation,
+                )
+                .map(({ name }) => name),
+            }),
+          )
           .toSorted((a, b) => compareMemories(a, b));
         return (
           <TravelerCard
