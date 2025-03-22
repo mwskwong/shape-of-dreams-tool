@@ -12,20 +12,14 @@ import { type FC } from "react";
 import { CheckboxGroupSelect } from "@/components/checkbox-group-select";
 import { searchParams } from "@/lib/utils";
 
-import styles from "./toolbar.module.css";
+import styles from "./essences-toolbar.module.css";
 
-export interface ToolbarProps extends Omit<FlexProps, "children"> {
+export interface EssencesToolbarProps extends Omit<FlexProps, "children"> {
   allRarities?: string[];
-  allTypes?: string[];
-  allTravelers?: string[];
-  allTags?: string[];
 }
 
-export const Toolbar: FC<ToolbarProps> = ({
+export const EssencesToolbar: FC<EssencesToolbarProps> = ({
   allRarities = [],
-  allTypes = [],
-  allTravelers = [],
-  allTags = [],
   ...props
 }) => {
   const [search, setSearch] = useQueryState("search", searchParams.search);
@@ -33,12 +27,6 @@ export const Toolbar: FC<ToolbarProps> = ({
     "rarities",
     searchParams.rarities,
   );
-  const [types, setTypes] = useQueryState("types", searchParams.types);
-  const [travelers, setTravelers] = useQueryState(
-    "travelers",
-    searchParams.travelers,
-  );
-  const [tags, setTags] = useQueryState("tags", searchParams.tags);
 
   return (
     <Flex align="center" gap="3" wrap="wrap" {...props}>
@@ -62,38 +50,6 @@ export const Toolbar: FC<ToolbarProps> = ({
         Rarity
         {rarities.length > 0 && <Badge color="indigo">{rarities.length}</Badge>}
       </CheckboxGroupSelect>
-      <CheckboxGroupSelect
-        options={allTypes.map((type) => ({ value: type }))}
-        value={types}
-        onReset={() => setTypes([])}
-        onValueChange={setTypes}
-      >
-        Type
-        {types.length > 0 && <Badge color="indigo">{types.length}</Badge>}
-      </CheckboxGroupSelect>
-      <CheckboxGroupSelect
-        value={travelers}
-        options={allTravelers.map((traveler) => ({
-          value: traveler,
-          label: traveler.replace("Hero_", ""),
-        }))}
-        onReset={() => setTravelers([])}
-        onValueChange={setTravelers}
-      >
-        Traveler
-        {travelers.length > 0 && (
-          <Badge color="indigo">{travelers.length}</Badge>
-        )}
-      </CheckboxGroupSelect>
-      <CheckboxGroupSelect
-        options={allTags.map((tag) => ({ value: tag }))}
-        value={tags}
-        onReset={() => setTags([])}
-        onValueChange={setTags}
-      >
-        Tag
-        {tags.length > 0 && <Badge color="indigo">{tags.length}</Badge>}
-      </CheckboxGroupSelect>
       <Separator orientation="vertical" size="2" />
       <Button
         color="gray"
@@ -101,9 +57,6 @@ export const Toolbar: FC<ToolbarProps> = ({
         onClick={() => {
           void setSearch("");
           void setRarities([]);
-          void setTypes([]);
-          void setTravelers([]);
-          void setTags([]);
         }}
       >
         Reset

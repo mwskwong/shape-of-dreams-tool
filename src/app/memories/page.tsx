@@ -5,9 +5,12 @@ import { type SearchParams } from "nuqs/server";
 import { type FC } from "react";
 
 import { ItemCard } from "@/components/item-card";
-import { Legend } from "@/components/legend";
-import { Toolbar } from "@/components/memories/toolbar";
-import { compareRarities, loadSearchParams } from "@/lib/utils";
+import { MemoriesToolbar } from "@/components/memories/memories-toolbar";
+import {
+  compareMemories,
+  compareRarities,
+  loadSearchParams,
+} from "@/lib/utils";
 import memories from "@public/data/memories.json";
 
 const allRarities = [
@@ -36,21 +39,15 @@ const Memories: FC<MemoriesProps> = async ({ searchParams }) => {
 
   return (
     <Flex direction="column" gap="3" pt="3">
-      <Toolbar
+      <MemoriesToolbar
         allRarities={allRarities}
         allTags={allTags}
         allTravelers={allTravelers}
         allTypes={allTypes}
       />
-      <Legend />
       <Grid columns={{ initial: "1", sm: "2", md: "3" }} gap="3">
         {Object.entries(memories)
-          .toSorted(
-            ([, a], [, b]) =>
-              compareRarities(a.rarity, b.rarity) ||
-              a.traveler.localeCompare(b.traveler) ||
-              a.name.localeCompare(b.name),
-          )
+          .toSorted(([, a], [, b]) => compareMemories(a, b))
           .filter(
             ([
               ,
@@ -68,16 +65,42 @@ const Memories: FC<MemoriesProps> = async ({ searchParams }) => {
                 name.toLowerCase().includes(search.toLowerCase()) ||
                 description.toLowerCase().includes(search.toLowerCase()) ||
                 shortDescription
-                  ?.toLowerCase()
+                  .toLowerCase()
                   .includes(search.toLowerCase())) &&
               (rarities.length === 0 || rarities.includes(rarity)) &&
               (types.length === 0 || types.includes(type)) &&
               (travelers.length === 0 || travelers.includes(traveler)) &&
               tags.every((tag) => (_tags as string[]).includes(tag)),
           )
-          .map(([key, memory]) => (
-            <ItemCard key={key} {...memory} />
-          ))}
+          .map(
+            ([
+              key,
+              {
+                addedCharges,
+                shortDescription,
+                travelerMemoryLocation: _travelerMemoryLocation,
+                ...memory
+              },
+            ]) => {
+              const mutuallyExclusive = Object.values(memories)
+                .filter(
+                  ({ name, traveler, travelerMemoryLocation }) =>
+                    name !== memory.name &&
+                    traveler &&
+                    traveler === memory.traveler &&
+                    travelerMemoryLocation === _travelerMemoryLocation,
+                )
+                .map(({ name }) => name);
+
+              return (
+                <ItemCard
+                  key={key}
+                  {...memory}
+                  mutuallyExclusive={mutuallyExclusive}
+                />
+              );
+            },
+          )}
       </Grid>
     </Flex>
   );

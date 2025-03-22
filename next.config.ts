@@ -65,7 +65,7 @@ const config = {
   redirects: async () => [
     {
       source: "/",
-      destination: "/memories",
+      destination: "/travelers",
       permanent: false,
     },
   ],
