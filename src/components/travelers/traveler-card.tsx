@@ -3,13 +3,11 @@
 import { Box } from "@radix-ui/themes/components/box";
 import { Card, type CardProps } from "@radix-ui/themes/components/card";
 import { Flex } from "@radix-ui/themes/components/flex";
-import {
-  Heading,
-  type HeadingProps,
-} from "@radix-ui/themes/components/heading";
+import { Heading } from "@radix-ui/themes/components/heading";
 import { Inset } from "@radix-ui/themes/components/inset";
 import * as Tabs from "@radix-ui/themes/components/tabs";
 import { Text } from "@radix-ui/themes/components/text";
+import { Theme, type ThemeProps } from "@radix-ui/themes/components/theme";
 import { Tooltip } from "@radix-ui/themes/components/tooltip";
 import Image from "next/image";
 import { type FC } from "react";
@@ -18,7 +16,7 @@ import { MemoryCard } from "./memory-card";
 import styles from "./traveler-card.module.css";
 
 export interface TravelerCardProps extends Omit<CardProps, "children"> {
-  color: HeadingProps["color"];
+  color: ThemeProps["accentColor"];
   name: string;
   class: string;
   health: number;
@@ -51,7 +49,7 @@ export interface TravelerCardProps extends Omit<CardProps, "children"> {
 }
 
 export const TravelerCard: FC<TravelerCardProps> = ({
-  color = "indigo",
+  color,
   name,
   class: travelerClass,
   health,
@@ -64,6 +62,7 @@ export const TravelerCard: FC<TravelerCardProps> = ({
   unlockBy,
   image,
   memories = [],
+  ...props
 }) => {
   const stats = [
     {
@@ -98,83 +97,85 @@ export const TravelerCard: FC<TravelerCardProps> = ({
   ].filter(Boolean);
 
   return (
-    <Card>
-      <Flex align="center" direction="column" gap="3">
-        <Image
-          alt={name}
-          className="rt-AvatarRoot rt-r-size-8"
-          height={128}
-          src={`/images/${image}`}
-          width={128}
-        />
-        <Heading as="h2" color={color} size="5">
-          {name}
-        </Heading>
+    <Card {...props}>
+      <Theme accentColor={color}>
+        <Flex align="center" direction="column" gap="3">
+          <Image
+            alt={name}
+            className="rt-AvatarRoot rt-r-size-8"
+            height={128}
+            src={`/images/${image}`}
+            width={128}
+          />
+          <Heading as="h2" data-accent-color="" size="5">
+            {name}
+          </Heading>
 
-        <Tabs.Root className={styles.tabRoot} defaultValue="stats">
-          <Tabs.List color={color}>
-            <Tabs.Trigger value="stats">Stats</Tabs.Trigger>
-            <Tabs.Trigger value="memories">Memories</Tabs.Trigger>
-          </Tabs.List>
+          <Tabs.Root className={styles.tabRoot} defaultValue="stats">
+            <Tabs.List>
+              <Tabs.Trigger value="stats">Stats</Tabs.Trigger>
+              <Tabs.Trigger value="memories">Memories</Tabs.Trigger>
+            </Tabs.List>
 
-          <Box pt="3">
-            <Tabs.Content asChild value="stats">
-              <Flex direction="column" gap="3">
-                <Text align="center" as="p">
-                  {travelerClass}
-                </Text>
-                <Flex gap="3" justify="center" wrap="wrap">
-                  {stats.map(({ image, name, value, statGrowth }) => (
-                    <Card key={name} className={styles.stat}>
-                      <Tooltip content={name}>
-                        <Flex align="center" direction="column" gap="2">
-                          <Image
-                            alt={name}
-                            className={styles.sprite}
-                            height={24}
-                            src={image}
-                            width={24}
-                          />
-                          <Text>{value}</Text>
-                        </Flex>
-                      </Tooltip>
-                      <Tooltip content="Stat growth / lv">
-                        <Inset mt="2" side="bottom">
-                          <Text
-                            align="center"
-                            as="div"
-                            className={styles.statGrowth}
-                            color="gray"
-                            size="1"
-                          >
-                            {statGrowth ?? "-"}
-                          </Text>
-                        </Inset>
-                      </Tooltip>
-                    </Card>
+            <Box pt="3">
+              <Tabs.Content asChild value="stats">
+                <Flex direction="column" gap="3">
+                  <Text align="center" as="p">
+                    {travelerClass}
+                  </Text>
+                  <Flex gap="3" justify="center" wrap="wrap">
+                    {stats.map(({ image, name, value, statGrowth }) => (
+                      <Card key={name} className={styles.stat}>
+                        <Tooltip content={name}>
+                          <Flex align="center" direction="column" gap="2">
+                            <Image
+                              alt={name}
+                              className={styles.sprite}
+                              height={24}
+                              src={image}
+                              width={24}
+                            />
+                            <Text>{value}</Text>
+                          </Flex>
+                        </Tooltip>
+                        <Tooltip content="Stat growth / lv">
+                          <Inset mt="2" side="bottom">
+                            <Text
+                              align="center"
+                              as="div"
+                              className={styles.statGrowth}
+                              color="gray"
+                              size="1"
+                            >
+                              {statGrowth ?? "-"}
+                            </Text>
+                          </Inset>
+                        </Tooltip>
+                      </Card>
+                    ))}
+                  </Flex>
+                  {unlockBy && (
+                    <Text as="p" className={styles.paragraph} color="gray">
+                      Unlock by: {unlockBy}
+                    </Text>
+                  )}
+                  <Text as="p" className={styles.paragraph}>
+                    {description}
+                  </Text>
+                </Flex>
+              </Tabs.Content>
+
+              <Tabs.Content asChild value="memories">
+                <Flex direction="column" gap="3">
+                  {memories.map((memory) => (
+                    <MemoryCard key={memory.name} {...memory} />
                   ))}
                 </Flex>
-                {unlockBy && (
-                  <Text as="p" className={styles.paragraph} color="gray">
-                    Unlock by: {unlockBy}
-                  </Text>
-                )}
-                <Text as="p" className={styles.paragraph}>
-                  {description}
-                </Text>
-              </Flex>
-            </Tabs.Content>
-
-            <Tabs.Content asChild value="memories">
-              <Flex direction="column" gap="3">
-                {memories.map((memory) => (
-                  <MemoryCard key={memory.name} {...memory} />
-                ))}
-              </Flex>
-            </Tabs.Content>
-          </Box>
-        </Tabs.Root>
-      </Flex>
+              </Tabs.Content>
+            </Box>
+          </Tabs.Root>
+        </Flex>
+      </Theme>
     </Card>
   );
 };
