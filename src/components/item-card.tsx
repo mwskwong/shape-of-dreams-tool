@@ -12,6 +12,7 @@ import { Card, type CardProps } from "@radix-ui/themes/components/card";
 import { Flex } from "@radix-ui/themes/components/flex";
 import { Heading } from "@radix-ui/themes/components/heading";
 import { Text } from "@radix-ui/themes/components/text";
+import { Tooltip } from "@radix-ui/themes/components/tooltip";
 import parse, { Element } from "html-react-parser";
 import Image from "next/image";
 import { type FC, Fragment } from "react";
@@ -24,9 +25,7 @@ export interface ItemCardProps extends Omit<CardProps, "children"> {
   name: string;
   cooldownTime?: number;
   maxCharges?: number;
-  addedCharges?: number;
   description: string;
-  shortDescription?: string | null;
   rarity: string;
   type?: string;
   traveler?: string;
@@ -188,15 +187,22 @@ export const ItemCardContent: FC<ItemCardContentProps> = ({
             replace: (domNode) => {
               if (domNode instanceof Element && domNode.name === "img") {
                 return (
-                  <Image
-                    className={styles.sprite}
-                    height={16}
-                    src={domNode.attribs.src}
-                    width={16}
-                    alt={
-                      spriteNames[Number(domNode.attribs["data-sprite"])] ?? ""
+                  <Tooltip
+                    content={
+                      spriteNames[Number(domNode.attribs["data-sprite"])]
                     }
-                  />
+                  >
+                    <Image
+                      className={styles.sprite}
+                      height={16}
+                      src={domNode.attribs.src}
+                      width={16}
+                      alt={
+                        spriteNames[Number(domNode.attribs["data-sprite"])] ??
+                        ""
+                      }
+                    />
+                  </Tooltip>
                 );
               }
             },

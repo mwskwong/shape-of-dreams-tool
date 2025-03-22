@@ -5,7 +5,6 @@ import { type SearchParams } from "nuqs/server";
 import { type FC } from "react";
 
 import { ItemCard } from "@/components/item-card";
-import { Legend } from "@/components/legend";
 import { Toolbar } from "@/components/memories/toolbar";
 import {
   compareMemories,
@@ -46,7 +45,6 @@ const Memories: FC<MemoriesProps> = async ({ searchParams }) => {
         allTravelers={allTravelers}
         allTypes={allTypes}
       />
-      <Legend />
       <Grid columns={{ initial: "1", sm: "2", md: "3" }} gap="3">
         {Object.entries(memories)
           .toSorted(([, a], [, b]) => compareMemories(a, b))
