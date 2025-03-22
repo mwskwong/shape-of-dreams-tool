@@ -170,7 +170,7 @@ export const TravelerCard: FC<TravelerCardProps> = ({
                           <Flex align="center" direction="column" gap="2">
                             <Image
                               alt={name}
-                              className={styles.sprite}
+                              className={styles.icon}
                               height={24}
                               src={image}
                               width={24}
