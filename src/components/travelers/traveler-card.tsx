@@ -127,7 +127,7 @@ export const TravelerCard: FC<TravelerCardProps> = ({
                   {stats.map(({ image, name, value, statGrowth }) => (
                     <Card key={name} className={styles.stat}>
                       <Tooltip content={name}>
-                        <Flex align="center" direction="column" gap="2" pb="2">
+                        <Flex align="center" direction="column" gap="2">
                           <Image
                             alt={name}
                             className={styles.sprite}
@@ -139,8 +139,14 @@ export const TravelerCard: FC<TravelerCardProps> = ({
                         </Flex>
                       </Tooltip>
                       <Tooltip content="Stat growth / lv">
-                        <Inset className={styles.statGrowth} side="bottom">
-                          <Text align="center" as="div" color="gray" size="1">
+                        <Inset mt="2" side="bottom">
+                          <Text
+                            align="center"
+                            as="div"
+                            className={styles.statGrowth}
+                            color="gray"
+                            size="1"
+                          >
                             {statGrowth ?? "-"}
                           </Text>
                         </Inset>

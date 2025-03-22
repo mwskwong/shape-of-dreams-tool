@@ -3,13 +3,13 @@
 }
 
 .stat {
+  --card-padding: var(--space-2);
+
   min-width: 52px;
-  padding: var(--space-2);
 }
 
 .statGrowth {
   padding: var(--space-1);
-  padding-bottom: var(--space-2);
   background-color: var(--card-background-color);
 }
 
