@@ -7,16 +7,16 @@ import { type FC } from "react";
 
 const paths = [
   {
+    name: "Travelers",
+    href: "/travelers",
+  },
+  {
     name: "Memories",
     href: "/memories",
   },
   {
     name: "Essences",
     href: "/essences",
-  },
-  {
-    name: "Travelers",
-    href: "/travelers",
   },
 ];
 
