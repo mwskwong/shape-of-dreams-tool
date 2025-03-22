@@ -1,3 +1,4 @@
 .sprite {
   display: inline-block;
+  object-fit: cover;
 }
