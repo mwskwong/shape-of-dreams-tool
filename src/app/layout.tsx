@@ -62,7 +62,6 @@ const RootLayout: FC<PropsWithChildren> = ({ children }) => (
                 Shun. Images and data copyright Lizard Smoothie Co., Ltd. Used
                 under license.{" "}
                 <Link
-                  color="indigo"
                   href="https://github.com/mwskwong/shape-of-dreams-tool/blob/main/LICENSE"
                   rel="noreferrer"
                   target="_blank"
