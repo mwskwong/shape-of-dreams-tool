@@ -50,7 +50,7 @@ export const MemoryCard: FC<MemoryCardProps> = ({
               width={48}
             />
             <div>
-              <Heading as="h3" size="3">
+              <Heading as="h3" size="4">
                 {name}
               </Heading>
               <Text as="p" color="gray">

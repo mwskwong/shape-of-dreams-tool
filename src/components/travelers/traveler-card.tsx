@@ -107,7 +107,7 @@ export const TravelerCard: FC<TravelerCardProps> = ({
             src={`/images/${image}`}
             width={128}
           />
-          <Heading as="h2" data-accent-color="" size="5">
+          <Heading as="h2" data-accent-color="" size="6">
             {name}
           </Heading>
 
