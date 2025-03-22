@@ -5,7 +5,7 @@ import { type SearchParams } from "nuqs/server";
 import { type FC } from "react";
 
 import { ItemCard } from "@/components/item-card";
-import { Toolbar } from "@/components/memories/toolbar";
+import { MemoriesToolbar } from "@/components/memories/memories-toolbar";
 import {
   compareMemories,
   compareRarities,
@@ -39,7 +39,7 @@ const Memories: FC<MemoriesProps> = async ({ searchParams }) => {
 
   return (
     <Flex direction="column" gap="3" pt="3">
-      <Toolbar
+      <MemoriesToolbar
         allRarities={allRarities}
         allTags={allTags}
         allTravelers={allTravelers}

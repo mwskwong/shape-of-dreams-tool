@@ -4,7 +4,7 @@ import { type Metadata } from "next";
 import { type SearchParams } from "nuqs/server";
 import { type FC } from "react";
 
-import { Toolbar } from "@/components/essences/toolbar";
+import { EssencesToolbar } from "@/components/essences/essences-toolbar";
 import { ItemCard } from "@/components/item-card";
 import { compareRarities, loadSearchParams } from "@/lib/utils";
 import essences from "@public/data/essences.json";
@@ -22,7 +22,7 @@ const Memories: FC<MemoriesProps> = async ({ searchParams }) => {
 
   return (
     <Flex direction="column" gap="3" pt="3">
-      <Toolbar allRarities={allRarities} />
+      <EssencesToolbar allRarities={allRarities} />
       <Grid columns={{ initial: "1", sm: "2", md: "3" }} gap="3">
         {Object.entries(essences)
           .toSorted(
