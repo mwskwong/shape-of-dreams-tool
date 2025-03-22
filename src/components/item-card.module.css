@@ -1,4 +1,5 @@
 .sprite {
   display: inline-block;
-  object-fit: cover;
+  width: auto;
+  height: 16px;
 }

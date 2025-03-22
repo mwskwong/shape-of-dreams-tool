@@ -130,9 +130,10 @@ export const TravelerCard: FC<TravelerCardProps> = ({
                         <Flex align="center" direction="column" gap="2" pb="2">
                           <Image
                             alt={name}
-                            height={20}
+                            className={styles.sprite}
+                            height={24}
                             src={image}
-                            width={20}
+                            width={24}
                           />
                           <Text>{value}</Text>
                         </Flex>

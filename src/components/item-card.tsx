@@ -194,9 +194,9 @@ export const ItemCardContent: FC<ItemCardContentProps> = ({
                   >
                     <Image
                       className={styles.sprite}
-                      height={16}
+                      height={20}
                       src={domNode.attribs.src}
-                      width={16}
+                      width={20}
                       alt={
                         spriteNames[Number(domNode.attribs["data-sprite"])] ??
                         ""
