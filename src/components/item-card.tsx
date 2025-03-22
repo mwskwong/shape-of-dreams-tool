@@ -186,21 +186,16 @@ export const ItemCardContent: FC<ItemCardContentProps> = ({
           {
             replace: (domNode) => {
               if (domNode instanceof Element && domNode.name === "img") {
+                const spriteName =
+                  spriteNames[Number(domNode.attribs["data-sprite"])] ?? "";
                 return (
-                  <Tooltip
-                    content={
-                      spriteNames[Number(domNode.attribs["data-sprite"])]
-                    }
-                  >
+                  <Tooltip content={spriteName}>
                     <Image
+                      alt={spriteName}
                       className={styles.sprite}
                       height={20}
                       src={domNode.attribs.src}
                       width={20}
-                      alt={
-                        spriteNames[Number(domNode.attribs["data-sprite"])] ??
-                        ""
-                      }
                     />
                   </Tooltip>
                 );
