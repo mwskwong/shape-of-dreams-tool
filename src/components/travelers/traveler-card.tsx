@@ -125,8 +125,8 @@ export const TravelerCard: FC<TravelerCardProps> = ({
   const classIcon = getClassIcon(travelerClass);
 
   return (
-    <Card {...props}>
-      <Theme accentColor={color}>
+    <Theme accentColor={color}>
+      <Card {...props}>
         <Flex align="center" direction="column" gap="3">
           <Image
             alt={name}
@@ -246,7 +246,7 @@ export const TravelerCard: FC<TravelerCardProps> = ({
             </Box>
           </Tabs.Root>
         </Flex>
-      </Theme>
-    </Card>
+      </Card>
+    </Theme>
   );
 };
