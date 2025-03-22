@@ -49,7 +49,7 @@ const RootLayout: FC<PropsWithChildren> = ({ children }) => (
       <Theme appearance="dark">
         <Container>
           <Section>
-            <Heading mb="9" size="8" wrap="balance">
+            <Heading mb="9" size="8" wrap="pretty">
               Shape of Dreams Tool
             </Heading>
             <Nav />

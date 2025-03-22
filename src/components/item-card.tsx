@@ -163,7 +163,7 @@ export const ItemCardContent: FC<ItemCardContentProps> = ({
         </Text>
       )}
       {unlockBy && (
-        <Text as="p" color="gray">
+        <Text as="p" color="gray" wrap="pretty">
           Unlock by: {unlockBy}
         </Text>
       )}
@@ -177,7 +177,7 @@ export const ItemDescription: FC<ItemDescriptionProps> = ({
   children,
   ...props
 }) => (
-  <Text as="p" {...props}>
+  <Text as="p" wrap="pretty" {...props}>
     {typeof children === "string"
       ? parse(
           children

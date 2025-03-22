@@ -53,7 +53,7 @@ export const MemoryCard: FC<MemoryCardProps> = ({
               <Heading as="h3" size="4">
                 {name}
               </Heading>
-              <Text as="p" color="gray">
+              <Text as="p" color="gray" wrap="pretty">
                 {shortDescription}
               </Text>
             </div>

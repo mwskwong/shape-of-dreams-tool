@@ -150,7 +150,7 @@ export const TravelerCard: FC<TravelerCardProps> = ({
               <Tabs.Content asChild value="stats">
                 <Flex direction="column" gap="3">
                   <Flex asChild align="center" justify="center">
-                    <Text as="p">
+                    <Text as="div">
                       {classIcon && (
                         <Image
                           alt={travelerClass}
@@ -199,7 +199,7 @@ export const TravelerCard: FC<TravelerCardProps> = ({
                       Unlock by: {unlockBy}
                     </Text>
                   )}
-                  <Text as="p" className={styles.paragraph}>
+                  <Text as="p" className={styles.paragraph} wrap="pretty">
                     {description}
                   </Text>
                 </Flex>
