@@ -149,18 +149,20 @@ export const TravelerCard: FC<TravelerCardProps> = ({
             <Box pt="3">
               <Tabs.Content asChild value="stats">
                 <Flex direction="column" gap="3">
-                  <Text align="center" as="p">
-                    {classIcon && (
-                      <Image
-                        alt={travelerClass}
-                        className={styles.classIcon}
-                        height={16}
-                        src={classIcon}
-                        width={16}
-                      />
-                    )}
-                    {travelerClass}
-                  </Text>
+                  <Flex asChild align="center" justify="center">
+                    <Text as="p">
+                      {classIcon && (
+                        <Image
+                          alt={travelerClass}
+                          className={styles.classIcon}
+                          height={18}
+                          src={classIcon}
+                          width={18}
+                        />
+                      )}
+                      {travelerClass}
+                    </Text>
+                  </Flex>
                   <Flex gap="3" justify="center" wrap="wrap">
                     {stats.map(({ image, name, value, statGrowth }) => (
                       <Card key={name} className={styles.stat}>
