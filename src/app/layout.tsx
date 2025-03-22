@@ -1,8 +1,11 @@
 import "./globals.css";
 
+import { Box } from "@radix-ui/themes/components/box";
 import { Container } from "@radix-ui/themes/components/container";
 import { Heading } from "@radix-ui/themes/components/heading";
+import { Link } from "@radix-ui/themes/components/link";
 import { Section } from "@radix-ui/themes/components/section";
+import { Text } from "@radix-ui/themes/components/text";
 import { Theme } from "@radix-ui/themes/components/theme";
 import { clsx } from "clsx";
 import { type Metadata } from "next";
@@ -11,6 +14,9 @@ import { NuqsAdapter } from "nuqs/adapters/next/app";
 import { type FC, type PropsWithChildren } from "react";
 
 import Nav from "@/components/nav";
+
+import styles from "./root-layout.module.css";
+
 const geist = Geist({
   variable: "--font-geist",
   subsets: ["latin"],
@@ -43,12 +49,30 @@ const RootLayout: FC<PropsWithChildren> = ({ children }) => (
       <Theme appearance="dark">
         <Container>
           <Section>
-            <Heading mb="5" size="8">
+            <Heading mb="9" size="8" wrap="balance">
               Shape of Dreams Tool
             </Heading>
             <Nav />
             <NuqsAdapter>{children}</NuqsAdapter>
           </Section>
+          <Box asChild mb="9">
+            <footer>
+              <Text as="p" className={styles.copyright} color="gray" size="2">
+                Copyright © {new Date().getFullYear()} KWONG, Matthew Wang
+                Shun. Images and data copyright Lizard Smoothie Co., Ltd. Used
+                under license.{" "}
+                <Link
+                  color="indigo"
+                  href="https://github.com/mwskwong/shape-of-dreams-tool/blob/main/LICENSE"
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  View licenses for code and resources
+                </Link>
+                .
+              </Text>
+            </footer>
+          </Box>
         </Container>
       </Theme>
     </body>
