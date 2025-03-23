@@ -7,7 +7,7 @@ import { type FC, type MouseEventHandler, type PropsWithChildren } from "react";
 export interface CheckboxGroupSelectProps
   extends PropsWithChildren,
     Omit<CheckboxGroup.RootProps, "onReset"> {
-  options?: { value: string; label?: string }[];
+  options?: { value: string; name?: string }[];
   onReset?: MouseEventHandler<HTMLButtonElement>;
 }
 
@@ -27,9 +27,9 @@ export const CheckboxGroupSelect: FC<CheckboxGroupSelectProps> = ({
       </Popover.Trigger>
       <Popover.Content minWidth="150px">
         <CheckboxGroup.Root {...props}>
-          {options.map(({ value, label }) => (
+          {options.map(({ value, name }) => (
             <CheckboxGroup.Item key={value} value={value}>
-              {label ?? value}
+              {name ?? value}
             </CheckboxGroup.Item>
           ))}
         </CheckboxGroup.Root>

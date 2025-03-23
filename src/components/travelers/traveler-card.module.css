@@ -1,0 +1,71 @@
+.card {
+  height: 100%;
+}
+
+.tabRoot {
+  width: 100%;
+}
+
+.classIcon {
+  display: inline-block;
+  margin-right: var(--space-2);
+}
+
+.stat {
+  --card-padding: var(--space-2);
+
+  min-width: 52px;
+}
+
+.statGrowth {
+  padding: var(--space-1);
+  background-color: var(--card-background-color);
+}
+
+.paragraph {
+  align-self: flex-start;
+}
+
+.icon {
+  width: auto;
+  height: 20px;
+}
+
+/* Using https://angel-rs.github.io/css-color-filter-generator/. Based on color 11 of the corresponding palette */
+
+.constellationFilterOrange {
+  filter: brightness(0) saturate(100%) invert(62%) sepia(80%) saturate(419%)
+    hue-rotate(333deg) brightness(102%) contrast(101%);
+}
+
+.constellationFilterMint {
+  filter: brightness(0) saturate(100%) invert(81%) sepia(50%) saturate(436%)
+    hue-rotate(106deg) brightness(86%) contrast(92%);
+}
+
+.constellationFilterRuby {
+  filter: brightness(0) saturate(100%) invert(66%) sepia(24%) saturate(1060%)
+    hue-rotate(308deg) brightness(104%) contrast(105%);
+}
+
+.constellationFilterAmber {
+  filter: brightness(0) saturate(100%) invert(78%) sepia(45%) saturate(863%)
+    hue-rotate(346deg) brightness(104%) contrast(101%);
+}
+
+.constellationFilterYellow {
+  filter: brightness(0) saturate(100%) invert(95%) sepia(11%) saturate(2387%)
+    hue-rotate(355deg) brightness(94%) contrast(105%);
+}
+
+/* color picked from game UI */
+
+.critIcon {
+  filter: brightness(0) saturate(100%) invert(48%) sepia(50%) saturate(3783%)
+    hue-rotate(335deg) brightness(101%) contrast(99%);
+}
+
+.movementSpeedIcon {
+  filter: brightness(0) saturate(100%) invert(89%) sepia(3%) saturate(5616%)
+    hue-rotate(178deg) brightness(116%) contrast(99%);
+}
