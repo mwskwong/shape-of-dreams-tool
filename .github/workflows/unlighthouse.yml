@@ -1,5 +1,7 @@
 name: Unlighthouse
 on: deployment_status
+permissions:
+  contents: read
 
 jobs:
   unlighthouse:
