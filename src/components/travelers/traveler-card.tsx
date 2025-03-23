@@ -1,5 +1,3 @@
-"use client";
-
 import { Box } from "@radix-ui/themes/components/box";
 import { Card, type CardProps } from "@radix-ui/themes/components/card";
 import { Flex } from "@radix-ui/themes/components/flex";
@@ -258,7 +256,7 @@ export const TravelerCard: FC<TravelerCardProps> = ({
                       align="center"
                       as="p"
                       color="gray"
-                      m="9"
+                      my="9"
                       wrap="pretty"
                     >
                       Coming Soon
@@ -266,20 +264,18 @@ export const TravelerCard: FC<TravelerCardProps> = ({
                   ) : (
                     constellations.map(({ name, description, image }) => (
                       <Flex key={name} gap="3">
-                        {
-                          <Image
-                            alt={name}
-                            height={48}
-                            src={`/images/${image}`}
-                            width={48}
-                            className={
-                              color &&
-                              styles[
-                                `constellationFilter${color.charAt(0).toUpperCase() + color.slice(1)}`
-                              ]
-                            }
-                          />
-                        }
+                        <Image
+                          alt={name}
+                          height={48}
+                          src={`/images/${image}`}
+                          width={48}
+                          className={
+                            color &&
+                            styles[
+                              `constellationFilter${color.charAt(0).toUpperCase() + color.slice(1)}`
+                            ]
+                          }
+                        />
                         <div>
                           <Heading as="h3" size="4">
                             {name}
