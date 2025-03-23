@@ -42,17 +42,21 @@ export interface TravelerCardProps extends Omit<CardProps, "children"> {
   name: string;
   class: string;
   health: number;
+  armor: number;
   attackDamage: number;
   abilityPower: number;
   attackSpeed: number;
-  armor: number;
+  memoryHaste: number;
+  criticalStrikeChance: number;
   movementSpeed: number;
   statsGrowthPerLv: {
     health?: string;
+    armor?: string;
     attackDamage?: string;
     attackSpeed?: string;
     abilityPower?: string;
-    armor?: string;
+    memoryHaste?: string;
+    criticalStrikeChance?: string;
     movementSpeed?: string;
   };
   description: string;
@@ -83,10 +87,12 @@ export const TravelerCard: FC<TravelerCardProps> = ({
   name,
   class: travelerClass,
   health,
+  armor,
   attackDamage,
   abilityPower,
   attackSpeed,
-  armor,
+  memoryHaste,
+  criticalStrikeChance,
   movementSpeed,
   statsGrowthPerLv,
   description,
@@ -102,6 +108,12 @@ export const TravelerCard: FC<TravelerCardProps> = ({
       name: "Health",
       value: health,
       statGrowth: statsGrowthPerLv.health,
+    },
+    {
+      image: "/images/5.png",
+      name: "Armor",
+      value: armor,
+      statGrowth: statsGrowthPerLv.armor,
     },
     {
       image: "/images/2.png",
@@ -122,9 +134,15 @@ export const TravelerCard: FC<TravelerCardProps> = ({
     },
     {
       image: "/images/5.png",
-      name: "Armor",
-      value: armor,
-      statGrowth: statsGrowthPerLv.armor,
+      name: "Memory Haste",
+      value: memoryHaste,
+      statGrowth: statsGrowthPerLv.memoryHaste,
+    },
+    {
+      image: "/images/5.png",
+      name: "Critical Strike Chance",
+      value: criticalStrikeChance,
+      statGrowth: statsGrowthPerLv.criticalStrikeChance,
     },
     {
       image: "/images/5.png",
@@ -175,7 +193,7 @@ export const TravelerCard: FC<TravelerCardProps> = ({
                       {travelerClass}
                     </Text>
                   </Flex>
-                  <Grid columns="3" gap="3">
+                  <Grid columns="4" gap="3">
                     {stats.map(({ image, name, value, statGrowth }) => (
                       <Tooltip key={name} content={name}>
                         <Card className={styles.stat}>
@@ -198,7 +216,7 @@ export const TravelerCard: FC<TravelerCardProps> = ({
                               color="gray"
                               size="1"
                             >
-                              {statGrowth ? `${statGrowth} / level` : "-"}
+                              {statGrowth ? `${statGrowth} / lv` : "-"}
                             </Text>
                           </Inset>
                         </Card>
