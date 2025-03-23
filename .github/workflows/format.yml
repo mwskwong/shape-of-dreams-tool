@@ -1,5 +1,7 @@
 name: Format Code
 on: push
+permissions:
+  contents: read
 
 jobs:
   format:
