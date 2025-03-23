@@ -139,16 +139,18 @@ export const TravelerCard: FC<TravelerCardProps> = ({
       statGrowth: statsGrowthPerLv.memoryHaste,
     },
     {
-      image: "/images/5.png",
+      image: "/images/texCrit.png",
       name: "Critical Strike Chance",
       value: criticalStrikeChance,
       statGrowth: statsGrowthPerLv.criticalStrikeChance,
+      iconClassName: styles.critIcon,
     },
     {
-      image: "/images/5.png",
+      image: "/images/texMovement.png",
       name: "Movement Speed",
       value: movementSpeed,
       statGrowth: statsGrowthPerLv.movementSpeed,
+      iconClassName: styles.movementSpeedIcon,
     },
   ].filter(Boolean);
 
@@ -194,34 +196,36 @@ export const TravelerCard: FC<TravelerCardProps> = ({
                     </Text>
                   </Flex>
                   <Grid columns="4" gap="3">
-                    {stats.map(({ image, name, value, statGrowth }) => (
-                      <Tooltip key={name} content={name}>
-                        <Card className={styles.stat}>
-                          <Flex align="center" direction="column" gap="2">
-                            <Image
-                              alt={name}
-                              className={styles.icon}
-                              height={24}
-                              src={image}
-                              width={24}
-                            />
-                            <Text>{value}</Text>
-                          </Flex>
+                    {stats.map(
+                      ({ image, name, value, statGrowth, iconClassName }) => (
+                        <Tooltip key={name} content={name}>
+                          <Card className={styles.stat}>
+                            <Flex align="center" direction="column" gap="2">
+                              <Image
+                                alt={name}
+                                className={clsx(styles.icon, iconClassName)}
+                                height={24}
+                                src={image}
+                                width={24}
+                              />
+                              <Text>{value}</Text>
+                            </Flex>
 
-                          <Inset mt="2" side="bottom">
-                            <Text
-                              align="center"
-                              as="div"
-                              className={styles.statGrowth}
-                              color="gray"
-                              size="1"
-                            >
-                              {statGrowth ? `${statGrowth} / lv` : "-"}
-                            </Text>
-                          </Inset>
-                        </Card>
-                      </Tooltip>
-                    ))}
+                            <Inset mt="2" side="bottom">
+                              <Text
+                                align="center"
+                                as="div"
+                                className={styles.statGrowth}
+                                color="gray"
+                                size="1"
+                              >
+                                {statGrowth ? `${statGrowth} / lv` : "-"}
+                              </Text>
+                            </Inset>
+                          </Card>
+                        </Tooltip>
+                      ),
+                    )}
                   </Grid>
                   {unlockBy && (
                     <Text
