@@ -3,6 +3,7 @@
 import { Box } from "@radix-ui/themes/components/box";
 import { Card, type CardProps } from "@radix-ui/themes/components/card";
 import { Flex } from "@radix-ui/themes/components/flex";
+import { Grid } from "@radix-ui/themes/components/grid";
 import { Heading } from "@radix-ui/themes/components/heading";
 import { Inset } from "@radix-ui/themes/components/inset";
 import * as Tabs from "@radix-ui/themes/components/tabs";
@@ -44,13 +45,15 @@ export interface TravelerCardProps extends Omit<CardProps, "children"> {
   attackDamage: number;
   abilityPower: number;
   attackSpeed: number;
-  armor?: number;
+  armor: number;
+  movementSpeed: number;
   statsGrowthPerLv: {
     health?: string;
     attackDamage?: string;
     attackSpeed?: string;
     abilityPower?: string;
     armor?: string;
+    movementSpeed?: string;
   };
   description: string;
   unlockBy?: string;
@@ -84,6 +87,7 @@ export const TravelerCard: FC<TravelerCardProps> = ({
   abilityPower,
   attackSpeed,
   armor,
+  movementSpeed,
   statsGrowthPerLv,
   description,
   unlockBy,
@@ -116,11 +120,17 @@ export const TravelerCard: FC<TravelerCardProps> = ({
       name: "Attack Speed",
       value: attackSpeed.toFixed(2),
     },
-    armor && {
+    {
       image: "/images/5.png",
       name: "Armor",
       value: armor,
       statGrowth: statsGrowthPerLv.armor,
+    },
+    {
+      image: "/images/5.png",
+      name: "Movement Speed",
+      value: movementSpeed,
+      statGrowth: statsGrowthPerLv.movementSpeed,
     },
   ].filter(Boolean);
 
@@ -165,10 +175,10 @@ export const TravelerCard: FC<TravelerCardProps> = ({
                       {travelerClass}
                     </Text>
                   </Flex>
-                  <Flex gap="3" justify="center" wrap="wrap">
+                  <Grid columns="3" gap="3">
                     {stats.map(({ image, name, value, statGrowth }) => (
-                      <Card key={name} className={styles.stat}>
-                        <Tooltip content={name}>
+                      <Tooltip key={name} content={name}>
+                        <Card className={styles.stat}>
                           <Flex align="center" direction="column" gap="2">
                             <Image
                               alt={name}
@@ -179,9 +189,8 @@ export const TravelerCard: FC<TravelerCardProps> = ({
                             />
                             <Text>{value}</Text>
                           </Flex>
-                        </Tooltip>
-                        <Inset mt="2" side="bottom">
-                          <Tooltip content="Stat growth / lv">
+
+                          <Inset mt="2" side="bottom">
                             <Text
                               align="center"
                               as="div"
@@ -189,13 +198,13 @@ export const TravelerCard: FC<TravelerCardProps> = ({
                               color="gray"
                               size="1"
                             >
-                              {statGrowth ?? "-"}
+                              {statGrowth ? `${statGrowth} / level` : "-"}
                             </Text>
-                          </Tooltip>
-                        </Inset>
-                      </Card>
+                          </Inset>
+                        </Card>
+                      </Tooltip>
                     ))}
-                  </Flex>
+                  </Grid>
                   {unlockBy && (
                     <Text
                       as="p"
