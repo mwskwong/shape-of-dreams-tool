@@ -222,32 +222,44 @@ export const TravelerCard: FC<TravelerCardProps> = ({
 
               <Tabs.Content asChild value="constellations">
                 <Flex direction="column" gap="3">
-                  {constellations.map(({ name, description, image }) => (
-                    <Flex key={name} gap="3">
-                      {
-                        <Image
-                          alt={name}
-                          height={48}
-                          src={`/images/${image}`}
-                          width={48}
-                          className={
-                            color &&
-                            styles[
-                              `constellationFilter${color.charAt(0).toUpperCase() + color.slice(1)}`
-                            ]
-                          }
-                        />
-                      }
-                      <div>
-                        <Heading as="h3" size="4">
-                          {name}
-                        </Heading>
-                        <ItemDescription color="gray">
-                          {description}
-                        </ItemDescription>
-                      </div>
-                    </Flex>
-                  ))}
+                  {constellations.length === 0 ? (
+                    <Text
+                      align="center"
+                      as="p"
+                      color="gray"
+                      m="9"
+                      wrap="pretty"
+                    >
+                      Coming Soon
+                    </Text>
+                  ) : (
+                    constellations.map(({ name, description, image }) => (
+                      <Flex key={name} gap="3">
+                        {
+                          <Image
+                            alt={name}
+                            height={48}
+                            src={`/images/${image}`}
+                            width={48}
+                            className={
+                              color &&
+                              styles[
+                                `constellationFilter${color.charAt(0).toUpperCase() + color.slice(1)}`
+                              ]
+                            }
+                          />
+                        }
+                        <div>
+                          <Heading as="h3" size="4">
+                            {name}
+                          </Heading>
+                          <ItemDescription color="gray">
+                            {description}
+                          </ItemDescription>
+                        </div>
+                      </Flex>
+                    ))
+                  )}
                 </Flex>
               </Tabs.Content>
             </Box>
