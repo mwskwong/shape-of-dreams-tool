@@ -11,7 +11,11 @@
     "traveler": "Hero_Lacerta",
     "travelerMemoryLocation": "Identity",
     "tags": ["Attack"],
-    "image": "St_D_DoubleTap.PNG"
+    "image": "St_D_DoubleTap.PNG",
+    "achievement": {
+      "name": "BFR 9000",
+      "description": "Reach 76 Attack Damage with Lacerta."
+    }
   },
   "St_D_SalamanderPowder": {
     "name": "Salamander Powder",
@@ -53,7 +57,11 @@
     "traveler": "Hero_Lacerta",
     "travelerMemoryLocation": "Q",
     "tags": ["Fire", "Attack", "Mobility"],
-    "image": "St_Q_IncendiaryRounds.png"
+    "image": "St_Q_IncendiaryRounds.png",
+    "achievement": {
+      "name": "Just Like the Old Days",
+      "description": "Defeat the Heroic Boss (main boss of each region) 4 times as Lacerta."
+    }
   },
   "St_R_PrecisionShot": {
     "name": "Precision Shot",
@@ -67,7 +75,11 @@
     "traveler": "Hero_Lacerta",
     "travelerMemoryLocation": "R",
     "tags": ["HardCC"],
-    "image": "St_R_PrecisionShot.png"
+    "image": "St_R_PrecisionShot.png",
+    "achievement": {
+      "name": "Untouchable",
+      "description": "Defeat the Heroic Boss (main boss of each region) as Lacerta with 85% or more health remaining."
+    }
   },
   "St_R_QuickTrigger": {
     "name": "Quick Draw",
@@ -109,7 +121,11 @@
     "traveler": "Hero_Mist",
     "travelerMemoryLocation": "Q",
     "tags": ["Light", "Heal", "Attack", "Mobility"],
-    "image": "St_Q_Fleche.png"
+    "image": "St_Q_Fleche.png",
+    "achievement": {
+      "name": "King of the Elementals",
+      "description": "Defeat any elemental 45 times as Mist."
+    }
   },
   "St_Q_Lunge": {
     "name": "Lunge",
@@ -137,7 +153,11 @@
     "traveler": "Hero_Mist",
     "travelerMemoryLocation": "R",
     "tags": ["Melee", "HardCC"],
-    "image": "St_R_Parry.PNG"
+    "image": "St_R_Parry.PNG",
+    "achievement": {
+      "name": "Go with the Flow",
+      "description": "Defeat 70 enemies in a row without taking damage as Mist."
+    }
   },
   "St_R_UnbreakableDetermination": {
     "name": "Unbreakable Determination",
@@ -207,7 +227,11 @@
     "traveler": "Hero_Yubar",
     "travelerMemoryLocation": "Identity",
     "tags": ["Attack"],
-    "image": "St_D_ConvergencePoint.PNG"
+    "image": "St_D_ConvergencePoint.PNG",
+    "achievement": {
+      "name": "Ode to the Stars",
+      "description": "Reach 50 Attack Damage with Yubar."
+    }
   },
   "St_D_ExoticMatter": {
     "name": "Exotic Matter",
@@ -249,7 +273,11 @@
     "traveler": "Hero_Yubar",
     "travelerMemoryLocation": "Q",
     "tags": ["Light"],
-    "image": "St_Q_SuperNova.png"
+    "image": "St_Q_SuperNova.png",
+    "achievement": {
+      "name": "Night of Counting the Stars",
+      "description": "Reach 130 Ability Power with Yubar."
+    }
   },
   "St_R_Cataclysm": {
     "name": "Cataclysm",
@@ -277,7 +305,11 @@
     "traveler": "Hero_Yubar",
     "travelerMemoryLocation": "R",
     "tags": ["Light", "Mobility"],
-    "image": "St_R_Tranquility.png"
+    "image": "St_R_Tranquility.png",
+    "achievement": {
+      "name": "Peace Amid the Storm",
+      "description": "Deal a total of 250,000 Light Damage to enemies with Yubar."
+    }
   },
   "St_C_BeamOfLight": {
     "name": "Beam of Light",
@@ -431,7 +463,11 @@
     "traveler": "",
     "travelerMemoryLocation": "",
     "tags": ["Light"],
-    "image": "St_E_ChainLightning.PNG"
+    "image": "St_E_ChainLightning.PNG",
+    "achievement": {
+      "name": "Electric Type",
+      "description": "Deal 1,000 more damage in a single hit."
+    }
   },
   "St_E_FlameJet": {
     "name": "Flame Jet",
@@ -445,7 +481,11 @@
     "traveler": "",
     "travelerMemoryLocation": "",
     "tags": ["Fire"],
-    "image": "St_E_FlameJet.png"
+    "image": "St_E_FlameJet.png",
+    "achievement": {
+      "name": "Pyromaniac",
+      "description": "Defeat 250 burning enemies."
+    }
   },
   "St_E_SearingCharge": {
     "name": "Searing Charge",
@@ -502,7 +542,10 @@
     "travelerMemoryLocation": "",
     "tags": ["Dark", "Melee", "HardCC", "Heal", "Attack"],
     "image": "St_L_Hysteria.PNG",
-    "unlockBy": "Defeat the Demon of the Forest (1st region boss) for the first time."
+    "achievement": {
+      "name": "Protector of the Forest",
+      "description": "Defeat the Demon of the Forest, the first region's boss, for the first time."
+    }
   },
   "St_L_Multishot": {
     "name": "Arrow Storm",
@@ -530,7 +573,11 @@
     "traveler": "",
     "travelerMemoryLocation": "",
     "tags": ["Light"],
-    "image": "St_L_WorldCracker.png"
+    "image": "St_L_WorldCracker.png",
+    "achievement": {
+      "name": "Kamehameha",
+      "description": "Defeat the Spirit of Light for the first time: to encounter this boss, obtain the \"Fragment of Radiance\" (a random drop during gameplay), then use it to complete the \"World of the Netherworld\" quest by delivering it to the designated area, where you'll find the entrance to the boss fight."
+    }
   },
   "St_R_Chomp": {
     "name": "Chomp",
@@ -558,7 +605,11 @@
     "traveler": "",
     "travelerMemoryLocation": "",
     "tags": ["Fire"],
-    "image": "St_R_FlamingWhip.PNG"
+    "image": "St_R_FlamingWhip.PNG",
+    "achievement": {
+      "name": "Whatever It takes",
+      "description": "Defeat an enemy while they have 20 or more stacks of Burn"
+    }
   },
   "St_R_Frostbite": {
     "name": "Frostbite",
@@ -698,7 +749,11 @@
     "traveler": "Hero_Vesper",
     "travelerMemoryLocation": "Q",
     "tags": ["Light", "Attack", "Mobility"],
-    "image": "St_Q_Discipline.png"
+    "image": "St_Q_Discipline.png",
+    "achievement": {
+      "name": "Peak Performance",
+      "description": "As Vesper, have 3 dash or teleport memories simultaneously."
+    }
   },
   "St_D_MercyOfEl": {
     "name": "Mercy of El",
@@ -712,7 +767,11 @@
     "traveler": "Hero_Vesper",
     "travelerMemoryLocation": "Identity",
     "tags": ["Attack"],
-    "image": "St_D_MercyOfEl.PNG"
+    "image": "St_D_MercyOfEl.PNG",
+    "achievement": {
+      "name": "Master of Hammer",
+      "description": "Perform 9 basic attack within 5 seconds using Vesper."
+    }
   },
   "St_M_NimbleDodge": {
     "name": "Nimble Dodge",
@@ -853,7 +912,10 @@
     "travelerMemoryLocation": "",
     "tags": ["Dark"],
     "image": "St_L_MentalCorruption.png",
-    "unlockBy": "Interact with the black cat, who will begin spawning in the lobby areas randomly after entering NG+."
+    "achievement": {
+      "name": "Déjà Vu",
+      "description": "After beginning NG+, pet the black cat, which spawns randomly in the lobby areas."
+    }
   },
   "St_R_BlackArbalest": {
     "name": "Black Arbalest",
@@ -881,7 +943,11 @@
     "traveler": "",
     "travelerMemoryLocation": "",
     "tags": ["HardCC"],
-    "image": "St_E_ClutchesOfMalice.PNG"
+    "image": "St_E_ClutchesOfMalice.PNG",
+    "achievement": {
+      "name": "Snake in the Grass",
+      "description": "Take the merchant's unattended backpack, found in merchant areas occupied by Hunters, 12 times."
+    }
   },
   "St_R_Smite": {
     "name": "Lightning Strike",
@@ -951,7 +1017,11 @@
     "traveler": "",
     "travelerMemoryLocation": "",
     "tags": ["Dark", "HardCC"],
-    "image": "St_L_ShoutOfOblivion.png"
+    "image": "St_L_ShoutOfOblivion.png",
+    "achievement": {
+      "name": "Chaos, Destruction, Oblivion",
+      "description": "Defeat the Hunter of Oblivion for the first time: to encounter this boss, stay in Hunter-occupied areas to increase \"Hunter Threat\" until it reaches its maximum, triggering the \"Hunter of Oblivion\" quest, then fail this quest to access the boss fight."
+    }
   },
   "St_C_Whirlwind": {
     "name": "Spinning Whirlwind",

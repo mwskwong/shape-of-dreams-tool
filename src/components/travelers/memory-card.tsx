@@ -20,6 +20,7 @@ export interface MemoryCardProps
   tags?: string[];
   image: string;
   unlockBy?: string;
+  achievement?: { name: string; description: string };
   mutuallyExclusive?: string[];
 }
 
@@ -32,6 +33,7 @@ export const MemoryCard: FC<MemoryCardProps> = ({
   type,
   image,
   unlockBy,
+  achievement,
   mutuallyExclusive = [],
   ...props
 }) => {
@@ -63,12 +65,12 @@ export const MemoryCard: FC<MemoryCardProps> = ({
 
       <Flex direction="column" display={expand ? "flex" : "none"} gap="3">
         <ItemCardContent
+          achievement={achievement}
           cooldownTime={cooldownTime}
           description={description}
           maxCharges={maxCharges}
           mutuallyExclusive={mutuallyExclusive}
           type={type}
-          unlockBy={unlockBy}
         />
       </Flex>
     </>
