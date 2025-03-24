@@ -31,7 +31,7 @@
     "@next/bundle-analyzer": "^15.2.3",
     "@next/eslint-plugin-next": "^15.2.3",
     "@total-typescript/ts-reset": "^0.6.1",
-    "@types/node": "^22.13.11",
+    "@types/node": "^22.13.13",
     "@types/react": "^19.0.12",
     "@types/react-dom": "^19.0.4",
     "autoprefixer": "^10.4.21",
@@ -44,7 +44,7 @@
     "eslint-plugin-react": "^7.37.4",
     "eslint-plugin-react-compiler": "latest",
     "eslint-plugin-react-hooks": "^5.2.0",
-    "eslint-plugin-unicorn": "^57.0.0",
+    "eslint-plugin-unicorn": "^58.0.0",
     "postcss": "^8.5.3",
     "postcss-custom-media": "^11.0.5",
     "postcss-import": "^16.1.0",
@@ -56,7 +56,7 @@
     "stylelint-config-css-modules": "^4.4.0",
     "stylelint-config-recess-order": "^6.0.0",
     "stylelint-config-standard": "^37.0.0",
-    "type-fest": "^4.37.0",
+    "type-fest": "^4.38.0",
     "typescript": "~5.8.2",
     "typescript-eslint": "^8.27.0"
   }
