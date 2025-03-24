@@ -4,6 +4,8 @@ import { Container } from "@radix-ui/themes/components/container";
 import { Heading } from "@radix-ui/themes/components/heading";
 import { Section } from "@radix-ui/themes/components/section";
 import { Theme } from "@radix-ui/themes/components/theme";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { clsx } from "clsx";
 import { type Metadata } from "next";
 import { Geist, Geist_Mono, IBM_Plex_Serif } from "next/font/google";
@@ -51,6 +53,12 @@ const RootLayout: FC<PropsWithChildren> = ({ children }) => (
           </Section>
         </Container>
       </Theme>
+      <Analytics
+        mode={
+          process.env.VERCEL_ENV === "production" ? "production" : "development"
+        }
+      />
+      <SpeedInsights />
     </body>
   </html>
 );
