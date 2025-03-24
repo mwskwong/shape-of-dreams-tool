@@ -17,7 +17,7 @@ import parse, { Element } from "html-react-parser";
 import Image from "next/image";
 import { type FC, Fragment } from "react";
 
-import { spriteNames } from "@/lib/constants";
+import { sprites } from "@/lib/constants";
 
 import styles from "./item-card.module.css";
 
@@ -190,24 +190,27 @@ export const ItemDescription: FC<ItemDescriptionProps> = ({
                 return `<em class="rt-Em" style="--em-font-size-adjust: 1; color: ${newColor}">${content}</em>`;
               },
             )
-            .replaceAll(
-              /<sprite=(\d+)>/g,
-              '<img src="/images/$1.png" data-sprite="$1" />',
-            ),
+            .replaceAll(/<sprite=(\d+)>/g, '<img data-sprite="$1" />'),
           {
             replace: (domNode) => {
               if (domNode instanceof Element && domNode.name === "img") {
-                const spriteName =
-                  spriteNames[Number(domNode.attribs["data-sprite"])] ?? "";
+                const sprite = Object.values(sprites).find(
+                  ({ image }) =>
+                    image === `${domNode.attribs["data-sprite"]}.png`,
+                );
+
                 return (
-                  <Tooltip content={spriteName}>
-                    <Image
-                      alt={spriteName}
-                      className={styles.sprite}
-                      height={18}
-                      src={domNode.attribs.src}
-                    />
-                  </Tooltip>
+                  sprite && (
+                    <Tooltip content={sprite.name}>
+                      <Image
+                        alt={sprite.name}
+                        className={styles.sprite}
+                        height={18}
+                        src={`/images/${sprite.image}`}
+                        width={Math.round(18 * (sprite.width / sprite.height))}
+                      />
+                    </Tooltip>
+                  )
                 );
               }
             },

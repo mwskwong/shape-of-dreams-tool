@@ -12,6 +12,8 @@ import { clsx } from "clsx";
 import Image from "next/image";
 import { type FC } from "react";
 
+import { sprites } from "@/lib/constants";
+
 import { ItemDescription } from "../item-card";
 
 import { MemoryCard } from "./memory-card";
@@ -102,37 +104,32 @@ export const TravelerCard: FC<TravelerCardProps> = ({
 }) => {
   const stats = [
     {
-      image: "/images/3.png",
-      name: "Health",
+      ...sprites.health,
       value: health,
       statGrowth: statsGrowthPerLv.health,
     },
     {
-      image: "/images/7.png",
-      name: "Armor",
+      ...sprites.armor,
       value: armor,
       statGrowth: statsGrowthPerLv.armor,
     },
     {
-      image: "/images/2.png",
-      name: "Attack Damage",
+      ...sprites.attackDamage,
       value: attackDamage,
       statGrowth: statsGrowthPerLv.attackDamage,
     },
     {
-      image: "/images/1.png",
-      name: "Ability Power",
+      ...sprites.abilityPower,
       value: abilityPower,
       statGrowth: statsGrowthPerLv.abilityPower,
     },
     {
-      image: "/images/4.png",
-      name: "Attack Speed",
+      ...sprites.attackSpeed,
       value: attackSpeed.toFixed(2),
+      statGrowth: statsGrowthPerLv.attackSpeed,
     },
     {
-      image: "/images/6.png",
-      name: "Memory Haste",
+      ...sprites.memoryHaste,
       value: memoryHaste,
       statGrowth: statsGrowthPerLv.memoryHaste,
     },
@@ -142,6 +139,8 @@ export const TravelerCard: FC<TravelerCardProps> = ({
       value: criticalStrikeChance,
       statGrowth: statsGrowthPerLv.criticalStrikeChance,
       iconClassName: styles.critIcon,
+      width: undefined,
+      height: undefined,
     },
     {
       image: "/images/texMovement.png",
@@ -149,8 +148,10 @@ export const TravelerCard: FC<TravelerCardProps> = ({
       value: movementSpeed,
       statGrowth: statsGrowthPerLv.movementSpeed,
       iconClassName: styles.movementSpeedIcon,
+      width: undefined,
+      height: undefined,
     },
-  ].filter(Boolean);
+  ];
 
   const classIcon = getClassIcon(travelerClass);
 
@@ -194,7 +195,15 @@ export const TravelerCard: FC<TravelerCardProps> = ({
                   </Flex>
                   <Grid columns="4" gap="3">
                     {stats.map(
-                      ({ image, name, value, statGrowth, iconClassName }) => (
+                      ({
+                        image,
+                        name,
+                        value,
+                        statGrowth,
+                        iconClassName,
+                        width = 1,
+                        height = 1,
+                      }) => (
                         <Tooltip key={name} content={name}>
                           <Card className={styles.stat}>
                             <Flex align="center" direction="column" gap="2">
@@ -203,6 +212,7 @@ export const TravelerCard: FC<TravelerCardProps> = ({
                                 className={iconClassName}
                                 height={20}
                                 src={image}
+                                width={Math.round(20 * (width / height))}
                               />
                               <Text>{value}</Text>
                             </Flex>
