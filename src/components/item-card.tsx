@@ -143,6 +143,12 @@ export const ItemCardContent: FC<ItemCardContentProps> = ({
         </Text>
       )}
       <ItemDescription>{description}</ItemDescription>
+      {achievement && (
+        <Text as="p" color="gray" wrap="pretty">
+          Unlock requirement - <Em className={styles.em}>{achievement.name}</Em>
+          : {achievement.description}
+        </Text>
+      )}
       {mutuallyExclusive.length > 0 && (
         <Text as="p" color="gray" wrap="pretty">
           Mutually exclusive:{" "}
@@ -154,12 +160,6 @@ export const ItemCardContent: FC<ItemCardContentProps> = ({
               {index < mutuallyExclusive.length - 1 && ", "}
             </Fragment>
           ))}
-        </Text>
-      )}
-      {achievement && (
-        <Text as="p" color="gray" wrap="pretty">
-          Unlock by: <Em className={styles.em}>{achievement.name}</Em> -{" "}
-          {achievement.description}
         </Text>
       )}
     </>
