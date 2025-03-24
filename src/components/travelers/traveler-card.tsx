@@ -179,12 +179,11 @@ export const TravelerCard: FC<TravelerCardProps> = ({
             <Box pt="3">
               <Tabs.Content asChild value="stats">
                 <Flex direction="column" gap="3">
-                  <Flex asChild align="center" justify="center">
+                  <Flex asChild align="center" gap="2" justify="center">
                     <Text as="div">
                       {classIcon && (
                         <Image
                           alt={travelerClass}
-                          className={styles.classIcon}
                           height={18}
                           src={classIcon}
                           width={18}
@@ -201,10 +200,9 @@ export const TravelerCard: FC<TravelerCardProps> = ({
                             <Flex align="center" direction="column" gap="2">
                               <Image
                                 alt={name}
-                                className={clsx(styles.icon, iconClassName)}
-                                height={24}
+                                className={iconClassName}
+                                height={20}
                                 src={image}
-                                width={24}
                               />
                               <Text>{value}</Text>
                             </Flex>

@@ -204,9 +204,8 @@ export const ItemDescription: FC<ItemDescriptionProps> = ({
                     <Image
                       alt={spriteName}
                       className={styles.sprite}
-                      height={20}
+                      height={18}
                       src={domNode.attribs.src}
-                      width={20}
                     />
                   </Tooltip>
                 );
