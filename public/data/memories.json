@@ -576,7 +576,7 @@
     "image": "St_L_WorldCracker.png",
     "achievement": {
       "name": "Kamehameha",
-      "description": "Defeat the Spirit of Light for the first time: to encounter this boss, obtain the \"Fragment of Radiance\" (a random drop during gameplay), then use it to complete the \"World of the Netherworld\" quest by delivering it to the designated area, where you'll find the entrance to the boss fight."
+      "description": "Defeat the Spirit of Light for the first time. To encounter this boss, obtain the \"Fragment of Radiance\" (a random drop during gameplay), then use it to complete the \"World of the Netherworld\" quest by delivering it to the designated area, where you'll find the entrance to the boss fight."
     }
   },
   "St_R_Chomp": {
@@ -1020,7 +1020,7 @@
     "image": "St_L_ShoutOfOblivion.png",
     "achievement": {
       "name": "Chaos, Destruction, Oblivion",
-      "description": "Defeat the Hunter of Oblivion for the first time: to encounter this boss, stay in Hunter-occupied areas to increase \"Hunter Threat\" until it reaches its maximum, triggering the \"Hunter of Oblivion\" quest, then fail this quest to access the boss fight."
+      "description": "Defeat the Hunter of Oblivion for the first time. To encounter this boss, stay in Hunter-occupied areas to increase \"Hunter Threat\" until it reaches its maximum, triggering the \"Hunter of Oblivion\" quest, then fail this quest to access the boss fight."
     }
   },
   "St_C_Whirlwind": {
