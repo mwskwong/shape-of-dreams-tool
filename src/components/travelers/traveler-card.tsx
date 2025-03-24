@@ -105,31 +105,37 @@ export const TravelerCard: FC<TravelerCardProps> = ({
   const stats = [
     {
       ...sprites.health,
+      image: `/images/${sprites.health.image}`,
       value: health,
       statGrowth: statsGrowthPerLv.health,
     },
     {
       ...sprites.armor,
+      image: `/images/${sprites.armor.image}`,
       value: armor,
       statGrowth: statsGrowthPerLv.armor,
     },
     {
       ...sprites.attackDamage,
+      image: `/images/${sprites.attackDamage.image}`,
       value: attackDamage,
       statGrowth: statsGrowthPerLv.attackDamage,
     },
     {
       ...sprites.abilityPower,
+      image: `/images/${sprites.abilityPower.image}`,
       value: abilityPower,
       statGrowth: statsGrowthPerLv.abilityPower,
     },
     {
       ...sprites.attackSpeed,
+      image: `/images/${sprites.attackSpeed.image}`,
       value: attackSpeed.toFixed(2),
       statGrowth: statsGrowthPerLv.attackSpeed,
     },
     {
       ...sprites.memoryHaste,
+      image: `/images/${sprites.memoryHaste.image}`,
       value: memoryHaste,
       statGrowth: statsGrowthPerLv.memoryHaste,
     },
