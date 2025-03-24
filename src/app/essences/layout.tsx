@@ -1,5 +1,5 @@
 import { Flex } from "@radix-ui/themes/components/flex";
-import { type FC, type PropsWithChildren } from "react";
+import { type FC, type PropsWithChildren, Suspense } from "react";
 
 import { EssencesToolbar } from "@/components/essences/essences-toolbar";
 import { compareRarities } from "@/lib/utils";
@@ -11,7 +11,9 @@ const allRarities = [
 
 const EssencesLayout: FC<PropsWithChildren> = ({ children }) => (
   <Flex direction="column" gap="3" pt="3">
-    <EssencesToolbar allRarities={allRarities} />
+    <Suspense>
+      <EssencesToolbar allRarities={allRarities} />
+    </Suspense>
     {children}
   </Flex>
 );
