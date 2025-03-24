@@ -73,6 +73,7 @@ export interface TravelerCardProps extends Omit<CardProps, "children"> {
     image: string;
     unlockBy?: string;
     mutuallyExclusive?: string[];
+    achievement?: { name: string; description: string };
   }[];
   constellations?: {
     name: string;

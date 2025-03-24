@@ -9,6 +9,7 @@ import "@radix-ui/themes/tokens/colors/yellow.css";
 
 import { Badge, type BadgeProps } from "@radix-ui/themes/components/badge";
 import { Card, type CardProps } from "@radix-ui/themes/components/card";
+import { Em } from "@radix-ui/themes/components/em";
 import { Flex } from "@radix-ui/themes/components/flex";
 import { Heading } from "@radix-ui/themes/components/heading";
 import { Text, type TextProps } from "@radix-ui/themes/components/text";
@@ -31,7 +32,7 @@ export interface ItemCardProps extends Omit<CardProps, "children"> {
   traveler?: string;
   tags?: string[];
   image: string;
-  unlockBy?: string;
+  achievement?: { name: string; description: string };
   mutuallyExclusive?: string[];
 }
 
@@ -65,7 +66,7 @@ export const ItemCard: FC<ItemCardProps> = ({
   traveler,
   tags = [],
   image,
-  unlockBy,
+  achievement,
   mutuallyExclusive = [],
   ...props
 }) => {
@@ -91,12 +92,12 @@ export const ItemCard: FC<ItemCardProps> = ({
           </div>
         </Flex>
         <ItemCardContent
+          achievement={achievement}
           cooldownTime={cooldownTime}
           description={description}
           maxCharges={maxCharges}
           mutuallyExclusive={mutuallyExclusive}
           type={type}
-          unlockBy={unlockBy}
         />
         {tags.length > 0 && (
           <Flex gap="2" mt="auto" wrap="wrap">
@@ -119,7 +120,7 @@ export interface ItemCardContentProps extends Omit<CardProps, "children"> {
   type?: string;
   traveler?: string;
   tags?: string[];
-  unlockBy?: string;
+  achievement?: { name: string; description: string };
   mutuallyExclusive?: string[];
 }
 
@@ -128,8 +129,8 @@ export const ItemCardContent: FC<ItemCardContentProps> = ({
   maxCharges,
   description,
   type,
-  unlockBy,
   mutuallyExclusive = [],
+  achievement,
 }) => {
   return (
     <>
@@ -141,33 +142,26 @@ export const ItemCardContent: FC<ItemCardContentProps> = ({
           {!type || type === "Normal" ? undefined : ` | ${type}`}
         </Text>
       )}
+      <ItemDescription>{description}</ItemDescription>
       {mutuallyExclusive.length > 0 && (
-        <Text as="p" color="gray">
-          Mutually exclusive with:{" "}
+        <Text as="p" color="gray" wrap="pretty">
+          Mutually exclusive:{" "}
           {mutuallyExclusive.map((memory, index) => (
             <Fragment key={memory}>
-              <em
-                key={memory}
-                className="rt-Em"
-                style={{
-                  // @ts-expect-error -- override em font size
-                  "--em-font-size-adjust": 1,
-                  color: "var(--yellow-a11)",
-                }}
-              >
+              <Em key={memory} className={styles.em}>
                 {memory}
-              </em>
+              </Em>
               {index < mutuallyExclusive.length - 1 && ", "}
             </Fragment>
           ))}
         </Text>
       )}
-      {unlockBy && (
+      {achievement && (
         <Text as="p" color="gray" wrap="pretty">
-          Unlock by: {unlockBy}
+          Unlock by: <Em className={styles.em}>{achievement.name}</Em> -{" "}
+          {achievement.description}
         </Text>
       )}
-      <ItemDescription>{description}</ItemDescription>
     </>
   );
 };
@@ -185,9 +179,9 @@ export const ItemDescription: FC<ItemDescriptionProps> = ({
             .replaceAll(
               /<color=(.*?)>(.*?)<\/color>/g,
               (_, color: string, content: string) => {
-                const newColor =
-                  color === "yellow" ? "var(--yellow-a11)" : color;
-                return `<em class="rt-Em" style="--em-font-size-adjust: 1; color: ${newColor}">${content}</em>`;
+                const style =
+                  color === "yellow" ? "" : `style="color:${color}"`;
+                return `<em class="rt-Em ${styles.em}" ${style}>${content}</em>`;
               },
             )
             .replaceAll(/<sprite=(\d+)>/g, '<img data-sprite="$1" />'),
