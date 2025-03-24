@@ -1,3 +1,11 @@
+# License
+
+This project consists of source code and resources, each licensed under different terms.
+
+## Source Code License
+
+The source code of this project is licensed under the MIT License:
+
 MIT License
 
 Copyright (c) 2025 KWONG, Matthew Wang Shun
@@ -19,3 +27,29 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+## Resources License
+
+The resources located in the `public/` directory are provided by Lizard Smoothie Co., Ltd., the developer of Shape of Dreams, and are subject to the following terms:
+
+=== Raw Data Usage Rights and Disclaimer ===
+
+This game data has been provided specifically to support our players who wish to create fan resources, wikis, guides, or similar community-driven content for Shape of Dreams. This data represents the current downloaded version of the game of the current edition, and both its content and format are subject to change every update. By accessing or using this data, you agree to the following terms:
+
+1. Permitted Uses:
+
+   - Creating community resources, wikis, or guides
+   - Personal reference and information sharing
+   - Non-commercial fan content
+
+2. Prohibited Uses:
+
+   - Commercial use or monetization of any kind
+   - Use in other games or commercial products
+   - Any use that infringes on copyright or intellectual property rights
+
+3. Image Rights:
+
+   All images included in this folder are protected by copyright and may only be used in direct connection with community resources related to Shape of Dreams. Many of these images are licensed from third parties, and we cannot grant permission for their commercial use.
+
+Please use these resources responsibly and thoughtfully, thank you!
