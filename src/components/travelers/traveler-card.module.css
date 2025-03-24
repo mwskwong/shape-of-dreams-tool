@@ -21,6 +21,12 @@
   align-self: flex-start;
 }
 
+.em {
+  --em-font-size-adjust: 1;
+
+  color: var(--yellow-a11);
+}
+
 /* Using https://angel-rs.github.io/css-color-filter-generator/. Based on color 11 of the corresponding palette */
 
 .constellationFilterOrange {

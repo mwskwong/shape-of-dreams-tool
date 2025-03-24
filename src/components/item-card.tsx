@@ -145,8 +145,9 @@ export const ItemCardContent: FC<ItemCardContentProps> = ({
       <ItemDescription>{description}</ItemDescription>
       {achievement && (
         <Text as="p" color="gray" wrap="pretty">
-          Unlock requirement - <Em className={styles.em}>{achievement.name}</Em>
-          : {achievement.description}
+          Unlock requirement -{" "}
+          <Em className={styles.em}>{achievement.name}: </Em>
+          {achievement.description}
         </Text>
       )}
       {mutuallyExclusive.length > 0 && (

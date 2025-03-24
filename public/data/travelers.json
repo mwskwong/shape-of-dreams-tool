@@ -131,7 +131,10 @@
       "abilityPower": "+2"
     },
     "description": "Yubar is a fairy tale being from dreams, a god who governs the creation and destruction of stars. He can deal high damage from long range using magic.",
-    "unlockBy": "Acquire a total of 300 Dream Dust.",
+    "achievement": {
+      "name": "Pure Imagination",
+      "description": "Acquire a total of 300 Dream Dust."
+    },
     "image": "Hero_Yubar.png",
     "constellations": [
       {
@@ -190,7 +193,10 @@
       "armor": "+2"
     },
     "description": "Vesper is the leader and cruel inquisitor of the Order of the Sacred Flame. He can block enemies in melee range while dealing high damage.",
-    "unlockBy": "Reach the Dream of the Night Sky.",
+    "achievement": {
+      "name": "Through Time and Space",
+      "description": "Reach the Dream of the Night Sky (the third region)."
+    },
     "image": "Hero_Vesper.png",
     "constellations": []
   },
@@ -213,7 +219,10 @@
       "armor": "+2"
     },
     "description": "Aurena is a sage from the Lunar Conclave of Arcanum who was expelled for researching forbidden knowledge. She is a battle healer who utilizes her own life force.",
-    "unlockBy": "Heal yourself or allies for a total of 25,000 health.",
+    "achievement": {
+      "name": "Horns, Feathers, and Gold",
+      "description": "Heal yourself or allies for a total of 25,000 health."
+    },
     "image": "Hero_Aurena.png",
     "constellations": []
   }

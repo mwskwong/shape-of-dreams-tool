@@ -1,5 +1,6 @@
 import { Box } from "@radix-ui/themes/components/box";
 import { Card, type CardProps } from "@radix-ui/themes/components/card";
+import { Em } from "@radix-ui/themes/components/em";
 import { Flex } from "@radix-ui/themes/components/flex";
 import { Grid } from "@radix-ui/themes/components/grid";
 import { Heading } from "@radix-ui/themes/components/heading";
@@ -60,7 +61,7 @@ export interface TravelerCardProps extends Omit<CardProps, "children"> {
     movementSpeed?: string;
   };
   description: string;
-  unlockBy?: string;
+  achievement?: { name: string; description: string };
   image: string;
   memories?: {
     name: string;
@@ -97,7 +98,7 @@ export const TravelerCard: FC<TravelerCardProps> = ({
   movementSpeed,
   statsGrowthPerLv,
   description,
-  unlockBy,
+  achievement,
   image,
   memories = [],
   constellations = [],
@@ -240,19 +241,21 @@ export const TravelerCard: FC<TravelerCardProps> = ({
                       ),
                     )}
                   </Grid>
-                  {unlockBy && (
+                  <Text as="p" className={styles.paragraph} wrap="pretty">
+                    {description}
+                  </Text>
+                  {achievement && (
                     <Text
                       as="p"
                       className={styles.paragraph}
                       color="gray"
                       wrap="pretty"
                     >
-                      Unlock by: {unlockBy}
+                      Unlock requirement -{" "}
+                      <Em className={styles.em}>{achievement.name}: </Em>
+                      {achievement.description}
                     </Text>
                   )}
-                  <Text as="p" className={styles.paragraph} wrap="pretty">
-                    {description}
-                  </Text>
                 </Flex>
               </Tabs.Content>
 
