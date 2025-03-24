@@ -252,7 +252,7 @@ export const TravelerCard: FC<TravelerCardProps> = ({
                       wrap="pretty"
                     >
                       Unlock requirement -{" "}
-                      <Em className={styles.em}>{achievement.name}: </Em>
+                      <Em className={styles.em}>{achievement.name}</Em>:{" "}
                       {achievement.description}
                     </Text>
                   )}
