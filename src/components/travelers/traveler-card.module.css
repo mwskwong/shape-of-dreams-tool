@@ -6,11 +6,6 @@
   width: 100%;
 }
 
-.classIcon {
-  display: inline-block;
-  margin-right: var(--space-2);
-}
-
 .stat {
   --card-padding: var(--space-2);
 
@@ -24,11 +19,6 @@
 
 .paragraph {
   align-self: flex-start;
-}
-
-.icon {
-  width: auto;
-  height: 20px;
 }
 
 /* Using https://angel-rs.github.io/css-color-filter-generator/. Based on color 11 of the corresponding palette */

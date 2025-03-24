@@ -12,6 +12,8 @@ import { clsx } from "clsx";
 import Image from "next/image";
 import { type FC } from "react";
 
+import { sprites } from "@/lib/constants";
+
 import { ItemDescription } from "../item-card";
 
 import { MemoryCard } from "./memory-card";
@@ -102,37 +104,38 @@ export const TravelerCard: FC<TravelerCardProps> = ({
 }) => {
   const stats = [
     {
-      image: "/images/3.png",
-      name: "Health",
+      ...sprites.health,
+      image: `/images/${sprites.health.image}`,
       value: health,
       statGrowth: statsGrowthPerLv.health,
     },
     {
-      image: "/images/7.png",
-      name: "Armor",
+      ...sprites.armor,
+      image: `/images/${sprites.armor.image}`,
       value: armor,
       statGrowth: statsGrowthPerLv.armor,
     },
     {
-      image: "/images/2.png",
-      name: "Attack Damage",
+      ...sprites.attackDamage,
+      image: `/images/${sprites.attackDamage.image}`,
       value: attackDamage,
       statGrowth: statsGrowthPerLv.attackDamage,
     },
     {
-      image: "/images/1.png",
-      name: "Ability Power",
+      ...sprites.abilityPower,
+      image: `/images/${sprites.abilityPower.image}`,
       value: abilityPower,
       statGrowth: statsGrowthPerLv.abilityPower,
     },
     {
-      image: "/images/4.png",
-      name: "Attack Speed",
+      ...sprites.attackSpeed,
+      image: `/images/${sprites.attackSpeed.image}`,
       value: attackSpeed.toFixed(2),
+      statGrowth: statsGrowthPerLv.attackSpeed,
     },
     {
-      image: "/images/6.png",
-      name: "Memory Haste",
+      ...sprites.memoryHaste,
+      image: `/images/${sprites.memoryHaste.image}`,
       value: memoryHaste,
       statGrowth: statsGrowthPerLv.memoryHaste,
     },
@@ -142,6 +145,8 @@ export const TravelerCard: FC<TravelerCardProps> = ({
       value: criticalStrikeChance,
       statGrowth: statsGrowthPerLv.criticalStrikeChance,
       iconClassName: styles.critIcon,
+      width: undefined,
+      height: undefined,
     },
     {
       image: "/images/texMovement.png",
@@ -149,8 +154,10 @@ export const TravelerCard: FC<TravelerCardProps> = ({
       value: movementSpeed,
       statGrowth: statsGrowthPerLv.movementSpeed,
       iconClassName: styles.movementSpeedIcon,
+      width: undefined,
+      height: undefined,
     },
-  ].filter(Boolean);
+  ];
 
   const classIcon = getClassIcon(travelerClass);
 
@@ -179,12 +186,11 @@ export const TravelerCard: FC<TravelerCardProps> = ({
             <Box pt="3">
               <Tabs.Content asChild value="stats">
                 <Flex direction="column" gap="3">
-                  <Flex asChild align="center" justify="center">
+                  <Flex asChild align="center" gap="2" justify="center">
                     <Text as="div">
                       {classIcon && (
                         <Image
                           alt={travelerClass}
-                          className={styles.classIcon}
                           height={18}
                           src={classIcon}
                           width={18}
@@ -195,16 +201,24 @@ export const TravelerCard: FC<TravelerCardProps> = ({
                   </Flex>
                   <Grid columns="4" gap="3">
                     {stats.map(
-                      ({ image, name, value, statGrowth, iconClassName }) => (
+                      ({
+                        image,
+                        name,
+                        value,
+                        statGrowth,
+                        iconClassName,
+                        width = 1,
+                        height = 1,
+                      }) => (
                         <Tooltip key={name} content={name}>
                           <Card className={styles.stat}>
                             <Flex align="center" direction="column" gap="2">
                               <Image
                                 alt={name}
-                                className={clsx(styles.icon, iconClassName)}
-                                height={24}
+                                className={iconClassName}
+                                height={20}
                                 src={image}
-                                width={24}
+                                width={Math.round(20 * (width / height))}
                               />
                               <Text>{value}</Text>
                             </Flex>
