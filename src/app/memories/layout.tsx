@@ -21,7 +21,7 @@ const allTags = [
   ...new Set(Object.values(memories).flatMap(({ tags }) => tags)),
 ].toSorted();
 
-const EssencesLayout: FC<PropsWithChildren> = ({ children }) => (
+const MemoriesLayout: FC<PropsWithChildren> = ({ children }) => (
   <Flex direction="column" gap="3" pt="3">
     <Suspense>
       <MemoriesToolbar
@@ -35,4 +35,4 @@ const EssencesLayout: FC<PropsWithChildren> = ({ children }) => (
   </Flex>
 );
 
-export default EssencesLayout;
+export default MemoriesLayout;

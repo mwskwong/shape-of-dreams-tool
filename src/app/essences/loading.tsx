@@ -5,7 +5,7 @@ import { type FC } from "react";
 
 import styles from "./loading.module.css";
 
-const EssencesLayout: FC = () => (
+const EssencesLoading: FC = () => (
   <Grid columns={{ initial: "1", sm: "2", md: "3" }} gap="3">
     {Array.from({ length: 12 }, (_, index) => (
       <Skeleton key={index}>
@@ -15,4 +15,4 @@ const EssencesLayout: FC = () => (
   </Grid>
 );
 
-export default EssencesLayout;
+export default EssencesLoading;
