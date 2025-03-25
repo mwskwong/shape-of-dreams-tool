@@ -5,7 +5,7 @@ const config = {
     reporter: "jsonExpanded",
     buildStatic: true,
     budget: {
-      performance: 70,
+      performance: 80,
       accessibility: 100,
       "best-practices": 100,
       seo: 60, // minus point from non-PROD not being indexable
