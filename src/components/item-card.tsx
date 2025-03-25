@@ -136,40 +136,38 @@ export const ItemCardContent: FC<ItemCardContentProps> = ({
   type,
   mutuallyExclusive = [],
   achievement,
-}) => {
-  return (
-    <>
-      {(cooldownTime !== undefined || maxCharges !== undefined || type) && (
-        <Text as="p" color="gray">
-          {cooldownTime !== undefined &&
-            (cooldownTime === 0 ? "Passive" : `Cooldown: ${cooldownTime}s`)}
-          {maxCharges && maxCharges > 1 && ` | Charges: ${maxCharges}`}
-          {!type || type === "Normal" ? undefined : ` | ${type}`}
-        </Text>
-      )}
-      <ItemDescription>{description}</ItemDescription>
-      {achievement && (
-        <Text as="p" color="gray" wrap="pretty">
-          Unlock requirement - <Em className={styles.em}>{achievement.name}</Em>
-          : {achievement.description}
-        </Text>
-      )}
-      {mutuallyExclusive.length > 0 && (
-        <Text as="p" color="gray" wrap="pretty">
-          Mutually exclusive:{" "}
-          {mutuallyExclusive.map((memory, index) => (
-            <Fragment key={memory}>
-              <Em key={memory} className={styles.em}>
-                {memory}
-              </Em>
-              {index < mutuallyExclusive.length - 1 && ", "}
-            </Fragment>
-          ))}
-        </Text>
-      )}
-    </>
-  );
-};
+}) => (
+  <>
+    {(cooldownTime !== undefined || maxCharges !== undefined || type) && (
+      <Text as="p" color="gray">
+        {cooldownTime !== undefined &&
+          (cooldownTime === 0 ? "Passive" : `Cooldown: ${cooldownTime}s`)}
+        {maxCharges && maxCharges > 1 && ` | Charges: ${maxCharges}`}
+        {!type || type === "Normal" ? undefined : ` | ${type}`}
+      </Text>
+    )}
+    <ItemDescription>{description}</ItemDescription>
+    {achievement && (
+      <Text as="p" color="gray" wrap="pretty">
+        Unlock requirement - <Em className={styles.em}>{achievement.name}</Em>:{" "}
+        {achievement.description}
+      </Text>
+    )}
+    {mutuallyExclusive.length > 0 && (
+      <Text as="p" color="gray" wrap="pretty">
+        Mutually exclusive:{" "}
+        {mutuallyExclusive.map((memory, index) => (
+          <Fragment key={memory}>
+            <Em key={memory} className={styles.em}>
+              {memory}
+            </Em>
+            {index < mutuallyExclusive.length - 1 && ", "}
+          </Fragment>
+        ))}
+      </Text>
+    )}
+  </>
+);
 
 export type ItemDescriptionProps = TextProps;
 export const ItemDescription: FC<ItemDescriptionProps> = ({
