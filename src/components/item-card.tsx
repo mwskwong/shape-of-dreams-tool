@@ -14,7 +14,12 @@ import { Flex } from "@radix-ui/themes/components/flex";
 import { Heading } from "@radix-ui/themes/components/heading";
 import { Text, type TextProps } from "@radix-ui/themes/components/text";
 import { Tooltip } from "@radix-ui/themes/components/tooltip";
-import parse, { Element } from "html-react-parser";
+import parse, {
+  type DOMNode,
+  Element,
+  type HTMLReactParserOptions,
+  domToReact,
+} from "html-react-parser";
 import Image from "next/image";
 import { type FC, Fragment } from "react";
 
@@ -131,85 +136,106 @@ export const ItemCardContent: FC<ItemCardContentProps> = ({
   type,
   mutuallyExclusive = [],
   achievement,
-}) => {
-  return (
-    <>
-      {(cooldownTime !== undefined || maxCharges !== undefined || type) && (
-        <Text as="p" color="gray">
-          {cooldownTime !== undefined &&
-            (cooldownTime === 0 ? "Passive" : `Cooldown: ${cooldownTime}s`)}
-          {maxCharges && maxCharges > 1 && ` | Charges: ${maxCharges}`}
-          {!type || type === "Normal" ? undefined : ` | ${type}`}
-        </Text>
-      )}
-      <ItemDescription>{description}</ItemDescription>
-      {achievement && (
-        <Text as="p" color="gray" wrap="pretty">
-          Unlock requirement - <Em className={styles.em}>{achievement.name}</Em>
-          : {achievement.description}
-        </Text>
-      )}
-      {mutuallyExclusive.length > 0 && (
-        <Text as="p" color="gray" wrap="pretty">
-          Mutually exclusive:{" "}
-          {mutuallyExclusive.map((memory, index) => (
-            <Fragment key={memory}>
-              <Em key={memory} className={styles.em}>
-                {memory}
-              </Em>
-              {index < mutuallyExclusive.length - 1 && ", "}
-            </Fragment>
-          ))}
-        </Text>
-      )}
-    </>
-  );
-};
+}) => (
+  <>
+    {(cooldownTime !== undefined || maxCharges !== undefined || type) && (
+      <Text as="p" color="gray">
+        {cooldownTime !== undefined &&
+          (cooldownTime === 0 ? "Passive" : `Cooldown: ${cooldownTime}s`)}
+        {maxCharges && maxCharges > 1 && ` | Charges: ${maxCharges}`}
+        {!type || type === "Normal" ? undefined : ` | ${type}`}
+      </Text>
+    )}
+    <ItemDescription>{description}</ItemDescription>
+    {achievement && (
+      <Text as="p" color="gray" wrap="pretty">
+        Unlock requirement - <Em className={styles.em}>{achievement.name}</Em>:{" "}
+        {achievement.description}
+      </Text>
+    )}
+    {mutuallyExclusive.length > 0 && (
+      <Text as="p" color="gray" wrap="pretty">
+        Mutually exclusive:{" "}
+        {mutuallyExclusive.map((memory, index) => (
+          <Fragment key={memory}>
+            <Em key={memory} className={styles.em}>
+              {memory}
+            </Em>
+            {index < mutuallyExclusive.length - 1 && ", "}
+          </Fragment>
+        ))}
+      </Text>
+    )}
+  </>
+);
+
+const options = {
+  replace: (domNode) => {
+    if (domNode instanceof Element) {
+      const { name, attribs, children } = domNode;
+
+      if (name === "i" && attribs["data-sprite"]) {
+        const sprite = Object.values(sprites).find(
+          ({ image }) => image === `${attribs["data-sprite"]}.png`,
+        );
+
+        return (
+          sprite && (
+            <Tooltip content={sprite.name}>
+              <Image
+                alt={sprite.name}
+                className={styles.sprite}
+                height={18}
+                src={`/images/${sprite.image}`}
+                width={Math.round(18 * (sprite.width / sprite.height))}
+              />
+            </Tooltip>
+          )
+        );
+      }
+
+      if (name === "em" && attribs["data-color"]) {
+        const color =
+          attribs["data-color"] === "yellow"
+            ? undefined
+            : attribs["data-color"];
+        return (
+          <Em className={styles.em} style={{ color }}>
+            {domToReact(children as DOMNode[], options)}
+          </Em>
+        );
+      }
+    }
+
+    return;
+  },
+} satisfies HTMLReactParserOptions;
 
 export type ItemDescriptionProps = TextProps;
 export const ItemDescription: FC<ItemDescriptionProps> = ({
   children,
   ...props
-}) => (
-  <Text as="p" wrap="pretty" {...props}>
-    {typeof children === "string"
-      ? parse(
-          children
-            .replaceAll("\n", "<br>")
-            .replaceAll(
-              /<color=(.*?)>(.*?)<\/color>/g,
-              (_, color: string, content: string) => {
-                const style =
-                  color === "yellow" ? "" : `style="color:${color}"`;
-                return `<em class="rt-Em ${styles.em}" ${style}>${content}</em>`;
-              },
-            )
-            .replaceAll(/<sprite=(\d+)>/g, '<img data-sprite="$1" />'),
-          {
-            replace: (domNode) => {
-              if (domNode instanceof Element && domNode.name === "img") {
-                const sprite = Object.values(sprites).find(
-                  ({ image }) =>
-                    image === `${domNode.attribs["data-sprite"]}.png`,
-                );
+}) => {
+  if (typeof children !== "string") {
+    return (
+      <Text as="p" wrap="pretty" {...props}>
+        {children}
+      </Text>
+    );
+  }
 
-                return (
-                  sprite && (
-                    <Tooltip content={sprite.name}>
-                      <Image
-                        alt={sprite.name}
-                        className={styles.sprite}
-                        height={18}
-                        src={`/images/${sprite.image}`}
-                        width={Math.round(18 * (sprite.width / sprite.height))}
-                      />
-                    </Tooltip>
-                  )
-                );
-              }
-            },
-          },
-        )
-      : children}
-  </Text>
-);
+  return children.split("\n\n").map((paragraph, index) => (
+    <Text key={index} as="p" wrap="pretty" {...props}>
+      {parse(
+        paragraph
+          .replaceAll("\n", "<br>")
+          .replaceAll(
+            /<color=(.*?)>(.*?)<\/color>/g,
+            '<em data-color="$1">$2</em>',
+          )
+          .replaceAll(/<sprite=(\d+)>/g, '<i data-sprite="$1"></i>'), // WORKAROUND: unable to use self closing tags. ref: https://github.com/remarkablemark/html-react-parser/issues/1434
+        options,
+      )}
+    </Text>
+  ));
+};

@@ -20,10 +20,11 @@ const paths = [
   },
 ];
 
-const Nav: FC = () => {
+export type NavProps = Omit<TabNav.RootProps, "children">;
+const Nav: FC<NavProps> = (props) => {
   const pathname = usePathname();
   return (
-    <TabNav.Root>
+    <TabNav.Root {...props}>
       {paths.map((path) => (
         <TabNav.Link key={path.href} asChild active={path.href === pathname}>
           <Link href={path.href}>{path.name}</Link>
