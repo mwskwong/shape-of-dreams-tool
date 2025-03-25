@@ -169,6 +169,48 @@ export const ItemCardContent: FC<ItemCardContentProps> = ({
   </>
 );
 
+const options = {
+  replace: (domNode) => {
+    if (domNode instanceof Element) {
+      const { name, attribs, children } = domNode;
+
+      if (name === "i" && attribs["data-sprite"]) {
+        const sprite = Object.values(sprites).find(
+          ({ image }) => image === `${attribs["data-sprite"]}.png`,
+        );
+
+        return (
+          sprite && (
+            <Tooltip content={sprite.name}>
+              <Image
+                alt={sprite.name}
+                className={styles.sprite}
+                height={18}
+                src={`/images/${sprite.image}`}
+                width={Math.round(18 * (sprite.width / sprite.height))}
+              />
+            </Tooltip>
+          )
+        );
+      }
+
+      if (name === "em" && attribs["data-color"]) {
+        const color =
+          attribs["data-color"] === "yellow"
+            ? undefined
+            : attribs["data-color"];
+        return (
+          <Em className={styles.em} style={{ color }}>
+            {domToReact(children as DOMNode[], options)}
+          </Em>
+        );
+      }
+    }
+
+    return;
+  },
+} satisfies HTMLReactParserOptions;
+
 export type ItemDescriptionProps = TextProps;
 export const ItemDescription: FC<ItemDescriptionProps> = ({
   children,
@@ -182,45 +224,6 @@ export const ItemDescription: FC<ItemDescriptionProps> = ({
     );
   }
 
-  const options = {
-    replace: (domNode) => {
-      if (domNode instanceof Element) {
-        const { name, attribs, children } = domNode;
-        if (name === "i" && attribs["data-sprite"]) {
-          const sprite = Object.values(sprites).find(
-            ({ image }) => image === `${attribs["data-sprite"]}.png`,
-          );
-
-          return (
-            sprite && (
-              <Tooltip content={sprite.name}>
-                <Image
-                  alt={sprite.name}
-                  className={styles.sprite}
-                  height={18}
-                  src={`/images/${sprite.image}`}
-                  width={Math.round(18 * (sprite.width / sprite.height))}
-                />
-              </Tooltip>
-            )
-          );
-        }
-
-        if (name === "em" && attribs["data-color"]) {
-          const color =
-            attribs["data-color"] === "yellow"
-              ? undefined
-              : attribs["data-color"];
-          return (
-            <Em className={styles.em} style={{ color }}>
-              {domToReact(children as DOMNode[], options)}
-            </Em>
-          );
-        }
-      }
-    },
-  } satisfies HTMLReactParserOptions;
-
   return children.split("\n\n").map((paragraph, index) => (
     <Text key={index} as="p" wrap="pretty" {...props}>
       {parse(
@@ -228,9 +231,9 @@ export const ItemDescription: FC<ItemDescriptionProps> = ({
           .replaceAll("\n", "<br>")
           .replaceAll(
             /<color=(.*?)>(.*?)<\/color>/g,
-            `<em data-color="$1">$2</em>`,
+            '<em data-color="$1">$2</em>',
           )
-          .replaceAll(/<sprite=(\d+)>/g, '<i data-sprite="$1" />'),
+          .replaceAll(/<sprite=(\d+)>/g, '<i data-sprite="$1"></i>'), // WORKAROUND: unable to use self closing tags. ref: https://github.com/remarkablemark/html-react-parser/issues/1434
         options,
       )}
     </Text>
