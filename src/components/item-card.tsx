@@ -14,7 +14,12 @@ import { Flex } from "@radix-ui/themes/components/flex";
 import { Heading } from "@radix-ui/themes/components/heading";
 import { Text, type TextProps } from "@radix-ui/themes/components/text";
 import { Tooltip } from "@radix-ui/themes/components/tooltip";
-import parse, { Element } from "html-react-parser";
+import parse, {
+  type DOMNode,
+  Element,
+  type HTMLReactParserOptions,
+  domToReact,
+} from "html-react-parser";
 import Image from "next/image";
 import { type FC, Fragment } from "react";
 
@@ -179,6 +184,45 @@ export const ItemDescription: FC<ItemDescriptionProps> = ({
     );
   }
 
+  const options = {
+    replace: (domNode) => {
+      if (domNode instanceof Element) {
+        const { name, attribs, children } = domNode;
+        if (name === "i" && attribs["data-sprite"]) {
+          const sprite = Object.values(sprites).find(
+            ({ image }) => image === `${attribs["data-sprite"]}.png`,
+          );
+
+          return (
+            sprite && (
+              <Tooltip content={sprite.name}>
+                <Image
+                  alt={sprite.name}
+                  className={styles.sprite}
+                  height={18}
+                  src={`/images/${sprite.image}`}
+                  width={Math.round(18 * (sprite.width / sprite.height))}
+                />
+              </Tooltip>
+            )
+          );
+        }
+
+        if (name === "em" && attribs["data-color"]) {
+          const color =
+            attribs["data-color"] === "yellow"
+              ? undefined
+              : attribs["data-color"];
+          return (
+            <Em className={styles.em} style={{ color }}>
+              {domToReact(children as DOMNode[], options)}
+            </Em>
+          );
+        }
+      }
+    },
+  } satisfies HTMLReactParserOptions;
+
   return children.split("\n\n").map((paragraph, index) => (
     <Text key={index} as="p" wrap="pretty" {...props}>
       {parse(
@@ -186,36 +230,10 @@ export const ItemDescription: FC<ItemDescriptionProps> = ({
           .replaceAll("\n", "<br>")
           .replaceAll(
             /<color=(.*?)>(.*?)<\/color>/g,
-            (_, color: string, content: string) => {
-              const style = color === "yellow" ? "" : `style="color:${color}"`;
-              return `<em class="rt-Em ${styles.em}" ${style}>${content}</em>`;
-            },
+            `<em data-color="$1">$2</em>`,
           )
-          .replaceAll(/<sprite=(\d+)>/g, '<img data-sprite="$1" />'),
-        {
-          replace: (domNode) => {
-            if (domNode instanceof Element && domNode.name === "img") {
-              const sprite = Object.values(sprites).find(
-                ({ image }) =>
-                  image === `${domNode.attribs["data-sprite"]}.png`,
-              );
-
-              return (
-                sprite && (
-                  <Tooltip content={sprite.name}>
-                    <Image
-                      alt={sprite.name}
-                      className={styles.sprite}
-                      height={18}
-                      src={`/images/${sprite.image}`}
-                      width={Math.round(18 * (sprite.width / sprite.height))}
-                    />
-                  </Tooltip>
-                )
-              );
-            }
-          },
-        },
+          .replaceAll(/<sprite=(\d+)>/g, '<i data-sprite="$1" />'),
+        options,
       )}
     </Text>
   ));
