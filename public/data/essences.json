@@ -81,13 +81,21 @@
     "name": "Essence of Direness",
     "description": "The lower my <color=yellow>Health</color>, the shorter the <color=yellow>Cooldown</color> of this Memory. When my <color=yellow>Health</color> is at 30%, the <color=yellow>Cooldown</color> is reduced by up to 55%<sprite=5>.",
     "rarity": "Epic",
-    "image": "Gem_E_Direness.PNG"
+    "image": "Gem_E_Direness.PNG",
+    "achievement": {
+      "name": "Desperate Hero",
+      "description": "Defeat 30 enemies in a row while your health is below 40%."
+    }
   },
   "Gem_E_Insight": {
     "name": "Essence of Insight",
     "description": "When this Memory deals any <color=yellow>damage</color> to an enemy, it deals an additional <sprite=1><color=#16D7FF>200%</color><sprite=5> <color=yellow>Light Damage</color> to up to 3<sprite=5> enemies and increases <color=yellow>Memory Haste</color> by 20<sprite=5> for 5 seconds. Can only trigger once every 3 seconds.",
     "rarity": "Epic",
-    "image": "Gem_E_Insight.PNG"
+    "image": "Gem_E_Insight.PNG",
+    "achievement": {
+      "name": "Ultra Rapid Fire",
+      "description": "Cast 12 Memories within 8 seconds."
+    }
   },
   "Gem_E_Metal": {
     "name": "Essence of Metal",
@@ -105,7 +113,11 @@
     "name": "Essence of Predation",
     "description": "This Memory deals 60%<sprite=5> increased damage to <color=yellow>Boss</color> and <color=yellow>Hunter</color> enemies. Defeating a <color=yellow>Hunter</color> drops 1 <color=yellow>Orb of Power</color>, while defeating a <color=yellow>Boss</color> drops 3. When you collect an <color=yellow>Orb of Power</color>, either <color=yellow>Attack Damage</color> or <color=yellow>Ability Power</color> permanently increases by 1 at random.",
     "rarity": "Epic",
-    "image": "Gem_E_Predation.png"
+    "image": "Gem_E_Predation.png",
+    "achievement": {
+      "name": "Who's the Prey Now",
+      "description": "Defeat the Hunter 70 times."
+    }
   },
   "Gem_E_Thunder": {
     "name": "Essence of Thunder",
@@ -135,7 +147,11 @@
     "name": "Glacial Core",
     "description": "Every 5 seconds, if you deal <color=yellow>damage</color> with this memory, you <color=yellow>recover</color> <color=yellow>health</color> equal to 3.6%<sprite=5> of your maximum health. If it is <color=yellow>cold damage</color>, the effect is increased by 100%. 272%<sprite=5> of all <color=yellow>health recovery</color> you receive is converted into <color=yellow>cold damage</color> and fires <color=yellow>ice shards</color> at enemies.",
     "rarity": "Legendary",
-    "image": "Gem_L_GlacialCore.PNG"
+    "image": "Gem_L_GlacialCore.PNG",
+    "achievement": {
+      "name": "Frozen Heart",
+      "description": "Defeat the King of the Snowy Mountains, the second region's boss, for the first time."
+    }
   },
   "Gem_L_Paranoia": {
     "name": "Essence of Paranoia",
@@ -219,31 +235,51 @@
     "name": "Essence of Wealth",
     "description": "When an enemy damaged by this memory is killed within 6 seconds, they drop 3<sprite=5> gold. Gold is shared among all Travelers.",
     "rarity": "Rare",
-    "image": "Gem_R_Wealth.PNG"
+    "image": "Gem_R_Wealth.PNG",
+    "achievement": {
+      "name": "Suspiciously Wealthy Traveler",
+      "description": "Spend a total of 2,000 gold."
+    }
   },
   "Gem_L_DivineFaith": {
     "name": "Divine Faith",
     "description": "Each time you <color=yellow>Kill</color> an enemy with this memory, gain a stack of <color=yellow>Faith</color> up to 75<sprite=5> stacks. For each stack of <color=yellow>Faith</color>, this memory's <color=yellow>Damage</color> to enemies and <color=yellow>Healing</color> to allies increases by 0.5%, and your maximum Health increases by 4.",
     "rarity": "Legendary",
-    "image": "Gem_L_DivineFaith.PNG"
+    "image": "Gem_L_DivineFaith.PNG",
+    "achievement": {
+      "name": "God Protects Me",
+      "description": "In a single adventure, visit locations occupied by Hunters 4 times while having a Threat Level of 5."
+    }
   },
   "Gem_E_Flexibility": {
     "name": "Essence of Flexibility",
     "description": "While this Memory is on cooldown, 37%<sprite=5> of damage taken is split over 4 seconds. This split damage is reduced by 20%.",
     "rarity": "Epic",
-    "image": "Gem_E_Flexibility.PNG"
+    "image": "Gem_E_Flexibility.PNG",
+    "achievement": {
+      "name": "Flexible Diet",
+      "description": "In a single adventure, have your Health drop below 40% and rise above 75%, 10 times."
+    }
   },
   "Gem_C_Vengeance": {
     "name": "Essence of Vengeance",
     "description": "When you take any damage, fire 2 blades that deal <sprite=1><color=#16D7FF>102%</color><sprite=5> <color=yellow>damage</color> to nearby enemies. After taking damage, this memory's <color=yellow>damage</color> and <color=yellow>healing</color> are increased by 34%<sprite=5> for 5 seconds.",
     "rarity": "Rare",
-    "image": "Gem_C_Vengeance.png"
+    "image": "Gem_C_Vengeance.png",
+    "achievement": {
+      "name": "Taste of Their Own Medicine",
+      "description": "Defeat the Demon of the Forest, the first region's boss, by clawing it."
+    }
   },
   "Gem_E_Omega": {
     "name": "Essence of Finality",
     "description": "While this Memory is not on <color=yellow>Cooldown</color>, gain <color=yellow>Finality</color> stacks every second up to 20 stacks. When stacks are present, this Memory's <color=yellow>Cast</color> is <color=yellow>Empowered</color>, increasing <color=yellow>Damage</color> by 5%<sprite=5> per stack.",
     "rarity": "Epic",
-    "image": "Gem_E_Omega.PNG"
+    "image": "Gem_E_Omega.PNG",
+    "achievement": {
+      "name": "Omega Point",
+      "description": "Enter The Pure White Dream by defeating the third region's boss, having cast only one type of Memory during your adventure."
+    }
   },
   "Gem_R_Rigidity": {
     "name": "Essence of Rigidity",
@@ -255,13 +291,21 @@
     "name": "Essence of the Giant",
     "description": "Increases maximum Health by 260<sprite=5>. This Memory's damage increases by 1% for every 50 of your <color=yellow>Maximum Health</color>.",
     "rarity": "Epic",
-    "image": "Gem_E_Might.PNG"
+    "image": "Gem_E_Might.PNG",
+    "achievement": {
+      "name": "Heavier Than Atlas",
+      "description": "Reach 3,000 maximum health."
+    }
   },
   "Gem_L_SolarEye": {
     "name": "Eye of the Sun",
     "description": "Every 20 seconds, this Memory's <color=yellow>Cast</color> is <color=yellow>Empowered</color>, raining <color=yellow>Solar Light</color> upon all nearby enemies who are <color=yellow>Burning</color>. <color=yellow>Solar Light</color> deals <sprite=1><color=#16D7FF>360%</color><sprite=5> <color=yellow>Fire Damage</color> over 1.5 seconds and increases <color=yellow>Burn</color> stacks by 9<sprite=5>.\nIncreases my Fire damage over time by 100%.",
     "rarity": "Legendary",
-    "image": "Gem_L_SolarEye.png"
+    "image": "Gem_L_SolarEye.png",
+    "achievement": {
+      "name": "Praise the Sun!",
+      "description": "Apply a total of 4,000 fire stacks to enemies"
+    }
   },
   "Gem_C_Sulfur": {
     "name": "Essence of Sulfur",
@@ -273,7 +317,11 @@
     "name": "Essence of Overload",
     "description": "When you <color=yellow>Cast</color> this memory, <color=yellow>Sacrifice</color> 20% of your current Health to <color=yellow>Empower</color> the <color=yellow>Cast</color>. The <color=yellow>Damage</color> and <color=yellow>Healing</color> dealt by the <color=yellow>Empowered Cast</color> are increased by 45%<sprite=5>.",
     "rarity": "Epic",
-    "image": "Gem_E_Overload.PNG"
+    "image": "Gem_E_Overload.PNG",
+    "achievement": {
+      "name": "Reap What You Sow",
+      "description": "Sacrifice a portion of your HP for gold at the Shrine of Disintegration 16 times."
+    }
   },
   "Gem_R_Contempt": {
     "name": "Essence of Contempt",
@@ -291,19 +339,31 @@
     "name": "Pure White",
     "description": "Every 10 seconds, the <color=yellow>Cast</color> of this memory is <color=yellow>Empowered</color>. The <color=yellow>Empowered Cast</color> fires 3 <color=yellow>Projectiles</color> that deal <color=yellow>Light Damage</color> equal to 20%<sprite=5> of the <color=yellow>Damage</color> it first deals to each enemy. The number of shots increases by the number of <color=yellow>Light Stacks</color> on each target.",
     "rarity": "Legendary",
-    "image": "Gem_L_PureWhite.PNG"
+    "image": "Gem_L_PureWhite.PNG",
+    "achievement": {
+      "name": "Empty Canvas",
+      "description": "Enter The Pure White Dream by defeating the third region's boss 10 times in total."
+    }
   },
   "Gem_R_Wound": {
     "name": "Essence of Wound",
     "description": "When this memory deals damage to an enemy, it applies a <color=yellow>Mark</color>. Each <color=yellow>Attack</color> on a marked target deals <sprite=1><color=#16D7FF>44%</color><sprite=5> <color=yellow>Damage</color>. After 3 attacks, the <color=yellow>Mark</color> explodes, dealing <sprite=1><color=#16D7FF>275%</color><sprite=5> <color=yellow>Damage</color> to all nearby enemies.",
     "rarity": "Rare",
-    "image": "Gem_R_Wound.PNG"
+    "image": "Gem_R_Wound.PNG",
+    "achievement": {
+      "name": "Transcendent Speed",
+      "description": "Reach 6 attack speed per second."
+    }
   },
   "Gem_E_Protection": {
     "name": "Essence of Protection",
     "description": "When you <color=yellow>cast</color> this memory, gain 40<sprite=5> <color=yellow>Defense</color> for 3 seconds, reducing damage taken and becoming <color=yellow>Unstoppable</color>. Can only trigger once every 5 seconds.",
     "rarity": "Epic",
-    "image": "Gem_E_Protection.PNG"
+    "image": "Gem_E_Protection.PNG",
+    "achievement": {
+      "name": "Iron Body",
+      "description": "Gain a shield equal to or greater than 300% of your maximum health, for example, by using Essence of Guidance, Essence of Spiral, and Essence of Clemency simultaneously."
+    }
   },
   "Gem_E_Fever": {
     "name": "Essence of Fever",
