@@ -170,46 +170,53 @@ export type ItemDescriptionProps = TextProps;
 export const ItemDescription: FC<ItemDescriptionProps> = ({
   children,
   ...props
-}) => (
-  <Text as="p" wrap="pretty" {...props}>
-    {typeof children === "string"
-      ? parse(
-          children
-            .replaceAll("\n", "<br>")
-            .replaceAll(
-              /<color=(.*?)>(.*?)<\/color>/g,
-              (_, color: string, content: string) => {
-                const style =
-                  color === "yellow" ? "" : `style="color:${color}"`;
-                return `<em class="rt-Em ${styles.em}" ${style}>${content}</em>`;
-              },
-            )
-            .replaceAll(/<sprite=(\d+)>/g, '<img data-sprite="$1" />'),
-          {
-            replace: (domNode) => {
-              if (domNode instanceof Element && domNode.name === "img") {
-                const sprite = Object.values(sprites).find(
-                  ({ image }) =>
-                    image === `${domNode.attribs["data-sprite"]}.png`,
-                );
+}) => {
+  if (typeof children !== "string") {
+    return (
+      <Text as="p" wrap="pretty" {...props}>
+        {children}
+      </Text>
+    );
+  }
 
-                return (
-                  sprite && (
-                    <Tooltip content={sprite.name}>
-                      <Image
-                        alt={sprite.name}
-                        className={styles.sprite}
-                        height={18}
-                        src={`/images/${sprite.image}`}
-                        width={Math.round(18 * (sprite.width / sprite.height))}
-                      />
-                    </Tooltip>
-                  )
-                );
-              }
+  return children.split("\n\n").map((paragraph, index) => (
+    <Text key={index} as="p" wrap="pretty" {...props}>
+      {parse(
+        paragraph
+          .replaceAll("\n", "<br>")
+          .replaceAll(
+            /<color=(.*?)>(.*?)<\/color>/g,
+            (_, color: string, content: string) => {
+              const style = color === "yellow" ? "" : `style="color:${color}"`;
+              return `<em class="rt-Em ${styles.em}" ${style}>${content}</em>`;
             },
+          )
+          .replaceAll(/<sprite=(\d+)>/g, '<img data-sprite="$1" />'),
+        {
+          replace: (domNode) => {
+            if (domNode instanceof Element && domNode.name === "img") {
+              const sprite = Object.values(sprites).find(
+                ({ image }) =>
+                  image === `${domNode.attribs["data-sprite"]}.png`,
+              );
+
+              return (
+                sprite && (
+                  <Tooltip content={sprite.name}>
+                    <Image
+                      alt={sprite.name}
+                      className={styles.sprite}
+                      height={18}
+                      src={`/images/${sprite.image}`}
+                      width={Math.round(18 * (sprite.width / sprite.height))}
+                    />
+                  </Tooltip>
+                )
+              );
+            }
           },
-        )
-      : children}
-  </Text>
-);
+        },
+      )}
+    </Text>
+  ));
+};
