@@ -9,7 +9,6 @@ const withBundleAnalyzer = NextBundleAnalyzer({
 const config = {
   images: {
     formats: ["image/avif", "image/webp"],
-    minimumCacheTTL: 24 * 60 * 60,
   },
   // eslint-disable-next-line @typescript-eslint/require-await -- headers must return a promise
   headers: async () => [
