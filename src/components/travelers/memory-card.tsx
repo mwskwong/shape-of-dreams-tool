@@ -20,7 +20,7 @@ export interface MemoryCardProps
   tags?: string[];
   image: string;
   unlockBy?: string;
-  achievement?: { name: string; description: string };
+  achievement?: { name: string; description: string } | null;
   mutuallyExclusive?: string[];
 }
 

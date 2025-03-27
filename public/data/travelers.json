@@ -17,6 +17,7 @@
       "abilityPower": "+1"
     },
     "description": "Lacerta is a former Royal Guard sniper and hunter proficient in handling firearms and gunpowder. He is accustomed to taking out enemies from long range.",
+    "achievement": null,
     "image": "Hero_Lacerta.png",
     "constellations": [
       {
@@ -75,6 +76,7 @@
       "armor": "+2"
     },
     "description": "Mist is a courageous duelist of noble birth. With agile combat techniques, she can evade dangerous attacks and swiftly dispatch enemies.",
+    "achievement": null,
     "image": "Hero_Mist.png",
     "constellations": [
       {

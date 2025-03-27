@@ -61,7 +61,7 @@ export interface TravelerCardProps extends Omit<CardProps, "children"> {
     movementSpeed?: string;
   };
   description: string;
-  achievement?: { name: string; description: string };
+  achievement?: { name: string; description: string } | null;
   image: string;
   memories?: {
     name: string;
@@ -74,7 +74,7 @@ export interface TravelerCardProps extends Omit<CardProps, "children"> {
     image: string;
     unlockBy?: string;
     mutuallyExclusive?: string[];
-    achievement?: { name: string; description: string };
+    achievement?: { name: string; description: string } | null;
   }[];
   constellations?: {
     name: string;
