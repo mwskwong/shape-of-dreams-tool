@@ -16,7 +16,7 @@ import { type FC, type PropsWithChildren } from "react";
 
 import Nav from "@/components/nav";
 
-import styles from "./root-layout.module.css";
+import styles from "./layout.module.css";
 
 const geist = Geist({
   variable: "--font-geist",
