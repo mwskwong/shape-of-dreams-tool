@@ -38,7 +38,11 @@ const Memories: FC<MemoriesProps> = async ({ searchParams }) => {
               description.toLowerCase().includes(search.toLowerCase()) ||
               shortDescription.toLowerCase().includes(search.toLowerCase()) ||
               !achievement ||
-              achievement.name.toLowerCase().includes(search.toLowerCase()) ||
+              achievement.name
+                .normalize("NFD") // cater for accented characters
+                .replaceAll(/[\u0300-\u036F]/g, "")
+                .toLowerCase()
+                .includes(search.toLowerCase()) ||
               achievement.description
                 .toLowerCase()
                 .includes(search.toLowerCase())) &&
