@@ -29,13 +29,19 @@ const Memories: FC<MemoriesProps> = async ({ searchParams }) => {
               rarity,
               type,
               traveler,
+              achievement,
               tags: _tags,
             },
           ]) =>
             (search === "" ||
               name.toLowerCase().includes(search.toLowerCase()) ||
               description.toLowerCase().includes(search.toLowerCase()) ||
-              shortDescription.toLowerCase().includes(search.toLowerCase())) &&
+              shortDescription.toLowerCase().includes(search.toLowerCase()) ||
+              !achievement ||
+              achievement.name.toLowerCase().includes(search.toLowerCase()) ||
+              achievement.description
+                .toLowerCase()
+                .includes(search.toLowerCase())) &&
             (rarities.length === 0 || rarities.includes(rarity)) &&
             (types.length === 0 || types.includes(type)) &&
             (travelers.length === 0 || travelers.includes(traveler)) &&

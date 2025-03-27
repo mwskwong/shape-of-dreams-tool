@@ -29,7 +29,8 @@
     "traveler": "Hero_Lacerta",
     "travelerMemoryLocation": "Identity",
     "tags": ["Fire", "Attack"],
-    "image": "St_D_SalamanderPowder.PNG"
+    "image": "St_D_SalamanderPowder.PNG",
+    "achievement": null
   },
   "St_Q_HandCannon": {
     "name": "Hand Cannon",
@@ -43,7 +44,8 @@
     "traveler": "Hero_Lacerta",
     "travelerMemoryLocation": "Q",
     "tags": ["Fire", "Melee", "HardCC"],
-    "image": "St_Q_HandCannon.png"
+    "image": "St_Q_HandCannon.png",
+    "achievement": null
   },
   "St_Q_IncendiaryRounds": {
     "name": "Incendiary Rounds",
@@ -93,7 +95,8 @@
     "traveler": "Hero_Lacerta",
     "travelerMemoryLocation": "R",
     "tags": [],
-    "image": "St_R_QuickTrigger.PNG"
+    "image": "St_R_QuickTrigger.PNG",
+    "achievement": null
   },
   "St_D_AstridsMasterpiece": {
     "name": "Astrid's Masterpiece",
@@ -107,7 +110,8 @@
     "traveler": "Hero_Mist",
     "travelerMemoryLocation": "Identity",
     "tags": ["Shield", "Attack"],
-    "image": "St_D_AstridsMasterpiece.PNG"
+    "image": "St_D_AstridsMasterpiece.PNG",
+    "achievement": null
   },
   "St_Q_Fleche": {
     "name": "Flèche",
@@ -139,7 +143,8 @@
     "traveler": "Hero_Mist",
     "travelerMemoryLocation": "Q",
     "tags": ["Melee", "Attack", "Mobility"],
-    "image": "St_Q_Lunge.png"
+    "image": "St_Q_Lunge.png",
+    "achievement": null
   },
   "St_R_Parry": {
     "name": "Parry",
@@ -171,7 +176,8 @@
     "traveler": "Hero_Mist",
     "travelerMemoryLocation": "R",
     "tags": ["Heal"],
-    "image": "St_R_UnbreakableDetermination.PNG"
+    "image": "St_R_UnbreakableDetermination.PNG",
+    "achievement": null
   },
   "St_D_Resolve": {
     "name": "Resolve",
@@ -185,7 +191,8 @@
     "traveler": "Hero_Vesper",
     "travelerMemoryLocation": "Identity",
     "tags": ["Heal", "Attack"],
-    "image": "St_D_Resolve.png"
+    "image": "St_D_Resolve.png",
+    "achievement": null
   },
   "St_Q_CruelSun": {
     "name": "Cruel Sun",
@@ -199,7 +206,8 @@
     "traveler": "Hero_Vesper",
     "travelerMemoryLocation": "Q",
     "tags": ["Fire", "Melee", "HardCC"],
-    "image": "St_Q_CruelSun.png"
+    "image": "St_Q_CruelSun.png",
+    "achievement": null
   },
   "St_R_SanctuaryOfEl": {
     "name": "Sanctuary of El",
@@ -213,7 +221,8 @@
     "traveler": "Hero_Vesper",
     "travelerMemoryLocation": "R",
     "tags": ["Light", "Melee", "Shield"],
-    "image": "St_R_SanctuaryOfEl.png"
+    "image": "St_R_SanctuaryOfEl.png",
+    "achievement": null
   },
   "St_D_ConvergencePoint": {
     "name": "Converging Stars",
@@ -245,7 +254,8 @@
     "traveler": "Hero_Yubar",
     "travelerMemoryLocation": "Identity",
     "tags": ["Light", "Attack"],
-    "image": "St_D_ExoticMatter.png"
+    "image": "St_D_ExoticMatter.png",
+    "achievement": null
   },
   "St_Q_EtherealInfluence": {
     "name": "Ethereal Influence",
@@ -259,7 +269,8 @@
     "traveler": "Hero_Yubar",
     "travelerMemoryLocation": "Q",
     "tags": ["Light", "HardCC"],
-    "image": "St_Q_EtherealInfluence.png"
+    "image": "St_Q_EtherealInfluence.png",
+    "achievement": null
   },
   "St_Q_SuperNova": {
     "name": "Supernova",
@@ -291,7 +302,8 @@
     "traveler": "Hero_Yubar",
     "travelerMemoryLocation": "R",
     "tags": ["Light", "HardCC", "Shield"],
-    "image": "St_R_Cataclysm.png"
+    "image": "St_R_Cataclysm.png",
+    "achievement": null
   },
   "St_R_Tranquility": {
     "name": "Tranquility",
@@ -323,7 +335,8 @@
     "traveler": "",
     "travelerMemoryLocation": "",
     "tags": ["Light", "Heal"],
-    "image": "St_C_BeamOfLight.png"
+    "image": "St_C_BeamOfLight.png",
+    "achievement": null
   },
   "St_C_DarkBolt": {
     "name": "Dark Bolt",
@@ -337,7 +350,8 @@
     "traveler": "",
     "travelerMemoryLocation": "",
     "tags": ["Dark", "Attack"],
-    "image": "St_C_DarkBolt.PNG"
+    "image": "St_C_DarkBolt.PNG",
+    "achievement": null
   },
   "St_C_DarkSpear": {
     "name": "Dark Spear",
@@ -351,7 +365,8 @@
     "traveler": "",
     "travelerMemoryLocation": "",
     "tags": ["Dark", "Melee", "HardCC", "Attack"],
-    "image": "St_C_DarkSpear.png"
+    "image": "St_C_DarkSpear.png",
+    "achievement": null
   },
   "St_C_GlacialStomp": {
     "name": "Glacial Stomp",
@@ -365,7 +380,8 @@
     "traveler": "",
     "travelerMemoryLocation": "",
     "tags": ["Cold", "Melee", "HardCC", "Shield"],
-    "image": "St_C_GlacialStomp.png"
+    "image": "St_C_GlacialStomp.png",
+    "achievement": null
   },
   "St_C_IceBlock": {
     "name": "Ice Shield",
@@ -379,7 +395,8 @@
     "traveler": "",
     "travelerMemoryLocation": "",
     "tags": ["Cold", "Shield"],
-    "image": "St_C_IceBlock.PNG"
+    "image": "St_C_IceBlock.PNG",
+    "achievement": null
   },
   "St_C_IceClaw": {
     "name": "Ice Claw",
@@ -393,7 +410,8 @@
     "traveler": "",
     "travelerMemoryLocation": "",
     "tags": ["Cold", "Melee", "HardCC"],
-    "image": "St_C_IceClaw.PNG"
+    "image": "St_C_IceClaw.PNG",
+    "achievement": null
   },
   "St_C_PressurePoint": {
     "name": "Pressure Point",
@@ -407,7 +425,8 @@
     "traveler": "",
     "travelerMemoryLocation": "",
     "tags": ["Melee", "HardCC"],
-    "image": "St_C_PressurePoint.PNG"
+    "image": "St_C_PressurePoint.PNG",
+    "achievement": null
   },
   "St_C_Starfall": {
     "name": "Starfall",
@@ -421,7 +440,8 @@
     "traveler": "",
     "travelerMemoryLocation": "",
     "tags": ["Light"],
-    "image": "St_C_Starfall.PNG"
+    "image": "St_C_Starfall.PNG",
+    "achievement": null
   },
   "St_E_AntiGravity": {
     "name": "Anti-Gravity",
@@ -435,7 +455,8 @@
     "traveler": "",
     "travelerMemoryLocation": "",
     "tags": ["HardCC"],
-    "image": "St_E_AntiGravity.png"
+    "image": "St_E_AntiGravity.png",
+    "achievement": null
   },
   "St_E_Blink": {
     "name": "Blink",
@@ -449,7 +470,8 @@
     "traveler": "",
     "travelerMemoryLocation": "",
     "tags": ["Fire", "Mobility"],
-    "image": "St_E_Blink.PNG"
+    "image": "St_E_Blink.PNG",
+    "achievement": null
   },
   "St_E_ChainLightning": {
     "name": "Chain Lightning",
@@ -499,7 +521,8 @@
     "traveler": "",
     "travelerMemoryLocation": "",
     "tags": ["Fire", "Mobility"],
-    "image": "St_E_SearingCharge.png"
+    "image": "St_E_SearingCharge.png",
+    "achievement": null
   },
   "St_E_UmbralEdge": {
     "name": "Umbral Edge",
@@ -513,7 +536,8 @@
     "traveler": "",
     "travelerMemoryLocation": "",
     "tags": ["Dark", "Attack"],
-    "image": "St_E_UmbralEdge.png"
+    "image": "St_E_UmbralEdge.png",
+    "achievement": null
   },
   "St_E_WinterDive": {
     "name": "Winter Dive",
@@ -527,7 +551,8 @@
     "traveler": "",
     "travelerMemoryLocation": "",
     "tags": ["Cold", "HardCC", "Mobility"],
-    "image": "St_E_WinterDive.png"
+    "image": "St_E_WinterDive.png",
+    "achievement": null
   },
   "St_L_Hysteria": {
     "name": "Hysteria",
@@ -559,7 +584,8 @@
     "traveler": "",
     "travelerMemoryLocation": "",
     "tags": ["Attack"],
-    "image": "St_L_Multishot.PNG"
+    "image": "St_L_Multishot.PNG",
+    "achievement": null
   },
   "St_L_WorldCracker": {
     "name": "World Cracker",
@@ -591,7 +617,8 @@
     "traveler": "",
     "travelerMemoryLocation": "",
     "tags": ["Heal", "Mobility"],
-    "image": "St_R_Chomp.png"
+    "image": "St_R_Chomp.png",
+    "achievement": null
   },
   "St_R_FlamingWhip": {
     "name": "Flaming Whip",
@@ -623,7 +650,8 @@
     "traveler": "",
     "travelerMemoryLocation": "",
     "tags": ["Cold", "Shield", "Attack"],
-    "image": "St_R_Frostbite.png"
+    "image": "St_R_Frostbite.png",
+    "achievement": null
   },
   "St_R_GlacialHammer": {
     "name": "Glacial Hammer",
@@ -637,7 +665,8 @@
     "traveler": "",
     "travelerMemoryLocation": "",
     "tags": ["Cold", "Melee", "HardCC"],
-    "image": "St_R_GlacialHammer.PNG"
+    "image": "St_R_GlacialHammer.PNG",
+    "achievement": null
   },
   "St_R_Ignite": {
     "name": "Ignite",
@@ -651,7 +680,8 @@
     "traveler": "",
     "travelerMemoryLocation": "",
     "tags": ["Fire"],
-    "image": "St_R_Ignite.png"
+    "image": "St_R_Ignite.png",
+    "achievement": null
   },
   "St_R_PillarOfFlame": {
     "name": "Pillar of Flame",
@@ -665,7 +695,8 @@
     "traveler": "",
     "travelerMemoryLocation": "",
     "tags": ["Fire"],
-    "image": "St_R_PillarOfFlame.PNG"
+    "image": "St_R_PillarOfFlame.PNG",
+    "achievement": null
   },
   "St_R_RepulsiveShield": {
     "name": "Repulsive Shield",
@@ -679,7 +710,8 @@
     "traveler": "",
     "travelerMemoryLocation": "",
     "tags": [],
-    "image": "St_R_RepulsiveShield.PNG"
+    "image": "St_R_RepulsiveShield.PNG",
+    "achievement": null
   },
   "St_R_Scattershot": {
     "name": "Scattershot",
@@ -693,7 +725,8 @@
     "traveler": "",
     "travelerMemoryLocation": "",
     "tags": ["Dark", "Melee", "Attack"],
-    "image": "St_R_Scattershot.PNG"
+    "image": "St_R_Scattershot.PNG",
+    "achievement": null
   },
   "St_R_ShadowWalk": {
     "name": "Shadow Walk",
@@ -707,7 +740,8 @@
     "traveler": "",
     "travelerMemoryLocation": "",
     "tags": ["Dark", "Attack", "Mobility"],
-    "image": "St_R_ShadowWalk.PNG"
+    "image": "St_R_ShadowWalk.PNG",
+    "achievement": null
   },
   "St_R_StaticDischarge": {
     "name": "Static Discharge",
@@ -721,7 +755,8 @@
     "traveler": "",
     "travelerMemoryLocation": "",
     "tags": ["Light", "Melee", "HardCC"],
-    "image": "St_R_StaticDischarge.png"
+    "image": "St_R_StaticDischarge.png",
+    "achievement": null
   },
   "St_E_Rewind": {
     "name": "Rewind",
@@ -735,7 +770,8 @@
     "traveler": "",
     "travelerMemoryLocation": "",
     "tags": [],
-    "image": "St_E_Rewind.PNG"
+    "image": "St_E_Rewind.PNG",
+    "achievement": null
   },
   "St_Q_Discipline": {
     "name": "Discipline",
@@ -785,7 +821,8 @@
     "traveler": "Hero_Lacerta",
     "travelerMemoryLocation": "Movement",
     "tags": ["Mobility"],
-    "image": "St_M_NimbleDodge.PNG"
+    "image": "St_M_NimbleDodge.PNG",
+    "achievement": null
   },
   "St_M_Charge": {
     "name": "Heavy Strike",
@@ -799,7 +836,8 @@
     "traveler": "Hero_Vesper",
     "travelerMemoryLocation": "Movement",
     "tags": ["Shield", "Mobility"],
-    "image": "St_M_Charge.PNG"
+    "image": "St_M_Charge.PNG",
+    "achievement": null
   },
   "St_M_FastFeet": {
     "name": "Swift Steps",
@@ -813,7 +851,8 @@
     "traveler": "Hero_Mist",
     "travelerMemoryLocation": "Movement",
     "tags": ["Mobility"],
-    "image": "St_M_FastFeet.PNG"
+    "image": "St_M_FastFeet.PNG",
+    "achievement": null
   },
   "St_M_Flicker": {
     "name": "Flicker",
@@ -827,7 +866,8 @@
     "traveler": "Hero_Yubar",
     "travelerMemoryLocation": "Movement",
     "tags": ["Mobility"],
-    "image": "St_M_Flicker.PNG"
+    "image": "St_M_Flicker.PNG",
+    "achievement": null
   },
   "St_D_DisintegratingClaw": {
     "name": "Disintegrating Claw",
@@ -841,7 +881,8 @@
     "traveler": "Hero_Aurena",
     "travelerMemoryLocation": "Identity",
     "tags": ["Heal", "Attack"],
-    "image": "St_D_DisintegratingClaw.png"
+    "image": "St_D_DisintegratingClaw.png",
+    "achievement": null
   },
   "St_M_FeatheryDash": {
     "name": "Feathery Dash",
@@ -855,7 +896,8 @@
     "traveler": "Hero_Aurena",
     "travelerMemoryLocation": "Movement",
     "tags": ["Mobility"],
-    "image": "St_M_FeatheryDash.PNG"
+    "image": "St_M_FeatheryDash.PNG",
+    "achievement": null
   },
   "St_Q_GoldenBurst": {
     "name": "Golden Burst",
@@ -869,7 +911,8 @@
     "traveler": "Hero_Aurena",
     "travelerMemoryLocation": "Q",
     "tags": ["Light", "Melee", "Heal"],
-    "image": "St_Q_GoldenBurst.png"
+    "image": "St_Q_GoldenBurst.png",
+    "achievement": null
   },
   "St_R_DangerousTheory": {
     "name": "Dangerous Theory",
@@ -883,7 +926,8 @@
     "traveler": "Hero_Aurena",
     "travelerMemoryLocation": "R",
     "tags": ["Melee", "Heal", "Attack", "Mobility"],
-    "image": "St_R_DangerousTheory.png"
+    "image": "St_R_DangerousTheory.png",
+    "achievement": null
   },
   "St_C_Sneeze": {
     "name": "Sneeze",
@@ -897,7 +941,8 @@
     "traveler": "",
     "travelerMemoryLocation": "",
     "tags": [],
-    "image": "St_C_Sneeze.PNG"
+    "image": "St_C_Sneeze.PNG",
+    "achievement": null
   },
   "St_L_MentalCorruption": {
     "name": "Mental Corruption",
@@ -929,7 +974,8 @@
     "traveler": "",
     "travelerMemoryLocation": "",
     "tags": ["Dark", "Attack"],
-    "image": "St_R_BlackArbalest.PNG"
+    "image": "St_R_BlackArbalest.PNG",
+    "achievement": null
   },
   "St_E_ClutchesOfMalice": {
     "name": "Clutches of Malice",
@@ -961,7 +1007,8 @@
     "traveler": "",
     "travelerMemoryLocation": "",
     "tags": ["Fire", "Light", "HardCC"],
-    "image": "St_R_Smite.PNG"
+    "image": "St_R_Smite.PNG",
+    "achievement": null
   },
   "St_C_BackStep": {
     "name": "Backstep",
@@ -975,7 +1022,8 @@
     "traveler": "",
     "travelerMemoryLocation": "",
     "tags": ["HardCC", "Mobility"],
-    "image": "St_C_BackStep.png"
+    "image": "St_C_BackStep.png",
+    "achievement": null
   },
   "St_C_Purgatory": {
     "name": "Purgatory",
@@ -989,7 +1037,8 @@
     "traveler": "",
     "travelerMemoryLocation": "",
     "tags": ["Heal"],
-    "image": "St_C_Purgatory.png"
+    "image": "St_C_Purgatory.png",
+    "achievement": null
   },
   "St_R_GreatFrostSword": {
     "name": "Great Frost Sword",
@@ -1003,7 +1052,8 @@
     "traveler": "",
     "travelerMemoryLocation": "",
     "tags": ["Cold", "Melee", "HardCC"],
-    "image": "St_R_GreatFrostSword.PNG"
+    "image": "St_R_GreatFrostSword.PNG",
+    "achievement": null
   },
   "St_L_ShoutOfOblivion": {
     "name": "Shout of Oblivion",
@@ -1035,6 +1085,7 @@
     "traveler": "",
     "travelerMemoryLocation": "",
     "tags": ["Melee", "Attack"],
-    "image": "St_C_Whirlwind.png"
+    "image": "St_C_Whirlwind.png",
+    "achievement": null
   }
 }

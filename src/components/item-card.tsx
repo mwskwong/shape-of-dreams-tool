@@ -37,7 +37,7 @@ export interface ItemCardProps extends Omit<CardProps, "children"> {
   traveler?: string;
   tags?: string[];
   image: string;
-  achievement?: { name: string; description: string };
+  achievement?: { name: string; description: string } | null;
   mutuallyExclusive?: string[];
 }
 
@@ -125,7 +125,7 @@ export interface ItemCardContentProps extends Omit<CardProps, "children"> {
   type?: string;
   traveler?: string;
   tags?: string[];
-  achievement?: { name: string; description: string };
+  achievement?: { name: string; description: string } | null;
   mutuallyExclusive?: string[];
 }
 
