@@ -169,7 +169,7 @@
     "image": "Gem_L_GlacialCore.PNG",
     "achievement": {
       "name": "Frozen Heart",
-      "description": "Defeat the King of the Snowy Mountains, the second region's boss, for the first time."
+      "description": "Defeat the King of the Snowy Mountains, the boss of the second region, for the first time."
     }
   },
   "Gem_L_Paranoia": {
@@ -300,7 +300,7 @@
     "image": "Gem_C_Vengeance.png",
     "achievement": {
       "name": "Taste of Their Own Medicine",
-      "description": "Defeat the Demon of the Forest, the first region's boss, by clawing it."
+      "description": "Defeat the Demon of the Forest, the boss of the first region, by delivering the killing blow with a claw attack or memory such as Aurena's basic attack, Hysteria, or Ice Claw."
     }
   },
   "Gem_E_Omega": {
@@ -310,7 +310,7 @@
     "image": "Gem_E_Omega.PNG",
     "achievement": {
       "name": "Omega Point",
-      "description": "Enter The Pure White Dream by defeating the third region's boss, having cast only one type of Memory during your adventure."
+      "description": "Enter The Pure White Dream by defeating the boss of the third region, having cast only one Memory during your adventure."
     }
   },
   "Gem_R_Rigidity": {
@@ -378,7 +378,7 @@
     "image": "Gem_L_PureWhite.PNG",
     "achievement": {
       "name": "Empty Canvas",
-      "description": "Enter The Pure White Dream by defeating the third region's boss 10 times in total."
+      "description": "Enter The Pure White Dream by defeating the boss of the third region 10 times in total."
     }
   },
   "Gem_R_Wound": {
