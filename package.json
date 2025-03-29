@@ -21,8 +21,8 @@
     "html-react-parser": "^5.2.2",
     "next": "15.2.4",
     "nuqs": "^2.4.1",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
   },
   "devDependencies": {
     "@csstools/postcss-global-data": "^3.0.0",
@@ -39,7 +39,7 @@
     "babel-plugin-react-compiler": "latest",
     "eslint": "^9.23.0",
     "eslint-config-prettier": "^10.1.1",
-    "eslint-import-resolver-typescript": "^4.2.5",
+    "eslint-import-resolver-typescript": "^4.2.7",
     "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-jsx-a11y": "^6.10.2",
     "eslint-plugin-react": "^7.37.4",
