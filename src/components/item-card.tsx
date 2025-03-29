@@ -23,7 +23,7 @@ import parse, {
 import Image from "next/image";
 import { type FC, Fragment } from "react";
 
-import { sprites } from "@/lib/constants";
+import { sprites } from "@/lib/utils";
 
 import styles from "./item-card.module.css";
 

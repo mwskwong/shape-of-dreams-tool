@@ -13,7 +13,7 @@ import { clsx } from "clsx";
 import Image from "next/image";
 import { type FC } from "react";
 
-import { sprites } from "@/lib/constants";
+import { sprites } from "@/lib/utils";
 
 import { ItemDescription } from "../item-card";
 
