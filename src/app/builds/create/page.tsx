@@ -18,6 +18,9 @@ const CreateBuild: FC = () => {
   const form = useForm({
     defaultValues: { name: "" } satisfies InferOutput<typeof schema>,
     validators: { onChange: schema },
+    onSubmit: ({ value }) => {
+      alert(JSON.stringify(value));
+    },
   });
 
   return (
@@ -31,7 +34,7 @@ const CreateBuild: FC = () => {
       >
         <form.Field name="name">
           {({ state, handleChange, handleBlur }) => (
-            <>
+            <div>
               <TextField.Root
                 color={state.meta.errors.length > 0 ? "red" : undefined}
                 placeholder="My Build"
@@ -39,10 +42,10 @@ const CreateBuild: FC = () => {
                 onBlur={handleBlur}
                 onChange={(e) => handleChange(e.target.value)}
               />
-              <Text color="red" size="2">
+              <Text as="div" color="red" mt="1" size="2">
                 {state.meta.errors[0]?.message}
               </Text>
-            </>
+            </div>
           )}
         </form.Field>
         <Button type="submit">Submit</Button>
