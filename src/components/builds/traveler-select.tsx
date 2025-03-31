@@ -4,6 +4,7 @@ import "@radix-ui/themes/tokens/colors/ruby.css";
 import "@radix-ui/themes/tokens/colors/amber.css";
 import "@radix-ui/themes/tokens/colors/yellow.css";
 
+import { Avatar } from "@radix-ui/themes/components/avatar";
 import { Card, type CardProps } from "@radix-ui/themes/components/card";
 import * as Dialog from "@radix-ui/themes/components/dialog";
 import { Flex } from "@radix-ui/themes/components/flex";
@@ -11,6 +12,7 @@ import { Heading } from "@radix-ui/themes/components/heading";
 import { Inset } from "@radix-ui/themes/components/inset";
 import * as RadioCards from "@radix-ui/themes/components/radio-cards";
 import { Text } from "@radix-ui/themes/components/text";
+import { IconUser } from "@tabler/icons-react";
 import { clsx } from "clsx";
 import Image from "next/image";
 import { type ComponentProps, type FC } from "react";
@@ -45,13 +47,15 @@ export const TravelerSelect: FC<TravelerSelectProps> = ({
                 <Inset side="all">
                   <Image
                     alt={value}
-                    height={80}
+                    height={96}
                     src={`/images/${value}.png`}
-                    width={80}
+                    width={96}
                   />
                 </Inset>
               ) : (
-                <Text>Any Traveler</Text>
+                <Text align="center" as="p">
+                  Any Traveler
+                </Text>
               )}
             </button>
           </Card>
@@ -64,6 +68,16 @@ export const TravelerSelect: FC<TravelerSelectProps> = ({
             value={value}
             onValueChange={onChange}
           >
+            <Dialog.Close>
+              <RadioCards.Item value="">
+                <Flex align="center" direction="column" gap="3">
+                  <Avatar color="gray" fallback={<IconUser />} size="6" />
+                  <Heading as="h2" size="3">
+                    Any Traveler
+                  </Heading>
+                </Flex>
+              </RadioCards.Item>
+            </Dialog.Close>
             {Object.entries(travelers).map(([key, traveler]) => (
               <Dialog.Close key={key}>
                 <RadioCards.Item value={key}>
@@ -78,7 +92,7 @@ export const TravelerSelect: FC<TravelerSelectProps> = ({
                     <Heading as="h2" size="3">
                       {traveler.name}
                     </Heading>
-                    <Text align="center" color="gray">
+                    <Text align="center" as="p" color="gray">
                       {traveler.description}
                     </Text>
                   </Flex>
