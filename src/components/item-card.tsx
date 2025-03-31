@@ -27,18 +27,14 @@ import { sprites } from "@/lib/utils";
 
 import styles from "./item-card.module.css";
 
-export interface ItemCardProps extends Omit<CardProps, "children"> {
+export interface ItemCardProps
+  extends Omit<CardProps, "children">,
+    ItemCardContentProps {
   name: string;
-  cooldownTime?: number;
-  maxCharges?: number;
-  description: string;
   rarity: string;
-  type?: string;
   traveler?: string;
   tags?: string[];
   image: string;
-  achievement?: { name: string; description: string } | null;
-  mutuallyExclusive?: string[];
 }
 
 const getRarityColor = (rarity: string): BadgeProps["color"] => {
@@ -118,7 +114,7 @@ export const ItemCard: FC<ItemCardProps> = ({
   );
 };
 
-export interface ItemCardContentProps extends Omit<CardProps, "children"> {
+export interface ItemCardContentProps {
   cooldownTime?: number;
   maxCharges?: number;
   description: string;
