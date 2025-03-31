@@ -10,13 +10,18 @@ import { useForm } from "@tanstack/react-form";
 import { type FC } from "react";
 import { type InferOutput, nonEmpty, object, pipe, string } from "valibot";
 
+import { TravelerSelect } from "@/components/builds/traveler-select";
+
 const schema = object({
-  name: pipe(string(), nonEmpty("Name is required.")),
+  buildName: pipe(string(), nonEmpty("Build name is required.")),
+  traveler: string(),
 });
 
 const CreateBuild: FC = () => {
   const form = useForm({
-    defaultValues: { name: "" } satisfies InferOutput<typeof schema>,
+    defaultValues: { buildName: "", traveler: "" } satisfies InferOutput<
+      typeof schema
+    >,
     validators: { onChange: schema },
     onSubmit: ({ value }) => {
       alert(JSON.stringify(value));
@@ -32,22 +37,40 @@ const CreateBuild: FC = () => {
           void form.handleSubmit();
         }}
       >
-        <form.Field name="name">
-          {({ state, handleChange, handleBlur }) => (
-            <div>
-              <TextField.Root
-                color={state.meta.errors.length > 0 ? "red" : undefined}
-                placeholder="My Build"
-                value={state.value}
-                onBlur={handleBlur}
-                onChange={(e) => handleChange(e.target.value)}
-              />
-              <Text as="div" color="red" mt="1" size="2">
-                {state.meta.errors[0]?.message}
-              </Text>
-            </div>
-          )}
+        <form.Field name="buildName">
+          {({ name, state, handleChange, handleBlur }) => {
+            const error = state.meta.isTouched
+              ? state.meta.errors[0]?.message
+              : undefined;
+            return (
+              <div>
+                <TextField.Root
+                  color={error ? "red" : undefined}
+                  name={name}
+                  placeholder="My Build"
+                  value={state.value}
+                  onBlur={handleBlur}
+                  onChange={(e) => handleChange(e.target.value)}
+                />
+                <Text as="div" color="red" mt="1" size="2">
+                  {error}
+                </Text>
+              </div>
+            );
+          }}
         </form.Field>
+        <Flex gap="3">
+          <form.Field name="traveler">
+            {({ name, state, handleChange, handleBlur }) => (
+              <TravelerSelect
+                errorMessage={state.meta.errors[0]?.message}
+                name={name}
+                onBlur={handleBlur}
+                onChange={handleChange}
+              />
+            )}
+          </form.Field>
+        </Flex>
         <Button type="submit">Submit</Button>
       </form>
     </Flex>

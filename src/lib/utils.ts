@@ -1,7 +1,8 @@
 import { createLoader, parseAsArrayOf, parseAsString } from "nuqs/server";
 import { type SetRequired, type ValueOf } from "type-fest";
 
-import type memories from "@public/data/memories.json";
+import { type TravelerCardProps } from "@/components/travelers/traveler-card";
+import memories from "@public/data/memories.json";
 
 const rarityOrders = [
   "Common",
@@ -90,3 +91,48 @@ export const sprites = {
     height: 56,
   },
 };
+
+export const getTravelerColor = (
+  travelerId: string,
+): TravelerCardProps["color"] => {
+  switch (travelerId) {
+    case "Hero_Lacerta": {
+      return "orange";
+    }
+    case "Hero_Mist": {
+      return "mint";
+    }
+    case "Hero_Yubar": {
+      return "ruby";
+    }
+    case "Hero_Vesper": {
+      return "amber";
+    }
+    case "Hero_Aurena": {
+      return "yellow";
+    }
+  }
+};
+
+export const getTravelerMemories = (traveler: string) =>
+  Object.values(memories)
+    .filter((memory) => memory.traveler === traveler)
+    .map(
+      ({
+        addedCharges,
+        travelerMemoryLocation: _travelerMemoryLocation,
+        ...memory
+      }) => ({
+        ...memory,
+        mutuallyExclusive: Object.values(memories)
+          .filter(
+            ({ name, traveler, travelerMemoryLocation }) =>
+              name !== memory.name &&
+              traveler &&
+              traveler === memory.traveler &&
+              travelerMemoryLocation === _travelerMemoryLocation,
+          )
+          .map(({ name }) => name),
+      }),
+    )
+    .toSorted((a, b) => compareMemories(a, b));
