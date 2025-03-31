@@ -65,6 +65,7 @@ const CreateBuild: FC = () => {
               <TravelerSelect
                 errorMessage={state.meta.errors[0]?.message}
                 name={name}
+                value={state.value}
                 onBlur={handleBlur}
                 onChange={handleChange}
               />
