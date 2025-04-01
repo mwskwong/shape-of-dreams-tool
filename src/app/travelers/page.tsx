@@ -60,9 +60,9 @@ const getTravelerMemories = (traveler: string) =>
 const Travelers: FC = () => {
   return (
     <Grid columns={{ initial: "1", sm: "2", md: "3" }} gap="3" pt="3">
-      {Object.entries(travelers).map(([key, traveler]) => (
+      {Object.entries(travelers).map(([key, { name, image, ...traveler }]) => (
         <Theme key={key} accentColor={getTravelerColor(key)}>
-          <TravelerCard.Root>
+          <TravelerCard.Root image={image} name={name}>
             <TravelerCard.Content
               {...traveler}
               memories={getTravelerMemories(key)}
