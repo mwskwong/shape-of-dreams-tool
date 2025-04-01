@@ -5,23 +5,70 @@ import "@radix-ui/themes/tokens/colors/amber.css";
 import "@radix-ui/themes/tokens/colors/yellow.css";
 
 import { Grid } from "@radix-ui/themes/components/grid";
+import { Theme, type ThemeProps } from "@radix-ui/themes/components/theme";
 import { type Metadata } from "next";
 import { type FC } from "react";
 
-import { TravelerCard } from "@/components/travelers/traveler-card";
-import { getTravelerColor, getTravelerMemories } from "@/lib/utils";
+import * as TravelerCard from "@/components/travelers/traveler-card";
+import { compareMemories } from "@/lib/utils";
+import memories from "@public/data/memories.json";
 import travelers from "@public/data/travelers.json";
+
+const getTravelerColor = (travelerId: string): ThemeProps["accentColor"] => {
+  switch (travelerId) {
+    case "Hero_Lacerta": {
+      return "orange";
+    }
+    case "Hero_Mist": {
+      return "mint";
+    }
+    case "Hero_Yubar": {
+      return "ruby";
+    }
+    case "Hero_Vesper": {
+      return "amber";
+    }
+    case "Hero_Aurena": {
+      return "yellow";
+    }
+  }
+};
+
+const getTravelerMemories = (traveler: string) =>
+  Object.values(memories)
+    .filter((memory) => memory.traveler === traveler)
+    .map(
+      ({
+        addedCharges,
+        travelerMemoryLocation: _travelerMemoryLocation,
+        ...memory
+      }) => ({
+        ...memory,
+        mutuallyExclusive: Object.values(memories)
+          .filter(
+            ({ name, traveler, travelerMemoryLocation }) =>
+              name !== memory.name &&
+              traveler &&
+              traveler === memory.traveler &&
+              travelerMemoryLocation === _travelerMemoryLocation,
+          )
+          .map(({ name }) => name),
+      }),
+    )
+    .toSorted((a, b) => compareMemories(a, b));
 
 const Travelers: FC = () => {
   return (
     <Grid columns={{ initial: "1", sm: "2", md: "3" }} gap="3" pt="3">
       {Object.entries(travelers).map(([key, traveler]) => (
-        <TravelerCard
-          key={key}
-          color={getTravelerColor(key)}
-          {...traveler}
-          memories={getTravelerMemories(key)}
-        />
+        <Theme key={key} accentColor={getTravelerColor(key)}>
+          <TravelerCard.Root>
+            <TravelerCard.Content
+              {...traveler}
+              memories={getTravelerMemories(key)}
+            />
+          </TravelerCard.Root>
+        </Theme>
       ))}
     </Grid>
   );

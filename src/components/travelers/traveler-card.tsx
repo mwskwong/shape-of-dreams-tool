@@ -7,7 +7,6 @@ import { Heading } from "@radix-ui/themes/components/heading";
 import { Inset } from "@radix-ui/themes/components/inset";
 import * as Tabs from "@radix-ui/themes/components/tabs";
 import { Text } from "@radix-ui/themes/components/text";
-import { Theme, type ThemeProps } from "@radix-ui/themes/components/theme";
 import { Tooltip } from "@radix-ui/themes/components/tooltip";
 import { clsx } from "clsx";
 import Image from "next/image";
@@ -38,62 +37,20 @@ const getClassIcon = (travelerClass: string) => {
   }
 };
 
-export interface TravelerCardProps
-  extends Omit<CardProps, "children">,
-    Omit<TravelerCardContentProps, keyof FlexProps | "color"> {
-  color: ThemeProps["accentColor"];
-}
-
-export const TravelerCard: FC<TravelerCardProps> = ({
+export type TravelerCardRootProps = CardProps;
+export const Root: FC<TravelerCardRootProps> = ({
   className,
-  color,
-  name,
-  class: travelerClass,
-  health,
-  armor,
-  attackDamage,
-  abilityPower,
-  attackSpeed,
-  memoryHaste,
-  criticalStrikeChance,
-  movementSpeed,
-  statsGrowthPerLv,
-  description,
-  achievement,
-  image,
-  memories = [],
-  constellations = [],
+  children,
   ...props
 }) => {
   return (
-    <Theme accentColor={color}>
-      <Card className={clsx(styles.card, className)} {...props}>
-        <TravelerCardContent
-          abilityPower={abilityPower}
-          achievement={achievement}
-          armor={armor}
-          attackDamage={attackDamage}
-          attackSpeed={attackSpeed}
-          class={travelerClass}
-          color={color}
-          constellations={constellations}
-          criticalStrikeChance={criticalStrikeChance}
-          description={description}
-          health={health}
-          image={image}
-          memories={memories}
-          memoryHaste={memoryHaste}
-          movementSpeed={movementSpeed}
-          name={name}
-          statsGrowthPerLv={statsGrowthPerLv}
-        />
-      </Card>
-    </Theme>
+    <Card className={clsx(styles.card, className)} {...props}>
+      {children}
+    </Card>
   );
 };
 
 export interface TravelerCardContentProps extends Omit<FlexProps, "children"> {
-  color?: string;
   name: string;
   class: string;
   health: number;
@@ -137,8 +94,7 @@ export interface TravelerCardContentProps extends Omit<FlexProps, "children"> {
   }[];
 }
 
-export const TravelerCardContent: FC<TravelerCardContentProps> = ({
-  color,
+export const Content: FC<TravelerCardContentProps> = ({
   className,
   name,
   class: travelerClass,
@@ -330,15 +286,10 @@ export const TravelerCardContent: FC<TravelerCardContentProps> = ({
                   <Flex key={name} gap="3">
                     <Image
                       alt={name}
+                      className={styles.constellationIcon}
                       height={48}
                       src={`/images/${image}`}
                       width={48}
-                      className={
-                        color &&
-                        styles[
-                          `constellationFilter${color.charAt(0).toUpperCase() + color.slice(1)}`
-                        ]
-                      }
                     />
                     <div>
                       <Heading as="h3" size="4">
