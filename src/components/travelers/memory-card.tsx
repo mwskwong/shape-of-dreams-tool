@@ -7,7 +7,7 @@ import { Text } from "@radix-ui/themes/components/text";
 import Image from "next/image";
 import { type FC, useState } from "react";
 
-import { ItemCardContent } from "../item-card";
+import * as ItemCard from "../item-card";
 
 export interface MemoryCardProps
   extends Omit<CardProps, "asChild" | "children"> {
@@ -19,7 +19,6 @@ export interface MemoryCardProps
   type?: string;
   tags?: string[];
   image: string;
-  unlockBy?: string;
   achievement?: { name: string; description: string } | null;
   mutuallyExclusive?: string[];
 }
@@ -32,7 +31,6 @@ export const MemoryCard: FC<MemoryCardProps> = ({
   shortDescription,
   type,
   image,
-  unlockBy,
   achievement,
   mutuallyExclusive = [],
   ...props
@@ -64,14 +62,15 @@ export const MemoryCard: FC<MemoryCardProps> = ({
       </Card>
 
       <Flex direction="column" display={expand ? "flex" : "none"} gap="3">
-        <ItemCardContent
+        <ItemCard.Content
           achievement={achievement}
           cooldownTime={cooldownTime}
-          description={description}
           maxCharges={maxCharges}
           mutuallyExclusive={mutuallyExclusive}
           type={type}
-        />
+        >
+          <ItemCard.Description>{description}</ItemCard.Description>
+        </ItemCard.Content>
       </Flex>
     </>
   );

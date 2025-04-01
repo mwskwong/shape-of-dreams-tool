@@ -3,7 +3,7 @@ import { type Metadata } from "next";
 import { type SearchParams } from "nuqs/server";
 import { type FC } from "react";
 
-import { ItemCard } from "@/components/item-card";
+import * as ItemCard from "@/components/item-card";
 import { compareRarities, loadSearchParams } from "@/lib/utils";
 import essences from "@public/data/essences.json";
 
@@ -28,8 +28,12 @@ const Essences: FC<EssencesProps> = async ({ searchParams }) => {
               description.toLowerCase().includes(search.toLowerCase())) &&
             (rarities.length === 0 || rarities.includes(rarity)),
         )
-        .map(([key, essence]) => (
-          <ItemCard key={key} {...essence} />
+        .map(([key, { name, rarity, image, achievement, description }]) => (
+          <ItemCard.Root key={key} image={image} name={name} rarity={rarity}>
+            <ItemCard.Content achievement={achievement}>
+              <ItemCard.Description>{description}</ItemCard.Description>
+            </ItemCard.Content>
+          </ItemCard.Root>
         ))}
     </Grid>
   );

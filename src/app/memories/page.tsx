@@ -3,7 +3,7 @@ import { type Metadata } from "next";
 import { type SearchParams } from "nuqs/server";
 import { type FC } from "react";
 
-import { ItemCard } from "@/components/item-card";
+import * as ItemCard from "@/components/item-card";
 import { compareMemories, loadSearchParams } from "@/lib/utils";
 import memories from "@public/data/memories.json";
 
@@ -55,28 +55,48 @@ const Memories: FC<MemoriesProps> = async ({ searchParams }) => {
           ([
             key,
             {
-              addedCharges,
-              shortDescription,
-              travelerMemoryLocation: _travelerMemoryLocation,
-              ...memory
+              name,
+              rarity,
+              traveler,
+              tags,
+              image,
+              cooldownTime,
+              maxCharges,
+              type,
+              achievement,
+              description,
+              travelerMemoryLocation,
             },
           ]) => {
             const mutuallyExclusive = Object.values(memories)
               .filter(
-                ({ name, traveler, travelerMemoryLocation }) =>
-                  name !== memory.name &&
-                  traveler &&
-                  traveler === memory.traveler &&
-                  travelerMemoryLocation === _travelerMemoryLocation,
+                (memory) =>
+                  memory.name !== name &&
+                  memory.traveler &&
+                  memory.traveler === traveler &&
+                  memory.travelerMemoryLocation === travelerMemoryLocation,
               )
               .map(({ name }) => name);
 
             return (
-              <ItemCard
+              <ItemCard.Root
                 key={key}
-                {...memory}
-                mutuallyExclusive={mutuallyExclusive}
-              />
+                image={image}
+                name={name}
+                rarity={rarity}
+                tags={tags}
+                traveler={traveler}
+              >
+                <ItemCard.Content
+                  achievement={achievement}
+                  cooldownTime={cooldownTime}
+                  maxCharges={maxCharges}
+                  mutuallyExclusive={mutuallyExclusive}
+                  type={type}
+                >
+                  <ItemCard.Description>{description}</ItemCard.Description>
+                </ItemCard.Content>
+              </ItemCard.Root>
             );
           },
         )}

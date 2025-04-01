@@ -21,15 +21,13 @@ import parse, {
   domToReact,
 } from "html-react-parser";
 import Image from "next/image";
-import { type FC, Fragment } from "react";
+import { type FC, Fragment, type PropsWithChildren } from "react";
 
 import { sprites } from "@/lib/utils";
 
 import styles from "./item-card.module.css";
 
-export interface ItemCardProps
-  extends Omit<CardProps, "children">,
-    ItemCardContentProps {
+export interface ItemCardRootProps extends CardProps {
   name: string;
   rarity: string;
   traveler?: string;
@@ -57,67 +55,52 @@ const getRarityColor = (rarity: string): BadgeProps["color"] => {
   }
 };
 
-export const ItemCard: FC<ItemCardProps> = ({
+export const Root: FC<ItemCardRootProps> = ({
   name,
-  cooldownTime,
-  maxCharges,
-  description,
   rarity,
-  type,
   traveler,
   tags = [],
   image,
-  achievement,
-  mutuallyExclusive = [],
+  children,
   ...props
-}) => {
-  return (
-    <Card {...props}>
-      <Flex direction="column" gap="3" height="100%">
-        <Flex gap="3">
-          <Image
-            alt={name}
-            className="rt-AvatarRoot rt-r-size-4"
-            height={48}
-            src={`/images/${image}`}
-            width={48}
-          />
-          <div>
-            <Heading as="h2" size="4">
-              {name}
-            </Heading>
-            <Text as="p" color={getRarityColor(rarity)}>
-              {rarity}
-              {traveler ? ` · ${traveler.replace("Hero_", "")}` : undefined}
-            </Text>
-          </div>
-        </Flex>
-        <ItemCardContent
-          achievement={achievement}
-          cooldownTime={cooldownTime}
-          description={description}
-          maxCharges={maxCharges}
-          mutuallyExclusive={mutuallyExclusive}
-          type={type}
+}) => (
+  <Card {...props}>
+    <Flex direction="column" gap="3" height="100%">
+      <Flex gap="3">
+        <Image
+          alt={name}
+          className="rt-AvatarRoot rt-r-size-4"
+          height={48}
+          src={`/images/${image}`}
+          width={48}
         />
-        {tags.length > 0 && (
-          <Flex gap="2" mt="auto" wrap="wrap">
-            {tags.map((tag) => (
-              <Badge key={tag} color="gray">
-                {tag}
-              </Badge>
-            ))}
-          </Flex>
-        )}
+        <div>
+          <Heading as="h2" size="4">
+            {name}
+          </Heading>
+          <Text as="p" color={getRarityColor(rarity)}>
+            {rarity}
+            {traveler ? ` · ${traveler.replace("Hero_", "")}` : undefined}
+          </Text>
+        </div>
       </Flex>
-    </Card>
-  );
-};
+      {children}
+      {tags.length > 0 && (
+        <Flex gap="2" mt="auto" wrap="wrap">
+          {tags.map((tag) => (
+            <Badge key={tag} color="gray">
+              {tag}
+            </Badge>
+          ))}
+        </Flex>
+      )}
+    </Flex>
+  </Card>
+);
 
-export interface ItemCardContentProps {
+export interface ItemCardContentProps extends PropsWithChildren {
   cooldownTime?: number;
   maxCharges?: number;
-  description: string;
   type?: string;
   traveler?: string;
   tags?: string[];
@@ -125,13 +108,13 @@ export interface ItemCardContentProps {
   mutuallyExclusive?: string[];
 }
 
-export const ItemCardContent: FC<ItemCardContentProps> = ({
+export const Content: FC<ItemCardContentProps> = ({
   cooldownTime,
   maxCharges,
-  description,
   type,
   mutuallyExclusive = [],
   achievement,
+  children,
 }) => (
   <>
     {(cooldownTime !== undefined || maxCharges !== undefined || type) && (
@@ -142,7 +125,7 @@ export const ItemCardContent: FC<ItemCardContentProps> = ({
         {!type || type === "Normal" ? undefined : ` | ${type}`}
       </Text>
     )}
-    <ItemDescription>{description}</ItemDescription>
+    {children}
     {achievement && (
       <Text as="p" color="gray" wrap="pretty">
         Unlock requirement - <Em className={styles.em}>{achievement.name}</Em>:{" "}
@@ -207,8 +190,8 @@ const options = {
   },
 } satisfies HTMLReactParserOptions;
 
-export type ItemDescriptionProps = TextProps;
-export const ItemDescription: FC<ItemDescriptionProps> = ({
+export type ItemCardDescriptionProps = TextProps;
+export const Description: FC<ItemCardDescriptionProps> = ({
   children,
   ...props
 }) => {

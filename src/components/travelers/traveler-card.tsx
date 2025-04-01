@@ -15,7 +15,7 @@ import { type FC } from "react";
 
 import { sprites } from "@/lib/utils";
 
-import { ItemDescription } from "../item-card";
+import * as ItemCard from "../item-card";
 
 import { MemoryCard } from "./memory-card";
 import styles from "./traveler-card.module.css";
@@ -344,9 +344,9 @@ export const TravelerCardContent: FC<TravelerCardContentProps> = ({
                       <Heading as="h3" size="4">
                         {name}
                       </Heading>
-                      <ItemDescription color="gray">
+                      <ItemCard.Description color="gray">
                         {description}
-                      </ItemDescription>
+                      </ItemCard.Description>
                     </div>
                   </Flex>
                 ))
