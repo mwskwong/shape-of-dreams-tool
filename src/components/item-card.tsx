@@ -27,14 +27,6 @@ import { sprites } from "@/lib/utils";
 
 import styles from "./item-card.module.css";
 
-export interface ItemCardRootProps extends CardProps {
-  name: string;
-  rarity: string;
-  traveler?: string;
-  tags?: string[];
-  image: string;
-}
-
 const getRarityColor = (rarity: string): BadgeProps["color"] => {
   switch (rarity) {
     case "Common": {
@@ -55,7 +47,15 @@ const getRarityColor = (rarity: string): BadgeProps["color"] => {
   }
 };
 
-export const Root: FC<ItemCardRootProps> = ({
+export interface RootProps extends CardProps {
+  name: string;
+  rarity: string;
+  traveler?: string;
+  tags?: string[];
+  image: string;
+}
+
+export const Root: FC<RootProps> = ({
   name,
   rarity,
   traveler,
@@ -98,7 +98,7 @@ export const Root: FC<ItemCardRootProps> = ({
   </Card>
 );
 
-export interface ItemCardContentProps extends PropsWithChildren {
+export interface ContentProps extends PropsWithChildren {
   cooldownTime?: number;
   maxCharges?: number;
   type?: string;
@@ -108,7 +108,7 @@ export interface ItemCardContentProps extends PropsWithChildren {
   mutuallyExclusive?: string[];
 }
 
-export const Content: FC<ItemCardContentProps> = ({
+export const Content: FC<ContentProps> = ({
   cooldownTime,
   maxCharges,
   type,
@@ -190,11 +190,8 @@ const options = {
   },
 } satisfies HTMLReactParserOptions;
 
-export type ItemCardDescriptionProps = TextProps;
-export const Description: FC<ItemCardDescriptionProps> = ({
-  children,
-  ...props
-}) => {
+export type DescriptionProps = TextProps;
+export const Description: FC<DescriptionProps> = ({ children, ...props }) => {
   if (typeof children !== "string") {
     return (
       <Text as="p" wrap="pretty" {...props}>

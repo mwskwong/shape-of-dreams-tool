@@ -1,16 +1,14 @@
-import "@radix-ui/themes/tokens/colors/orange.css";
-import "@radix-ui/themes/tokens/colors/mint.css";
-import "@radix-ui/themes/tokens/colors/ruby.css";
-import "@radix-ui/themes/tokens/colors/amber.css";
-import "@radix-ui/themes/tokens/colors/yellow.css";
-
 import { Card, type CardProps } from "@radix-ui/themes/components/card";
 import * as Dialog from "@radix-ui/themes/components/dialog";
+import { Flex } from "@radix-ui/themes/components/flex";
 import { Inset } from "@radix-ui/themes/components/inset";
+import * as RadioCards from "@radix-ui/themes/components/radio-cards";
 import { Text } from "@radix-ui/themes/components/text";
 import { clsx } from "clsx";
 import Image from "next/image";
 import { type ComponentProps, type FC } from "react";
+
+import travelers from "@public/data/travelers.json";
 
 import styles from "./traveler-select.module.css";
 
@@ -53,21 +51,24 @@ export const TravelerSelect: FC<TravelerSelectProps> = ({
         </Card>
       </Dialog.Trigger>
       <Dialog.Content>
-        <Dialog.Title>Select traveler</Dialog.Title>
-        {/* <RadioCards.Root
-          columns={{ initial: "1", sm: "2" }}
-          gap="3"
-          value={value}
-          onValueChange={onChange}
-        >
-          {Object.entries(travelers).map(([key, traveler]) => (
-            <Dialog.Close key={key}>
-              <RadioCards.Item value={key}>
-                <TravelerCard.Content {...traveler} />
-              </RadioCards.Item>
-            </Dialog.Close>
-          ))}
-        </RadioCards.Root> */}
+        <Flex>
+          <Inset className={styles.inset} p="current" side="left">
+            <RadioCards.Root className={styles.radioGroupRoot} columns="1">
+              {Object.entries(travelers).map(([key, traveler]) => (
+                <RadioCards.Item key={key} value={key}>
+                  <Image
+                    alt={traveler.name}
+                    className="rt-AvatarRoot rt-r-size-3"
+                    height={40}
+                    src={`/images/${traveler.image}`}
+                    width={40}
+                  />
+                  {traveler.name}
+                </RadioCards.Item>
+              ))}
+            </RadioCards.Root>
+          </Inset>
+        </Flex>
       </Dialog.Content>
     </Dialog.Root>
   );
