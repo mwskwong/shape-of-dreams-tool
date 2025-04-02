@@ -229,6 +229,18 @@ input:where([type="button"], [type="reset"], [type="submit"]),
   --code-font-family: var(--font-geist-mono);
 }
 
+.rt-Card {
+  &:where(:disabled) {
+    &::before {
+      background-image: none;
+    }
+
+    &:where(.rt-variant-surface)::after {
+      box-shadow: var(--base-card-surface-box-shadow);
+    }
+  }
+}
+
 .rt-Container {
   padding-right: var(--space-4);
   padding-left: var(--space-4);
