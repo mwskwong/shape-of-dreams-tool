@@ -17,8 +17,10 @@ const schema = object({
   traveler: object({
     id: string(),
     startingMemories: object({
-      Q: string(),
-      R: string(),
+      q: string(),
+      r: string(),
+      identity: string(),
+      movement: string(),
     }),
   }),
 });
@@ -27,7 +29,10 @@ const CreateBuild: FC = () => {
   const form = useForm({
     defaultValues: {
       buildName: "",
-      traveler: { id: "", startingMemories: { Q: "", R: "" } },
+      traveler: {
+        id: "",
+        startingMemories: { q: "", r: "", identity: "", movement: "" },
+      },
     } satisfies InferOutput<typeof schema>,
     validators: { onChange: schema },
     onSubmit: ({ value }) => {
@@ -68,10 +73,9 @@ const CreateBuild: FC = () => {
         </form.Field>
         <Flex gap="3">
           <form.Field name="traveler">
-            {({ name, state, handleChange, handleBlur }) => (
+            {({ state, handleChange, handleBlur }) => (
               <TravelerSelect
                 errorMessage={state.meta.errors[0]?.message}
-                name={name}
                 value={state.value}
                 onBlur={handleBlur}
                 onChange={handleChange}

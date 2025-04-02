@@ -1,8 +1,13 @@
-.selectedCard {
-  width: 96px;
-  height: 96px;
+.travelerSelectCard {
+  width: 80px;
+  height: 80px;
 }
 
 .radioCardItem {
   justify-content: flex-start;
+}
+
+.startingMemoryCard {
+  width: 64px;
+  height: 64px;
 }
