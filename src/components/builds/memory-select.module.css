@@ -9,14 +9,3 @@
     height: 80px;
   }
 }
-
-.memoryName {
-  [data-size="1"] & {
-    width: 64px;
-    hyphens: auto;
-  }
-
-  [data-size="2"] & {
-    width: 80px;
-  }
-}

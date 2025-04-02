@@ -51,7 +51,13 @@ export const MemorySelect: FC<MemorySelectProps> = ({
 
   return (
     <Dialog.Root {...props}>
-      <Flex align="center" data-size={size} direction="column" gap="2">
+      <Flex
+        align="center"
+        data-size={size}
+        direction="column"
+        gap="2"
+        maxWidth={`${size === "1" ? 64 : 80}px`}
+      >
         <Dialog.Trigger>
           <Card asChild className={styles.card}>
             <button disabled={disabled}>
@@ -68,7 +74,7 @@ export const MemorySelect: FC<MemorySelectProps> = ({
             </button>
           </Card>
         </Dialog.Trigger>
-        <Text align="center" as="div" className={styles.memoryName} size="2">
+        <Text align="center" as="div" size={size}>
           {selectedMemory?.name ?? "Any"}
         </Text>
       </Flex>
