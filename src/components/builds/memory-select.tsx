@@ -104,8 +104,6 @@ export const MemorySelect: FC<MemorySelectProps> = ({
               cooldownTime,
               maxCharges,
               type,
-              mutuallyExclusive,
-              achievement,
               description,
             }) => (
               <RadioCards.Item
@@ -134,10 +132,8 @@ export const MemorySelect: FC<MemorySelectProps> = ({
                   </div>
                 </Flex>
                 <ItemCard.Content
-                  achievement={achievement}
                   cooldownTime={cooldownTime}
                   maxCharges={maxCharges}
-                  mutuallyExclusive={mutuallyExclusive}
                   size="2"
                   type={type}
                 >
