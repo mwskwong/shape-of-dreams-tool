@@ -84,12 +84,12 @@ export const TravelerSelect: FC<TravelerSelectProps> = ({
             <Dialog.Trigger>
               <Card asChild className={styles.travelerSelectCard}>
                 <button>
-                  {value?.id ? (
+                  {selectedTraveler ? (
                     <Inset side="all">
                       <Image
-                        alt={value.id}
+                        alt={selectedTraveler.name}
                         height={80}
-                        src={`/images/${value.id}.png`}
+                        src={`/images/${selectedTraveler.image}`}
                         width={80}
                       />
                     </Inset>
