@@ -71,18 +71,16 @@ const CreateBuild: FC = () => {
             );
           }}
         </form.Field>
-        <Flex gap="3">
-          <form.Field name="traveler">
-            {({ state, handleChange, handleBlur }) => (
-              <TravelerSelect
-                errorMessage={state.meta.errors[0]?.message}
-                value={state.value}
-                onBlur={handleBlur}
-                onChange={handleChange}
-              />
-            )}
-          </form.Field>
-        </Flex>
+        <form.Field name="traveler">
+          {({ state, handleChange, handleBlur }) => (
+            <TravelerSelect
+              errorMessage={state.meta.errors[0]?.message}
+              value={state.value}
+              onBlur={handleBlur}
+              onChange={handleChange}
+            />
+          )}
+        </form.Field>
         <Button type="submit">Submit</Button>
       </form>
     </Flex>

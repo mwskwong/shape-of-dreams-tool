@@ -30,10 +30,11 @@ export const MemorySelect: FC<MemorySelectProps> = ({
   ...props
 }) => {
   const selectedMemory = memoryEntries.find(([key]) => key === value)?.[1];
+  const width = size === "1" ? 64 : 80;
 
   return (
     <Dialog.Root {...props}>
-      <Flex align="center" direction="column" gap="2">
+      <Flex align="center" direction="column" gap="2" maxWidth={`${width}px`}>
         <Dialog.Trigger>
           <Card asChild className={styles.card} data-size={size}>
             <button>
@@ -41,16 +42,16 @@ export const MemorySelect: FC<MemorySelectProps> = ({
                 <Inset side="all">
                   <Image
                     alt={selectedMemory.name}
-                    height={size === "1" ? 64 : 80}
+                    height={width}
                     src={`/images/${selectedMemory.image}`}
-                    width={size === "1" ? 64 : 80}
+                    width={width}
                   />
                 </Inset>
               )}
             </button>
           </Card>
         </Dialog.Trigger>
-        <Text as="div" size="2">
+        <Text align="center" as="div" size="2">
           {selectedMemory?.name ?? "Any"}
         </Text>
       </Flex>

@@ -78,7 +78,13 @@ export const TravelerSelect: FC<TravelerSelectProps> = ({
       <Heading as="h2" size="3">
         Traveler
       </Heading>
-      <Flex gap="3">
+      <Flex
+        align="center"
+        direction={{ initial: "column", sm: "row" }}
+        gap="3"
+        justify="center"
+        width="100%"
+      >
         <Dialog.Root>
           <Flex align="center" direction="column" gap="2">
             <Dialog.Trigger>
@@ -88,9 +94,9 @@ export const TravelerSelect: FC<TravelerSelectProps> = ({
                     <Inset side="all">
                       <Image
                         alt={selectedTraveler.name}
-                        height={80}
+                        height={128}
                         src={`/images/${selectedTraveler.image}`}
-                        width={80}
+                        width={128}
                       />
                     </Inset>
                   ) : (
@@ -181,17 +187,19 @@ export const TravelerSelect: FC<TravelerSelectProps> = ({
           </Dialog.Content>
         </Dialog.Root>
 
-        {Object.entries(value?.startingMemories ?? {}).map(([key, id]) => (
-          <MemorySelect
-            key={key}
-            size="1"
-            value={id}
-            onChange={(id) => ({
-              ...value,
-              startingMemories: { ...value?.startingMemories, q: id },
-            })}
-          />
-        ))}
+        <Flex gap="3">
+          {Object.entries(value?.startingMemories ?? {}).map(([key, id]) => (
+            <MemorySelect
+              key={key}
+              size="1"
+              value={id}
+              onChange={(id) => ({
+                ...value,
+                startingMemories: { ...value?.startingMemories, q: id },
+              })}
+            />
+          ))}
+        </Flex>
       </Flex>
     </Flex>
   );
