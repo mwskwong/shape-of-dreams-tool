@@ -62,9 +62,11 @@ export const TravelerSelect: FC<TravelerSelectProps> = ({
                   />
                 </Inset>
               ) : (
-                <Flex justify="center">
-                  <IconUser />
-                </Flex>
+                <Text asChild color="gray">
+                  <Flex justify="center">
+                    <IconUser />
+                  </Flex>
+                </Text>
               )}
             </button>
           </Card>
@@ -77,52 +79,53 @@ export const TravelerSelect: FC<TravelerSelectProps> = ({
           {selectedTraveler?.name ?? "Any Traveler"}
         </Text>
       </Flex>
+
       <Dialog.Content maxWidth="350px">
         <Dialog.Title>Select traveler</Dialog.Title>
         <RadioCards.Root columns="1" value={value} onValueChange={onChange}>
-          <RadioCards.Item className={styles.radioCardItem} value="">
-            <Avatar color="gray" fallback={<IconUser />} />
-            <Heading as="h3" size="2">
-              Any Traveler
-            </Heading>
-          </RadioCards.Item>
+          <Dialog.Close>
+            <RadioCards.Item className={styles.radioCardItem} value="">
+              <Avatar color="gray" fallback={<IconUser />} />
+              <Heading as="h3" size="2">
+                Any Traveler
+              </Heading>
+            </RadioCards.Item>
+          </Dialog.Close>
 
           {Object.entries(travelers).map(([key, traveler]) => {
             const color = getTravelerColor(key);
             const classIcon = getTravelerClassIcon(traveler.class);
 
             return (
-              <RadioCards.Item
-                key={key}
-                className={styles.radioCardItem}
-                value={key}
-              >
-                <Image
-                  alt={traveler.name}
-                  className="rt-AvatarRoot rt-r-size-3"
-                  height={40}
-                  src={`/images/${traveler.image}`}
-                  width={40}
-                />
-                <div>
-                  <Heading as="h3" color={color} size="2">
-                    {traveler.name}
-                  </Heading>
-                  <Flex asChild align="center" gap="2" justify="center">
-                    <Text as="div">
-                      {classIcon && (
-                        <Image
-                          alt={traveler.class}
-                          height={16}
-                          src={classIcon}
-                          width={16}
-                        />
-                      )}
-                      {traveler.class}
-                    </Text>
-                  </Flex>
-                </div>
-              </RadioCards.Item>
+              <Dialog.Close key={key}>
+                <RadioCards.Item className={styles.radioCardItem} value={key}>
+                  <Image
+                    alt={traveler.name}
+                    className="rt-AvatarRoot rt-r-size-3"
+                    height={40}
+                    src={`/images/${traveler.image}`}
+                    width={40}
+                  />
+                  <div>
+                    <Heading as="h3" color={color} size="2">
+                      {traveler.name}
+                    </Heading>
+                    <Flex asChild align="center" gap="2" justify="center">
+                      <Text as="div">
+                        {classIcon && (
+                          <Image
+                            alt={traveler.class}
+                            height={16}
+                            src={classIcon}
+                            width={16}
+                          />
+                        )}
+                        {traveler.class}
+                      </Text>
+                    </Flex>
+                  </div>
+                </RadioCards.Item>
+              </Dialog.Close>
             );
           })}
         </RadioCards.Root>
