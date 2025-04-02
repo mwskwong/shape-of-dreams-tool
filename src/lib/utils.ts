@@ -129,3 +129,23 @@ export const getTravelerColor = (
     }
   }
 };
+
+export const getRarityColor = (rarity: string): ThemeProps["accentColor"] => {
+  switch (rarity) {
+    case "Common": {
+      return "gray";
+    }
+    case "Rare": {
+      return "sky";
+    }
+    case "Epic": {
+      return "purple";
+    }
+    case "Legendary": {
+      return "red";
+    }
+    default: {
+      return "amber";
+    }
+  }
+};

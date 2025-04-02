@@ -1,14 +1,26 @@
+// rarity
+import "@radix-ui/themes/tokens/colors/sky.css";
+import "@radix-ui/themes/tokens/colors/purple.css";
+import "@radix-ui/themes/tokens/colors/red.css";
+import "@radix-ui/themes/tokens/colors/amber.css";
+
+// keyword
+import "@radix-ui/themes/tokens/colors/yellow.css";
+
 import { Card } from "@radix-ui/themes/components/card";
 import * as Dialog from "@radix-ui/themes/components/dialog";
 import { Flex } from "@radix-ui/themes/components/flex";
-import { Grid } from "@radix-ui/themes/components/grid";
+import { Heading } from "@radix-ui/themes/components/heading";
 import { Inset } from "@radix-ui/themes/components/inset";
+import * as RadioCards from "@radix-ui/themes/components/radio-cards";
 import { Text } from "@radix-ui/themes/components/text";
 import Image from "next/image";
 import { type FC } from "react";
 
-import { compareMemories } from "@/lib/utils";
+import { compareMemories, getRarityColor } from "@/lib/utils";
 import memories from "@public/data/memories.json";
+
+import * as ItemCard from "../item-card";
 
 import styles from "./memory-select.module.css";
 
@@ -81,11 +93,62 @@ export const MemorySelect: FC<MemorySelectProps> = ({
 
       <Dialog.Content>
         <Dialog.Title>Select memory</Dialog.Title>
-        <Grid columns={{ initial: "1", sm: "2" }} gap="3">
-          {options.map(({ id }) => (
-            <div key={id}>{id}</div>
-          ))}
-        </Grid>
+        <RadioCards.Root columns={{ initial: "1", sm: "2" }}>
+          {options.map(
+            ({
+              id,
+              name,
+              rarity,
+              traveler,
+              image,
+              cooldownTime,
+              maxCharges,
+              type,
+              mutuallyExclusive,
+              achievement,
+              description,
+            }) => (
+              <RadioCards.Item
+                key={id}
+                className={styles.radioCardItem}
+                value={id}
+              >
+                <Flex gap="2">
+                  <Image
+                    alt={name}
+                    className="rt-AvatarRoot rt-r-size-3"
+                    height={40}
+                    src={`/images/${image}`}
+                    width={40}
+                  />
+                  <div>
+                    <Heading as="h2" size="2">
+                      {name}
+                    </Heading>
+                    <Text as="p" color={getRarityColor(rarity)} size="2">
+                      {rarity}
+                      {traveler
+                        ? ` · ${traveler.replace("Hero_", "")}`
+                        : undefined}
+                    </Text>
+                  </div>
+                </Flex>
+                <ItemCard.Content
+                  achievement={achievement}
+                  cooldownTime={cooldownTime}
+                  maxCharges={maxCharges}
+                  mutuallyExclusive={mutuallyExclusive}
+                  size="2"
+                  type={type}
+                >
+                  <ItemCard.Description size="2">
+                    {description}
+                  </ItemCard.Description>
+                </ItemCard.Content>
+              </RadioCards.Item>
+            ),
+          )}
+        </RadioCards.Root>
       </Dialog.Content>
     </Dialog.Root>
   );

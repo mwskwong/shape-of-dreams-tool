@@ -7,7 +7,7 @@ import "@radix-ui/themes/tokens/colors/amber.css";
 // keyword
 import "@radix-ui/themes/tokens/colors/yellow.css";
 
-import { Badge, type BadgeProps } from "@radix-ui/themes/components/badge";
+import { Badge } from "@radix-ui/themes/components/badge";
 import { Card, type CardProps } from "@radix-ui/themes/components/card";
 import { Em } from "@radix-ui/themes/components/em";
 import { Flex } from "@radix-ui/themes/components/flex";
@@ -23,29 +23,9 @@ import parse, {
 import Image from "next/image";
 import { type FC, Fragment, type PropsWithChildren } from "react";
 
-import { sprites } from "@/lib/utils";
+import { getRarityColor, sprites } from "@/lib/utils";
 
 import styles from "./item-card.module.css";
-
-const getRarityColor = (rarity: string): BadgeProps["color"] => {
-  switch (rarity) {
-    case "Common": {
-      return "gray";
-    }
-    case "Rare": {
-      return "sky";
-    }
-    case "Epic": {
-      return "purple";
-    }
-    case "Legendary": {
-      return "red";
-    }
-    default: {
-      return "amber";
-    }
-  }
-};
 
 export interface RootProps extends CardProps {
   name: string;
@@ -106,6 +86,7 @@ export interface ContentProps extends PropsWithChildren {
   tags?: string[];
   achievement?: { name: string; description: string } | null;
   mutuallyExclusive?: string[];
+  size?: "2" | "3";
 }
 
 export const Content: FC<ContentProps> = ({
@@ -114,11 +95,12 @@ export const Content: FC<ContentProps> = ({
   type,
   mutuallyExclusive = [],
   achievement,
+  size = "3",
   children,
 }) => (
   <>
     {(cooldownTime !== undefined || maxCharges !== undefined || type) && (
-      <Text as="p" color="gray">
+      <Text as="p" color="gray" size={size}>
         {cooldownTime !== undefined &&
           (cooldownTime === 0 ? "Passive" : `Cooldown: ${cooldownTime}s`)}
         {maxCharges && maxCharges > 1 && ` | Charges: ${maxCharges}`}
@@ -127,13 +109,13 @@ export const Content: FC<ContentProps> = ({
     )}
     {children}
     {achievement && (
-      <Text as="p" color="gray" wrap="pretty">
+      <Text as="p" color="gray" size={size} wrap="pretty">
         Unlock requirement - <Em className={styles.em}>{achievement.name}</Em>:{" "}
         {achievement.description}
       </Text>
     )}
     {mutuallyExclusive.length > 0 && (
-      <Text as="p" color="gray" wrap="pretty">
+      <Text as="p" color="gray" size={size} wrap="pretty">
         Mutually exclusive:{" "}
         {mutuallyExclusive.map((memory, index) => (
           <Fragment key={memory}>

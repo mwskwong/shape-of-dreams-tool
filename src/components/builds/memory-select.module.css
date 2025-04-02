@@ -9,3 +9,8 @@
     height: 80px;
   }
 }
+
+.radioCardItem {
+  flex-direction: column;
+  align-items: stretch;
+}
