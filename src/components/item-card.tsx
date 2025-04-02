@@ -10,7 +10,7 @@ import "@radix-ui/themes/tokens/colors/yellow.css";
 import { Badge } from "@radix-ui/themes/components/badge";
 import { Card, type CardProps } from "@radix-ui/themes/components/card";
 import { Em } from "@radix-ui/themes/components/em";
-import { Flex } from "@radix-ui/themes/components/flex";
+import { Flex, type FlexProps } from "@radix-ui/themes/components/flex";
 import { Heading } from "@radix-ui/themes/components/heading";
 import { Text, type TextProps } from "@radix-ui/themes/components/text";
 import { Tooltip } from "@radix-ui/themes/components/tooltip";
@@ -28,42 +28,12 @@ import { getRarityColor, sprites } from "@/lib/utils";
 import styles from "./item-card.module.css";
 
 export interface RootProps extends CardProps {
-  name: string;
-  rarity: string;
-  traveler?: string;
   tags?: string[];
-  image: string;
 }
 
-export const Root: FC<RootProps> = ({
-  name,
-  rarity,
-  traveler,
-  tags = [],
-  image,
-  children,
-  ...props
-}) => (
+export const Root: FC<RootProps> = ({ tags = [], children, ...props }) => (
   <Card {...props}>
     <Flex direction="column" gap="3" height="100%">
-      <Flex gap="3">
-        <Image
-          alt={name}
-          className="rt-AvatarRoot rt-r-size-4"
-          height={48}
-          src={`/images/${image}`}
-          width={48}
-        />
-        <div>
-          <Heading as="h2" size="4">
-            {name}
-          </Heading>
-          <Text as="p" color={getRarityColor(rarity)}>
-            {rarity}
-            {traveler ? ` · ${traveler.replace("Hero_", "")}` : undefined}
-          </Text>
-        </div>
-      </Flex>
       {children}
       {tags.length > 0 && (
         <Flex gap="2" mt="auto" wrap="wrap">
@@ -76,6 +46,48 @@ export const Root: FC<RootProps> = ({
       )}
     </Flex>
   </Card>
+);
+
+export interface HeaderProps extends Omit<FlexProps, "children"> {
+  name: string;
+  rarity: string;
+  traveler?: string;
+  image: string;
+  size?: "2" | "3";
+}
+
+export const Header: FC<HeaderProps> = ({
+  name,
+  rarity,
+  traveler,
+  image,
+  size = "3",
+  ...props
+}) => (
+  <Flex gap={size} {...props}>
+    <Image
+      alt={name}
+      className={`rt-AvatarRoot rt-r-size-${size === "3" ? 4 : 3}`}
+      height={size === "3" ? 48 : 40}
+      src={`/images/${image}`}
+      width={size === "3" ? 48 : 40}
+    />
+    <div>
+      {size === "3" ? (
+        <Heading as="h2" size="4">
+          {name}
+        </Heading>
+      ) : (
+        <Text as="p" size="2">
+          {name}
+        </Text>
+      )}
+      <Text as="p" color={getRarityColor(rarity)} size={size}>
+        {rarity}
+        {traveler ? ` · ${traveler.replace("Hero_", "")}` : undefined}
+      </Text>
+    </div>
+  </Flex>
 );
 
 export interface ContentProps extends PropsWithChildren {

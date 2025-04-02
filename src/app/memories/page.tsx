@@ -82,14 +82,13 @@ const Memories: FC<MemoriesProps> = async ({ searchParams }) => {
               .map(({ name }) => name);
 
             return (
-              <ItemCard.Root
-                key={key}
-                image={image}
-                name={name}
-                rarity={rarity}
-                tags={tags}
-                traveler={traveler}
-              >
+              <ItemCard.Root key={key} tags={tags}>
+                <ItemCard.Header
+                  image={image}
+                  name={name}
+                  rarity={rarity}
+                  traveler={traveler}
+                />
                 <ItemCard.Content
                   achievement={achievement}
                   cooldownTime={cooldownTime}

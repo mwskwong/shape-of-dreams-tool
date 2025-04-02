@@ -10,14 +10,13 @@ import "@radix-ui/themes/tokens/colors/yellow.css";
 import { Card } from "@radix-ui/themes/components/card";
 import * as Dialog from "@radix-ui/themes/components/dialog";
 import { Flex } from "@radix-ui/themes/components/flex";
-import { Heading } from "@radix-ui/themes/components/heading";
 import { Inset } from "@radix-ui/themes/components/inset";
 import * as RadioCards from "@radix-ui/themes/components/radio-cards";
 import { Text } from "@radix-ui/themes/components/text";
 import Image from "next/image";
 import { type FC } from "react";
 
-import { compareMemories, getRarityColor } from "@/lib/utils";
+import { compareMemories } from "@/lib/utils";
 import memories from "@public/data/memories.json";
 
 import * as ItemCard from "../item-card";
@@ -112,26 +111,13 @@ export const MemorySelect: FC<MemorySelectProps> = ({
             }) => (
               <Dialog.Close key={id}>
                 <RadioCards.Item className={styles.radioCardItem} value={id}>
-                  <Flex gap="2">
-                    <Image
-                      alt={name}
-                      className="rt-AvatarRoot rt-r-size-3"
-                      height={40}
-                      src={`/images/${image}`}
-                      width={40}
-                    />
-                    <div>
-                      <Heading as="h2" size="2">
-                        {name}
-                      </Heading>
-                      <Text as="p" color={getRarityColor(rarity)} size="2">
-                        {rarity}
-                        {traveler
-                          ? ` · ${traveler.replace("Hero_", "")}`
-                          : undefined}
-                      </Text>
-                    </div>
-                  </Flex>
+                  <ItemCard.Header
+                    image={image}
+                    name={name}
+                    rarity={rarity}
+                    size="2"
+                    traveler={traveler}
+                  />
                   <ItemCard.Content
                     cooldownTime={cooldownTime}
                     maxCharges={maxCharges}

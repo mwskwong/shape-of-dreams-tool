@@ -30,7 +30,8 @@ const Essences: FC<EssencesProps> = async ({ searchParams }) => {
             (rarities.length === 0 || rarities.includes(rarity)),
         )
         .map(([key, { name, rarity, image, achievement, description }]) => (
-          <ItemCard.Root key={key} image={image} name={name} rarity={rarity}>
+          <ItemCard.Root key={key}>
+            <ItemCard.Header image={image} name={name} rarity={rarity} />
             <ItemCard.Content achievement={achievement}>
               <ItemCard.Description>{description}</ItemCard.Description>
             </ItemCard.Content>
