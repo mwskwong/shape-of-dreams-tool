@@ -7,6 +7,10 @@ import * as ItemCard from "@/components/item-card";
 import { compareMemories, loadSearchParams } from "@/lib/utils";
 import memories from "@public/data/memories.json";
 
+const memoryEntries = Object.entries(memories).toSorted(([, a], [, b]) =>
+  compareMemories(a, b),
+);
+
 interface MemoriesProps {
   searchParams: Promise<SearchParams>;
 }
@@ -17,8 +21,7 @@ const Memories: FC<MemoriesProps> = async ({ searchParams }) => {
 
   return (
     <Grid columns={{ initial: "1", sm: "2", md: "3" }} gap="3">
-      {Object.entries(memories)
-        .toSorted(([, a], [, b]) => compareMemories(a, b))
+      {memoryEntries
         .filter(
           ([
             ,

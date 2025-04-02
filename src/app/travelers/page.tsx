@@ -14,22 +14,7 @@ import { compareMemories, getTravelerColor } from "@/lib/utils";
 import memories from "@public/data/memories.json";
 import travelers from "@public/data/travelers.json";
 
-const getTravelerMemories = (traveler: string) =>
-  Object.values(memories)
-    .filter((memory) => memory.traveler === traveler)
-    .map((memory) => ({
-      ...memory,
-      mutuallyExclusive: Object.values(memories)
-        .filter(
-          ({ name, traveler, travelerMemoryLocation }) =>
-            name !== memory.name &&
-            traveler &&
-            traveler === memory.traveler &&
-            travelerMemoryLocation === memory.travelerMemoryLocation,
-        )
-        .map(({ name }) => name),
-    }))
-    .toSorted((a, b) => compareMemories(a, b));
+const sortedMemories = Object.values(memories).toSorted(compareMemories);
 
 const Travelers: FC = () => {
   return (
@@ -39,29 +24,41 @@ const Travelers: FC = () => {
           <TravelerCard.Root image={image} name={name}>
             <TravelerCard.Content
               {...traveler}
-              memories={getTravelerMemories(key).map(
-                ({
-                  name,
-                  cooldownTime,
-                  maxCharges,
-                  description,
-                  shortDescription,
-                  type,
-                  image,
-                  achievement,
-                  mutuallyExclusive,
-                }) => ({
-                  name,
-                  cooldownTime,
-                  maxCharges,
-                  description,
-                  shortDescription,
-                  type,
-                  image,
-                  achievement,
-                  mutuallyExclusive,
-                }),
-              )}
+              memories={sortedMemories
+                .filter((memory) => memory.traveler === key)
+                .map(
+                  ({
+                    name,
+                    cooldownTime,
+                    maxCharges,
+                    description,
+                    shortDescription,
+                    type,
+                    image,
+                    achievement,
+                    traveler,
+                    travelerMemoryLocation,
+                  }) => ({
+                    name,
+                    cooldownTime,
+                    maxCharges,
+                    description,
+                    shortDescription,
+                    type,
+                    image,
+                    achievement,
+                    mutuallyExclusive: Object.values(memories)
+                      .filter(
+                        (memory) =>
+                          memory.name !== name &&
+                          memory.traveler &&
+                          memory.traveler === traveler &&
+                          memory.travelerMemoryLocation ===
+                            travelerMemoryLocation,
+                      )
+                      .map(({ name }) => name),
+                  }),
+                )}
             />
           </TravelerCard.Root>
         </Theme>

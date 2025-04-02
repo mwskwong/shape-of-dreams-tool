@@ -7,6 +7,11 @@ import * as ItemCard from "@/components/item-card";
 import { compareRarities, loadSearchParams } from "@/lib/utils";
 import essences from "@public/data/essences.json";
 
+const essenceEntries = Object.entries(essences).toSorted(
+  ([, a], [, b]) =>
+    compareRarities(a.rarity, b.rarity) || a.name.localeCompare(b.name),
+);
+
 interface EssencesProps {
   searchParams: Promise<SearchParams>;
 }
@@ -16,11 +21,7 @@ const Essences: FC<EssencesProps> = async ({ searchParams }) => {
 
   return (
     <Grid columns={{ initial: "1", sm: "2", md: "3" }} gap="3">
-      {Object.entries(essences)
-        .toSorted(
-          ([, a], [, b]) =>
-            compareRarities(a.rarity, b.rarity) || a.name.localeCompare(b.name),
-        )
+      {essenceEntries
         .filter(
           ([, { name, description, rarity }]) =>
             (search === "" ||
