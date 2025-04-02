@@ -1,5 +1,5 @@
 .travelerSelectCard {
-  width: 128px;
+  width: 130px; /* WORKAROUND: need to +2px for the inset child to have the correct width */
   height: 128px;
 }
 

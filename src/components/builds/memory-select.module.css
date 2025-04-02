@@ -1,11 +1,11 @@
 .card {
   [data-size="1"] & {
-    width: 64px;
+    width: 66px; /* WORKAROUND: need to +2px for the inset child to have the correct width */
     height: 64px;
   }
 
   [data-size="2"] & {
-    width: 80px;
+    width: 82px; /* WORKAROUND: need to +2px for the inset child to have the correct width */
     height: 80px;
   }
 }
