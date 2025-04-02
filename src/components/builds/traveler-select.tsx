@@ -4,12 +4,15 @@ import "@radix-ui/themes/tokens/colors/ruby.css";
 import "@radix-ui/themes/tokens/colors/amber.css";
 import "@radix-ui/themes/tokens/colors/yellow.css";
 
+import { Avatar } from "@radix-ui/themes/components/avatar";
 import { Card, type CardProps } from "@radix-ui/themes/components/card";
 import * as Dialog from "@radix-ui/themes/components/dialog";
 import { Flex } from "@radix-ui/themes/components/flex";
+import { Heading } from "@radix-ui/themes/components/heading";
 import { Inset } from "@radix-ui/themes/components/inset";
 import * as RadioCards from "@radix-ui/themes/components/radio-cards";
 import { Text } from "@radix-ui/themes/components/text";
+import { IconUser } from "@tabler/icons-react";
 import { clsx } from "clsx";
 import Image from "next/image";
 import { type ComponentProps, type FC } from "react";
@@ -35,35 +38,55 @@ export const TravelerSelect: FC<TravelerSelectProps> = ({
   className,
   ...props
 }) => {
+  const selectedTraveler = Object.entries(travelers).find(
+    ([key]) => key === value,
+  )?.[1];
+
   return (
     <Dialog.Root>
-      <Dialog.Trigger>
-        <Card
-          asChild
-          className={clsx(styles.selectedCard, className)}
-          {...props}
+      <Flex align="center" direction="column" gap="2">
+        <Dialog.Trigger>
+          <Card
+            asChild
+            className={clsx(styles.selectedCard, className)}
+            {...props}
+          >
+            <button name={name}>
+              {value ? (
+                <Inset side="all">
+                  <Image
+                    alt={value}
+                    height={96}
+                    src={`/images/${value}.png`}
+                    width={96}
+                  />
+                </Inset>
+              ) : (
+                <Flex justify="center">
+                  <IconUser />
+                </Flex>
+              )}
+            </button>
+          </Card>
+        </Dialog.Trigger>
+        <Text
+          as="div"
+          color={value ? getTravelerColor(value) : undefined}
+          size="2"
         >
-          <button name={name}>
-            {value ? (
-              <Inset side="all">
-                <Image
-                  alt={value}
-                  height={96}
-                  src={`/images/${value}.png`}
-                  width={96}
-                />
-              </Inset>
-            ) : (
-              <Text align="center" as="p">
-                Any Traveler
-              </Text>
-            )}
-          </button>
-        </Card>
-      </Dialog.Trigger>
-      <Dialog.Content>
+          {selectedTraveler?.name ?? "Any Traveler"}
+        </Text>
+      </Flex>
+      <Dialog.Content maxWidth="350px">
         <Dialog.Title>Select traveler</Dialog.Title>
-        <RadioCards.Root columns="1">
+        <RadioCards.Root columns="1" value={value} onValueChange={onChange}>
+          <RadioCards.Item className={styles.radioCardItem} value="">
+            <Avatar color="gray" fallback={<IconUser />} />
+            <Heading as="h3" size="2">
+              Any Traveler
+            </Heading>
+          </RadioCards.Item>
+
           {Object.entries(travelers).map(([key, traveler]) => {
             const color = getTravelerColor(key);
             const classIcon = getTravelerClassIcon(traveler.class);
@@ -82,9 +105,9 @@ export const TravelerSelect: FC<TravelerSelectProps> = ({
                   width={40}
                 />
                 <div>
-                  <Text as="p" color={color} weight="bold">
+                  <Heading as="h3" color={color} size="2">
                     {traveler.name}
-                  </Text>
+                  </Heading>
                   <Flex asChild align="center" gap="2" justify="center">
                     <Text as="div">
                       {classIcon && (
