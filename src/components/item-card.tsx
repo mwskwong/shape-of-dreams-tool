@@ -78,7 +78,7 @@ export const Header: FC<HeaderProps> = ({
           {name}
         </Heading>
       ) : (
-        <Text as="p" size="2">
+        <Text as="p" size="2" weight="bold">
           {name}
         </Text>
       )}
