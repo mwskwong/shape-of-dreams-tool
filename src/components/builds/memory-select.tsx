@@ -48,28 +48,27 @@ export const MemorySelect: FC<MemorySelectProps> = ({
   ...props
 }) => {
   const selectedMemory = memoryEntries.find(([key]) => key === value)?.[1];
-  const width = size === "1" ? 64 : 80;
 
   return (
     <Dialog.Root {...props}>
-      <Flex align="center" direction="column" gap="2" maxWidth={`${width}px`}>
+      <Flex align="center" data-size={size} direction="column" gap="2">
         <Dialog.Trigger>
-          <Card asChild className={styles.card} data-size={size}>
+          <Card asChild className={styles.card}>
             <button disabled={disabled}>
               {selectedMemory && (
                 <Inset side="all">
                   <Image
                     alt={selectedMemory.name}
-                    height={width}
+                    height={size === "1" ? 64 : 80}
                     src={`/images/${selectedMemory.image}`}
-                    width={width}
+                    width={size === "1" ? 64 : 80}
                   />
                 </Inset>
               )}
             </button>
           </Card>
         </Dialog.Trigger>
-        <Text align="center" as="div" size="2">
+        <Text align="center" as="div" className={styles.memoryName} size="2">
           {selectedMemory?.name ?? "Any"}
         </Text>
       </Flex>

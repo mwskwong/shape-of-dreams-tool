@@ -112,7 +112,6 @@ export const TravelerSelect: FC<TravelerSelectProps> = ({
             <Text
               as="div"
               color={value ? getTravelerColor(value.id) : undefined}
-              size="2"
             >
               {selectedTraveler?.name ?? "Any"}
             </Text>

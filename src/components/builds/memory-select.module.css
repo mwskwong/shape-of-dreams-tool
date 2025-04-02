@@ -1,11 +1,22 @@
 .card {
-  &[data-size="1"] {
+  [data-size="1"] & {
     width: 64px;
     height: 64px;
   }
 
-  &[data-size="2"] {
+  [data-size="2"] & {
     width: 80px;
     height: 80px;
+  }
+}
+
+.memoryName {
+  [data-size="1"] & {
+    width: 64px;
+    hyphens: auto;
+  }
+
+  [data-size="2"] & {
+    width: 80px;
   }
 }
