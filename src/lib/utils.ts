@@ -1,3 +1,4 @@
+import { type ThemeProps } from "@radix-ui/themes/components/theme";
 import { createLoader, parseAsArrayOf, parseAsString } from "nuqs/server";
 
 const rarityOrders = [
@@ -87,4 +88,44 @@ export const sprites = {
     width: 54,
     height: 56,
   },
+};
+
+export const getTravelerClassIcon = (travelerClass: string) => {
+  if (travelerClass.toLowerCase().includes("attacker")) {
+    return "/images/iconAttacker.png";
+  }
+
+  if (travelerClass.toLowerCase().includes("mage")) {
+    return "/images/iconSpellCaster.png";
+  }
+
+  if (travelerClass.toLowerCase().includes("tank")) {
+    return "/images/iconTank.png";
+  }
+
+  if (travelerClass.toLowerCase().includes("support")) {
+    return "/images/iconSupporter.png";
+  }
+};
+
+export const getTravelerColor = (
+  travelerId: string,
+): ThemeProps["accentColor"] => {
+  switch (travelerId) {
+    case "Hero_Lacerta": {
+      return "orange";
+    }
+    case "Hero_Mist": {
+      return "mint";
+    }
+    case "Hero_Yubar": {
+      return "ruby";
+    }
+    case "Hero_Vesper": {
+      return "amber";
+    }
+    case "Hero_Aurena": {
+      return "yellow";
+    }
+  }
 };

@@ -1,12 +1,8 @@
-.card {
+.selectedCard {
   width: 96px;
   height: 96px;
 }
 
-.inset {
-  background-color: var(--color-background);
-}
-
-.radioGroupRoot {
-  height: 100%;
+.radioCardItem {
+  justify-content: flex-start;
 }

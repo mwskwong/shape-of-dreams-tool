@@ -12,30 +12,12 @@ import { clsx } from "clsx";
 import Image from "next/image";
 import { type FC } from "react";
 
-import { sprites } from "@/lib/utils";
+import { getTravelerClassIcon, sprites } from "@/lib/utils";
 
 import * as ItemCard from "../item-card";
 
 import { MemoryCard } from "./memory-card";
 import styles from "./traveler-card.module.css";
-
-const getClassIcon = (travelerClass: string) => {
-  if (travelerClass.toLowerCase().includes("attacker")) {
-    return "/images/iconAttacker.png";
-  }
-
-  if (travelerClass.toLowerCase().includes("mage")) {
-    return "/images/iconSpellCaster.png";
-  }
-
-  if (travelerClass.toLowerCase().includes("tank")) {
-    return "/images/iconTank.png";
-  }
-
-  if (travelerClass.toLowerCase().includes("support")) {
-    return "/images/iconSupporter.png";
-  }
-};
 
 export interface RootProps extends CardProps {
   name: string;
@@ -183,7 +165,7 @@ export const Content: FC<ContentProps> = ({
     },
   ];
 
-  const classIcon = getClassIcon(travelerClass);
+  const classIcon = getTravelerClassIcon(travelerClass);
 
   return (
     <Tabs.Root
