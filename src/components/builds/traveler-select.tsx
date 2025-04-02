@@ -188,17 +188,30 @@ export const TravelerSelect: FC<TravelerSelectProps> = ({
         </Dialog.Root>
 
         <Flex gap="3">
-          {Object.entries(value?.startingMemories ?? {}).map(([key, id]) => (
-            <MemorySelect
-              key={key}
-              size="1"
-              value={id}
-              onChange={(id) => ({
-                ...value,
-                startingMemories: { ...value?.startingMemories, q: id },
-              })}
-            />
-          ))}
+          {Object.entries(value?.startingMemories ?? {}).map(([key, id]) => {
+            const options = memoryEntries
+              .filter(
+                ([, { traveler, travelerMemoryLocation }]) =>
+                  traveler === value?.id &&
+                  travelerMemoryLocation ===
+                    key[0].toUpperCase() + key.slice(1),
+              )
+              .map(([key, memory]) => ({ id: key, ...memory }));
+
+            return (
+              <MemorySelect
+                key={key}
+                disabled={!id || options.length <= 1}
+                options={options}
+                size="1"
+                value={id}
+                onChange={(id) => ({
+                  ...value,
+                  startingMemories: { ...value?.startingMemories, q: id },
+                })}
+              />
+            );
+          })}
         </Flex>
       </Flex>
     </Flex>
