@@ -37,24 +37,18 @@ const getTravelerColor = (travelerId: string): ThemeProps["accentColor"] => {
 const getTravelerMemories = (traveler: string) =>
   Object.values(memories)
     .filter((memory) => memory.traveler === traveler)
-    .map(
-      ({
-        addedCharges,
-        travelerMemoryLocation: _travelerMemoryLocation,
-        ...memory
-      }) => ({
-        ...memory,
-        mutuallyExclusive: Object.values(memories)
-          .filter(
-            ({ name, traveler, travelerMemoryLocation }) =>
-              name !== memory.name &&
-              traveler &&
-              traveler === memory.traveler &&
-              travelerMemoryLocation === _travelerMemoryLocation,
-          )
-          .map(({ name }) => name),
-      }),
-    )
+    .map((memory) => ({
+      ...memory,
+      mutuallyExclusive: Object.values(memories)
+        .filter(
+          ({ name, traveler, travelerMemoryLocation }) =>
+            name !== memory.name &&
+            traveler &&
+            traveler === memory.traveler &&
+            travelerMemoryLocation === memory.travelerMemoryLocation,
+        )
+        .map(({ name }) => name),
+    }))
     .toSorted((a, b) => compareMemories(a, b));
 
 const Travelers: FC = () => {
@@ -65,7 +59,29 @@ const Travelers: FC = () => {
           <TravelerCard.Root image={image} name={name}>
             <TravelerCard.Content
               {...traveler}
-              memories={getTravelerMemories(key)}
+              memories={getTravelerMemories(key).map(
+                ({
+                  name,
+                  cooldownTime,
+                  maxCharges,
+                  description,
+                  shortDescription,
+                  type,
+                  image,
+                  achievement,
+                  mutuallyExclusive,
+                }) => ({
+                  name,
+                  cooldownTime,
+                  maxCharges,
+                  description,
+                  shortDescription,
+                  type,
+                  image,
+                  achievement,
+                  mutuallyExclusive,
+                }),
+              )}
             />
           </TravelerCard.Root>
         </Theme>

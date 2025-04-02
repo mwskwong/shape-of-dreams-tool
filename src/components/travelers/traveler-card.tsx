@@ -97,9 +97,7 @@ export interface ContentProps extends Omit<Tabs.RootProps, "children"> {
     description: string;
     shortDescription?: string | null;
     type?: string;
-    tags?: string[];
     image: string;
-    unlockBy?: string;
     mutuallyExclusive?: string[];
     achievement?: { name: string; description: string } | null;
   }[];
