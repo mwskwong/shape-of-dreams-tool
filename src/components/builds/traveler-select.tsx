@@ -64,13 +64,16 @@ export interface TravelerSelectProps
 }
 
 export const TravelerSelect: FC<TravelerSelectProps> = ({
-  value,
+  value = {
+    id: "",
+    startingMemories: { q: "", r: "", identity: "", movement: "" },
+  },
   errorMessage,
   onChange,
   ...props
 }) => {
   const selectedTraveler = Object.entries(travelers).find(
-    ([key]) => key === value?.id,
+    ([key]) => key === value.id,
   )?.[1];
 
   return (
@@ -109,10 +112,7 @@ export const TravelerSelect: FC<TravelerSelectProps> = ({
                 </button>
               </Card>
             </Dialog.Trigger>
-            <Text
-              as="div"
-              color={value ? getTravelerColor(value.id) : undefined}
-            >
+            <Text as="div" color={getTravelerColor(value.id)}>
               {selectedTraveler?.name ?? "Any"}
             </Text>
           </Flex>
@@ -121,7 +121,7 @@ export const TravelerSelect: FC<TravelerSelectProps> = ({
             <Dialog.Title>Select traveler</Dialog.Title>
             <RadioCards.Root
               columns="1"
-              value={value?.id}
+              value={value.id}
               onValueChange={(id) =>
                 onChange?.({
                   id,
@@ -187,11 +187,11 @@ export const TravelerSelect: FC<TravelerSelectProps> = ({
         </Dialog.Root>
 
         <Flex gap="3">
-          {Object.entries(value?.startingMemories ?? {}).map(([key, id]) => {
+          {Object.entries(value.startingMemories).map(([key, id]) => {
             const options = memoryEntries
               .filter(
                 ([, { traveler, travelerMemoryLocation }]) =>
-                  traveler === value?.id &&
+                  traveler === value.id &&
                   travelerMemoryLocation ===
                     key[0].toUpperCase() + key.slice(1),
               )
@@ -204,10 +204,12 @@ export const TravelerSelect: FC<TravelerSelectProps> = ({
                 options={options}
                 size="1"
                 value={id}
-                onChange={(id) => ({
-                  ...value,
-                  startingMemories: { ...value?.startingMemories, q: id },
-                })}
+                onChange={(id) =>
+                  onChange?.({
+                    ...value,
+                    startingMemories: { ...value.startingMemories, [key]: id },
+                  })
+                }
               />
             );
           })}

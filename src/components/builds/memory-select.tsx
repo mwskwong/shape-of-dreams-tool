@@ -93,7 +93,11 @@ export const MemorySelect: FC<MemorySelectProps> = ({
 
       <Dialog.Content>
         <Dialog.Title>Select memory</Dialog.Title>
-        <RadioCards.Root columns={{ initial: "1", sm: "2" }}>
+        <RadioCards.Root
+          columns={{ initial: "1", sm: "2" }}
+          value={value}
+          onValueChange={onChange}
+        >
           {options.map(
             ({
               id,
@@ -106,42 +110,40 @@ export const MemorySelect: FC<MemorySelectProps> = ({
               type,
               description,
             }) => (
-              <RadioCards.Item
-                key={id}
-                className={styles.radioCardItem}
-                value={id}
-              >
-                <Flex gap="2">
-                  <Image
-                    alt={name}
-                    className="rt-AvatarRoot rt-r-size-3"
-                    height={40}
-                    src={`/images/${image}`}
-                    width={40}
-                  />
-                  <div>
-                    <Heading as="h2" size="2">
-                      {name}
-                    </Heading>
-                    <Text as="p" color={getRarityColor(rarity)} size="2">
-                      {rarity}
-                      {traveler
-                        ? ` · ${traveler.replace("Hero_", "")}`
-                        : undefined}
-                    </Text>
-                  </div>
-                </Flex>
-                <ItemCard.Content
-                  cooldownTime={cooldownTime}
-                  maxCharges={maxCharges}
-                  size="2"
-                  type={type}
-                >
-                  <ItemCard.Description size="2">
-                    {description}
-                  </ItemCard.Description>
-                </ItemCard.Content>
-              </RadioCards.Item>
+              <Dialog.Close key={id}>
+                <RadioCards.Item className={styles.radioCardItem} value={id}>
+                  <Flex gap="2">
+                    <Image
+                      alt={name}
+                      className="rt-AvatarRoot rt-r-size-3"
+                      height={40}
+                      src={`/images/${image}`}
+                      width={40}
+                    />
+                    <div>
+                      <Heading as="h2" size="2">
+                        {name}
+                      </Heading>
+                      <Text as="p" color={getRarityColor(rarity)} size="2">
+                        {rarity}
+                        {traveler
+                          ? ` · ${traveler.replace("Hero_", "")}`
+                          : undefined}
+                      </Text>
+                    </div>
+                  </Flex>
+                  <ItemCard.Content
+                    cooldownTime={cooldownTime}
+                    maxCharges={maxCharges}
+                    size="2"
+                    type={type}
+                  >
+                    <ItemCard.Description size="2">
+                      {description}
+                    </ItemCard.Description>
+                  </ItemCard.Content>
+                </RadioCards.Item>
+              </Dialog.Close>
             ),
           )}
         </RadioCards.Root>
