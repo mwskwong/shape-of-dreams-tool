@@ -79,7 +79,7 @@ export const TravelerSelect: FC<TravelerSelectProps> = ({
   return (
     <Flex direction="column" gap="3" {...props}>
       <Heading as="h2" size="3">
-        Traveler
+        Traveler & Starting Memories
       </Heading>
       <Flex
         align="center"
@@ -200,7 +200,7 @@ export const TravelerSelect: FC<TravelerSelectProps> = ({
             return (
               <MemorySelect
                 key={key}
-                disabled={!id || options.length <= 1}
+                disabled={!selectedTraveler || options.length <= 1}
                 options={options}
                 size="1"
                 value={id}
