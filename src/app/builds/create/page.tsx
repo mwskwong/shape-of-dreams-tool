@@ -14,14 +14,21 @@ import { TravelerSelect } from "@/components/builds/traveler-select";
 
 const schema = object({
   buildName: pipe(string(), nonEmpty("Build name is required.")),
-  traveler: string(),
+  traveler: object({
+    id: string(),
+    startingMemories: object({
+      Q: string(),
+      R: string(),
+    }),
+  }),
 });
 
 const CreateBuild: FC = () => {
   const form = useForm({
-    defaultValues: { buildName: "", traveler: "" } satisfies InferOutput<
-      typeof schema
-    >,
+    defaultValues: {
+      buildName: "",
+      traveler: { id: "", startingMemories: { Q: "", R: "" } },
+    } satisfies InferOutput<typeof schema>,
     validators: { onChange: schema },
     onSubmit: ({ value }) => {
       alert(JSON.stringify(value));
