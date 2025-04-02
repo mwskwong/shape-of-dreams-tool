@@ -15,11 +15,11 @@
   "dependencies": {
     "@radix-ui/themes": "^3.2.1",
     "@tabler/icons-react": "^3.31.0",
-    "@tanstack/react-form": "^1.2.1",
+    "@tanstack/react-form": "^1.2.3",
     "@vercel/analytics": "^1.5.0",
     "clsx": "^2.1.1",
     "dedent": "^1.5.3",
-    "html-react-parser": "^5.2.2",
+    "html-react-parser": "^5.2.3",
     "next": "15.2.4",
     "nuqs": "^2.4.1",
     "react": "^19.1.0",
@@ -34,14 +34,14 @@
     "@next/bundle-analyzer": "^15.2.4",
     "@next/eslint-plugin-next": "^15.2.4",
     "@total-typescript/ts-reset": "^0.6.1",
-    "@types/node": "^22.13.14",
-    "@types/react": "^19.0.12",
-    "@types/react-dom": "^19.0.4",
+    "@types/node": "^22.13.17",
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.1",
     "autoprefixer": "^10.4.21",
     "babel-plugin-react-compiler": "latest",
     "eslint": "^9.23.0",
     "eslint-config-prettier": "^10.1.1",
-    "eslint-import-resolver-typescript": "^4.2.7",
+    "eslint-import-resolver-typescript": "^4.3.1",
     "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-jsx-a11y": "^6.10.2",
     "eslint-plugin-react": "^7.37.4",
@@ -59,8 +59,8 @@
     "stylelint-config-css-modules": "^4.4.0",
     "stylelint-config-recess-order": "^6.0.0",
     "stylelint-config-standard": "^37.0.0",
-    "type-fest": "^4.38.0",
+    "type-fest": "^4.39.0",
     "typescript": "~5.8.2",
-    "typescript-eslint": "^8.28.0"
+    "typescript-eslint": "^8.29.0"
   }
 }
