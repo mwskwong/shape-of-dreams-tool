@@ -4,12 +4,8 @@ import { type SearchParams } from "nuqs/server";
 import { type FC } from "react";
 
 import * as ItemCard from "@/components/item-card";
-import { compareEssences, loadSearchParams } from "@/lib/utils";
-import essences from "@public/data/essences.json";
-
-const essenceEntries = Object.entries(essences).toSorted(([, a], [, b]) =>
-  compareEssences(a, b),
-);
+import { allEssenceEntries } from "@/lib/constants";
+import { loadSearchParams } from "@/lib/utils";
 
 interface EssencesProps {
   searchParams: Promise<SearchParams>;
@@ -20,7 +16,7 @@ const Essences: FC<EssencesProps> = async ({ searchParams }) => {
 
   return (
     <Grid columns={{ initial: "1", sm: "2", md: "3" }} gap="3">
-      {essenceEntries
+      {allEssenceEntries
         .filter(
           ([, { name, description, rarity }]) =>
             (search === "" ||

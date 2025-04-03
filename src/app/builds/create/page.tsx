@@ -25,15 +25,13 @@ import {
 import { EssenceSelect } from "@/components/builds/essence-select";
 import { MemorySelect } from "@/components/builds/memory-select";
 import { TravelerSelect } from "@/components/builds/traveler-select";
-import { compareMemories } from "@/lib/utils";
-import memories from "@public/data/memories.json";
+import { allMemoryEntries } from "@/lib/constants";
 
 import styles from "./page.module.css";
 
-const sortedMemories = Object.entries(memories)
+const allMemories = allMemoryEntries
   .filter(([id]) => id !== "St_C_Sneeze")
-  .map(([id, memory]) => ({ id, ...memory }))
-  .toSorted(compareMemories);
+  .map(([id, memory]) => ({ id, ...memory }));
 
 const schema = pipe(
   object({
@@ -84,7 +82,7 @@ const schema = pipe(
   check(
     ({ traveler, memories }) =>
       memories.every(({ id }) => {
-        const memory = sortedMemories.find((memory) => memory.id === id);
+        const memory = allMemories.find((memory) => memory.id === id);
         if (!memory?.traveler) return true;
 
         return (
@@ -198,7 +196,7 @@ const CreateBuild: FC = () => {
                               {({ state, handleChange, handleBlur, form }) => (
                                 <MemorySelect
                                   value={state.value}
-                                  options={sortedMemories.filter(
+                                  options={allMemories.filter(
                                     ({ id, traveler }) =>
                                       !traveler ||
                                       id ===

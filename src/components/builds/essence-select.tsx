@@ -14,17 +14,12 @@ import { IconSearch } from "@tabler/icons-react";
 import Image from "next/image";
 import { type FC, useState } from "react";
 
-import { allEssenceRarities, compareEssences } from "@/lib/utils";
-import essences from "@public/data/essences.json";
+import { allEssenceEntries, allEssenceRarities } from "@/lib/constants";
 
 import { CheckboxGroupSelect } from "../checkbox-group-select";
 import * as ItemCard from "../item-card";
 
 import styles from "./essence-select.module.css";
-
-const essenceEntries = Object.entries(essences).toSorted(([, a], [, b]) =>
-  compareEssences(a, b),
-);
 
 export interface EssenceSelectProps
   extends Omit<Dialog.TriggerProps, "children" | "onChange"> {
@@ -38,7 +33,7 @@ export const EssenceSelect: FC<EssenceSelectProps> = ({
   onChange,
   ...props
 }) => {
-  const selectedEssence = essenceEntries.find(([key]) => key === value)?.[1];
+  const selectedEssence = allEssenceEntries.find(([key]) => key === value)?.[1];
 
   const [search, setSearch] = useState("");
   const [rarities, setRarities] = useState([] as string[]);
@@ -121,7 +116,7 @@ export const EssenceSelect: FC<EssenceSelectProps> = ({
             </RadioCards.Item>
           </Dialog.Close>
 
-          {essenceEntries
+          {allEssenceEntries
             .filter(
               ([, { name, description, rarity }]) =>
                 (!search ||

@@ -1,8 +1,6 @@
 import { type ThemeProps } from "@radix-ui/themes/components/theme";
 import { createLoader, parseAsArrayOf, parseAsString } from "nuqs/server";
 
-import essences from "@public/data/essences.json";
-import memories from "@public/data/memories.json";
 const rarityOrders = [
   "Common",
   "Rare",
@@ -157,25 +155,3 @@ export const getRarityColor = (rarity: string): ThemeProps["accentColor"] => {
     }
   }
 };
-
-export const allEssenceRarities = [
-  ...new Set(Object.values(essences).map(({ rarity }) => rarity)),
-].toSorted(compareRarities);
-
-export const allMemoryRarities = [
-  ...new Set(Object.values(memories).map(({ rarity }) => rarity)),
-].toSorted(compareRarities);
-
-export const allMemoryTypes = [
-  ...new Set(Object.values(memories).map(({ type }) => type)),
-];
-
-export const allTravelers = [
-  ...new Set(Object.values(memories).map(({ traveler }) => traveler)),
-]
-  .filter(Boolean)
-  .toSorted();
-
-export const allMemoryTags = [
-  ...new Set(Object.values(memories).flatMap(({ tags }) => tags)),
-].toSorted();

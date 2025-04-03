@@ -18,20 +18,15 @@ import Image from "next/image";
 import { type FC, useState } from "react";
 
 import {
+  allMemoryEntries,
   allMemoryRarities,
   allMemoryTypes,
-  compareMemories,
-} from "@/lib/utils";
-import memories from "@public/data/memories.json";
+} from "@/lib/constants";
 
 import { CheckboxGroupSelect } from "../checkbox-group-select";
 import * as ItemCard from "../item-card";
 
 import styles from "./memory-select.module.css";
-
-const memoryEntries = Object.entries(memories).toSorted(([, a], [, b]) =>
-  compareMemories(a, b),
-);
 
 export interface MemorySelectProps
   extends Omit<Dialog.TriggerProps, "children" | "onChange"> {
@@ -62,7 +57,7 @@ export const MemorySelect: FC<MemorySelectProps> = ({
   onChange,
   ...props
 }) => {
-  const selectedMemory = memoryEntries.find(([key]) => key === value)?.[1];
+  const selectedMemory = allMemoryEntries.find(([key]) => key === value)?.[1];
 
   const [search, setSearch] = useState("");
   const [rarities, setRarities] = useState([] as string[]);

@@ -4,12 +4,8 @@ import { type SearchParams } from "nuqs/server";
 import { type FC } from "react";
 
 import * as ItemCard from "@/components/item-card";
-import { compareMemories, loadSearchParams } from "@/lib/utils";
-import memories from "@public/data/memories.json";
-
-const memoryEntries = Object.entries(memories).toSorted(([, a], [, b]) =>
-  compareMemories(a, b),
-);
+import { allMemoryEntries } from "@/lib/constants";
+import { loadSearchParams } from "@/lib/utils";
 
 interface MemoriesProps {
   searchParams: Promise<SearchParams>;
@@ -21,7 +17,7 @@ const Memories: FC<MemoriesProps> = async ({ searchParams }) => {
 
   return (
     <Grid columns={{ initial: "1", sm: "2", md: "3" }} gap="3">
-      {memoryEntries
+      {allMemoryEntries
         .filter(
           ([
             ,
@@ -71,15 +67,15 @@ const Memories: FC<MemoriesProps> = async ({ searchParams }) => {
               travelerMemoryLocation,
             },
           ]) => {
-            const mutuallyExclusive = Object.values(memories)
+            const mutuallyExclusive = allMemoryEntries
               .filter(
-                (memory) =>
+                ([, memory]) =>
                   memory.name !== name &&
                   memory.traveler &&
                   memory.traveler === traveler &&
                   memory.travelerMemoryLocation === travelerMemoryLocation,
               )
-              .map(({ name }) => name);
+              .map(([, { name }]) => name);
 
             return (
               <ItemCard.Root key={key} tags={tags}>

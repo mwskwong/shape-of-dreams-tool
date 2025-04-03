@@ -6,11 +6,9 @@ import { type Metadata } from "next";
 import { type FC } from "react";
 
 import * as TravelerCard from "@/components/travelers/traveler-card";
-import { compareMemories, getTravelerColor } from "@/lib/utils";
-import memories from "@public/data/memories.json";
+import { allMemoryEntries } from "@/lib/constants";
+import { getTravelerColor } from "@/lib/utils";
 import travelers from "@public/data/travelers.json";
-
-const sortedMemories = Object.values(memories).toSorted(compareMemories);
 
 const Travelers: FC = () => {
   return (
@@ -20,10 +18,24 @@ const Travelers: FC = () => {
           <TravelerCard.Root image={image} name={name}>
             <TravelerCard.Content
               {...traveler}
-              memories={sortedMemories
-                .filter((memory) => memory.traveler === key)
+              memories={allMemoryEntries
+                .filter(([, { traveler }]) => traveler === key)
                 .map(
-                  ({
+                  ([
+                    ,
+                    {
+                      name,
+                      cooldownTime,
+                      maxCharges,
+                      description,
+                      shortDescription,
+                      type,
+                      image,
+                      achievement,
+                      traveler,
+                      travelerMemoryLocation,
+                    },
+                  ]) => ({
                     name,
                     cooldownTime,
                     maxCharges,
@@ -32,27 +44,16 @@ const Travelers: FC = () => {
                     type,
                     image,
                     achievement,
-                    traveler,
-                    travelerMemoryLocation,
-                  }) => ({
-                    name,
-                    cooldownTime,
-                    maxCharges,
-                    description,
-                    shortDescription,
-                    type,
-                    image,
-                    achievement,
-                    mutuallyExclusive: Object.values(memories)
+                    mutuallyExclusive: allMemoryEntries
                       .filter(
-                        (memory) =>
+                        ([, memory]) =>
                           memory.name !== name &&
                           memory.traveler &&
                           memory.traveler === traveler &&
                           memory.travelerMemoryLocation ===
                             travelerMemoryLocation,
                       )
-                      .map(({ name }) => name),
+                      .map(([, { name }]) => name),
                   }),
                 )}
             />

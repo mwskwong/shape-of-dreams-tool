@@ -12,22 +12,13 @@ import { IconUser } from "@tabler/icons-react";
 import Image from "next/image";
 import { type FC } from "react";
 
-import {
-  compareMemories,
-  getTravelerClassIcon,
-  getTravelerColor,
-  sprites,
-} from "@/lib/utils";
+import { allMemoryEntries } from "@/lib/constants";
+import { getTravelerClassIcon, getTravelerColor, sprites } from "@/lib/utils";
 import iconStyles from "@/styles/icons.module.css";
-import memories from "@public/data/memories.json";
 import travelers from "@public/data/travelers.json";
 
 import { MemorySelect } from "./memory-select";
 import styles from "./traveler-select.module.css";
-
-const memoryEntries = Object.entries(memories).toSorted(([, a], [, b]) =>
-  compareMemories(a, b),
-);
 
 const getStartingMemory = (
   traveler: string,
@@ -36,7 +27,7 @@ const getStartingMemory = (
   if (!traveler) return "";
 
   return (
-    memoryEntries.find(
+    allMemoryEntries.find(
       ([, memory]) =>
         memory.traveler === traveler &&
         memory.travelerMemoryLocation === travelerMemoryLocation,
@@ -229,7 +220,7 @@ export const TravelerSelect: FC<TravelerSelectProps> = ({
 
         <Flex gap="3">
           {Object.entries(value.startingMemories).map(([key, id]) => {
-            const options = memoryEntries
+            const options = allMemoryEntries
               .filter(
                 ([, { traveler, travelerMemoryLocation }]) =>
                   traveler === value.id &&
