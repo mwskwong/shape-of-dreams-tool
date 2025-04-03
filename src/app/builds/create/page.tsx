@@ -14,7 +14,7 @@ import {
   type InferOutput,
   array,
   check,
-  checkItems,
+  everyItem,
   length,
   nonEmpty,
   object,
@@ -52,17 +52,17 @@ const schema = pipe(
         }),
       ),
       length(4),
-      checkItems(
+      everyItem(
         ({ id }, index, array) =>
           !id || array.findIndex((memory) => memory.id === id) === index,
         "Memories must be unique.",
       ),
-      checkItems(({ essences }, __, array) => {
+      everyItem(({ essences }, __, array) => {
         const allEssences = array.flatMap(({ essences }) => essences);
-        return essences.every((essence, index) => {
-          if (!essence) return true;
-          return allEssences.indexOf(essence) === index;
-        });
+        return essences.every(
+          (essence, index) =>
+            !essence || allEssences.indexOf(essence) === index,
+        );
       }, "Essences must be unique."),
     ),
   }),
@@ -120,6 +120,7 @@ const CreateBuild: FC = () => {
                   color={error ? "red" : undefined}
                   name={name}
                   placeholder="My Build"
+                  size="3"
                   value={state.value}
                   onBlur={handleBlur}
                   onChange={(e) => handleChange(e.target.value)}
@@ -145,32 +146,46 @@ const CreateBuild: FC = () => {
             <Heading as="h2" size="3">
               Memories and Essences
             </Heading>
-            <Flex gap="3">
-              <form.Field name="memories[0].id">
-                {({ state, handleChange, handleBlur, form }) => (
-                  <MemorySelect
-                    value={state.value}
-                    options={sortedMemories.filter(
-                      ({ id, traveler }) =>
-                        !traveler ||
-                        id === form.state.values.traveler.startingMemories.q ||
-                        id === form.state.values.traveler.startingMemories.r,
-                    )}
-                    onBlur={handleBlur}
-                    onChange={handleChange}
-                  />
-                )}
-              </form.Field>
-            </Flex>
-            <Flex gap="3">
-              <MemorySelect />
-            </Flex>
-            <Flex gap="3">
-              <MemorySelect />
-            </Flex>
-            <Flex gap="3">
-              <MemorySelect />
-            </Flex>
+
+            <form.Field name="memories">
+              {({ state, handleChange, handleBlur, form }) => {
+                const error = state.meta.isTouched
+                  ? state.meta.errors[0]?.message
+                  : undefined;
+                return (
+                  <>
+                    <Flex direction="column" gap="3">
+                      {state.value.map(({ id }, index) => (
+                        <Flex key={index} gap="3">
+                          <MemorySelect
+                            value={id}
+                            options={sortedMemories.filter(
+                              ({ id, traveler }) =>
+                                !traveler ||
+                                id ===
+                                  form.state.values.traveler.startingMemories
+                                    .q ||
+                                id ===
+                                  form.state.values.traveler.startingMemories.r,
+                            )}
+                            onBlur={handleBlur}
+                            onChange={(id) =>
+                              handleChange((memories) => {
+                                memories[index].id = id;
+                                return memories;
+                              })
+                            }
+                          />
+                        </Flex>
+                      ))}
+                    </Flex>
+                    <Text as="div" color="red" size="2">
+                      {error}
+                    </Text>
+                  </>
+                );
+              }}
+            </form.Field>
           </Flex>
         </Flex>
         <form.Subscribe selector={(state) => state.errors}>
