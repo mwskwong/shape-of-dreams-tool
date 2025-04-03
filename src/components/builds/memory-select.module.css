@@ -10,6 +10,14 @@
   }
 }
 
+.search {
+  width: 100%;
+
+  @media (--xs) {
+    width: auto;
+  }
+}
+
 .radioCardItem {
   flex-direction: column;
   align-items: stretch;

@@ -1,5 +1,6 @@
 import "@/styles/traveler-colors.css";
 
+import { Button } from "@radix-ui/themes/components/button";
 import { Card } from "@radix-ui/themes/components/card";
 import * as DataList from "@radix-ui/themes/components/data-list";
 import * as Dialog from "@radix-ui/themes/components/dialog";
@@ -144,7 +145,7 @@ export const TravelerSelect: FC<TravelerSelectProps> = ({
           </Flex>
 
           <Dialog.Content maxWidth="350px">
-            <Dialog.Title>Select traveler</Dialog.Title>
+            <Dialog.Title mb="4">Select traveler</Dialog.Title>
             <RadioCards.Root
               columns="1"
               value={value.id}
@@ -208,6 +209,13 @@ export const TravelerSelect: FC<TravelerSelectProps> = ({
                 );
               })}
             </RadioCards.Root>
+            <Flex justify="end">
+              <Dialog.Close>
+                <Button color="gray" mt="4" variant="soft">
+                  Close
+                </Button>
+              </Dialog.Close>
+            </Flex>
           </Dialog.Content>
         </Dialog.Root>
 
