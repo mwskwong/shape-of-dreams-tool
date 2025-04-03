@@ -2,28 +2,79 @@
 
 import "@radix-ui/themes/tokens/colors/red.css";
 
+import { Box } from "@radix-ui/themes/components/box";
 import { Button } from "@radix-ui/themes/components/button";
 import { Flex } from "@radix-ui/themes/components/flex";
+import { Heading } from "@radix-ui/themes/components/heading";
 import { Text } from "@radix-ui/themes/components/text";
 import * as TextField from "@radix-ui/themes/components/text-field";
 import { useForm } from "@tanstack/react-form";
 import { type FC } from "react";
-import { type InferOutput, nonEmpty, object, pipe, string } from "valibot";
+import {
+  type InferOutput,
+  array,
+  check,
+  checkItems,
+  maxLength,
+  minLength,
+  nonEmpty,
+  object,
+  pipe,
+  string,
+} from "valibot";
 
+import { MemorySelect } from "@/components/builds/memory-select";
 import { TravelerSelect } from "@/components/builds/traveler-select";
+import { compareMemories } from "@/lib/utils";
+import memories from "@public/data/memories.json";
 
-const schema = object({
-  buildName: pipe(string(), nonEmpty("Build name is required.")),
-  traveler: object({
-    id: string(),
-    startingMemories: object({
-      q: string(),
-      r: string(),
-      identity: string(),
-      movement: string(),
+const sortedMemories = Object.entries(memories)
+  .filter(([id]) => id !== "St_C_Sneeze")
+  .map(([id, memory]) => ({ id, ...memory }))
+  .toSorted(compareMemories);
+
+const schema = pipe(
+  object({
+    buildName: pipe(string(), nonEmpty("Build name is required.")),
+    traveler: object({
+      id: string(),
+      startingMemories: object({
+        q: string(),
+        r: string(),
+        identity: string(),
+        movement: string(),
+      }),
     }),
+    memories: pipe(
+      array(
+        object({
+          id: string(),
+          essences: pipe(array(string()), minLength(3), maxLength(3)),
+        }),
+      ),
+      minLength(4),
+      maxLength(4),
+      checkItems(
+        ({ id }, index, array) =>
+          !id || array.findIndex((memory) => memory.id === id) === index,
+        "Memories must be unique.",
+      ),
+    ),
   }),
-});
+  check(
+    ({ traveler, memories }) =>
+      memories.every(({ id }) => {
+        const memory = sortedMemories.find((memory) => memory.id === id);
+        if (!memory?.traveler) return true;
+
+        return (
+          id === traveler.startingMemories.q ||
+          id === traveler.startingMemories.r
+        );
+      }),
+    "Traveler rarity memories must match the starting memories.",
+  ),
+);
 
 const CreateBuild: FC = () => {
   const form = useForm({
@@ -33,6 +84,10 @@ const CreateBuild: FC = () => {
         id: "",
         startingMemories: { q: "", r: "", identity: "", movement: "" },
       },
+      memories: Array.from({ length: 4 }, () => ({
+        id: "",
+        essences: Array.from({ length: 3 }, () => ""),
+      })),
     } satisfies InferOutput<typeof schema>,
     validators: { onChange: schema },
     onSubmit: ({ value }) => {
@@ -55,7 +110,7 @@ const CreateBuild: FC = () => {
               ? state.meta.errors[0]?.message
               : undefined;
             return (
-              <div>
+              <Box maxWidth="400px">
                 <TextField.Root
                   color={error ? "red" : undefined}
                   name={name}
@@ -67,20 +122,59 @@ const CreateBuild: FC = () => {
                 <Text as="div" color="red" mt="1" size="2">
                   {error}
                 </Text>
-              </div>
+              </Box>
             );
           }}
         </form.Field>
-        <form.Field name="traveler">
-          {({ state, handleChange, handleBlur }) => (
-            <TravelerSelect
-              errorMessage={state.meta.errors[0]?.message}
-              value={state.value}
-              onBlur={handleBlur}
-              onChange={handleChange}
-            />
+        <Flex direction={{ initial: "column", md: "row" }} gapX="9" gapY="3">
+          <form.Field name="traveler">
+            {({ state, handleChange, handleBlur }) => (
+              <TravelerSelect
+                value={state.value}
+                onBlur={handleBlur}
+                onChange={handleChange}
+              />
+            )}
+          </form.Field>
+          <Flex direction="column" gap="3">
+            <Heading as="h2" size="3">
+              Memories and Essences
+            </Heading>
+            <Flex gap="3">
+              <form.Field name="memories[0].id">
+                {({ state, handleChange, handleBlur, form }) => (
+                  <MemorySelect
+                    value={state.value}
+                    options={sortedMemories.filter(
+                      ({ id, traveler }) =>
+                        !traveler ||
+                        id === form.state.values.traveler.startingMemories.q ||
+                        id === form.state.values.traveler.startingMemories.r,
+                    )}
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                  />
+                )}
+              </form.Field>
+            </Flex>
+            <Flex gap="3">
+              <MemorySelect />
+            </Flex>
+            <Flex gap="3">
+              <MemorySelect />
+            </Flex>
+            <Flex gap="3">
+              <MemorySelect />
+            </Flex>
+          </Flex>
+        </Flex>
+        <form.Subscribe selector={(state) => state.errors}>
+          {(errors) => (
+            <pre>
+              <code>{JSON.stringify(errors, undefined, 2)}</code>
+            </pre>
           )}
-        </form.Field>
+        </form.Subscribe>
         <Button type="submit">Submit</Button>
       </form>
     </Flex>

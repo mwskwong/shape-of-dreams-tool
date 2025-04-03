@@ -11,3 +11,7 @@
   width: 64px;
   height: 64px;
 }
+
+.dataListRoot {
+  align-self: center;
+}

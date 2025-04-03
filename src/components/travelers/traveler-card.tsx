@@ -13,6 +13,7 @@ import Image from "next/image";
 import { type FC } from "react";
 
 import { getTravelerClassIcon, sprites } from "@/lib/utils";
+import iconStyles from "@/styles/icons.module.css";
 
 import * as ItemCard from "../item-card";
 
@@ -150,7 +151,7 @@ export const Content: FC<ContentProps> = ({
       name: "Critical Strike Chance",
       value: criticalStrikeChance,
       statGrowth: statsGrowthPerLv.criticalStrikeChance,
-      iconClassName: styles.critIcon,
+      iconClassName: iconStyles.critIcon,
       width: undefined,
       height: undefined,
     },
@@ -159,7 +160,7 @@ export const Content: FC<ContentProps> = ({
       name: "Movement Speed",
       value: movementSpeed,
       statGrowth: statsGrowthPerLv.movementSpeed,
-      iconClassName: styles.movementSpeedIcon,
+      iconClassName: iconStyles.movementSpeedIcon,
       width: undefined,
       height: undefined,
     },
@@ -272,7 +273,7 @@ export const Content: FC<ContentProps> = ({
                 <Flex key={name} gap="3">
                   <Image
                     alt={name}
-                    className={styles.constellationIcon}
+                    className={iconStyles.constellationIcon}
                     height={48}
                     src={`/images/${image}`}
                     width={48}

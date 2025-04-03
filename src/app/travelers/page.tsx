@@ -1,8 +1,4 @@
-import "@radix-ui/themes/tokens/colors/orange.css";
-import "@radix-ui/themes/tokens/colors/mint.css";
-import "@radix-ui/themes/tokens/colors/ruby.css";
-import "@radix-ui/themes/tokens/colors/amber.css";
-import "@radix-ui/themes/tokens/colors/yellow.css";
+import "@/styles/traveler-colors.css";
 
 import { Grid } from "@radix-ui/themes/components/grid";
 import { Theme } from "@radix-ui/themes/components/theme";

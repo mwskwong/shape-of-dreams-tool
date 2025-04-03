@@ -1,10 +1,7 @@
-import "@radix-ui/themes/tokens/colors/orange.css";
-import "@radix-ui/themes/tokens/colors/mint.css";
-import "@radix-ui/themes/tokens/colors/ruby.css";
-import "@radix-ui/themes/tokens/colors/amber.css";
-import "@radix-ui/themes/tokens/colors/yellow.css";
+import "@/styles/traveler-colors.css";
 
 import { Card } from "@radix-ui/themes/components/card";
+import * as DataList from "@radix-ui/themes/components/data-list";
 import * as Dialog from "@radix-ui/themes/components/dialog";
 import { Flex, type FlexProps } from "@radix-ui/themes/components/flex";
 import { Heading } from "@radix-ui/themes/components/heading";
@@ -19,7 +16,9 @@ import {
   compareMemories,
   getTravelerClassIcon,
   getTravelerColor,
+  sprites,
 } from "@/lib/utils";
+import iconStyles from "@/styles/icons.module.css";
 import memories from "@public/data/memories.json";
 import travelers from "@public/data/travelers.json";
 
@@ -58,7 +57,6 @@ interface Value {
 export interface TravelerSelectProps
   extends Omit<FlexProps, "asChild" | "children" | "onChange"> {
   value?: Value;
-  errorMessage?: string;
   onChange?: (value: Value) => void;
 }
 
@@ -67,7 +65,6 @@ export const TravelerSelect: FC<TravelerSelectProps> = ({
     id: "",
     startingMemories: { q: "", r: "", identity: "", movement: "" },
   },
-  errorMessage,
   onChange,
   ...props
 }) => {
@@ -75,18 +72,48 @@ export const TravelerSelect: FC<TravelerSelectProps> = ({
     ([key]) => key === value.id,
   )?.[1];
 
+  const stats = selectedTraveler && [
+    {
+      ...sprites.health,
+      image: `/images/${sprites.health.image}`,
+      value: selectedTraveler.health,
+    },
+    {
+      ...sprites.armor,
+      image: `/images/${sprites.armor.image}`,
+      value: selectedTraveler.armor,
+    },
+    {
+      ...sprites.attackDamage,
+      image: `/images/${sprites.attackDamage.image}`,
+      value: selectedTraveler.attackDamage,
+    },
+    {
+      ...sprites.abilityPower,
+      image: `/images/${sprites.abilityPower.image}`,
+      value: selectedTraveler.abilityPower,
+    },
+    {
+      ...sprites.attackSpeed,
+      image: `/images/${sprites.attackSpeed.image}`,
+      value: selectedTraveler.attackSpeed.toFixed(2),
+    },
+    {
+      image: "/images/texMovement.png",
+      name: "Movement Speed",
+      value: selectedTraveler.movementSpeed,
+      iconClassName: iconStyles.movementSpeedIcon,
+      width: undefined,
+      height: undefined,
+    },
+  ];
+
   return (
     <Flex direction="column" gap="3" {...props}>
       <Heading as="h2" size="3">
         Traveler & Starting Memories
       </Heading>
-      <Flex
-        align="center"
-        direction={{ initial: "column", sm: "row" }}
-        gap="3"
-        justify="center"
-        width="100%"
-      >
+      <Flex align="center" direction="column" gap="3" width="100%">
         <Dialog.Root>
           <Flex align="center" direction="column" gap="2">
             <Dialog.Trigger>
@@ -213,6 +240,28 @@ export const TravelerSelect: FC<TravelerSelectProps> = ({
           })}
         </Flex>
       </Flex>
+
+      <DataList.Root className={styles.dataListRoot}>
+        {stats?.map(
+          ({ name, image, value, width = 1, height = 1, iconClassName }) => (
+            <DataList.Item key={name}>
+              <DataList.Label minWidth="200px">
+                <Flex align="center" gap="2">
+                  <Image
+                    alt={name}
+                    className={iconClassName}
+                    height={16}
+                    src={image}
+                    width={Math.round(16 * (width / height))}
+                  />
+                  {name}
+                </Flex>
+              </DataList.Label>
+              <DataList.Value>{value}</DataList.Value>
+            </DataList.Item>
+          ),
+        )}
+      </DataList.Root>
     </Flex>
   );
 };

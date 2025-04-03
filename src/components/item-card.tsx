@@ -1,11 +1,4 @@
-// rarity
-import "@radix-ui/themes/tokens/colors/sky.css";
-import "@radix-ui/themes/tokens/colors/purple.css";
-import "@radix-ui/themes/tokens/colors/red.css";
-import "@radix-ui/themes/tokens/colors/amber.css";
-
-// keyword
-import "@radix-ui/themes/tokens/colors/yellow.css";
+import "@/styles/item-colors.css";
 
 import { Badge } from "@radix-ui/themes/components/badge";
 import { Card, type CardProps } from "@radix-ui/themes/components/card";

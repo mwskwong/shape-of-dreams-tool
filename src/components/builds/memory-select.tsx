@@ -1,11 +1,4 @@
-// rarity
-import "@radix-ui/themes/tokens/colors/sky.css";
-import "@radix-ui/themes/tokens/colors/purple.css";
-import "@radix-ui/themes/tokens/colors/red.css";
-import "@radix-ui/themes/tokens/colors/amber.css";
-
-// keyword
-import "@radix-ui/themes/tokens/colors/yellow.css";
+import "@/styles/item-colors.css";
 
 import { Card } from "@radix-ui/themes/components/card";
 import * as Dialog from "@radix-ui/themes/components/dialog";
@@ -28,8 +21,7 @@ const memoryEntries = Object.entries(memories).toSorted(([, a], [, b]) =>
 );
 
 export interface MemorySelectProps
-  extends Omit<Dialog.RootProps, "asChild" | "children"> {
-  disabled?: boolean;
+  extends Omit<Dialog.TriggerProps, "children" | "onChange"> {
   options?: {
     id: string;
     name: string;
@@ -52,7 +44,6 @@ export interface MemorySelectProps
 
 export const MemorySelect: FC<MemorySelectProps> = ({
   options = [],
-  disabled,
   size = "2",
   value,
   onChange,
@@ -61,7 +52,7 @@ export const MemorySelect: FC<MemorySelectProps> = ({
   const selectedMemory = memoryEntries.find(([key]) => key === value)?.[1];
 
   return (
-    <Dialog.Root {...props}>
+    <Dialog.Root>
       <Flex
         align="center"
         data-size={size}
@@ -69,9 +60,9 @@ export const MemorySelect: FC<MemorySelectProps> = ({
         gap="2"
         maxWidth={`${size === "1" ? 64 : 80}px`}
       >
-        <Dialog.Trigger>
+        <Dialog.Trigger {...props}>
           <Card asChild className={styles.card}>
-            <button disabled={disabled}>
+            <button>
               {selectedMemory && (
                 <Inset side="all">
                   <Image
@@ -90,10 +81,10 @@ export const MemorySelect: FC<MemorySelectProps> = ({
         </Text>
       </Flex>
 
-      <Dialog.Content>
+      <Dialog.Content maxWidth="1000px">
         <Dialog.Title>Select memory</Dialog.Title>
         <RadioCards.Root
-          columns={{ initial: "1", sm: "2" }}
+          columns={{ initial: "1", sm: "2", md: "3" }}
           value={value}
           onValueChange={onChange}
         >
@@ -114,6 +105,7 @@ export const MemorySelect: FC<MemorySelectProps> = ({
               cooldownTime,
               maxCharges,
               type,
+              mutuallyExclusive,
               description,
             }) => (
               <Dialog.Close key={id}>
@@ -128,6 +120,7 @@ export const MemorySelect: FC<MemorySelectProps> = ({
                   <ItemCard.Content
                     cooldownTime={cooldownTime}
                     maxCharges={maxCharges}
+                    mutuallyExclusive={mutuallyExclusive}
                     size="2"
                     type={type}
                   >
