@@ -4,12 +4,11 @@ import { type SearchParams } from "nuqs/server";
 import { type FC } from "react";
 
 import * as ItemCard from "@/components/item-card";
-import { compareRarities, loadSearchParams } from "@/lib/utils";
+import { compareEssences, loadSearchParams } from "@/lib/utils";
 import essences from "@public/data/essences.json";
 
-const essenceEntries = Object.entries(essences).toSorted(
-  ([, a], [, b]) =>
-    compareRarities(a.rarity, b.rarity) || a.name.localeCompare(b.name),
+const essenceEntries = Object.entries(essences).toSorted(([, a], [, b]) =>
+  compareEssences(a, b),
 );
 
 interface EssencesProps {

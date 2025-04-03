@@ -16,9 +16,12 @@ const rarityOrders = [
 export const compareRarities = (a: string, b: string) =>
   rarityOrders.indexOf(a) - rarityOrders.indexOf(b);
 
-interface Memory {
+interface Item {
   name: string;
   rarity: string;
+}
+
+interface Memory extends Item {
   traveler: string;
 }
 
@@ -26,6 +29,9 @@ export const compareMemories = (a: Memory, b: Memory) =>
   compareRarities(a.rarity, b.rarity) ||
   a.traveler.localeCompare(b.traveler) ||
   a.name.localeCompare(b.name);
+
+export const compareEssences = (a: Item, b: Item) =>
+  compareRarities(a.rarity, b.rarity) || a.name.localeCompare(b.name);
 
 export const searchParams = {
   search: parseAsString

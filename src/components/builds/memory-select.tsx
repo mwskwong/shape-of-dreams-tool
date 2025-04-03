@@ -3,6 +3,7 @@
 import "@/styles/item-colors.css";
 
 import { Badge } from "@radix-ui/themes/components/badge";
+import { Box } from "@radix-ui/themes/components/box";
 import { Button } from "@radix-ui/themes/components/button";
 import { Card } from "@radix-ui/themes/components/card";
 import * as Dialog from "@radix-ui/themes/components/dialog";
@@ -71,21 +72,27 @@ export const MemorySelect: FC<MemorySelectProps> = ({
     <Dialog.Root>
       <Flex
         align="center"
-        data-size={size}
         direction="column"
         gap="2"
         maxWidth={`${size === "1" ? 64 : 80}px`}
       >
         <Dialog.Trigger {...props}>
-          <Card asChild className={styles.card}>
+          <Card asChild>
             <button>
-              {selectedMemory && (
+              {selectedMemory ? (
                 <Inset side="all">
                   <Image
                     alt={selectedMemory.name}
-                    height={size === "1" ? 64 : 80}
+                    height={size === "1" ? 62 : 78}
                     src={`/images/${selectedMemory.image}`}
-                    width={size === "1" ? 64 : 80}
+                    width={size === "1" ? 62 : 78}
+                  />
+                </Inset>
+              ) : (
+                <Inset side="all">
+                  <Box
+                    height={`${size === "1" ? 62 : 78}px`}
+                    width={`${size === "1" ? 62 : 78}px`}
                   />
                 </Inset>
               )}
@@ -97,7 +104,7 @@ export const MemorySelect: FC<MemorySelectProps> = ({
         </Text>
       </Flex>
 
-      <Dialog.Content maxWidth="1000px">
+      <Dialog.Content aria-describedby={undefined} maxWidth="1000px">
         <Dialog.Title mb="4">Select memory</Dialog.Title>
 
         {options.length > 6 && (
@@ -214,9 +221,9 @@ export const MemorySelect: FC<MemorySelectProps> = ({
             )}
         </RadioCards.Root>
 
-        <Flex justify="end">
+        <Flex justify="end" mt="4">
           <Dialog.Close>
-            <Button color="gray" mt="4" variant="soft">
+            <Button color="gray" variant="soft">
               Close
             </Button>
           </Dialog.Close>

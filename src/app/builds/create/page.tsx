@@ -5,11 +5,11 @@ import "@radix-ui/themes/tokens/colors/red.css";
 import { Box } from "@radix-ui/themes/components/box";
 import { Button } from "@radix-ui/themes/components/button";
 import { Flex } from "@radix-ui/themes/components/flex";
-import { Heading } from "@radix-ui/themes/components/heading";
 import { Text } from "@radix-ui/themes/components/text";
+import { TextArea } from "@radix-ui/themes/components/text-area";
 import * as TextField from "@radix-ui/themes/components/text-field";
 import { useForm } from "@tanstack/react-form";
-import { type FC } from "react";
+import { type FC, useId } from "react";
 import {
   type InferOutput,
   array,
@@ -22,10 +22,13 @@ import {
   string,
 } from "valibot";
 
+import { EssenceSelect } from "@/components/builds/essence-select";
 import { MemorySelect } from "@/components/builds/memory-select";
 import { TravelerSelect } from "@/components/builds/traveler-select";
 import { compareMemories } from "@/lib/utils";
 import memories from "@public/data/memories.json";
+
+import styles from "./page.module.css";
 
 const sortedMemories = Object.entries(memories)
   .filter(([id]) => id !== "St_C_Sneeze")
@@ -57,9 +60,9 @@ const schema = pipe(
           !id || array.findIndex((memory) => memory.id === id) === index,
         "Memories must be unique.",
       ),
-      everyItem(({ essences }, __, array) => {
+      everyItem((_, __, array) => {
         const allEssences = array.flatMap(({ essences }) => essences);
-        return essences.every(
+        return allEssences.every(
           (essence, index) =>
             !essence || allEssences.indexOf(essence) === index,
         );
@@ -100,6 +103,9 @@ const CreateBuild: FC = () => {
     },
   });
 
+  const buildNameId = useId();
+  const buildDescriptionId = useId();
+
   return (
     <Flex asChild direction="column" gap="3" pt="3">
       <form
@@ -115,17 +121,22 @@ const CreateBuild: FC = () => {
               ? state.meta.errors[0]?.message
               : undefined;
             return (
-              <Box maxWidth="400px">
+              <Box maxWidth="400px" width="100%">
+                <Text as="label" htmlFor={buildNameId} size="2" weight="bold">
+                  Build name
+                </Text>
                 <TextField.Root
+                  autoCapitalize="on"
                   color={error ? "red" : undefined}
+                  id={buildNameId}
+                  my="1"
                   name={name}
                   placeholder="My Build"
-                  size="3"
                   value={state.value}
                   onBlur={handleBlur}
                   onChange={(e) => handleChange(e.target.value)}
                 />
-                <Text as="div" color="red" mt="1" size="2">
+                <Text color="red" size="2">
                   {error}
                 </Text>
               </Box>
@@ -142,10 +153,11 @@ const CreateBuild: FC = () => {
               />
             )}
           </form.Field>
+
           <Flex direction="column" gap="3">
-            <Heading as="h2" size="3">
+            <Text as="p" size="2" weight="bold">
               Memories and Essences
-            </Heading>
+            </Text>
 
             <form.Field name="memories">
               {({ state, handleChange, handleBlur, form }) => {
@@ -154,9 +166,9 @@ const CreateBuild: FC = () => {
                   : undefined;
                 return (
                   <>
-                    <Flex direction="column" gap="3">
-                      {state.value.map(({ id }, index) => (
-                        <Flex key={index} gap="3">
+                    <Flex align="center" direction="column" gap="3">
+                      {state.value.map(({ id, essences }, memoryIndex) => (
+                        <Flex key={memoryIndex} gap="3">
                           <MemorySelect
                             value={id}
                             options={sortedMemories.filter(
@@ -171,11 +183,24 @@ const CreateBuild: FC = () => {
                             onBlur={handleBlur}
                             onChange={(id) =>
                               handleChange((memories) => {
-                                memories[index].id = id;
+                                memories[memoryIndex].id = id;
                                 return memories;
                               })
                             }
                           />
+                          {essences.map((essence, essenceIndex) => (
+                            <EssenceSelect
+                              key={essenceIndex}
+                              value={essence}
+                              onChange={(essence) =>
+                                handleChange((memories) => {
+                                  memories[memoryIndex].essences[essenceIndex] =
+                                    essence;
+                                  return memories;
+                                })
+                              }
+                            />
+                          ))}
                         </Flex>
                       ))}
                     </Flex>
@@ -187,7 +212,24 @@ const CreateBuild: FC = () => {
               }}
             </form.Field>
           </Flex>
+          <Box flexGrow="1">
+            <Text
+              as="label"
+              htmlFor={buildDescriptionId}
+              size="2"
+              weight="bold"
+            >
+              Build description
+            </Text>
+            <TextArea
+              autoCapitalize="on"
+              className={styles.buildDescriptionTextArea}
+              id={buildDescriptionId}
+              my="1"
+            />
+          </Box>
         </Flex>
+
         <form.Subscribe selector={(state) => state.errors}>
           {(errors) => (
             <pre style={{ overflow: "auto" }}>

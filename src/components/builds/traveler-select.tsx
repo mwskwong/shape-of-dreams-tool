@@ -5,7 +5,6 @@ import { Card } from "@radix-ui/themes/components/card";
 import * as DataList from "@radix-ui/themes/components/data-list";
 import * as Dialog from "@radix-ui/themes/components/dialog";
 import { Flex, type FlexProps } from "@radix-ui/themes/components/flex";
-import { Heading } from "@radix-ui/themes/components/heading";
 import { Inset } from "@radix-ui/themes/components/inset";
 import * as RadioCards from "@radix-ui/themes/components/radio-cards";
 import { Text } from "@radix-ui/themes/components/text";
@@ -111,14 +110,15 @@ export const TravelerSelect: FC<TravelerSelectProps> = ({
 
   return (
     <Flex direction="column" gap="3" {...props}>
-      <Heading as="h2" size="3">
+      <Text as="p" size="2" weight="bold">
         Traveler & Starting Memories
-      </Heading>
+      </Text>
+
       <Flex align="center" direction="column" gap="3" width="100%">
         <Dialog.Root>
           <Flex align="center" direction="column" gap="2">
             <Dialog.Trigger>
-              <Card asChild className={styles.travelerSelectCard}>
+              <Card asChild>
                 <button>
                   {selectedTraveler ? (
                     <Inset side="all">
@@ -130,11 +130,18 @@ export const TravelerSelect: FC<TravelerSelectProps> = ({
                       />
                     </Inset>
                   ) : (
-                    <Text asChild color="gray">
-                      <Flex justify="center">
-                        <IconUser />
-                      </Flex>
-                    </Text>
+                    <Inset side="all">
+                      <Text asChild color="gray">
+                        <Flex
+                          align="center"
+                          height="128px"
+                          justify="center"
+                          width="128px"
+                        >
+                          <IconUser />
+                        </Flex>
+                      </Text>
+                    </Inset>
                   )}
                 </button>
               </Card>
@@ -144,7 +151,7 @@ export const TravelerSelect: FC<TravelerSelectProps> = ({
             </Text>
           </Flex>
 
-          <Dialog.Content maxWidth="350px">
+          <Dialog.Content aria-describedby={undefined} maxWidth="350px">
             <Dialog.Title mb="4">Select traveler</Dialog.Title>
             <RadioCards.Root
               columns="1"
@@ -209,9 +216,10 @@ export const TravelerSelect: FC<TravelerSelectProps> = ({
                 );
               })}
             </RadioCards.Root>
-            <Flex justify="end">
+
+            <Flex justify="end" mt="4">
               <Dialog.Close>
-                <Button color="gray" mt="4" variant="soft">
+                <Button color="gray" variant="soft">
                   Close
                 </Button>
               </Dialog.Close>
