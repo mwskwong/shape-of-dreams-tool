@@ -10,18 +10,14 @@ import { useQueryState } from "nuqs";
 import { type FC } from "react";
 
 import { CheckboxGroupSelect } from "@/components/checkbox-group-select";
+import { allEssenceRarities } from "@/lib/constants";
 import { searchParams } from "@/lib/utils";
 
 import styles from "./essences-toolbar.module.css";
 
-export interface EssencesToolbarProps extends Omit<FlexProps, "children"> {
-  allRarities?: string[];
-}
+export type EssencesToolbarProps = Omit<FlexProps, "children">;
 
-export const EssencesToolbar: FC<EssencesToolbarProps> = ({
-  allRarities = [],
-  ...props
-}) => {
+export const EssencesToolbar: FC<EssencesToolbarProps> = (props) => {
   const [search, setSearch] = useQueryState("search", searchParams.search);
   const [rarities, setRarities] = useQueryState(
     "rarities",
@@ -42,7 +38,7 @@ export const EssencesToolbar: FC<EssencesToolbarProps> = ({
         </TextField.Slot>
       </TextField.Root>
       <CheckboxGroupSelect
-        options={allRarities.map((rarity) => ({ value: rarity }))}
+        options={allEssenceRarities.map((rarity) => ({ value: rarity }))}
         value={rarities}
         onReset={() => setRarities([])}
         onValueChange={setRarities}
