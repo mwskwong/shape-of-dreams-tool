@@ -15,8 +15,7 @@ import {
   array,
   check,
   checkItems,
-  maxLength,
-  minLength,
+  length,
   nonEmpty,
   object,
   pipe,
@@ -49,16 +48,22 @@ const schema = pipe(
       array(
         object({
           id: string(),
-          essences: pipe(array(string()), minLength(3), maxLength(3)),
+          essences: pipe(array(string()), length(3)),
         }),
       ),
-      minLength(4),
-      maxLength(4),
+      length(4),
       checkItems(
         ({ id }, index, array) =>
           !id || array.findIndex((memory) => memory.id === id) === index,
         "Memories must be unique.",
       ),
+      checkItems(({ essences }, __, array) => {
+        const allEssences = array.flatMap(({ essences }) => essences);
+        return essences.every((essence, index) => {
+          if (!essence) return true;
+          return allEssences.indexOf(essence) === index;
+        });
+      }, "Essences must be unique."),
     ),
   }),
   check(
@@ -170,7 +175,7 @@ const CreateBuild: FC = () => {
         </Flex>
         <form.Subscribe selector={(state) => state.errors}>
           {(errors) => (
-            <pre>
+            <pre style={{ overflow: "auto" }}>
               <code>{JSON.stringify(errors, undefined, 2)}</code>
             </pre>
           )}
