@@ -14,7 +14,7 @@ import {
   type InferOutput,
   array,
   check,
-  everyItem,
+  checkItems,
   length,
   nonEmpty,
   object,
@@ -37,7 +37,7 @@ const sortedMemories = Object.entries(memories)
 
 const schema = pipe(
   object({
-    buildName: pipe(string(), nonEmpty("Build name is required.")),
+    buildName: pipe(string(), nonEmpty("Build name cannot be empty.")),
     traveler: object({
       id: string(),
       startingMemories: object({
@@ -55,19 +55,31 @@ const schema = pipe(
         }),
       ),
       length(4),
-      everyItem(
-        ({ id }, index, array) =>
-          !id || array.findIndex((memory) => memory.id === id) === index,
+      checkItems(
+        ({ id }, _, array) =>
+          !id || array.filter((memory) => memory.id === id).length <= 1,
         "Memories must be unique.",
       ),
-      everyItem((_, __, array) => {
+      checkItems(({ essences }, _, array) => {
         const allEssences = array.flatMap(({ essences }) => essences);
-        return allEssences.every(
-          (essence, index) =>
-            !essence || allEssences.indexOf(essence) === index,
-        );
+        const essenceFrequency = new Map<string, number>();
+        for (const essence of allEssences) {
+          essenceFrequency.set(
+            essence,
+            (essenceFrequency.get(essence) ?? 0) + 1,
+          );
+        }
+
+        for (const essence of essences) {
+          if (essence && (essenceFrequency.get(essence) ?? 0) > 1) {
+            return false;
+          }
+        }
+
+        return true;
       }, "Essences must be unique."),
     ),
+    description: string(),
   }),
   check(
     ({ traveler, memories }) =>
@@ -96,6 +108,7 @@ const CreateBuild: FC = () => {
         id: "",
         essences: Array.from({ length: 3 }, () => ""),
       })),
+      description: "",
     } satisfies InferOutput<typeof schema>,
     validators: { onChange: schema },
     onSubmit: ({ value }) => {
@@ -120,6 +133,7 @@ const CreateBuild: FC = () => {
             const error = state.meta.isTouched
               ? state.meta.errors[0]?.message
               : undefined;
+
             return (
               <Box maxWidth="400px" width="100%">
                 <Text as="label" htmlFor={buildNameId} size="2" weight="bold">
@@ -136,17 +150,26 @@ const CreateBuild: FC = () => {
                   onBlur={handleBlur}
                   onChange={(e) => handleChange(e.target.value)}
                 />
-                <Text color="red" size="2">
-                  {error}
-                </Text>
+                {error && (
+                  <Text color="red" size="2">
+                    {error}
+                  </Text>
+                )}
               </Box>
             );
           }}
         </form.Field>
-        <Flex direction={{ initial: "column", md: "row" }} gapX="9" gapY="3">
+
+        <Flex
+          direction={{ initial: "column", sm: "row" }}
+          gapX="9"
+          gapY="3"
+          wrap="wrap"
+        >
           <form.Field name="traveler">
             {({ state, handleChange, handleBlur }) => (
               <TravelerSelect
+                flexGrow={{ sm: "1", md: "0" }}
                 value={state.value}
                 onBlur={handleBlur}
                 onChange={handleChange}
@@ -154,65 +177,83 @@ const CreateBuild: FC = () => {
             )}
           </form.Field>
 
-          <Flex direction="column" gap="3">
+          <Flex direction="column" flexGrow={{ sm: "1", md: "0" }} gap="3">
             <Text as="p" size="2" weight="bold">
               Memories and Essences
             </Text>
 
-            <form.Field name="memories">
-              {({ state, handleChange, handleBlur, form }) => {
-                const error = state.meta.isTouched
-                  ? state.meta.errors[0]?.message
-                  : undefined;
+            <form.Field mode="array" name="memories">
+              {({ state }) => {
                 return (
                   <>
-                    <Flex align="center" direction="column" gap="3">
-                      {state.value.map(({ id, essences }, memoryIndex) => (
-                        <Flex key={memoryIndex} gap="3">
-                          <MemorySelect
-                            value={id}
-                            options={sortedMemories.filter(
-                              ({ id, traveler }) =>
-                                !traveler ||
-                                id ===
-                                  form.state.values.traveler.startingMemories
-                                    .q ||
-                                id ===
-                                  form.state.values.traveler.startingMemories.r,
-                            )}
-                            onBlur={handleBlur}
-                            onChange={(id) =>
-                              handleChange((memories) => {
-                                memories[memoryIndex].id = id;
-                                return memories;
-                              })
+                    <Flex
+                      align={{ initial: "center", sm: "start" }}
+                      direction="column"
+                      gap="3"
+                    >
+                      {state.value.map(({ essences }, memoryIndex) => (
+                        <div key={memoryIndex}>
+                          <Flex gap="3">
+                            <form.Field name={`memories[${memoryIndex}].id`}>
+                              {({ state, handleChange, handleBlur }) => (
+                                <MemorySelect
+                                  value={state.value}
+                                  options={sortedMemories.filter(
+                                    ({ id, traveler }) =>
+                                      !traveler ||
+                                      state.value ===
+                                        form.state.values.traveler
+                                          .startingMemories.q ||
+                                      id ===
+                                        form.state.values.traveler
+                                          .startingMemories.r,
+                                  )}
+                                  onBlur={handleBlur}
+                                  onChange={handleChange}
+                                />
+                              )}
+                            </form.Field>
+
+                            {essences.map((_, essenceIndex) => (
+                              <form.Field
+                                key={essenceIndex}
+                                name={`memories[${memoryIndex}].essences[${essenceIndex}]`}
+                              >
+                                {({ state, handleChange, handleBlur }) => (
+                                  <EssenceSelect
+                                    value={state.value}
+                                    onBlur={handleBlur}
+                                    onChange={handleChange}
+                                  />
+                                )}
+                              </form.Field>
+                            ))}
+                          </Flex>
+
+                          <form.Subscribe
+                            selector={(state) =>
+                              state.errors[0]?.[`memories[${memoryIndex}]`]?.[0]
+                                .message
                             }
-                          />
-                          {essences.map((essence, essenceIndex) => (
-                            <EssenceSelect
-                              key={essenceIndex}
-                              value={essence}
-                              onChange={(essence) =>
-                                handleChange((memories) => {
-                                  memories[memoryIndex].essences[essenceIndex] =
-                                    essence;
-                                  return memories;
-                                })
-                              }
-                            />
-                          ))}
-                        </Flex>
+                          >
+                            {(memoryError) =>
+                              memoryError && (
+                                <Text as="div" color="red" mt="1" size="2">
+                                  {memoryError}
+                                </Text>
+                              )
+                            }
+                          </form.Subscribe>
+                        </div>
                       ))}
                     </Flex>
-                    <Text as="div" color="red" size="2">
-                      {error}
-                    </Text>
                   </>
                 );
               }}
             </form.Field>
           </Flex>
-          <Box flexGrow="1">
+
+          <Flex direction="column" flexGrow="1">
             <Text
               as="label"
               htmlFor={buildDescriptionId}
@@ -221,23 +262,69 @@ const CreateBuild: FC = () => {
             >
               Build description
             </Text>
-            <TextArea
-              autoCapitalize="on"
-              className={styles.buildDescriptionTextArea}
-              id={buildDescriptionId}
-              my="1"
-            />
-          </Box>
+            <form.Field name="description">
+              {({ state, handleChange, handleBlur }) => (
+                <TextArea
+                  autoCapitalize="on"
+                  className={styles.buildDescriptionTextArea}
+                  id={buildDescriptionId}
+                  my="1"
+                  value={state.value}
+                  onBlur={handleBlur}
+                  onChange={(e) => handleChange(e.target.value)}
+                />
+              )}
+            </form.Field>
+          </Flex>
         </Flex>
 
-        <form.Subscribe selector={(state) => state.errors}>
-          {(errors) => (
-            <pre style={{ overflow: "auto" }}>
-              <code>{JSON.stringify(errors, undefined, 2)}</code>
-            </pre>
-          )}
+        <form.Subscribe
+          selector={(state) => state.errors[0]?.[""]?.[0].message}
+        >
+          {(globalError) =>
+            globalError && (
+              <Text color="red" mt="" size="2">
+                {globalError}
+              </Text>
+            )
+          }
         </form.Subscribe>
-        <Button type="submit">Submit</Button>
+
+        <Flex
+          direction={{ initial: "column", sm: "row" }}
+          gap="3"
+          justify="end"
+          pt="6"
+        >
+          <Button
+            color="gray"
+            type="reset"
+            variant="soft"
+            onClick={(e) => {
+              e.preventDefault();
+              form.reset();
+            }}
+          >
+            Reset
+          </Button>
+          <form.Subscribe
+            selector={({ isTouched, canSubmit, isSubmitting }) => ({
+              isTouched,
+              canSubmit,
+              isSubmitting,
+            })}
+          >
+            {({ isTouched, canSubmit, isSubmitting }) => (
+              <Button
+                disabled={!isTouched || !canSubmit}
+                loading={isSubmitting}
+                type="submit"
+              >
+                Submit
+              </Button>
+            )}
+          </form.Subscribe>
+        </Flex>
       </form>
     </Flex>
   );
