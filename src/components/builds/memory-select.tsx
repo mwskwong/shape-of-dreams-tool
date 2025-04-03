@@ -97,6 +97,13 @@ export const MemorySelect: FC<MemorySelectProps> = ({
           value={value}
           onValueChange={onChange}
         >
+          <Dialog.Close>
+            <RadioCards.Item value="">
+              <Text my="2" size="2" weight="bold">
+                Any memory
+              </Text>
+            </RadioCards.Item>
+          </Dialog.Close>
           {options.map(
             ({
               id,

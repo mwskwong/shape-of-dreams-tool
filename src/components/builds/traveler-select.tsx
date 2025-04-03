@@ -4,7 +4,6 @@ import "@radix-ui/themes/tokens/colors/ruby.css";
 import "@radix-ui/themes/tokens/colors/amber.css";
 import "@radix-ui/themes/tokens/colors/yellow.css";
 
-import { Avatar } from "@radix-ui/themes/components/avatar";
 import { Card } from "@radix-ui/themes/components/card";
 import * as Dialog from "@radix-ui/themes/components/dialog";
 import { Flex, type FlexProps } from "@radix-ui/themes/components/flex";
@@ -135,11 +134,10 @@ export const TravelerSelect: FC<TravelerSelectProps> = ({
               }
             >
               <Dialog.Close>
-                <RadioCards.Item className={styles.radioCardItem} value="">
-                  <Avatar color="gray" fallback={<IconUser />} />
-                  <Heading as="h3" size="2">
+                <RadioCards.Item value="">
+                  <Text as="p" my="2" size="2" weight="bold">
                     Any Traveler
-                  </Heading>
+                  </Text>
                 </RadioCards.Item>
               </Dialog.Close>
 
@@ -161,9 +159,9 @@ export const TravelerSelect: FC<TravelerSelectProps> = ({
                         width={40}
                       />
                       <div>
-                        <Heading as="h3" color={color} size="2">
+                        <Text as="p" color={color} size="2" weight="bold">
                           {traveler.name}
-                        </Heading>
+                        </Text>
                         <Flex asChild align="center" gap="2" justify="center">
                           <Text as="div">
                             {classIcon && (
