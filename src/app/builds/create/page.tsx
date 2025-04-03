@@ -195,13 +195,13 @@ const CreateBuild: FC = () => {
                         <div key={memoryIndex}>
                           <Flex gap="3">
                             <form.Field name={`memories[${memoryIndex}].id`}>
-                              {({ state, handleChange, handleBlur }) => (
+                              {({ state, handleChange, handleBlur, form }) => (
                                 <MemorySelect
                                   value={state.value}
                                   options={sortedMemories.filter(
                                     ({ id, traveler }) =>
                                       !traveler ||
-                                      state.value ===
+                                      id ===
                                         form.state.values.traveler
                                           .startingMemories.q ||
                                       id ===
