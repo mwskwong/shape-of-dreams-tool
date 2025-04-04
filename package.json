@@ -12,7 +12,7 @@
     "lint": "next lint --no-cache",
     "start": "next start",
     "stylelint": "stylelint **/*.css",
-    "upgrade": "npm update && npm run lint -- --fix && npm run stylelint -- --fix && npm run format:fix"
+    "upgrade": "npm update && npm run postinstall && npm run lint -- --fix && npm run stylelint -- --fix && npm run format:fix"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.0.0",
