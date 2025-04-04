@@ -8,6 +8,7 @@
     "dev": "next dev",
     "format": "prettier --check .",
     "format:fix": "prettier --write .",
+    "postinstall": "patch-package",
     "lint": "next lint --no-cache",
     "start": "next start",
     "stylelint": "stylelint **/*.css",
