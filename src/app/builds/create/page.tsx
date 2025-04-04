@@ -2,6 +2,7 @@
 
 import "@radix-ui/themes/tokens/colors/red.css";
 
+import * as AlertDialog from "@radix-ui/themes/components/alert-dialog";
 import { Box } from "@radix-ui/themes/components/box";
 import { Button } from "@radix-ui/themes/components/button";
 import { Flex } from "@radix-ui/themes/components/flex";
@@ -320,17 +321,37 @@ const CreateBuild: FC = () => {
           justify="end"
           pt="6"
         >
-          <Button
-            color="gray"
-            type="reset"
-            variant="soft"
-            onClick={(e) => {
-              e.preventDefault();
-              form.reset();
-            }}
-          >
-            Reset
-          </Button>
+          <AlertDialog.Root>
+            <AlertDialog.Trigger>
+              <Button color="gray" type="reset" variant="soft">
+                Reset
+              </Button>
+            </AlertDialog.Trigger>
+            <AlertDialog.Content maxWidth="450px">
+              <AlertDialog.Title>Confirm reset</AlertDialog.Title>
+              <AlertDialog.Description size="2">
+                Are you sure you want to reset? All current build settings will
+                be cleared.
+              </AlertDialog.Description>
+
+              <Flex gap="3" justify="end" mt="4">
+                <AlertDialog.Cancel>
+                  <Button color="gray" variant="soft">
+                    Cancel
+                  </Button>
+                </AlertDialog.Cancel>
+                <AlertDialog.Action>
+                  <Button
+                    color="red"
+                    variant="solid"
+                    onClick={() => form.reset()}
+                  >
+                    Reset
+                  </Button>
+                </AlertDialog.Action>
+              </Flex>
+            </AlertDialog.Content>
+          </AlertDialog.Root>
           <form.Subscribe
             selector={({ isTouched, canSubmit }) => ({ isTouched, canSubmit })}
           >
