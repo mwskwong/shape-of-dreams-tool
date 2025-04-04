@@ -13,6 +13,7 @@ import * as RadioCards from "@radix-ui/themes/components/radio-cards";
 import { Separator } from "@radix-ui/themes/components/separator";
 import { Text } from "@radix-ui/themes/components/text";
 import * as TextField from "@radix-ui/themes/components/text-field";
+import { VisuallyHidden } from "@radix-ui/themes/components/visually-hidden";
 import { IconSearch } from "@tabler/icons-react";
 import Image from "next/image";
 import { type FC, useDeferredValue, useState } from "react";
@@ -45,6 +46,7 @@ export interface MemorySelectProps
     description: string;
   }[];
   size?: "1" | "2";
+  name?: string;
   value?: string;
   errorMessage?: string;
   onChange?: (value: string) => void;
@@ -53,6 +55,7 @@ export interface MemorySelectProps
 export const MemorySelect: FC<MemorySelectProps> = ({
   options = [],
   size = "2",
+  name,
   value,
   onChange,
   ...props
@@ -69,170 +72,180 @@ export const MemorySelect: FC<MemorySelectProps> = ({
   const deferredTypes = useDeferredValue(types);
 
   return (
-    <Dialog.Root>
-      <Flex
-        align="center"
-        direction="column"
-        gap="2"
-        maxWidth={`${size === "1" ? 64 : 80}px`}
-      >
-        <Dialog.Trigger {...props}>
-          <Card asChild>
-            <button>
-              {selectedMemory ? (
-                <Inset side="all">
-                  <Image
-                    alt={selectedMemory.name}
-                    height={size === "1" ? 62 : 78}
-                    src={`/images/${selectedMemory.image}`}
-                    width={size === "1" ? 62 : 78}
-                  />
-                </Inset>
-              ) : (
-                <Inset side="all">
-                  <Box
-                    height={`${size === "1" ? 62 : 78}px`}
-                    width={`${size === "1" ? 62 : 78}px`}
-                  />
-                </Inset>
-              )}
-            </button>
-          </Card>
-        </Dialog.Trigger>
-        <Text align="center" as="div" size={size}>
-          {selectedMemory?.name ?? "Any"}
-        </Text>
-      </Flex>
-
-      <Dialog.Content aria-describedby={undefined} maxWidth="1000px">
-        <Dialog.Title mb="4">Select memory</Dialog.Title>
-
-        {options.length > 6 && (
-          <Flex align="center" gap="3" mb="3" wrap="wrap">
-            <TextField.Root
-              className={styles.search}
-              placeholder="Search..."
-              type="search"
-              value={search}
-              onInput={(e) => setSearch((e.target as HTMLInputElement).value)}
-            >
-              <TextField.Slot>
-                <IconSearch size={16} />
-              </TextField.Slot>
-            </TextField.Root>
-
-            <CheckboxGroupSelect
-              value={rarities}
-              options={allMemoryRarities
-                .filter((rarity) => !["Identity", "Evasion"].includes(rarity))
-                .map((rarity) => ({ value: rarity }))}
-              onReset={() => setRarities([])}
-              onValueChange={setRarities}
-            >
-              Rarity
-              {rarities.length > 0 && (
-                <Badge color="indigo">{rarities.length}</Badge>
-              )}
-            </CheckboxGroupSelect>
-
-            <CheckboxGroupSelect
-              options={allMemoryTypes.map((type) => ({ value: type }))}
-              value={types}
-              onReset={() => setTypes([])}
-              onValueChange={setTypes}
-            >
-              Type
-              {types.length > 0 && <Badge color="indigo">{types.length}</Badge>}
-            </CheckboxGroupSelect>
-
-            <Separator orientation="vertical" size="2" />
-            <Button
-              color="gray"
-              variant="ghost"
-              onClick={() => {
-                setSearch("");
-                setRarities([]);
-                setTypes([]);
-              }}
-            >
-              Reset
-            </Button>
-          </Flex>
-        )}
-
-        <RadioCards.Root
-          columns={{ initial: "1", sm: "2", md: "3" }}
-          value={value}
-          onValueChange={onChange}
+    <>
+      <Dialog.Root>
+        <Flex
+          align="center"
+          direction="column"
+          gap="2"
+          maxWidth={`${size === "1" ? 64 : 80}px`}
         >
-          <Dialog.Close>
-            <RadioCards.Item value="">
-              <Text my="2" size="2" weight="bold">
-                Any memory
-              </Text>
-            </RadioCards.Item>
-          </Dialog.Close>
-
-          {options
-            .filter(
-              ({ name, description, rarity, type }) =>
-                (!deferredSearch ||
-                  name.toLowerCase().includes(deferredSearch.toLowerCase()) ||
-                  description
-                    .toLowerCase()
-                    .includes(deferredSearch.toLowerCase())) &&
-                (deferredRarities.length === 0 ||
-                  deferredRarities.includes(rarity)) &&
-                (deferredTypes.length === 0 ||
-                  deferredTypes.includes(type ?? "")),
-            )
-            .map(
-              ({
-                id,
-                name,
-                rarity,
-                traveler,
-                image,
-                cooldownTime,
-                maxCharges,
-                type,
-                mutuallyExclusive,
-                description,
-              }) => (
-                <Dialog.Close key={id}>
-                  <RadioCards.Item className={styles.radioCardItem} value={id}>
-                    <ItemCard.Header
-                      image={image}
-                      name={name}
-                      rarity={rarity}
-                      size="2"
-                      traveler={traveler}
+          <Dialog.Trigger {...props}>
+            <Card asChild>
+              <button>
+                {selectedMemory ? (
+                  <Inset side="all">
+                    <Image
+                      alt={selectedMemory.name}
+                      height={size === "1" ? 62 : 78}
+                      src={`/images/${selectedMemory.image}`}
+                      width={size === "1" ? 62 : 78}
                     />
-                    <ItemCard.Content
-                      cooldownTime={cooldownTime}
-                      maxCharges={maxCharges}
-                      mutuallyExclusive={mutuallyExclusive}
-                      size="2"
-                      type={type}
-                    >
-                      <ItemCard.Description size="2">
-                        {description}
-                      </ItemCard.Description>
-                    </ItemCard.Content>
-                  </RadioCards.Item>
-                </Dialog.Close>
-              ),
-            )}
-        </RadioCards.Root>
-
-        <Flex justify="end" mt="4">
-          <Dialog.Close>
-            <Button color="gray" variant="soft">
-              Close
-            </Button>
-          </Dialog.Close>
+                  </Inset>
+                ) : (
+                  <Inset side="all">
+                    <Box
+                      height={`${size === "1" ? 62 : 78}px`}
+                      width={`${size === "1" ? 62 : 78}px`}
+                    />
+                  </Inset>
+                )}
+              </button>
+            </Card>
+          </Dialog.Trigger>
+          <Text align="center" as="div" size={size}>
+            {selectedMemory?.name ?? "Any"}
+          </Text>
         </Flex>
-      </Dialog.Content>
-    </Dialog.Root>
+
+        <Dialog.Content aria-describedby={undefined} maxWidth="1000px">
+          <Dialog.Title mb="4">Select memory</Dialog.Title>
+
+          {options.length > 6 && (
+            <Flex align="center" gap="3" mb="3" wrap="wrap">
+              <TextField.Root
+                className={styles.search}
+                placeholder="Search..."
+                type="search"
+                value={search}
+                onInput={(e) => setSearch((e.target as HTMLInputElement).value)}
+              >
+                <TextField.Slot>
+                  <IconSearch size={16} />
+                </TextField.Slot>
+              </TextField.Root>
+
+              <CheckboxGroupSelect
+                value={rarities}
+                options={allMemoryRarities
+                  .filter((rarity) => !["Identity", "Evasion"].includes(rarity))
+                  .map((rarity) => ({ value: rarity }))}
+                onReset={() => setRarities([])}
+                onValueChange={setRarities}
+              >
+                Rarity
+                {rarities.length > 0 && (
+                  <Badge color="indigo">{rarities.length}</Badge>
+                )}
+              </CheckboxGroupSelect>
+
+              <CheckboxGroupSelect
+                options={allMemoryTypes.map((type) => ({ value: type }))}
+                value={types}
+                onReset={() => setTypes([])}
+                onValueChange={setTypes}
+              >
+                Type
+                {types.length > 0 && (
+                  <Badge color="indigo">{types.length}</Badge>
+                )}
+              </CheckboxGroupSelect>
+
+              <Separator orientation="vertical" size="2" />
+              <Button
+                color="gray"
+                variant="ghost"
+                onClick={() => {
+                  setSearch("");
+                  setRarities([]);
+                  setTypes([]);
+                }}
+              >
+                Reset
+              </Button>
+            </Flex>
+          )}
+
+          <RadioCards.Root
+            columns={{ initial: "1", sm: "2", md: "3" }}
+            value={value}
+            onValueChange={onChange}
+          >
+            <Dialog.Close>
+              <RadioCards.Item value="">
+                <Text my="2" size="2" weight="bold">
+                  Any memory
+                </Text>
+              </RadioCards.Item>
+            </Dialog.Close>
+
+            {options
+              .filter(
+                ({ name, description, rarity, type }) =>
+                  (!deferredSearch ||
+                    name.toLowerCase().includes(deferredSearch.toLowerCase()) ||
+                    description
+                      .toLowerCase()
+                      .includes(deferredSearch.toLowerCase())) &&
+                  (deferredRarities.length === 0 ||
+                    deferredRarities.includes(rarity)) &&
+                  (deferredTypes.length === 0 ||
+                    deferredTypes.includes(type ?? "")),
+              )
+              .map(
+                ({
+                  id,
+                  name,
+                  rarity,
+                  traveler,
+                  image,
+                  cooldownTime,
+                  maxCharges,
+                  type,
+                  mutuallyExclusive,
+                  description,
+                }) => (
+                  <Dialog.Close key={id}>
+                    <RadioCards.Item
+                      className={styles.radioCardItem}
+                      value={id}
+                    >
+                      <ItemCard.Header
+                        image={image}
+                        name={name}
+                        rarity={rarity}
+                        size="2"
+                        traveler={traveler}
+                      />
+                      <ItemCard.Content
+                        cooldownTime={cooldownTime}
+                        maxCharges={maxCharges}
+                        mutuallyExclusive={mutuallyExclusive}
+                        size="2"
+                        type={type}
+                      >
+                        <ItemCard.Description size="2">
+                          {description}
+                        </ItemCard.Description>
+                      </ItemCard.Content>
+                    </RadioCards.Item>
+                  </Dialog.Close>
+                ),
+              )}
+          </RadioCards.Root>
+
+          <Flex justify="end" mt="4">
+            <Dialog.Close>
+              <Button color="gray" variant="soft">
+                Close
+              </Button>
+            </Dialog.Close>
+          </Flex>
+        </Dialog.Content>
+      </Dialog.Root>
+      <VisuallyHidden>
+        <input readOnly name={name} value={value} />
+      </VisuallyHidden>
+    </>
   );
 };

@@ -8,24 +8,16 @@ import { Flex } from "@radix-ui/themes/components/flex";
 import { Text } from "@radix-ui/themes/components/text";
 import { TextArea } from "@radix-ui/themes/components/text-area";
 import * as TextField from "@radix-ui/themes/components/text-field";
-import { useForm } from "@tanstack/react-form";
-import { type FC, useId } from "react";
-import {
-  type InferOutput,
-  array,
-  check,
-  checkItems,
-  length,
-  nonEmpty,
-  object,
-  pipe,
-  string,
-} from "valibot";
+import { useForm, useStore, useTransform } from "@tanstack/react-form";
+import { initialFormState, mergeForm } from "@tanstack/react-form/nextjs";
+import { type FC, useActionState, useId } from "react";
 
 import { EssenceSelect } from "@/components/builds/essence-select";
 import { MemorySelect } from "@/components/builds/memory-select";
 import { TravelerSelect } from "@/components/builds/traveler-select";
+import { submitBuild } from "@/lib/actions";
 import { allMemoryEntries } from "@/lib/constants";
+import { formOptions } from "@/lib/form";
 
 import styles from "./page.module.css";
 
@@ -33,99 +25,28 @@ const allMemories = allMemoryEntries
   .filter(([id]) => id !== "St_C_Sneeze")
   .map(([id, memory]) => ({ id, ...memory }));
 
-const schema = pipe(
-  object({
-    buildName: pipe(string(), nonEmpty("Build name cannot be empty.")),
-    traveler: object({
-      id: string(),
-      startingMemories: object({
-        q: string(),
-        r: string(),
-        identity: string(),
-        movement: string(),
-      }),
-    }),
-    memories: pipe(
-      array(
-        object({
-          id: string(),
-          essences: pipe(array(string()), length(3)),
-        }),
-      ),
-      length(4),
-      checkItems(
-        ({ id }, _, array) =>
-          !id || array.filter((memory) => memory.id === id).length <= 1,
-        "Memories must be unique.",
-      ),
-      checkItems(({ essences }, _, array) => {
-        const allEssences = array.flatMap(({ essences }) => essences);
-        const essenceFrequency = new Map<string, number>();
-        for (const essence of allEssences) {
-          essenceFrequency.set(
-            essence,
-            (essenceFrequency.get(essence) ?? 0) + 1,
-          );
-        }
-
-        for (const essence of essences) {
-          if (essence && (essenceFrequency.get(essence) ?? 0) > 1) {
-            return false;
-          }
-        }
-
-        return true;
-      }, "Essences must be unique."),
-    ),
-    description: string(),
-  }),
-  check(
-    ({ traveler, memories }) =>
-      memories.every(({ id }) => {
-        const memory = allMemories.find((memory) => memory.id === id);
-        if (!memory?.traveler) return true;
-
-        return (
-          id === traveler.startingMemories.q ||
-          id === traveler.startingMemories.r
-        );
-      }),
-    "Traveler rarity memories must match the starting memories.",
-  ),
-);
-
 const CreateBuild: FC = () => {
+  const [{ formState }, action] = useActionState(submitBuild, {
+    formState: initialFormState,
+  });
   const form = useForm({
-    defaultValues: {
-      buildName: "",
-      traveler: {
-        id: "",
-        startingMemories: { q: "", r: "", identity: "", movement: "" },
-      },
-      memories: Array.from({ length: 4 }, () => ({
-        id: "",
-        essences: Array.from({ length: 3 }, () => ""),
-      })),
-      description: "",
-    } satisfies InferOutput<typeof schema>,
-    validators: { onChange: schema },
-    onSubmit: ({ value }) => {
-      alert(JSON.stringify(value));
-    },
+    ...formOptions,
+    transform: useTransform(
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      (baseForm) => mergeForm(baseForm, formState!),
+      [formState],
+    ),
   });
 
   const buildNameId = useId();
   const buildDescriptionId = useId();
 
+  const formErrors = useStore(form.store, (formState) => formState.errors);
+  console.log({ formErrors });
+
   return (
     <Flex asChild direction="column" gap="3" pt="3">
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          void form.handleSubmit();
-        }}
-      >
+      <form action={action} onSubmit={() => form.handleSubmit()}>
         <form.Field name="buildName">
           {({ name, state, handleChange, handleBlur }) => {
             const error = state.meta.isTouched
@@ -189,12 +110,19 @@ const CreateBuild: FC = () => {
                       direction="column"
                       gap="3"
                     >
-                      {state.value.map(({ essences }, memoryIndex) => (
+                      {state.value.map((_, memoryIndex) => (
                         <div key={memoryIndex}>
                           <Flex gap="3">
                             <form.Field name={`memories[${memoryIndex}].id`}>
-                              {({ state, handleChange, handleBlur, form }) => (
+                              {({
+                                name,
+                                state,
+                                handleChange,
+                                handleBlur,
+                                form,
+                              }) => (
                                 <MemorySelect
+                                  name={name}
                                   value={state.value}
                                   options={allMemories.filter(
                                     ({ id, traveler }) =>
@@ -212,20 +140,33 @@ const CreateBuild: FC = () => {
                               )}
                             </form.Field>
 
-                            {essences.map((_, essenceIndex) => (
-                              <form.Field
-                                key={essenceIndex}
-                                name={`memories[${memoryIndex}].essences[${essenceIndex}]`}
-                              >
-                                {({ state, handleChange, handleBlur }) => (
-                                  <EssenceSelect
-                                    value={state.value}
-                                    onBlur={handleBlur}
-                                    onChange={handleChange}
-                                  />
-                                )}
-                              </form.Field>
-                            ))}
+                            <form.Field
+                              mode="array"
+                              name={`memories[${memoryIndex}].essences`}
+                            >
+                              {({ state }) =>
+                                state.value.map((_, essenceIndex) => (
+                                  <form.Field
+                                    key={essenceIndex}
+                                    name={`memories[${memoryIndex}].essences[${essenceIndex}]`}
+                                  >
+                                    {({
+                                      name,
+                                      state,
+                                      handleChange,
+                                      handleBlur,
+                                    }) => (
+                                      <EssenceSelect
+                                        name={name}
+                                        value={state.value}
+                                        onBlur={handleBlur}
+                                        onChange={handleChange}
+                                      />
+                                    )}
+                                  </form.Field>
+                                ))
+                              }
+                            </form.Field>
                           </Flex>
 
                           <form.Subscribe
@@ -261,12 +202,13 @@ const CreateBuild: FC = () => {
               Build description
             </Text>
             <form.Field name="description">
-              {({ state, handleChange, handleBlur }) => (
+              {({ name, state, handleChange, handleBlur }) => (
                 <TextArea
                   autoCapitalize="on"
                   className={styles.buildDescriptionTextArea}
                   id={buildDescriptionId}
                   my="1"
+                  name={name}
                   value={state.value}
                   onBlur={handleBlur}
                   onChange={(e) => handleChange(e.target.value)}

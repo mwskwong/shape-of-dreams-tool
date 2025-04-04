@@ -1,0 +1,1 @@
+ALTER TABLE "builds" RENAME COLUMN "createdAt" TO "created_at";

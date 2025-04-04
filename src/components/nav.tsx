@@ -18,6 +18,10 @@ const paths = [
     name: "Essences",
     href: "/essences",
   },
+  {
+    name: "Builder",
+    href: "/builds/create",
+  },
 ];
 
 export type NavProps = Omit<TabNav.RootProps, "children">;
