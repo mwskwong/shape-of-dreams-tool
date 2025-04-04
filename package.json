@@ -22,6 +22,7 @@
     "@vercel/analytics": "^1.5.0",
     "clsx": "^2.1.1",
     "dedent": "^1.5.3",
+    "dotenv": "^16.4.7",
     "drizzle-orm": "^0.41.0",
     "hashids": "^2.3.0",
     "html-react-parser": "^5.2.3",
