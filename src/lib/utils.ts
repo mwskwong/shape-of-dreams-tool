@@ -1,4 +1,5 @@
 import { type ThemeProps } from "@radix-ui/themes/components/theme";
+import Hashids from "hashids";
 import { createLoader, parseAsArrayOf, parseAsString } from "nuqs/server";
 
 const rarityOrders = [
@@ -155,3 +156,5 @@ export const getRarityColor = (rarity: string): ThemeProps["accentColor"] => {
     }
   }
 };
+
+export const hashids = new Hashids(process.env.HASH_IDS_SALT, 6);

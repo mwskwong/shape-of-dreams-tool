@@ -8,7 +8,7 @@ import { Flex } from "@radix-ui/themes/components/flex";
 import { Text } from "@radix-ui/themes/components/text";
 import { TextArea } from "@radix-ui/themes/components/text-area";
 import * as TextField from "@radix-ui/themes/components/text-field";
-import { useForm, useStore, useTransform } from "@tanstack/react-form";
+import { useForm, useTransform } from "@tanstack/react-form";
 import { initialFormState, mergeForm } from "@tanstack/react-form/nextjs";
 import { type FC, useActionState, useId } from "react";
 
@@ -25,8 +25,23 @@ const allMemories = allMemoryEntries
   .filter(([id]) => id !== "St_C_Sneeze")
   .map(([id, memory]) => ({ id, ...memory }));
 
+const getStartingMemory = (
+  traveler: string,
+  travelerMemoryLocation: string,
+) => {
+  if (!traveler) return "";
+
+  return (
+    allMemoryEntries.find(
+      ([, memory]) =>
+        memory.traveler === traveler &&
+        memory.travelerMemoryLocation === travelerMemoryLocation,
+    )?.[0] ?? ""
+  );
+};
+
 const CreateBuild: FC = () => {
-  const [{ formState }, action] = useActionState(submitBuild, {
+  const [{ formState }, action, isSubmitting] = useActionState(submitBuild, {
     formState: initialFormState,
   });
   const form = useForm({
@@ -40,9 +55,6 @@ const CreateBuild: FC = () => {
 
   const buildNameId = useId();
   const buildDescriptionId = useId();
-
-  const formErrors = useStore(form.store, (formState) => formState.errors);
-  console.log({ formErrors });
 
   return (
     <Flex asChild direction="column" gap="3" pt="3">
@@ -85,16 +97,88 @@ const CreateBuild: FC = () => {
           gapY="3"
           wrap="wrap"
         >
-          <form.Field name="traveler">
-            {({ state, handleChange, handleBlur }) => (
-              <TravelerSelect
-                flexGrow={{ sm: "1", md: "0" }}
-                value={state.value}
-                onBlur={handleBlur}
-                onChange={handleChange}
-              />
-            )}
-          </form.Field>
+          <Flex direction="column" flexGrow={{ sm: "1", md: "0" }} gap="3">
+            <Text as="p" size="2" weight="bold">
+              Traveler & Starting Memories
+            </Text>
+
+            <form.Field name="traveler">
+              {({ handleChange }) => (
+                <form.Field name="traveler.id">
+                  {({ name, state, handleBlur }) => (
+                    <TravelerSelect
+                      name={name}
+                      value={state.value}
+                      onBlur={handleBlur}
+                      onChange={(id) =>
+                        handleChange({
+                          id,
+                          startingMemories: {
+                            q: getStartingMemory(id, "Q"),
+                            r: getStartingMemory(id, "R"),
+                            identity: getStartingMemory(id, "Identity"),
+                            movement: getStartingMemory(id, "Movement"),
+                          },
+                        })
+                      }
+                    >
+                      <form.Field name="traveler.startingMemories">
+                        {({ state }) => (
+                          <Flex gap="3">
+                            {Object.entries(state.value).map(([key]) => (
+                              <form.Field
+                                key={key}
+                                name={`traveler.startingMemories.${key as keyof typeof state.value}`}
+                              >
+                                {({
+                                  name,
+                                  state,
+                                  handleChange,
+                                  handleBlur,
+                                  form,
+                                }) => {
+                                  const options = allMemoryEntries
+                                    .filter(
+                                      ([
+                                        ,
+                                        { traveler, travelerMemoryLocation },
+                                      ]) =>
+                                        traveler ===
+                                          form.state.values.traveler.id &&
+                                        travelerMemoryLocation ===
+                                          key[0].toUpperCase() + key.slice(1),
+                                    )
+                                    .map(([key, memory]) => ({
+                                      id: key,
+                                      ...memory,
+                                    }));
+
+                                  return (
+                                    <MemorySelect
+                                      name={name}
+                                      options={options}
+                                      size="1"
+                                      value={state.value}
+                                      disabled={
+                                        !form.state.values.traveler.id ||
+                                        options.length <= 1
+                                      }
+                                      onBlur={handleBlur}
+                                      onChange={handleChange}
+                                    />
+                                  );
+                                }}
+                              </form.Field>
+                            ))}
+                          </Flex>
+                        )}
+                      </form.Field>
+                    </TravelerSelect>
+                  )}
+                </form.Field>
+              )}
+            </form.Field>
+          </Flex>
 
           <Flex direction="column" flexGrow={{ sm: "1", md: "0" }} gap="3">
             <Text as="p" size="2" weight="bold">
@@ -248,13 +332,9 @@ const CreateBuild: FC = () => {
             Reset
           </Button>
           <form.Subscribe
-            selector={({ isTouched, canSubmit, isSubmitting }) => ({
-              isTouched,
-              canSubmit,
-              isSubmitting,
-            })}
+            selector={({ isTouched, canSubmit }) => ({ isTouched, canSubmit })}
           >
-            {({ isTouched, canSubmit, isSubmitting }) => (
+            {({ isTouched, canSubmit }) => (
               <Button
                 disabled={!isTouched || !canSubmit}
                 loading={isSubmitting}

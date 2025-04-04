@@ -4,63 +4,37 @@ import { Button } from "@radix-ui/themes/components/button";
 import { Card } from "@radix-ui/themes/components/card";
 import * as DataList from "@radix-ui/themes/components/data-list";
 import * as Dialog from "@radix-ui/themes/components/dialog";
-import { Flex, type FlexProps } from "@radix-ui/themes/components/flex";
+import { Flex } from "@radix-ui/themes/components/flex";
 import { Inset } from "@radix-ui/themes/components/inset";
 import * as RadioCards from "@radix-ui/themes/components/radio-cards";
 import { Text } from "@radix-ui/themes/components/text";
+import { VisuallyHidden } from "@radix-ui/themes/components/visually-hidden";
 import { IconUser } from "@tabler/icons-react";
 import Image from "next/image";
-import { type FC } from "react";
+import { type ComponentProps, type FC } from "react";
 
-import { allMemoryEntries } from "@/lib/constants";
 import { getTravelerClassIcon, getTravelerColor, sprites } from "@/lib/utils";
 import iconStyles from "@/styles/icons.module.css";
 import travelers from "@public/data/travelers.json";
 
-import { MemorySelect } from "./memory-select";
 import styles from "./traveler-select.module.css";
 
-const getStartingMemory = (
-  traveler: string,
-  travelerMemoryLocation: string,
-) => {
-  if (!traveler) return "";
-
-  return (
-    allMemoryEntries.find(
-      ([, memory]) =>
-        memory.traveler === traveler &&
-        memory.travelerMemoryLocation === travelerMemoryLocation,
-    )?.[0] ?? ""
-  );
-};
-
-interface Value {
-  id: string;
-  startingMemories: {
-    q: string;
-    r: string;
-    identity: string;
-    movement: string;
-  };
-}
-
 export interface TravelerSelectProps
-  extends Omit<FlexProps, "asChild" | "children" | "onChange"> {
-  value?: Value;
-  onChange?: (value: Value) => void;
+  extends Omit<ComponentProps<"button">, "onChange"> {
+  name?: string;
+  value?: string;
+  onChange?: (value: string) => void;
 }
 
 export const TravelerSelect: FC<TravelerSelectProps> = ({
-  value = {
-    id: "",
-    startingMemories: { q: "", r: "", identity: "", movement: "" },
-  },
+  name,
+  value,
   onChange,
+  children,
   ...props
 }) => {
   const selectedTraveler = Object.entries(travelers).find(
-    ([key]) => key === value.id,
+    ([key]) => key === value,
   )?.[1];
 
   const stats = selectedTraveler && [
@@ -100,17 +74,13 @@ export const TravelerSelect: FC<TravelerSelectProps> = ({
   ];
 
   return (
-    <Flex direction="column" gap="3" {...props}>
-      <Text as="p" size="2" weight="bold">
-        Traveler & Starting Memories
-      </Text>
-
+    <>
       <Flex align="center" direction="column" gap="3" width="100%">
         <Dialog.Root>
           <Flex align="center" direction="column" gap="2">
             <Dialog.Trigger>
               <Card asChild>
-                <button>
+                <button {...props}>
                   {selectedTraveler ? (
                     <Inset side="all">
                       <Image
@@ -137,28 +107,14 @@ export const TravelerSelect: FC<TravelerSelectProps> = ({
                 </button>
               </Card>
             </Dialog.Trigger>
-            <Text as="div" color={getTravelerColor(value.id)}>
+            <Text as="div" color={value ? getTravelerColor(value) : undefined}>
               {selectedTraveler?.name ?? "Any"}
             </Text>
           </Flex>
 
           <Dialog.Content aria-describedby={undefined} maxWidth="350px">
             <Dialog.Title mb="4">Select traveler</Dialog.Title>
-            <RadioCards.Root
-              columns="1"
-              value={value.id}
-              onValueChange={(id) =>
-                onChange?.({
-                  id,
-                  startingMemories: {
-                    q: getStartingMemory(id, "Q"),
-                    r: getStartingMemory(id, "R"),
-                    identity: getStartingMemory(id, "Identity"),
-                    movement: getStartingMemory(id, "Movement"),
-                  },
-                })
-              }
-            >
+            <RadioCards.Root columns="1" value={value} onValueChange={onChange}>
               <Dialog.Close>
                 <RadioCards.Item value="">
                   <Text as="p" my="2" size="2" weight="bold">
@@ -218,34 +174,7 @@ export const TravelerSelect: FC<TravelerSelectProps> = ({
           </Dialog.Content>
         </Dialog.Root>
 
-        <Flex gap="3">
-          {Object.entries(value.startingMemories).map(([key, id]) => {
-            const options = allMemoryEntries
-              .filter(
-                ([, { traveler, travelerMemoryLocation }]) =>
-                  traveler === value.id &&
-                  travelerMemoryLocation ===
-                    key[0].toUpperCase() + key.slice(1),
-              )
-              .map(([key, memory]) => ({ id: key, ...memory }));
-
-            return (
-              <MemorySelect
-                key={key}
-                disabled={!selectedTraveler || options.length <= 1}
-                options={options}
-                size="1"
-                value={id}
-                onChange={(id) =>
-                  onChange?.({
-                    ...value,
-                    startingMemories: { ...value.startingMemories, [key]: id },
-                  })
-                }
-              />
-            );
-          })}
-        </Flex>
+        {children}
       </Flex>
 
       <DataList.Root className={styles.dataListRoot}>
@@ -269,6 +198,10 @@ export const TravelerSelect: FC<TravelerSelectProps> = ({
           ),
         )}
       </DataList.Root>
-    </Flex>
+
+      <VisuallyHidden>
+        <input readOnly name={name} value={value} />
+      </VisuallyHidden>
+    </>
   );
 };
