@@ -15,7 +15,7 @@ import { Text } from "@radix-ui/themes/components/text";
 import * as TextField from "@radix-ui/themes/components/text-field";
 import { IconSearch } from "@tabler/icons-react";
 import Image from "next/image";
-import { type FC, useState } from "react";
+import { type FC, useDeferredValue, useState } from "react";
 
 import {
   allMemoryEntries,
@@ -60,8 +60,13 @@ export const MemorySelect: FC<MemorySelectProps> = ({
   const selectedMemory = allMemoryEntries.find(([key]) => key === value)?.[1];
 
   const [search, setSearch] = useState("");
+  const deferredSearch = useDeferredValue(search);
+
   const [rarities, setRarities] = useState([] as string[]);
+  const deferredRarities = useDeferredValue(rarities);
+
   const [types, setTypes] = useState([] as string[]);
+  const deferredTypes = useDeferredValue(types);
 
   return (
     <Dialog.Root>
@@ -171,11 +176,15 @@ export const MemorySelect: FC<MemorySelectProps> = ({
           {options
             .filter(
               ({ name, description, rarity, type }) =>
-                (!search ||
-                  name.toLowerCase().includes(search.toLowerCase()) ||
-                  description.toLowerCase().includes(search.toLowerCase())) &&
-                (rarities.length === 0 || rarities.includes(rarity)) &&
-                (types.length === 0 || types.includes(type ?? "")),
+                (!deferredSearch ||
+                  name.toLowerCase().includes(deferredSearch.toLowerCase()) ||
+                  description
+                    .toLowerCase()
+                    .includes(deferredSearch.toLowerCase())) &&
+                (deferredRarities.length === 0 ||
+                  deferredRarities.includes(rarity)) &&
+                (deferredTypes.length === 0 ||
+                  deferredTypes.includes(type ?? "")),
             )
             .map(
               ({

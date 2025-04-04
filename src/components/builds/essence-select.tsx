@@ -12,7 +12,7 @@ import { Text } from "@radix-ui/themes/components/text";
 import * as TextField from "@radix-ui/themes/components/text-field";
 import { IconSearch } from "@tabler/icons-react";
 import Image from "next/image";
-import { type FC, useState } from "react";
+import { type FC, useDeferredValue, useState } from "react";
 
 import { allEssenceEntries, allEssenceRarities } from "@/lib/constants";
 
@@ -36,7 +36,10 @@ export const EssenceSelect: FC<EssenceSelectProps> = ({
   const selectedEssence = allEssenceEntries.find(([key]) => key === value)?.[1];
 
   const [search, setSearch] = useState("");
+  const deferredSearch = useDeferredValue(search);
+
   const [rarities, setRarities] = useState([] as string[]);
+  const deferredRarities = useDeferredValue(rarities);
 
   return (
     <Dialog.Root>
@@ -119,10 +122,13 @@ export const EssenceSelect: FC<EssenceSelectProps> = ({
           {allEssenceEntries
             .filter(
               ([, { name, description, rarity }]) =>
-                (!search ||
-                  name.toLowerCase().includes(search.toLowerCase()) ||
-                  description.toLowerCase().includes(search.toLowerCase())) &&
-                (rarities.length === 0 || rarities.includes(rarity)),
+                (!deferredSearch ||
+                  name.toLowerCase().includes(deferredSearch.toLowerCase()) ||
+                  description
+                    .toLowerCase()
+                    .includes(deferredSearch.toLowerCase())) &&
+                (deferredRarities.length === 0 ||
+                  deferredRarities.includes(rarity)),
             )
             .map(([id, { name, rarity, image, description }]) => (
               <Dialog.Close key={id}>
