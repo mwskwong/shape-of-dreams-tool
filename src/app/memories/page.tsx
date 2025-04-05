@@ -6,7 +6,7 @@ import { type FC } from "react";
 import * as ItemCard from "@/components/item-card";
 import { allMemoryEntries } from "@/lib/constants";
 import { routes } from "@/lib/site-config";
-import { loadSearchParams } from "@/lib/utils";
+import { getMutuallyExclusiveMemories, loadSearchParams } from "@/lib/utils";
 
 interface MemoriesProps {
   searchParams: Promise<SearchParams>;
@@ -67,37 +67,30 @@ const Memories: FC<MemoriesProps> = async ({ searchParams }) => {
               description,
               travelerMemoryLocation,
             },
-          ]) => {
-            const mutuallyExclusive = allMemoryEntries
-              .filter(
-                ([, memory]) =>
-                  memory.name !== name &&
-                  memory.traveler &&
-                  memory.traveler === traveler &&
-                  memory.travelerMemoryLocation === travelerMemoryLocation,
-              )
-              .map(([, { name }]) => name);
-
-            return (
-              <ItemCard.Root key={key} tags={tags}>
-                <ItemCard.Header
-                  image={image}
-                  name={name}
-                  rarity={rarity}
-                  traveler={traveler}
-                />
-                <ItemCard.Content
-                  achievement={achievement}
-                  cooldownTime={cooldownTime}
-                  maxCharges={maxCharges}
-                  mutuallyExclusive={mutuallyExclusive}
-                  type={type}
-                >
-                  <ItemCard.Description>{description}</ItemCard.Description>
-                </ItemCard.Content>
-              </ItemCard.Root>
-            );
-          },
+          ]) => (
+            <ItemCard.Root key={key} tags={tags}>
+              <ItemCard.Header
+                image={image}
+                name={name}
+                rarity={rarity}
+                traveler={traveler}
+              />
+              <ItemCard.Content
+                achievement={achievement}
+                cooldownTime={cooldownTime}
+                maxCharges={maxCharges}
+                type={type}
+                mutuallyExclusive={getMutuallyExclusiveMemories({
+                  name,
+                  rarity,
+                  traveler,
+                  travelerMemoryLocation,
+                })}
+              >
+                <ItemCard.Description>{description}</ItemCard.Description>
+              </ItemCard.Content>
+            </ItemCard.Root>
+          ),
         )}
     </Grid>
   );

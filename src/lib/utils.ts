@@ -2,6 +2,8 @@ import { type ThemeProps } from "@radix-ui/themes/components/theme";
 import Hashids from "hashids";
 import { createLoader, parseAsArrayOf, parseAsString } from "nuqs/server";
 
+import memories from "@public/data/memories.json";
+
 const rarityOrders = [
   "Common",
   "Rare",
@@ -22,6 +24,7 @@ interface Item {
 
 interface Memory extends Item {
   traveler: string;
+  travelerMemoryLocation?: string;
 }
 
 export const compareMemories = (a: Memory, b: Memory) =>
@@ -156,5 +159,20 @@ export const getRarityColor = (rarity: string): ThemeProps["accentColor"] => {
     }
   }
 };
+
+export const getMutuallyExclusiveMemories = ({
+  name,
+  traveler,
+  travelerMemoryLocation,
+}: Memory) =>
+  Object.entries(memories)
+    .filter(
+      ([, memory]) =>
+        memory.name !== name &&
+        memory.traveler &&
+        memory.traveler === traveler &&
+        memory.travelerMemoryLocation === travelerMemoryLocation,
+    )
+    .map(([, { name }]) => name);
 
 export const hashIds = new Hashids(process.env.HASH_IDS_SALT, 6);

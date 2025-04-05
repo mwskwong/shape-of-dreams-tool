@@ -8,7 +8,7 @@ import { type FC } from "react";
 import * as TravelerCard from "@/components/travelers/traveler-card";
 import { allMemoryEntries, allTravelerEntries } from "@/lib/constants";
 import { routes } from "@/lib/site-config";
-import { getTravelerColor } from "@/lib/utils";
+import { getMutuallyExclusiveMemories, getTravelerColor } from "@/lib/utils";
 
 const Travelers: FC = () => (
   <Grid columns={{ initial: "1", sm: "2", md: "3" }} gap="3" pt="3">
@@ -24,6 +24,7 @@ const Travelers: FC = () => (
                   ,
                   {
                     name,
+                    rarity,
                     cooldownTime,
                     maxCharges,
                     description,
@@ -43,16 +44,12 @@ const Travelers: FC = () => (
                   type,
                   image,
                   achievement,
-                  mutuallyExclusive: allMemoryEntries
-                    .filter(
-                      ([, memory]) =>
-                        memory.name !== name &&
-                        memory.traveler &&
-                        memory.traveler === traveler &&
-                        memory.travelerMemoryLocation ===
-                          travelerMemoryLocation,
-                    )
-                    .map(([, { name }]) => name),
+                  mutuallyExclusive: getMutuallyExclusiveMemories({
+                    name,
+                    rarity,
+                    traveler,
+                    travelerMemoryLocation,
+                  }),
                 }),
               )}
           />

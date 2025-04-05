@@ -5,6 +5,7 @@ import { Card } from "@radix-ui/themes/components/card";
 import * as DataList from "@radix-ui/themes/components/data-list";
 import { Flex } from "@radix-ui/themes/components/flex";
 import { Heading } from "@radix-ui/themes/components/heading";
+import * as HoverCard from "@radix-ui/themes/components/hover-card";
 import { Inset } from "@radix-ui/themes/components/inset";
 import { ScrollArea } from "@radix-ui/themes/components/scroll-area";
 import { Text } from "@radix-ui/themes/components/text";
@@ -14,6 +15,7 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { type FC } from "react";
 
+import * as ItemCard from "@/components/item-card";
 import {
   allEssenceEntries,
   allMemoryEntries,
@@ -21,7 +23,12 @@ import {
 } from "@/lib/constants";
 import { getBuildByHashId } from "@/lib/queries";
 import { routes, siteUrl } from "@/lib/site-config";
-import { getTravelerColor, sprites } from "@/lib/utils";
+import {
+  getMutuallyExclusiveMemories,
+  getRarityColor,
+  getTravelerColor,
+  sprites,
+} from "@/lib/utils";
 import iconStyles from "@/styles/icons.module.css";
 
 import styles from "./page.module.css";
@@ -138,20 +145,51 @@ const Build: FC<BuildProps> = async ({ params }) => {
                       gap="2"
                       maxWidth="64px"
                     >
-                      <Card>
-                        <Inset side="all">
-                          {memory ? (
-                            <Image
-                              alt={memory.name}
-                              height={62}
-                              src={`/images/${memory.image}`}
-                              width={62}
-                            />
-                          ) : (
-                            <Box height="62px" width="62px" />
-                          )}
-                        </Inset>
-                      </Card>
+                      <HoverCard.Root>
+                        <HoverCard.Trigger>
+                          <Card>
+                            <Inset side="all">
+                              {memory ? (
+                                <Image
+                                  alt={memory.name}
+                                  height={62}
+                                  src={`/images/${memory.image}`}
+                                  width={62}
+                                />
+                              ) : (
+                                <Box height="62px" width="62px" />
+                              )}
+                            </Inset>
+                          </Card>
+                        </HoverCard.Trigger>
+
+                        {memory && (
+                          <HoverCard.Content>
+                            <Flex direction="column" gap="3">
+                              <Text
+                                color={getRarityColor(memory.rarity)}
+                                size="2"
+                              >
+                                {memory.rarity}
+                              </Text>
+                              <ItemCard.Content
+                                achievement={memory.achievement}
+                                cooldownTime={memory.cooldownTime}
+                                maxCharges={memory.maxCharges}
+                                size="2"
+                                type={memory.type}
+                                mutuallyExclusive={getMutuallyExclusiveMemories(
+                                  memory,
+                                )}
+                              >
+                                <ItemCard.Description size="2">
+                                  {memory.description}
+                                </ItemCard.Description>
+                              </ItemCard.Content>
+                            </Flex>
+                          </HoverCard.Content>
+                        )}
+                      </HoverCard.Root>
                       <Text align="center" as="div" size="1">
                         {memory?.name ?? "Any"}
                       </Text>
@@ -216,20 +254,52 @@ const Build: FC<BuildProps> = async ({ params }) => {
                     gap="2"
                     maxWidth="80px"
                   >
-                    <Card>
-                      <Inset side="all">
-                        {memory ? (
-                          <Image
-                            alt={memory.name}
-                            height={78}
-                            src={`/images/${memory.image}`}
-                            width={78}
-                          />
-                        ) : (
-                          <Box height="78px" width="78px" />
-                        )}
-                      </Inset>
-                    </Card>
+                    <HoverCard.Root>
+                      <HoverCard.Trigger>
+                        <Card>
+                          <Inset side="all">
+                            {memory ? (
+                              <Image
+                                alt={memory.name}
+                                height={78}
+                                src={`/images/${memory.image}`}
+                                width={78}
+                              />
+                            ) : (
+                              <Box height="78px" width="78px" />
+                            )}
+                          </Inset>
+                        </Card>
+                      </HoverCard.Trigger>
+
+                      {memory && (
+                        <HoverCard.Content>
+                          <Flex direction="column" gap="3">
+                            <Text
+                              color={getRarityColor(memory.rarity)}
+                              size="2"
+                            >
+                              {memory.rarity}
+                            </Text>
+                            <ItemCard.Content
+                              achievement={memory.achievement}
+                              cooldownTime={memory.cooldownTime}
+                              maxCharges={memory.maxCharges}
+                              size="2"
+                              type={memory.type}
+                              mutuallyExclusive={getMutuallyExclusiveMemories(
+                                memory,
+                              )}
+                            >
+                              <ItemCard.Description size="2">
+                                {memory.description}
+                              </ItemCard.Description>
+                            </ItemCard.Content>
+                          </Flex>
+                        </HoverCard.Content>
+                      )}
+                    </HoverCard.Root>
+
                     <Text align="center" as="div" size="2">
                       {memory?.name ?? "Any"}
                     </Text>
@@ -243,18 +313,44 @@ const Build: FC<BuildProps> = async ({ params }) => {
                       gap="2"
                       maxWidth="64px"
                     >
-                      <Card>
-                        {essence ? (
-                          <Image
-                            alt={essence.name}
-                            height={40}
-                            src={`/images/${essence.image}`}
-                            width={40}
-                          />
-                        ) : (
-                          <Box height="40px" width="40px" />
+                      <HoverCard.Root>
+                        <HoverCard.Trigger>
+                          <Card>
+                            {essence ? (
+                              <Image
+                                alt={essence.name}
+                                height={40}
+                                src={`/images/${essence.image}`}
+                                width={40}
+                              />
+                            ) : (
+                              <Box height="40px" width="40px" />
+                            )}
+                          </Card>
+                        </HoverCard.Trigger>
+
+                        {essence && (
+                          <HoverCard.Content>
+                            <Flex direction="column" gap="3">
+                              <Text
+                                color={getRarityColor(essence.rarity)}
+                                size="2"
+                              >
+                                {essence.rarity}
+                              </Text>
+                              <ItemCard.Content
+                                achievement={essence.achievement}
+                                size="2"
+                              >
+                                <ItemCard.Description size="2">
+                                  {essence.description}
+                                </ItemCard.Description>
+                              </ItemCard.Content>
+                            </Flex>
+                          </HoverCard.Content>
                         )}
-                      </Card>
+                      </HoverCard.Root>
+
                       <Text align="center" as="div" size="1">
                         {essence?.name ?? "Any"}
                       </Text>
