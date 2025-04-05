@@ -7,7 +7,7 @@ import {
 
 import { builds, db } from "./db";
 import { formOptions, schema } from "./form";
-import { hashids } from "./utils";
+import { hashIds } from "./utils";
 
 const serverValidate = createServerValidate({
   ...formOptions,
@@ -33,7 +33,7 @@ export const submitBuild = async (_: unknown, formData: FormData) => {
       .values({ build })
       .returning({ id: builds.id });
 
-    return { hashId: hashids.encode(id) };
+    return { hashId: hashIds.encode(id) };
   } catch (error) {
     if (error instanceof ServerValidateError) {
       return { formState: error.formState };

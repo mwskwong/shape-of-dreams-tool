@@ -1,0 +1,15 @@
+.buildDescriptionContainer {
+  flex: 1;
+}
+
+.buildDescriptionScrollArea {
+  @media (--md) {
+    height: 500px;
+  }
+
+  margin-top: var(--space-1);
+}
+
+.buildDescription {
+  white-space: pre-wrap;
+}

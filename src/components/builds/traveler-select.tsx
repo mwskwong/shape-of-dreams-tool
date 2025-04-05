@@ -13,9 +13,9 @@ import { IconUser } from "@tabler/icons-react";
 import Image from "next/image";
 import { type ComponentProps, type FC } from "react";
 
+import { allTravelerEntries } from "@/lib/constants";
 import { getTravelerClassIcon, getTravelerColor, sprites } from "@/lib/utils";
 import iconStyles from "@/styles/icons.module.css";
-import travelers from "@public/data/travelers.json";
 
 import styles from "./traveler-select.module.css";
 
@@ -33,7 +33,7 @@ export const TravelerSelect: FC<TravelerSelectProps> = ({
   children,
   ...props
 }) => {
-  const selectedTraveler = Object.entries(travelers).find(
+  const selectedTraveler = allTravelerEntries.find(
     ([key]) => key === value,
   )?.[1];
 
@@ -123,7 +123,7 @@ export const TravelerSelect: FC<TravelerSelectProps> = ({
                 </RadioCards.Item>
               </Dialog.Close>
 
-              {Object.entries(travelers).map(([key, traveler]) => {
+              {allTravelerEntries.map(([key, traveler]) => {
                 const color = getTravelerColor(key);
                 const classIcon = getTravelerClassIcon(traveler.class);
 

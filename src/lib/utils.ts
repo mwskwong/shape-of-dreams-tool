@@ -157,4 +157,4 @@ export const getRarityColor = (rarity: string): ThemeProps["accentColor"] => {
   }
 };
 
-export const hashids = new Hashids(process.env.HASH_IDS_SALT, 6);
+export const hashIds = new Hashids(process.env.HASH_IDS_SALT, 6);
