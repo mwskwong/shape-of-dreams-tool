@@ -27,7 +27,7 @@ import {
   sprites,
 } from "@/lib/constants";
 import { getBuildByHashId } from "@/lib/queries";
-import { routes, siteUrl } from "@/lib/site-config";
+import { routes } from "@/lib/site-config";
 import {
   getMutuallyExclusiveMemories,
   getRarityColor,
@@ -415,6 +415,7 @@ export const generateMetadata = async (
   const { hashId } = await params;
   const entry = await getBuildByHashId(hashId);
   const { openGraph } = await parent;
+  const { images, ...parentOpenGraph } = openGraph ?? {};
 
   if (!entry) return;
   const { build, createdAt } = entry;
@@ -422,10 +423,9 @@ export const generateMetadata = async (
   return {
     title: `${build.buildName} - Details`,
     openGraph: {
-      ...openGraph,
+      ...parentOpenGraph,
       publishedTime: createdAt.toISOString(),
       url: `/builds/${hashId}`,
-      images: `https://image.thum.io/get/width/1200/crop/900/${siteUrl}${routes.builds.pathname}/${hashId}`,
     },
   };
 };
