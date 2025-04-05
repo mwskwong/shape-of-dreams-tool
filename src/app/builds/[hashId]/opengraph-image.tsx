@@ -148,6 +148,7 @@ const OpengraphImage = async ({ params }: { params: { hashId: string } }) => {
                     height: 128,
                     width: 128,
                     backgroundColor: "#D8F4F609",
+                    overflow: "hidden",
                   }}
                 >
                   {traveler && (
@@ -189,6 +190,7 @@ const OpengraphImage = async ({ params }: { params: { hashId: string } }) => {
                             borderRadius: 8,
                             border: "1px solid #d9edff40",
                             backgroundColor: "#D8F4F609",
+                            overflow: "hidden",
                           }}
                         >
                           {memory && (
@@ -294,6 +296,7 @@ const OpengraphImage = async ({ params }: { params: { hashId: string } }) => {
                           borderRadius: 8,
                           border: "1px solid #d9edff40",
                           backgroundColor: "#D8F4F609",
+                          overflow: "hidden",
                         }}
                       >
                         {memory && (
@@ -330,6 +333,7 @@ const OpengraphImage = async ({ params }: { params: { hashId: string } }) => {
                             borderRadius: 8,
                             border: "1px solid #d9edff40",
                             backgroundColor: "#D8F4F609",
+                            overflow: "hidden",
                           }}
                         >
                           {essence && (
