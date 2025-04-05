@@ -294,7 +294,7 @@ const CreateBuild: FC = () => {
               </form.Field>
             </Flex>
 
-            <Flex direction="column" flexGrow="1">
+            <Flex direction="column" flexGrow="1" minWidth="249px">
               <Text
                 as="label"
                 htmlFor={buildDescriptionId}

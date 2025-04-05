@@ -266,7 +266,11 @@ const Build: FC<BuildProps> = async ({ params }) => {
           </Flex>
         </Flex>
 
-        <Flex className={styles.buildDescriptionContainer} direction="column">
+        <Flex
+          className={styles.buildDescriptionContainer}
+          direction="column"
+          minWidth="249px"
+        >
           <Text size="2" weight="bold">
             Build description
           </Text>
