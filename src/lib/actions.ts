@@ -4,6 +4,7 @@ import {
   ServerValidateError,
   createServerValidate,
 } from "@tanstack/react-form/nextjs";
+import { revalidateTag } from "next/cache";
 
 import { builds, db } from "./db";
 import { formOptions, schema } from "./form";
@@ -32,8 +33,11 @@ export const submitBuild = async (_: unknown, formData: FormData) => {
       .insert(builds)
       .values({ build })
       .returning({ id: builds.id });
+    const hashId = hashIds.encode(id);
 
-    return { hashId: hashIds.encode(id) };
+    revalidateTag(`builds:${hashId}`);
+
+    return { hashId };
   } catch (error) {
     if (error instanceof ServerValidateError) {
       return { formState: error.formState };

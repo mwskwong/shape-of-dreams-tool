@@ -3,12 +3,10 @@ import { type FC } from "react";
 
 import { BuildForm } from "@/components/builds/build-form";
 
-const CreateBuild: FC = () => {
-  return <BuildForm pt="3" />;
-};
+const NewBuild: FC = () => <BuildForm pt="3" />;
 
 export const metadata: Metadata = {
-  title: "Builder",
+  title: "Create New Build",
 };
 
-export default CreateBuild;
+export default NewBuild;

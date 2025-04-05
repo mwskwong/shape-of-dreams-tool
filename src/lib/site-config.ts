@@ -23,5 +23,6 @@ export const routes = {
   memories: { name: "Memories", pathname: "/memories" },
   essences: { name: "Essences", pathname: "/essences" },
   builds: { name: undefined, pathname: "/builds" },
-  builder: { name: "Builder", pathname: "/builds/create" },
+  newBuild: { name: "New Build", pathname: "/builds/new" },
+  cloneBuild: { name: undefined, pathname: "/builds/clone" },
 };

@@ -9,7 +9,7 @@ import { hashIds } from "./utils";
 
 export const getBuildsMetadata = async () => {
   "use cache";
-  cacheLife("hours");
+  cacheLife("days");
 
   const result = await db
     .select({ id: builds.id, createdAt: builds.createdAt })
@@ -22,8 +22,8 @@ export const getBuildsMetadata = async () => {
 
 export const getBuildByHashId = async (hashId: string) => {
   "use cache";
-  cacheLife("days");
-  cacheTag(`build:${hashId}`);
+  cacheLife("max");
+  cacheTag(`builds:${hashId}`);
 
   if (!hashIds.isValidId(hashId)) return;
 

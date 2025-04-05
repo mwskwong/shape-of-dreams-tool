@@ -33,11 +33,11 @@ import iconStyles from "@/styles/icons.module.css";
 
 import styles from "./page.module.css";
 
-interface BuildProps {
+interface BuildDetailsProps {
   params: Promise<{ hashId: string }>;
 }
 
-const Build: FC<BuildProps> = async ({ params }) => {
+const BuildDetails: FC<BuildDetailsProps> = async ({ params }) => {
   const { hashId } = await params;
   const entry = await getBuildByHashId(hashId);
 
@@ -387,7 +387,7 @@ const Build: FC<BuildProps> = async ({ params }) => {
 export const generateStaticParams = () => [];
 
 export const generateMetadata = async (
-  { params }: BuildProps,
+  { params }: BuildDetailsProps,
   parent: ResolvingMetadata,
 ) => {
   const { hashId } = await params;
@@ -398,7 +398,7 @@ export const generateMetadata = async (
   const { build, createdAt } = entry;
 
   return {
-    title: build.buildName,
+    title: `${build.buildName} - Details`,
     openGraph: {
       ...openGraph,
       publishedTime: createdAt.toISOString(),
@@ -408,4 +408,4 @@ export const generateMetadata = async (
   };
 };
 
-export default Build;
+export default BuildDetails;

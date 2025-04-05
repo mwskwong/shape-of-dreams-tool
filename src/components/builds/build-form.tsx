@@ -21,13 +21,14 @@ import {
   useRef,
   useState,
 } from "react";
+import { type InferOutput } from "valibot";
 
 import { EssenceSelect } from "@/components/builds/essence-select";
 import { MemorySelect } from "@/components/builds/memory-select";
 import { TravelerSelect } from "@/components/builds/traveler-select";
 import { submitBuild } from "@/lib/actions";
 import { allMemoryEntries } from "@/lib/constants";
-import { formOptions } from "@/lib/form";
+import { formOptions, type schema } from "@/lib/form";
 import { routes, siteUrl } from "@/lib/site-config";
 
 import styles from "./build-form.module.css";
@@ -53,16 +54,20 @@ const getStartingMemory = (
 
 export interface BuildFormProps
   extends Omit<FlexProps, "asChild" | "children"> {
-  // TODO
+  defaultValues?: InferOutput<typeof schema>;
 }
 
-export const BuildForm: FC<BuildFormProps> = ({ ...props }) => {
+export const BuildForm: FC<BuildFormProps> = ({
+  defaultValues = formOptions.defaultValues,
+  ...props
+}) => {
   const [{ hashId, formState }, action, isSubmitting] = useActionState(
     submitBuild,
     { formState: initialFormState },
   );
   const form = useForm({
     ...formOptions,
+    defaultValues,
     transform: useTransform(
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       (baseForm) => mergeForm(baseForm, formState!),

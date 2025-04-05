@@ -12,10 +12,16 @@ const sitemap = async () => {
         url: `${siteUrl}${pathname}`,
         lastModified: new Date(),
       })),
-    ...buildsMetadata.map(({ hashId, createdAt }) => ({
-      url: `${siteUrl}${routes.builds.pathname}/${hashId}`,
-      lastModified: createdAt,
-    })),
+    ...buildsMetadata.flatMap(({ hashId, createdAt }) => [
+      {
+        url: `${siteUrl}${routes.builds.pathname}/${hashId}`,
+        lastModified: createdAt,
+      },
+      {
+        url: `${siteUrl}${routes.cloneBuild.pathname}/${hashId}`,
+        lastModified: createdAt,
+      },
+    ]),
   ] satisfies MetadataRoute.Sitemap;
 };
 
