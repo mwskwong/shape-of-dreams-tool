@@ -1,5 +1,5 @@
 import { Grid } from "@radix-ui/themes/components/grid";
-import { type Metadata } from "next";
+import { type ResolvingMetadata } from "next";
 import { type SearchParams } from "nuqs/server";
 import { type FC } from "react";
 
@@ -37,8 +37,19 @@ const Essences: FC<EssencesProps> = async ({ searchParams }) => {
   );
 };
 
-export const metadata: Metadata = {
-  title: routes.essences.name,
+export const generateMetadata = async (
+  _: unknown,
+  parent: ResolvingMetadata,
+) => {
+  const { openGraph } = await parent;
+
+  return {
+    title: routes.essences.name,
+    openGraph: {
+      ...openGraph,
+      url: routes.essences.pathname,
+    },
+  };
 };
 
 export default Essences;

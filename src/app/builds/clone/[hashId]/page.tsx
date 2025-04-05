@@ -1,8 +1,10 @@
+import { type ResolvingMetadata } from "next";
 import { notFound } from "next/navigation";
 import { type FC } from "react";
 
 import { BuildForm } from "@/components/builds/build-form";
 import { getBuildByHashId } from "@/lib/queries";
+import { routes } from "@/lib/site-config";
 
 interface CloneBuildProps {
   params: Promise<{ hashId: string }>;
@@ -17,15 +19,23 @@ const CloneBuild: FC<CloneBuildProps> = async ({ params }) => {
   return <BuildForm defaultValues={entry.build} pt="3" />;
 };
 
-export const generateMetadata = async ({ params }: CloneBuildProps) => {
+export const generateMetadata = async (
+  { params }: CloneBuildProps,
+  parent: ResolvingMetadata,
+) => {
   const { hashId } = await params;
   const entry = await getBuildByHashId(hashId);
+  const { openGraph } = await parent;
 
   if (!entry) return;
   const { build } = entry;
 
   return {
     title: `New Build from ${build.buildName}`,
+    openGraph: {
+      ...openGraph,
+      url: `${routes.cloneBuild.pathname}/${hashId}`,
+    },
   };
 };
 

@@ -64,6 +64,7 @@
     "postcss-nesting": "^13.0.1",
     "prettier": "^3.5.3",
     "prettier-plugin-packagejson": "^2.5.10",
+    "schema-dts": "^1.1.5",
     "stylelint": "^16.17.0",
     "stylelint-config-css-modules": "^4.4.0",
     "stylelint-config-recess-order": "^6.0.0",

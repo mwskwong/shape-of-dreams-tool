@@ -1,5 +1,5 @@
 import { Grid } from "@radix-ui/themes/components/grid";
-import { type Metadata } from "next";
+import { type ResolvingMetadata } from "next";
 import { type SearchParams } from "nuqs/server";
 import { type FC } from "react";
 
@@ -96,8 +96,19 @@ const Memories: FC<MemoriesProps> = async ({ searchParams }) => {
   );
 };
 
-export const metadata: Metadata = {
-  title: routes.memories.name,
+export const generateMetadata = async (
+  _: unknown,
+  parent: ResolvingMetadata,
+) => {
+  const { openGraph } = await parent;
+
+  return {
+    title: routes.memories.name,
+    openGraph: {
+      ...openGraph,
+      url: routes.memories.pathname,
+    },
+  };
 };
 
 export default Memories;

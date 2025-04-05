@@ -424,7 +424,7 @@ export const generateMetadata = async (
   const { hashId } = await params;
   const entry = await getBuildByHashId(hashId);
   const { openGraph } = await parent;
-  const { images, ...parentOpenGraph } = openGraph ?? {};
+  const { images, ...openGraphWithoutImages } = openGraph ?? {};
 
   if (!entry) return;
   const { build, createdAt } = entry;
@@ -433,9 +433,9 @@ export const generateMetadata = async (
     title: `${build.buildName} - Details`,
     description: truncateDescription(build.description),
     openGraph: {
-      ...parentOpenGraph,
+      ...openGraphWithoutImages,
       publishedTime: createdAt.toISOString(),
-      url: `/builds/${hashId}`,
+      url: `${routes.builds.pathname}/${hashId}`,
     },
   };
 };

@@ -17,6 +17,7 @@ import { NuqsAdapter } from "nuqs/adapters/next/app";
 import { type FC, type PropsWithChildren } from "react";
 
 import Nav from "@/components/nav";
+import { siteUrl } from "@/lib/site-config";
 
 import styles from "./layout.module.css";
 
@@ -113,11 +114,8 @@ export const metadata: Metadata = {
   description:
     "Discover Shape of Dreams Tool, featuring detailed character profiles, skills and items descriptions, and a character builder for an immersive gaming experience.",
   authors: { name: "Matthew Kwong", url: "https://mwskwong.com" },
-  openGraph: {
-    url: "/",
-    type: "website",
-    siteName: "Shape of Dreams Tool",
-  },
+  metadataBase: new URL(siteUrl),
+  openGraph: { url: "/" },
 };
 
 export default RootLayout;
