@@ -17,6 +17,7 @@ const getSiteUrl = () => {
 };
 
 export const siteUrl = getSiteUrl();
+export const siteName = "Shape of Dreams Tool";
 
 export const routes = {
   travelers: { name: "Travelers", pathname: "/travelers" },

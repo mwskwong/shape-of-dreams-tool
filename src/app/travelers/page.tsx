@@ -8,7 +8,7 @@ import { type WebSite, type WithContext } from "schema-dts";
 
 import * as TravelerCard from "@/components/travelers/traveler-card";
 import { allMemoryEntries, allTravelerEntries } from "@/lib/constants";
-import { routes, siteUrl } from "@/lib/site-config";
+import { routes, siteName, siteUrl } from "@/lib/site-config";
 import { getMutuallyExclusiveMemories, getTravelerColor } from "@/lib/utils";
 
 const Travelers: FC = () => (
@@ -64,7 +64,7 @@ const Travelers: FC = () => (
         __html: JSON.stringify({
           "@context": "https://schema.org",
           "@type": "WebSite",
-          name: "Shape of Dreams Tool",
+          name: siteName,
           url: siteUrl,
         } satisfies WithContext<WebSite>),
       }}
