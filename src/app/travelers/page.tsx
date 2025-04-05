@@ -7,6 +7,7 @@ import { type FC } from "react";
 
 import * as TravelerCard from "@/components/travelers/traveler-card";
 import { allMemoryEntries, allTravelerEntries } from "@/lib/constants";
+import { routes } from "@/lib/site-config";
 import { getTravelerColor } from "@/lib/utils";
 
 const Travelers: FC = () => (
@@ -62,7 +63,7 @@ const Travelers: FC = () => (
 );
 
 export const metadata: Metadata = {
-  title: "Travelers",
+  title: routes.travelers.name,
 };
 
 export default Travelers;

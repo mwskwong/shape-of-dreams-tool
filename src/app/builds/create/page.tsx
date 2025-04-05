@@ -28,6 +28,7 @@ import { TravelerSelect } from "@/components/builds/traveler-select";
 import { submitBuild } from "@/lib/actions";
 import { allMemoryEntries } from "@/lib/constants";
 import { formOptions } from "@/lib/form";
+import { routes, siteUrl } from "@/lib/site-config";
 
 import styles from "./page.module.css";
 
@@ -385,8 +386,7 @@ const CreateBuild: FC = () => {
       <form.Subscribe selector={({ isSubmitted }) => isSubmitted}>
         {(isSubmitted) => {
           const buildUrl =
-            hashId &&
-            `https://${process.env.NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL ?? ""}/builds/${hashId}`;
+            hashId && `${siteUrl}${routes.builds.pathname}/${hashId}`;
 
           return (
             <AlertDialog.Root open={isSubmitted && !isSubmitting}>

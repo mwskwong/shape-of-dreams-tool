@@ -1,5 +1,6 @@
 import "@/styles/traveler-colors.css";
 
+import { Box } from "@radix-ui/themes/components/box";
 import { Card } from "@radix-ui/themes/components/card";
 import * as DataList from "@radix-ui/themes/components/data-list";
 import { Flex } from "@radix-ui/themes/components/flex";
@@ -7,6 +8,7 @@ import { Heading } from "@radix-ui/themes/components/heading";
 import { Inset } from "@radix-ui/themes/components/inset";
 import { ScrollArea } from "@radix-ui/themes/components/scroll-area";
 import { Text } from "@radix-ui/themes/components/text";
+import { IconUser } from "@tabler/icons-react";
 import { type ResolvingMetadata } from "next";
 import Image from "next/image";
 import { notFound } from "next/navigation";
@@ -18,6 +20,7 @@ import {
   allTravelerEntries,
 } from "@/lib/constants";
 import { getBuildByHashId } from "@/lib/queries";
+import { routes, siteUrl } from "@/lib/site-config";
 import { getTravelerColor, sprites } from "@/lib/utils";
 import iconStyles from "@/styles/icons.module.css";
 
@@ -94,18 +97,29 @@ const Build: FC<BuildProps> = async ({ params }) => {
             <Flex align="center" direction="column" gap="2">
               <Card>
                 <Inset side="all">
-                  {traveler && (
+                  {traveler ? (
                     <Image
                       alt={traveler.name}
                       height={128}
                       src={`/images/${traveler.image}`}
                       width={128}
                     />
+                  ) : (
+                    <Text asChild color="gray">
+                      <Flex
+                        align="center"
+                        height="128px"
+                        justify="center"
+                        width="128px"
+                      >
+                        <IconUser />
+                      </Flex>
+                    </Text>
                   )}
                 </Inset>
               </Card>
               <Text as="div" color={getTravelerColor(build.traveler.id)}>
-                {traveler?.name}
+                {traveler?.name ?? "Any"}
               </Text>
             </Flex>
 
@@ -126,18 +140,20 @@ const Build: FC<BuildProps> = async ({ params }) => {
                     >
                       <Card>
                         <Inset side="all">
-                          {memory && (
+                          {memory ? (
                             <Image
                               alt={memory.name}
                               height={62}
                               src={`/images/${memory.image}`}
                               width={62}
                             />
+                          ) : (
+                            <Box height="62px" width="62px" />
                           )}
                         </Inset>
                       </Card>
                       <Text align="center" as="div" size="1">
-                        {memory?.name}
+                        {memory?.name ?? "Any"}
                       </Text>
                     </Flex>
                   );
@@ -186,14 +202,14 @@ const Build: FC<BuildProps> = async ({ params }) => {
             direction="column"
             gap="3"
           >
-            {build.memories.map(({ id, essences: essenceIds }) => {
+            {build.memories.map(({ id, essences: essenceIds }, index) => {
               const memory = allMemoryEntries.find(([key]) => key === id)?.[1];
-              const essences = allEssenceEntries.filter(([key]) =>
-                essenceIds.includes(key),
+              const essences = essenceIds.map(
+                (id) => allEssenceEntries.find(([key]) => key === id)?.[1],
               );
 
               return (
-                <Flex key={id} gap="3">
+                <Flex key={index} gap="3">
                   <Flex
                     align="center"
                     direction="column"
@@ -202,39 +218,45 @@ const Build: FC<BuildProps> = async ({ params }) => {
                   >
                     <Card>
                       <Inset side="all">
-                        {memory && (
+                        {memory ? (
                           <Image
                             alt={memory.name}
                             height={78}
                             src={`/images/${memory.image}`}
                             width={78}
                           />
+                        ) : (
+                          <Box height="78px" width="78px" />
                         )}
                       </Inset>
                     </Card>
                     <Text align="center" as="div" size="2">
-                      {memory?.name}
+                      {memory?.name ?? "Any"}
                     </Text>
                   </Flex>
 
-                  {essences.map(([key, { name, image }]) => (
+                  {essences.map((essence, index) => (
                     <Flex
-                      key={key}
+                      key={index}
                       align="center"
                       direction="column"
                       gap="2"
                       maxWidth="64px"
                     >
                       <Card>
-                        <Image
-                          alt={name}
-                          height={40}
-                          src={`/images/${image}`}
-                          width={40}
-                        />
+                        {essence ? (
+                          <Image
+                            alt={essence.name}
+                            height={40}
+                            src={`/images/${essence.image}`}
+                            width={40}
+                          />
+                        ) : (
+                          <Box height="40px" width="40px" />
+                        )}
                       </Card>
                       <Text align="center" as="div" size="1">
-                        {name}
+                        {essence?.name ?? "Any"}
                       </Text>
                     </Flex>
                   ))}
@@ -281,7 +303,7 @@ export const generateMetadata = async (
       ...openGraph,
       publishedTime: createdAt.toISOString(),
       url: `/builds/${hashId}`,
-      images: `https://image.thum.io/get/width/1200/crop/900/https://${process.env.VERCEL_PROJECT_PRODUCTION_URL ?? ""}/builds/${hashId}`,
+      images: `https://image.thum.io/get/width/1200/crop/900/${siteUrl}${routes.builds.pathname}/${hashId}`,
     },
   };
 };

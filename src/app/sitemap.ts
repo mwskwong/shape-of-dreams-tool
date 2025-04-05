@@ -1,18 +1,19 @@
 import { type MetadataRoute } from "next";
 
 import { getBuildsMetadata } from "@/lib/queries";
+import { routes, siteUrl } from "@/lib/site-config";
 
 const sitemap = async () => {
   const buildsMetadata = await getBuildsMetadata();
   return [
-    ...["/", "/travelers", "/memories", "/essences", "/builds/create"].map(
-      (path) => ({
-        url: `${process.env.VERCEL_PROJECT_PRODUCTION_URL ?? ""}${path}`,
+    ...Object.values(routes)
+      .filter(({ name }) => name)
+      .map(({ pathname }) => ({
+        url: `${siteUrl}${pathname}`,
         lastModified: new Date(),
-      }),
-    ),
+      })),
     ...buildsMetadata.map(({ hashId, createdAt }) => ({
-      url: `${process.env.VERCEL_PROJECT_PRODUCTION_URL ?? ""}/builds/${hashId}`,
+      url: `${siteUrl}${routes.builds.pathname}/${hashId}`,
       lastModified: createdAt,
     })),
   ] satisfies MetadataRoute.Sitemap;

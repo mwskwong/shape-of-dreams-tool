@@ -81,17 +81,15 @@ export const TravelerSelect: FC<TravelerSelectProps> = ({
             <Dialog.Trigger>
               <Card asChild>
                 <button {...props}>
-                  {selectedTraveler ? (
-                    <Inset side="all">
+                  <Inset side="all">
+                    {selectedTraveler ? (
                       <Image
                         alt={selectedTraveler.name}
                         height={128}
                         src={`/images/${selectedTraveler.image}`}
                         width={128}
                       />
-                    </Inset>
-                  ) : (
-                    <Inset side="all">
+                    ) : (
                       <Text asChild color="gray">
                         <Flex
                           align="center"
@@ -102,8 +100,8 @@ export const TravelerSelect: FC<TravelerSelectProps> = ({
                           <IconUser />
                         </Flex>
                       </Text>
-                    </Inset>
-                  )}
+                    )}
+                  </Inset>
                 </button>
               </Card>
             </Dialog.Trigger>

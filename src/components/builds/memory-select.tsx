@@ -83,23 +83,21 @@ export const MemorySelect: FC<MemorySelectProps> = ({
           <Dialog.Trigger {...props}>
             <Card asChild>
               <button>
-                {selectedMemory ? (
-                  <Inset side="all">
+                <Inset side="all">
+                  {selectedMemory ? (
                     <Image
                       alt={selectedMemory.name}
                       height={size === "1" ? 62 : 78}
                       src={`/images/${selectedMemory.image}`}
                       width={size === "1" ? 62 : 78}
                     />
-                  </Inset>
-                ) : (
-                  <Inset side="all">
+                  ) : (
                     <Box
                       height={`${size === "1" ? 62 : 78}px`}
                       width={`${size === "1" ? 62 : 78}px`}
                     />
-                  </Inset>
-                )}
+                  )}
+                </Inset>
               </button>
             </Card>
           </Dialog.Trigger>

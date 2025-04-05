@@ -5,6 +5,7 @@ import { type FC } from "react";
 
 import * as ItemCard from "@/components/item-card";
 import { allEssenceEntries } from "@/lib/constants";
+import { routes } from "@/lib/site-config";
 import { loadSearchParams } from "@/lib/utils";
 
 interface EssencesProps {
@@ -37,7 +38,7 @@ const Essences: FC<EssencesProps> = async ({ searchParams }) => {
 };
 
 export const metadata: Metadata = {
-  title: "Essences",
+  title: routes.essences.name,
 };
 
 export default Essences;

@@ -5,6 +5,7 @@ import { type FC } from "react";
 
 import * as ItemCard from "@/components/item-card";
 import { allMemoryEntries } from "@/lib/constants";
+import { routes } from "@/lib/site-config";
 import { loadSearchParams } from "@/lib/utils";
 
 interface MemoriesProps {
@@ -103,7 +104,7 @@ const Memories: FC<MemoriesProps> = async ({ searchParams }) => {
 };
 
 export const metadata: Metadata = {
-  title: "Memories",
+  title: routes.memories.name,
 };
 
 export default Memories;
