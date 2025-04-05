@@ -1,3 +1,7 @@
+.statIcon {
+  object-fit: scale-down;
+}
+
 .radioCardItem {
   justify-content: flex-start;
 }

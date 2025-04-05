@@ -11,6 +11,7 @@ import { Inset } from "@radix-ui/themes/components/inset";
 import { ScrollArea } from "@radix-ui/themes/components/scroll-area";
 import { Text } from "@radix-ui/themes/components/text";
 import { IconCopy, IconThumbUp, IconUser } from "@tabler/icons-react";
+import { clsx } from "clsx";
 import { type ResolvingMetadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
@@ -22,6 +23,8 @@ import {
   allEssenceEntries,
   allMemoryEntries,
   allTravelerEntries,
+  spriteMaxAspectRatio,
+  sprites,
 } from "@/lib/constants";
 import { getBuildByHashId } from "@/lib/queries";
 import { routes, siteUrl } from "@/lib/site-config";
@@ -29,7 +32,6 @@ import {
   getMutuallyExclusiveMemories,
   getRarityColor,
   getTravelerColor,
-  sprites,
 } from "@/lib/utils";
 import iconStyles from "@/styles/icons.module.css";
 
@@ -231,32 +233,23 @@ const BuildDetails: FC<BuildDetailsProps> = async ({ params }) => {
             </Flex>
 
             <DataList.Root>
-              {stats?.map(
-                ({
-                  name,
-                  image,
-                  value,
-                  width = 1,
-                  height = 1,
-                  iconClassName,
-                }) => (
-                  <DataList.Item key={name}>
-                    <DataList.Label minWidth="200px">
-                      <Flex align="center" gap="2">
-                        <Image
-                          alt={name}
-                          className={iconClassName}
-                          height={16}
-                          src={image}
-                          width={Math.round(16 * (width / height))}
-                        />
-                        {name}
-                      </Flex>
-                    </DataList.Label>
-                    <DataList.Value>{value}</DataList.Value>
-                  </DataList.Item>
-                ),
-              )}
+              {stats?.map(({ name, image, value, iconClassName }) => (
+                <DataList.Item key={name}>
+                  <DataList.Label minWidth="200px">
+                    <Flex align="center" gap="2">
+                      <Image
+                        alt={name}
+                        className={clsx(iconClassName, styles.statIcon)}
+                        height={16}
+                        src={image}
+                        width={Math.round(16 * spriteMaxAspectRatio)}
+                      />
+                      {name}
+                    </Flex>
+                  </DataList.Label>
+                  <DataList.Value>{value}</DataList.Value>
+                </DataList.Item>
+              ))}
             </DataList.Root>
           </Flex>
         </Flex>

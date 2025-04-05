@@ -10,11 +10,16 @@ import * as RadioCards from "@radix-ui/themes/components/radio-cards";
 import { Text } from "@radix-ui/themes/components/text";
 import { VisuallyHidden } from "@radix-ui/themes/components/visually-hidden";
 import { IconUser } from "@tabler/icons-react";
+import { clsx } from "clsx";
 import Image from "next/image";
 import { type ComponentProps, type FC } from "react";
 
-import { allTravelerEntries } from "@/lib/constants";
-import { getTravelerClassIcon, getTravelerColor, sprites } from "@/lib/utils";
+import {
+  allTravelerEntries,
+  spriteMaxAspectRatio,
+  sprites,
+} from "@/lib/constants";
+import { getTravelerClassIcon, getTravelerColor } from "@/lib/utils";
 import iconStyles from "@/styles/icons.module.css";
 
 import styles from "./traveler-select.module.css";
@@ -176,25 +181,23 @@ export const TravelerSelect: FC<TravelerSelectProps> = ({
       </Flex>
 
       <DataList.Root className={styles.dataListRoot}>
-        {stats?.map(
-          ({ name, image, value, width = 1, height = 1, iconClassName }) => (
-            <DataList.Item key={name}>
-              <DataList.Label minWidth="200px">
-                <Flex align="center" gap="2">
-                  <Image
-                    alt={name}
-                    className={iconClassName}
-                    height={16}
-                    src={image}
-                    width={Math.round(16 * (width / height))}
-                  />
-                  {name}
-                </Flex>
-              </DataList.Label>
-              <DataList.Value>{value}</DataList.Value>
-            </DataList.Item>
-          ),
-        )}
+        {stats?.map(({ name, image, value, iconClassName }) => (
+          <DataList.Item key={name}>
+            <DataList.Label minWidth="200px">
+              <Flex align="center" gap="2">
+                <Image
+                  alt={name}
+                  className={clsx(iconClassName, styles.statIcon)}
+                  height={16}
+                  src={image}
+                  width={Math.round(16 * spriteMaxAspectRatio)}
+                />
+                {name}
+              </Flex>
+            </DataList.Label>
+            <DataList.Value>{value}</DataList.Value>
+          </DataList.Item>
+        ))}
       </DataList.Root>
 
       <VisuallyHidden>

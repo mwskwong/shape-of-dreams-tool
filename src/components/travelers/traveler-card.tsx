@@ -12,7 +12,8 @@ import { clsx } from "clsx";
 import Image from "next/image";
 import { type FC } from "react";
 
-import { getTravelerClassIcon, sprites } from "@/lib/utils";
+import { sprites } from "@/lib/constants";
+import { getTravelerClassIcon } from "@/lib/utils";
 import iconStyles from "@/styles/icons.module.css";
 
 import * as ItemCard from "../item-card";

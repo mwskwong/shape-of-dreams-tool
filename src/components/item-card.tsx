@@ -16,7 +16,8 @@ import parse, {
 import Image from "next/image";
 import { type FC, Fragment, type PropsWithChildren } from "react";
 
-import { getRarityColor, sprites } from "@/lib/utils";
+import { sprites } from "@/lib/constants";
+import { getRarityColor } from "@/lib/utils";
 
 import styles from "./item-card.module.css";
 
