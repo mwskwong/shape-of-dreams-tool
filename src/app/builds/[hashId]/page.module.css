@@ -13,3 +13,11 @@
 .buildDescription {
   white-space: pre-wrap;
 }
+
+.actionButton {
+  flex: 1;
+
+  @media (--sm) {
+    flex: none;
+  }
+}

@@ -1,6 +1,7 @@
 import "@/styles/traveler-colors.css";
 
 import { Box } from "@radix-ui/themes/components/box";
+import { Button } from "@radix-ui/themes/components/button";
 import { Card } from "@radix-ui/themes/components/card";
 import * as DataList from "@radix-ui/themes/components/data-list";
 import { Flex } from "@radix-ui/themes/components/flex";
@@ -9,9 +10,10 @@ import * as HoverCard from "@radix-ui/themes/components/hover-card";
 import { Inset } from "@radix-ui/themes/components/inset";
 import { ScrollArea } from "@radix-ui/themes/components/scroll-area";
 import { Text } from "@radix-ui/themes/components/text";
-import { IconUser } from "@tabler/icons-react";
+import { IconCopy, IconThumbUp, IconUser } from "@tabler/icons-react";
 import { type ResolvingMetadata } from "next";
 import Image from "next/image";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { type FC } from "react";
 
@@ -85,9 +87,38 @@ const BuildDetails: FC<BuildDetailsProps> = async ({ params }) => {
 
   return (
     <Flex direction="column" gap="3" pt="3">
-      <Heading as="h2" size="6">
-        {build.buildName}
-      </Heading>
+      <Flex
+        align={{ sm: "center" }}
+        direction={{ initial: "column", sm: "row" }}
+        gapX="9"
+        gapY="3"
+      >
+        <Heading as="h2" size="6">
+          {build.buildName}
+        </Heading>
+        <Flex gap="3" ml={{ sm: "auto" }}>
+          <Button
+            disabled
+            className={styles.actionButton}
+            color="gray"
+            variant="ghost"
+          >
+            <IconThumbUp size={18} />
+            Like (0)
+          </Button>
+          <Button
+            asChild
+            className={styles.actionButton}
+            color="gray"
+            variant="ghost"
+          >
+            <Link href={`${routes.cloneBuild.pathname}/${hashId}`}>
+              <IconCopy size={18} />
+              Clone
+            </Link>
+          </Button>
+        </Flex>
+      </Flex>
 
       <Flex
         direction={{ initial: "column", sm: "row" }}
