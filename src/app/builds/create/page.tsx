@@ -91,7 +91,7 @@ const CreateBuild: FC = () => {
                     autoCapitalize="on"
                     color={error ? "red" : undefined}
                     id={buildNameId}
-                    my="1"
+                    mt="1"
                     name={name}
                     placeholder="My Build"
                     value={state.value}
@@ -99,7 +99,7 @@ const CreateBuild: FC = () => {
                     onChange={(e) => handleChange(e.target.value)}
                   />
                   {error && (
-                    <Text color="red" size="2">
+                    <Text color="red" mt="1" size="2">
                       {error}
                     </Text>
                   )}
@@ -309,7 +309,7 @@ const CreateBuild: FC = () => {
                     autoCapitalize="on"
                     className={styles.buildDescriptionTextArea}
                     id={buildDescriptionId}
-                    my="1"
+                    mt="1"
                     name={name}
                     value={state.value}
                     onBlur={handleBlur}
