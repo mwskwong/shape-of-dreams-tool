@@ -408,6 +408,15 @@ const BuildDetails: FC<BuildDetailsProps> = async ({ params }) => {
 // https://nextjs.org/docs/app/api-reference/functions/generate-static-params#all-paths-at-runtime
 export const generateStaticParams = () => [];
 
+const truncateDescription = (text: string, maxLength = 156) => {
+  if (text.length <= maxLength) {
+    return text;
+  }
+  const subString = text.slice(0, maxLength - 1);
+  const lastSpace = subString.lastIndexOf(" ");
+  return lastSpace > 0 ? subString.slice(0, lastSpace) + "…" : subString + "…";
+};
+
 export const generateMetadata = async (
   { params }: BuildDetailsProps,
   parent: ResolvingMetadata,
@@ -422,6 +431,7 @@ export const generateMetadata = async (
 
   return {
     title: `${build.buildName} - Details`,
+    description: truncateDescription(build.description),
     openGraph: {
       ...parentOpenGraph,
       publishedTime: createdAt.toISOString(),
