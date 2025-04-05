@@ -12,7 +12,7 @@ import { clsx } from "clsx";
 import Image from "next/image";
 import { type FC } from "react";
 
-import { sprites } from "@/lib/constants";
+import { spriteMaxAspectRatio, sprites } from "@/lib/constants";
 import { getTravelerClassIcon } from "@/lib/utils";
 import iconStyles from "@/styles/icons.module.css";
 
@@ -153,8 +153,6 @@ export const Content: FC<ContentProps> = ({
       value: criticalStrikeChance,
       statGrowth: statsGrowthPerLv.criticalStrikeChance,
       iconClassName: iconStyles.critIcon,
-      width: undefined,
-      height: undefined,
     },
     {
       image: "/images/texMovement.png",
@@ -162,8 +160,6 @@ export const Content: FC<ContentProps> = ({
       value: movementSpeed,
       statGrowth: statsGrowthPerLv.movementSpeed,
       iconClassName: iconStyles.movementSpeedIcon,
-      width: undefined,
-      height: undefined,
     },
   ];
 
@@ -199,24 +195,16 @@ export const Content: FC<ContentProps> = ({
             </Flex>
             <Grid columns="4" gap="3">
               {stats.map(
-                ({
-                  image,
-                  name,
-                  value,
-                  statGrowth,
-                  iconClassName,
-                  width = 1,
-                  height = 1,
-                }) => (
+                ({ image, name, value, statGrowth, iconClassName }) => (
                   <Tooltip key={name} content={name}>
                     <Card className={styles.stat}>
                       <Flex align="center" direction="column" gap="2">
                         <Image
                           alt={name}
-                          className={iconClassName}
+                          className={clsx(iconClassName, styles.statIcon)}
                           height={20}
                           src={image}
-                          width={Math.round(20 * (width / height))}
+                          width={20 * spriteMaxAspectRatio}
                         />
                         <Text>{value}</Text>
                       </Flex>

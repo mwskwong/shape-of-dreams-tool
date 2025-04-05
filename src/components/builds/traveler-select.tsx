@@ -73,8 +73,6 @@ export const TravelerSelect: FC<TravelerSelectProps> = ({
       name: "Movement Speed",
       value: selectedTraveler.movementSpeed,
       iconClassName: iconStyles.movementSpeedIcon,
-      width: undefined,
-      height: undefined,
     },
   ];
 

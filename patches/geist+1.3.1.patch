@@ -1,0 +1,14 @@
+diff --git a/node_modules/geist/package.json b/node_modules/geist/package.json
+index a6b6e80..dd57920 100644
+--- a/node_modules/geist/package.json
++++ b/node_modules/geist/package.json
+@@ -44,7 +44,8 @@
+     "./font/sans-non-variable": {
+       "types": "./dist/index.d.ts",
+       "default": "./dist/sans-non-variable.js"
+-    }
++    },
++    "./assets/*": "./dist/fonts/*"
+   },
+   "license": "SIL OPEN FONT LICENSE",
+   "peerDependencies": {

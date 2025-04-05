@@ -82,8 +82,6 @@ const BuildDetails: FC<BuildDetailsProps> = async ({ params }) => {
       name: "Movement Speed",
       value: traveler.movementSpeed,
       iconClassName: iconStyles.movementSpeedIcon,
-      width: undefined,
-      height: undefined,
     },
   ];
 
