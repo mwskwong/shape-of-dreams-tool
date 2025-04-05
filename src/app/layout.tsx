@@ -1,12 +1,14 @@
 import "./globals.css";
 
-import { Box } from "@radix-ui/themes/components/box";
+import { Button } from "@radix-ui/themes/components/button";
 import { Container } from "@radix-ui/themes/components/container";
+import { Flex } from "@radix-ui/themes/components/flex";
 import { Heading } from "@radix-ui/themes/components/heading";
 import { Link } from "@radix-ui/themes/components/link";
 import { Section } from "@radix-ui/themes/components/section";
 import { Text } from "@radix-ui/themes/components/text";
 import { Theme } from "@radix-ui/themes/components/theme";
+import { IconBrandDiscord } from "@tabler/icons-react";
 import { Analytics } from "@vercel/analytics/next";
 import { clsx } from "clsx";
 import { type Metadata } from "next";
@@ -56,23 +58,42 @@ const RootLayout: FC<PropsWithChildren> = ({ children }) => (
             <Nav />
             <NuqsAdapter>{children}</NuqsAdapter>
           </Section>
-          <Box asChild mb="9">
+          <Flex
+            asChild
+            align="center"
+            direction={{ initial: "column", md: "row" }}
+            gap="9"
+            justify="between"
+            pb="9"
+          >
             <footer>
-              <Text as="p" className={styles.copyright} color="gray" size="2">
-                Copyright © {new Date().getFullYear()} KWONG, Matthew Wang
-                Shun. Images and data copyright Lizard Smoothie Co., Ltd. Used
-                under license.{" "}
-                <Link
-                  href="https://github.com/mwskwong/shape-of-dreams-tool/blob/main/LICENSE"
+              <div>
+                <Text as="p" className={styles.copyright} color="gray" size="2">
+                  Copyright © {new Date().getFullYear()} KWONG, Matthew Wang
+                  Shun. Images and data copyright Lizard Smoothie Co., Ltd. Used
+                  under license.{" "}
+                  <Link
+                    href="https://github.com/mwskwong/shape-of-dreams-tool/blob/main/LICENSE"
+                    rel="noreferrer"
+                    target="_blank"
+                  >
+                    View licenses for code and resources
+                  </Link>
+                  .
+                </Text>
+              </div>
+              <Button asChild>
+                <a
+                  href="https://discord.com/channels/1239197591191683206/1351984016500195398"
                   rel="noreferrer"
                   target="_blank"
                 >
-                  View licenses for code and resources
-                </Link>
-                .
-              </Text>
+                  <IconBrandDiscord size={18} />
+                  Feedback
+                </a>
+              </Button>
             </footer>
-          </Box>
+          </Flex>
         </Container>
       </Theme>
       <Analytics
