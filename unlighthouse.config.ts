@@ -1,5 +1,16 @@
 const config = {
   site: process.env.DEPLOYMENT_URL,
+  urls: async () => {
+    const response = await fetch(
+      `${process.env.DEPLOYMENT_URL ?? ""}/sitemap.xml`,
+    );
+    const sitemap = await response.text();
+
+    return sitemap.match(/<loc>(.*?)<\/loc>/g)?.map((loc) => {
+      const url = new URL(loc.replaceAll(/<\/?loc>/g, ""));
+      return process.env.DEPLOYMENT_URL ?? "" + url.pathname;
+    });
+  },
   cache: false,
   ci: {
     reporter: "jsonExpanded",
