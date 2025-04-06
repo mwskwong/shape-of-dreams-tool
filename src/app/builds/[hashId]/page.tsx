@@ -247,7 +247,7 @@ const BuildDetails: FC<BuildDetailsProps> = async ({ params }) => {
                       <Flex align="center" gap="2">
                         <Image
                           alt={name}
-                          className={clsx(iconClassName, styles.statIcon)}
+                          className={clsx(iconStyles.sprite, iconClassName)}
                           height={16}
                           src={image}
                           width={Math.round(16 * spriteMaxAspectRatio)}

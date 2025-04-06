@@ -27,6 +27,10 @@
   }
 }
 
+.sprite {
+  object-fit: scale-down;
+}
+
 /* color picked from game UI */
 
 .critIcon {

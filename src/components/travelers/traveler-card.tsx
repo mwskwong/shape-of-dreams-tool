@@ -201,7 +201,7 @@ export const Content: FC<ContentProps> = ({
                       <Flex align="center" direction="column" gap="2">
                         <Image
                           alt={name}
-                          className={clsx(iconClassName, styles.statIcon)}
+                          className={clsx(iconStyles.sprite, iconClassName)}
                           height={20}
                           src={image}
                           width={20 * spriteMaxAspectRatio}
