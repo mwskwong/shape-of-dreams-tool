@@ -242,7 +242,7 @@ export const MemorySelect: FC<MemorySelectProps> = ({
         </Dialog.Content>
       </Dialog.Root>
       <VisuallyHidden>
-        <input readOnly name={name} value={value} />
+        <input readOnly aria-label={name} name={name} value={value} />
       </VisuallyHidden>
     </>
   );

@@ -161,7 +161,7 @@ export const EssenceSelect: FC<EssenceSelectProps> = ({
         </Dialog.Content>
       </Dialog.Root>
       <VisuallyHidden>
-        <input readOnly name={name} value={value} />
+        <input readOnly aria-label={name} name={name} value={value} />
       </VisuallyHidden>
     </>
   );

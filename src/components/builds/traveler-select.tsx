@@ -228,7 +228,7 @@ export const TravelerSelect: FC<TravelerSelectProps> = ({
       </DataList.Root>
 
       <VisuallyHidden>
-        <input readOnly name={name} value={value} />
+        <input readOnly aria-label={name} name={name} value={value} />
       </VisuallyHidden>
     </>
   );
