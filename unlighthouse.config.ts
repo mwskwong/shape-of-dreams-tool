@@ -8,7 +8,7 @@ const config = {
 
     return sitemap.match(/<loc>(.*?)<\/loc>/g)?.map((loc) => {
       const url = new URL(loc.replaceAll(/<\/?loc>/g, ""));
-      return process.env.DEPLOYMENT_URL ?? "" + url.pathname;
+      return `${process.env.DEPLOYMENT_URL ?? ""}${url.pathname}`;
     });
   },
   cache: false,
