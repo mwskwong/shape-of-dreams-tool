@@ -90,7 +90,7 @@ export const TravelerSelect: FC<TravelerSelectProps> = ({
           <Flex align="center" direction="column" gap="2">
             <Dialog.Trigger>
               <Card asChild>
-                <button {...props}>
+                <button aria-label="select traveler" {...props}>
                   <Inset side="all">
                     {selectedTraveler ? (
                       <Image
@@ -228,7 +228,7 @@ export const TravelerSelect: FC<TravelerSelectProps> = ({
       </DataList.Root>
 
       <VisuallyHidden>
-        <input readOnly aria-label={name} name={name} value={value} />
+        <input readOnly aria-label="traveler" name={name} value={value} />
       </VisuallyHidden>
     </>
   );

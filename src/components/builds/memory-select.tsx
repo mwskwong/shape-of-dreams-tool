@@ -82,7 +82,7 @@ export const MemorySelect: FC<MemorySelectProps> = ({
         >
           <Dialog.Trigger {...props}>
             <Card asChild>
-              <button>
+              <button aria-label="select memory">
                 <Inset side="all">
                   {selectedMemory ? (
                     <Image
@@ -242,7 +242,7 @@ export const MemorySelect: FC<MemorySelectProps> = ({
         </Dialog.Content>
       </Dialog.Root>
       <VisuallyHidden>
-        <input readOnly aria-label={name} name={name} value={value} />
+        <input readOnly aria-label="memory" name={name} value={value} />
       </VisuallyHidden>
     </>
   );

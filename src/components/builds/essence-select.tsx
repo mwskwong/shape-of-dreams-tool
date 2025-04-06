@@ -50,7 +50,7 @@ export const EssenceSelect: FC<EssenceSelectProps> = ({
         <Flex align="center" direction="column" gap="2" maxWidth="64px">
           <Dialog.Trigger {...props}>
             <Card asChild>
-              <button>
+              <button aria-label="select essence">
                 {selectedEssence ? (
                   <Image
                     alt={selectedEssence.name}
@@ -161,7 +161,7 @@ export const EssenceSelect: FC<EssenceSelectProps> = ({
         </Dialog.Content>
       </Dialog.Root>
       <VisuallyHidden>
-        <input readOnly aria-label={name} name={name} value={value} />
+        <input readOnly aria-label="essence" name={name} value={value} />
       </VisuallyHidden>
     </>
   );
