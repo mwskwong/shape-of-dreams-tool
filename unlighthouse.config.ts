@@ -7,8 +7,6 @@ const config = async () => {
     .match(/<loc>(.*?)<\/loc>/g)
     ?.map((loc) => new URL(loc.replaceAll(/<\/?loc>/g, "")).pathname);
 
-  console.log({ urls });
-
   return {
     site: process.env.DEPLOYMENT_URL,
     urls,
