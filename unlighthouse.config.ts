@@ -5,7 +5,7 @@ const config = async () => {
   const sitemap = await response.text();
   const urls = sitemap
     .match(/<loc>(.*?)<\/loc>/g)
-    ?.map((loc) => loc.replaceAll(/<\/?loc>/g, ""));
+    ?.map((loc) => new URL(loc.replaceAll(/<\/?loc>/g, "")).pathname);
 
   console.log({ urls });
 
