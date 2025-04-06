@@ -8,6 +8,7 @@ import { Flex } from "@radix-ui/themes/components/flex";
 import { Inset } from "@radix-ui/themes/components/inset";
 import * as RadioCards from "@radix-ui/themes/components/radio-cards";
 import { Text } from "@radix-ui/themes/components/text";
+import { Tooltip } from "@radix-ui/themes/components/tooltip";
 import { VisuallyHidden } from "@radix-ui/themes/components/visually-hidden";
 import { IconUser } from "@tabler/icons-react";
 import { clsx } from "clsx";
@@ -47,32 +48,38 @@ export const TravelerSelect: FC<TravelerSelectProps> = ({
       ...sprites.health,
       image: `/images/${sprites.health.image}`,
       value: selectedTraveler.health,
+      statGrowth: selectedTraveler.statsGrowthPerLv.health,
     },
     {
       ...sprites.armor,
       image: `/images/${sprites.armor.image}`,
       value: selectedTraveler.armor,
+      statGrowth: selectedTraveler.statsGrowthPerLv.armor,
     },
     {
       ...sprites.attackDamage,
       image: `/images/${sprites.attackDamage.image}`,
       value: selectedTraveler.attackDamage,
+      statGrowth: selectedTraveler.statsGrowthPerLv.attackDamage,
     },
     {
       ...sprites.abilityPower,
       image: `/images/${sprites.abilityPower.image}`,
       value: selectedTraveler.abilityPower,
+      statGrowth: selectedTraveler.statsGrowthPerLv.abilityPower,
     },
     {
       ...sprites.attackSpeed,
       image: `/images/${sprites.attackSpeed.image}`,
       value: selectedTraveler.attackSpeed.toFixed(2),
+      statGrowth: selectedTraveler.statsGrowthPerLv.attackSpeed,
     },
     {
       image: "/images/texMovement.png",
       name: "Movement Speed",
       value: selectedTraveler.movementSpeed,
       iconClassName: iconStyles.movementSpeedIcon,
+      statGrowth: selectedTraveler.statsGrowthPerLv.movementSpeed,
     },
   ];
 
@@ -179,7 +186,7 @@ export const TravelerSelect: FC<TravelerSelectProps> = ({
       </Flex>
 
       <DataList.Root className={styles.dataListRoot}>
-        {stats?.map(({ name, image, value, iconClassName }) => (
+        {stats?.map(({ name, image, value, iconClassName, statGrowth }) => (
           <DataList.Item key={name}>
             <DataList.Label minWidth="200px">
               <Flex align="center" gap="2">
@@ -193,7 +200,29 @@ export const TravelerSelect: FC<TravelerSelectProps> = ({
                 {name}
               </Flex>
             </DataList.Label>
-            <DataList.Value>{value}</DataList.Value>
+            <DataList.Value>
+              {value}
+              {statGrowth && (
+                <Tooltip content="Stat grow / lv">
+                  <Flex asChild align="center">
+                    <Text color="yellow" size="1">
+                      <Image
+                        alt={sprites.upgradableParameter.name}
+                        className={styles.upgradableParamIcon}
+                        height={14}
+                        src={`/images/${sprites.upgradableParameter.image}`}
+                        width={
+                          14 *
+                          (sprites.upgradableParameter.width /
+                            sprites.upgradableParameter.height)
+                        }
+                      />
+                      ({statGrowth})
+                    </Text>
+                  </Flex>
+                </Tooltip>
+              )}
+            </DataList.Value>
           </DataList.Item>
         ))}
       </DataList.Root>

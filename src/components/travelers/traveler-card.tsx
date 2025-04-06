@@ -63,14 +63,14 @@ export interface ContentProps extends Omit<Tabs.RootProps, "children"> {
   criticalStrikeChance: number;
   movementSpeed: number;
   statsGrowthPerLv: {
-    health?: string;
-    armor?: string;
-    attackDamage?: string;
-    attackSpeed?: string;
-    abilityPower?: string;
-    memoryHaste?: string;
-    criticalStrikeChance?: string;
-    movementSpeed?: string;
+    health?: string | null;
+    armor?: string | null;
+    attackDamage?: string | null;
+    attackSpeed?: string | null;
+    abilityPower?: string | null;
+    memoryHaste?: string | null;
+    criticalStrikeChance?: string | null;
+    movementSpeed?: string | null;
   };
   description: string;
   achievement?: { name: string; description: string } | null;

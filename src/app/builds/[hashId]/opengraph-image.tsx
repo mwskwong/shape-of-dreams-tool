@@ -22,22 +22,36 @@ export const contentType = "image/png";
 
 const geistSansFontPath = "node_modules/geist/dist/fonts/geist-sans";
 
+const space = 4;
+const colors = {
+  orangeA11: "#FFA057",
+  mintA11: "#67FFDED2",
+  rubyA11: "#FF949D",
+  amberA11: "#FFCA16",
+  yellowA11: "#FEE949F5",
+  slate1: "#111113",
+  slate12: "#EDEEF0",
+  slateA2: "#D8F4F609",
+  slateA7: "#D9EDFF40",
+  slateA11: "#F1F7FEB5",
+};
+
 const getTravelerColorHex = (travelerId: string) => {
   switch (getTravelerColor(travelerId)) {
     case "orange": {
-      return "#FFA057";
+      return colors.orangeA11;
     }
     case "mint": {
-      return "#67FFDED2";
+      return colors.mintA11;
     }
     case "ruby": {
-      return "#FF949D";
+      return colors.rubyA11;
     }
     case "amber": {
-      return "#FFCA16";
+      return colors.amberA11;
     }
     case "yellow": {
-      return "#FEE949F5";
+      return colors.yellowA11;
     }
   }
 };
@@ -56,26 +70,31 @@ const OpengraphImage = async ({ params }: { params: { hashId: string } }) => {
       ...sprites.health,
       image: `${siteUrl}/images/${sprites.health.image}`,
       value: traveler.health,
+      statGrowth: traveler.statsGrowthPerLv.health,
     },
     {
       ...sprites.armor,
       image: `${siteUrl}/images/${sprites.armor.image}`,
       value: traveler.armor,
+      statGrowth: traveler.statsGrowthPerLv.armor,
     },
     {
       ...sprites.attackDamage,
       image: `${siteUrl}/images/${sprites.attackDamage.image}`,
       value: traveler.attackDamage,
+      statGrowth: traveler.statsGrowthPerLv.attackDamage,
     },
     {
       ...sprites.abilityPower,
       image: `${siteUrl}/images/${sprites.abilityPower.image}`,
       value: traveler.abilityPower,
+      statGrowth: traveler.statsGrowthPerLv.abilityPower,
     },
     {
       ...sprites.attackSpeed,
       image: `${siteUrl}/images/${sprites.attackSpeed.image}`,
       value: traveler.attackSpeed.toFixed(2),
+      statGrowth: traveler.statsGrowthPerLv.attackSpeed,
     },
     {
       image: `${siteUrl}/images/texMovement.png`,
@@ -87,6 +106,7 @@ const OpengraphImage = async ({ params }: { params: { hashId: string } }) => {
       },
       width: undefined,
       height: undefined,
+      statGrowth: traveler.statsGrowthPerLv.movementSpeed,
     },
   ];
 
@@ -107,8 +127,8 @@ const OpengraphImage = async ({ params }: { params: { hashId: string } }) => {
           fontFamily: "Geist",
           fontWeight: 400,
           fontSize: 16,
-          backgroundColor: "#111113",
-          color: "#EDEEF0",
+          backgroundColor: colors.slate1,
+          color: colors.slate12,
         }}
       >
         <div
@@ -116,19 +136,26 @@ const OpengraphImage = async ({ params }: { params: { hashId: string } }) => {
             display: "flex",
             flexDirection: "column",
             justifyContent: "center",
-            gap: 4 * 3,
+            gap: space * 3,
           }}
         >
-          <div style={{ fontSize: 35, fontWeight: 700, marginBottom: 4 * 3 }}>
+          <div
+            style={{
+              fontSize: 35,
+              fontWeight: 700,
+              marginBottom: space * 3,
+              maxWidth: 640,
+            }}
+          >
             {build.buildName}
           </div>
 
-          <div style={{ display: "flex", columnGap: 4 * 9 }}>
+          <div style={{ display: "flex", columnGap: space * 9 }}>
             <div
               style={{
                 display: "flex",
                 flexDirection: "column",
-                gap: 4 * 3,
+                gap: space * 3,
                 alignItems: "center",
               }}
             >
@@ -136,7 +163,7 @@ const OpengraphImage = async ({ params }: { params: { hashId: string } }) => {
                 style={{
                   display: "flex",
                   flexDirection: "column",
-                  gap: 4 * 2,
+                  gap: space * 2,
                   alignItems: "center",
                 }}
               >
@@ -144,10 +171,10 @@ const OpengraphImage = async ({ params }: { params: { hashId: string } }) => {
                   style={{
                     display: "flex",
                     borderRadius: 8,
-                    border: "1px solid #d9edff40",
+                    border: `1px solid ${colors.slateA7}`,
                     height: 128,
                     width: 128,
-                    backgroundColor: "#D8F4F609",
+                    backgroundColor: colors.slateA2,
                     overflow: "hidden",
                   }}
                 >
@@ -164,7 +191,7 @@ const OpengraphImage = async ({ params }: { params: { hashId: string } }) => {
                 </div>
               </div>
 
-              <div style={{ display: "flex", gap: 4 * 3 }}>
+              <div style={{ display: "flex", gap: space * 3 }}>
                 {Object.entries(build.traveler.startingMemories).map(
                   ([key, value]) => {
                     const memory = allMemoryEntries.find(
@@ -178,7 +205,7 @@ const OpengraphImage = async ({ params }: { params: { hashId: string } }) => {
                           display: "flex",
                           flexDirection: "column",
                           alignItems: "center",
-                          gap: 4 * 2,
+                          gap: space * 2,
                           maxWidth: 64,
                         }}
                       >
@@ -188,8 +215,8 @@ const OpengraphImage = async ({ params }: { params: { hashId: string } }) => {
                             height: 64,
                             width: 64,
                             borderRadius: 8,
-                            border: "1px solid #d9edff40",
-                            backgroundColor: "#D8F4F609",
+                            border: `1px solid ${colors.slateA7}`,
+                            backgroundColor: colors.slateA2,
                             overflow: "hidden",
                           }}
                         >
@@ -213,7 +240,7 @@ const OpengraphImage = async ({ params }: { params: { hashId: string } }) => {
               <div
                 style={{
                   display: "flex",
-                  gap: 4 * 4,
+                  gap: space * 4,
                   flexDirection: "column",
                   fontSize: 14,
                 }}
@@ -226,20 +253,21 @@ const OpengraphImage = async ({ params }: { params: { hashId: string } }) => {
                     iconStyles,
                     width = 1,
                     height = 1,
+                    statGrowth,
                   }) => (
                     <div
                       key={name}
                       style={{
                         display: "flex",
                         alignItems: "center",
-                        gap: 4 * 4,
+                        gap: space * 4,
                       }}
                     >
                       <div
                         style={{
                           display: "flex",
                           alignItems: "center",
-                          gap: 4 * 2,
+                          gap: space * 2,
                           minWidth: 200,
                         }}
                       >
@@ -257,9 +285,36 @@ const OpengraphImage = async ({ params }: { params: { hashId: string } }) => {
                             width={Math.round(16 * (width / height))}
                           />
                         </div>
-                        <div style={{ color: "#F1F7FEB5" }}>{name}</div>
+                        <div style={{ color: colors.slateA11 }}>{name}</div>
                       </div>
-                      {value}
+                      <div style={{ display: "flex" }}>
+                        {value}
+                        {statGrowth && (
+                          <span
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                              fontSize: 12,
+                              color: colors.yellowA11,
+                            }}
+                          >
+                            <img
+                              height={14}
+                              src={`${siteUrl}/images/${sprites.upgradableParameter.image}`}
+                              style={{
+                                marginLeft: space * 0.4,
+                                marginRight: space * 0.4,
+                              }}
+                              width={
+                                14 *
+                                (sprites.upgradableParameter.width /
+                                  sprites.upgradableParameter.height)
+                              }
+                            />
+                            ({statGrowth})
+                          </span>
+                        )}
+                      </div>
                     </div>
                   ),
                 )}
@@ -267,7 +322,11 @@ const OpengraphImage = async ({ params }: { params: { hashId: string } }) => {
             </div>
 
             <div
-              style={{ display: "flex", flexDirection: "column", gap: 4 * 3 }}
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                gap: space * 3,
+              }}
             >
               {build.memories.map(({ id, essences: essenceIds }, index) => {
                 const memory = allMemoryEntries.find(
@@ -278,13 +337,13 @@ const OpengraphImage = async ({ params }: { params: { hashId: string } }) => {
                 );
 
                 return (
-                  <div key={index} style={{ display: "flex", gap: 4 * 3 }}>
+                  <div key={index} style={{ display: "flex", gap: space * 3 }}>
                     <div
                       style={{
                         display: "flex",
                         flexDirection: "column",
                         alignItems: "center",
-                        gap: 4 * 2,
+                        gap: space * 2,
                         maxWidth: 80,
                       }}
                     >
@@ -294,8 +353,8 @@ const OpengraphImage = async ({ params }: { params: { hashId: string } }) => {
                           height: 80,
                           width: 80,
                           borderRadius: 8,
-                          border: "1px solid #d9edff40",
-                          backgroundColor: "#D8F4F609",
+                          border: `1px solid ${colors.slateA7}`,
+                          backgroundColor: colors.slateA2,
                           overflow: "hidden",
                         }}
                       >
@@ -320,7 +379,7 @@ const OpengraphImage = async ({ params }: { params: { hashId: string } }) => {
                           display: "flex",
                           flexDirection: "column",
                           alignItems: "center",
-                          gap: 4 * 2,
+                          gap: space * 2,
                           maxWidth: 64,
                         }}
                       >
@@ -329,10 +388,10 @@ const OpengraphImage = async ({ params }: { params: { hashId: string } }) => {
                             display: "flex",
                             height: 64,
                             width: 64,
-                            padding: 4 * 3,
+                            padding: space * 3,
                             borderRadius: 8,
-                            border: "1px solid #d9edff40",
-                            backgroundColor: "#D8F4F609",
+                            border: `1px solid ${colors.slateA7}`,
+                            backgroundColor: colors.slateA2,
                             overflow: "hidden",
                           }}
                         >

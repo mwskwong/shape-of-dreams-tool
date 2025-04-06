@@ -13,8 +13,13 @@
     "movementSpeed": 520,
     "statsGrowthPerLv": {
       "health": "+20%",
+      "armor": null,
       "attackDamage": "+1",
-      "abilityPower": "+1"
+      "abilityPower": "+1",
+      "attackSpeed": null,
+      "memoryHaste": null,
+      "criticalStrikeChance": null,
+      "movementSpeed": null
     },
     "description": "Lacerta is a former Royal Guard sniper and hunter proficient in handling firearms and gunpowder. He is accustomed to taking out enemies from long range.",
     "achievement": null,
@@ -71,9 +76,13 @@
     "movementSpeed": 520,
     "statsGrowthPerLv": {
       "health": "+30%",
+      "armor": "+2",
       "attackDamage": "+2",
       "abilityPower": "+2",
-      "armor": "+2"
+      "attackSpeed": null,
+      "memoryHaste": null,
+      "criticalStrikeChance": null,
+      "movementSpeed": null
     },
     "description": "Mist is a courageous duelist of noble birth. With agile combat techniques, she can evade dangerous attacks and swiftly dispatch enemies.",
     "achievement": null,
@@ -130,7 +139,13 @@
     "movementSpeed": 510,
     "statsGrowthPerLv": {
       "health": "+20%",
-      "abilityPower": "+2"
+      "armor": null,
+      "attackDamage": null,
+      "abilityPower": "+2",
+      "attackSpeed": null,
+      "memoryHaste": null,
+      "criticalStrikeChance": null,
+      "movementSpeed": null
     },
     "description": "Yubar is a fairy tale being from dreams, a god who governs the creation and destruction of stars. He can deal high damage from long range using magic.",
     "achievement": {
@@ -190,9 +205,13 @@
     "movementSpeed": 490,
     "statsGrowthPerLv": {
       "health": "+30%",
+      "armor": "+2",
       "attackDamage": "+2",
       "abilityPower": "+2",
-      "armor": "+2"
+      "attackSpeed": null,
+      "memoryHaste": null,
+      "criticalStrikeChance": null,
+      "movementSpeed": null
     },
     "description": "Vesper is the leader and cruel inquisitor of the Order of the Sacred Flame. He can block enemies in melee range while dealing high damage.",
     "achievement": {
@@ -216,9 +235,13 @@
     "movementSpeed": 500,
     "statsGrowthPerLv": {
       "health": "+30%",
+      "armor": "+2",
       "attackDamage": "+2",
       "abilityPower": "+2",
-      "armor": "+2"
+      "attackSpeed": null,
+      "memoryHaste": null,
+      "criticalStrikeChance": null,
+      "movementSpeed": null
     },
     "description": "Aurena is a sage from the Lunar Conclave of Arcanum who was expelled for researching forbidden knowledge. She is a battle healer who utilizes her own life force.",
     "achievement": {
