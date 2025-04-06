@@ -1,81 +1,91 @@
-import "@radix-ui/themes/tokens/colors/orange.css";
-import "@radix-ui/themes/tokens/colors/mint.css";
-import "@radix-ui/themes/tokens/colors/ruby.css";
-import "@radix-ui/themes/tokens/colors/amber.css";
-import "@radix-ui/themes/tokens/colors/yellow.css";
+import "@/styles/traveler-colors.css";
 
 import { Grid } from "@radix-ui/themes/components/grid";
-import { type Metadata } from "next";
+import { Theme } from "@radix-ui/themes/components/theme";
+import { type ResolvingMetadata } from "next";
 import { type FC } from "react";
+import { type WebSite, type WithContext } from "schema-dts";
 
-import {
-  TravelerCard,
-  type TravelerCardProps,
-} from "@/components/travelers/traveler-card";
-import { compareMemories } from "@/lib/utils";
-import memories from "@public/data/memories.json";
-import travelers from "@public/data/travelers.json";
+import * as TravelerCard from "@/components/travelers/traveler-card";
+import { allMemoryEntries, allTravelerEntries } from "@/lib/constants";
+import { routes, siteName, siteUrl } from "@/lib/site-config";
+import { getMutuallyExclusiveMemories, getTravelerColor } from "@/lib/utils";
 
-const getTravelerColor = (travelerId: string): TravelerCardProps["color"] => {
-  switch (travelerId) {
-    case "Hero_Lacerta": {
-      return "orange";
-    }
-    case "Hero_Mist": {
-      return "mint";
-    }
-    case "Hero_Yubar": {
-      return "ruby";
-    }
-    case "Hero_Vesper": {
-      return "amber";
-    }
-    case "Hero_Aurena": {
-      return "yellow";
-    }
-  }
-};
-
-const Travelers: FC = () => {
-  return (
+const Travelers: FC = () => (
+  <>
     <Grid columns={{ initial: "1", sm: "2", md: "3" }} gap="3" pt="3">
-      {Object.entries(travelers).map(([key, traveler]) => {
-        const travelerMemories = Object.values(memories)
-          .filter((memory) => memory.traveler === key)
-          .map(
-            ({
-              addedCharges,
-              travelerMemoryLocation: _travelerMemoryLocation,
-              ...memory
-            }) => ({
-              ...memory,
-              mutuallyExclusive: Object.values(memories)
-                .filter(
-                  ({ name, traveler, travelerMemoryLocation }) =>
-                    name !== memory.name &&
-                    traveler &&
-                    traveler === memory.traveler &&
-                    travelerMemoryLocation === _travelerMemoryLocation,
-                )
-                .map(({ name }) => name),
-            }),
-          )
-          .toSorted((a, b) => compareMemories(a, b));
-        return (
-          <TravelerCard
-            key={key}
-            color={getTravelerColor(key)}
-            {...traveler}
-            memories={travelerMemories}
-          />
-        );
-      })}
+      {allTravelerEntries.map(([key, { name, image, ...traveler }]) => (
+        <Theme key={key} accentColor={getTravelerColor(key)}>
+          <TravelerCard.Root image={image} name={name}>
+            <TravelerCard.Content
+              {...traveler}
+              memories={allMemoryEntries
+                .filter(([, { traveler }]) => traveler === key)
+                .map(
+                  ([
+                    ,
+                    {
+                      name,
+                      rarity,
+                      cooldownTime,
+                      maxCharges,
+                      description,
+                      shortDescription,
+                      type,
+                      image,
+                      achievement,
+                      traveler,
+                      travelerMemoryLocation,
+                    },
+                  ]) => ({
+                    name,
+                    cooldownTime,
+                    maxCharges,
+                    description,
+                    shortDescription,
+                    type,
+                    image,
+                    achievement,
+                    mutuallyExclusive: getMutuallyExclusiveMemories({
+                      name,
+                      rarity,
+                      traveler,
+                      travelerMemoryLocation,
+                    }),
+                  }),
+                )}
+            />
+          </TravelerCard.Root>
+        </Theme>
+      ))}
     </Grid>
-  );
-};
+    <script
+      dangerouslySetInnerHTML={{
+        __html: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          name: siteName,
+          url: siteUrl,
+        } satisfies WithContext<WebSite>),
+      }}
+      type="application/ld+json"
+    />
+  </>
+);
 
-export const metadata: Metadata = {
-  title: "Travelers",
+export const generateMetadata = async (
+  _: unknown,
+  parent: ResolvingMetadata,
+) => {
+  const { openGraph } = await parent;
+
+  return {
+    title: routes.travelers.name,
+    openGraph: {
+      ...openGraph,
+      url: routes.travelers.pathname,
+    },
+  };
 };
 
 export default Travelers;

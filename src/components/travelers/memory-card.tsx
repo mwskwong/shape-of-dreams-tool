@@ -1,16 +1,17 @@
 "use client";
 
-import { Card, type CardProps } from "@radix-ui/themes/components/card";
-import { Flex } from "@radix-ui/themes/components/flex";
+import { Card } from "@radix-ui/themes/components/card";
+import { Flex, type FlexProps } from "@radix-ui/themes/components/flex";
 import { Heading } from "@radix-ui/themes/components/heading";
 import { Text } from "@radix-ui/themes/components/text";
 import Image from "next/image";
 import { type FC, useState } from "react";
 
-import { ItemCardContent } from "../item-card";
+import * as ItemCard from "../item-card";
 
-export interface MemoryCardProps
-  extends Omit<CardProps, "asChild" | "children"> {
+import styles from "./memory-card.module.css";
+
+export interface MemoryCardProps extends Omit<FlexProps, "children"> {
   name: string;
   cooldownTime?: number;
   maxCharges?: number;
@@ -19,7 +20,6 @@ export interface MemoryCardProps
   type?: string;
   tags?: string[];
   image: string;
-  unlockBy?: string;
   achievement?: { name: string; description: string } | null;
   mutuallyExclusive?: string[];
 }
@@ -32,17 +32,16 @@ export const MemoryCard: FC<MemoryCardProps> = ({
   shortDescription,
   type,
   image,
-  unlockBy,
   achievement,
   mutuallyExclusive = [],
   ...props
 }) => {
-  const [expand, setExpand] = useState(false);
+  const [open, setOpen] = useState(false);
 
   return (
-    <>
-      <Card asChild variant="ghost" {...props}>
-        <button onClick={() => setExpand((prev) => !prev)}>
+    <Flex direction="column" gap="3" {...props}>
+      <Card asChild className={styles.card} variant="ghost">
+        <button onClick={() => setOpen(!open)}>
           <Flex gap="3">
             <Image
               alt={name}
@@ -63,16 +62,19 @@ export const MemoryCard: FC<MemoryCardProps> = ({
         </button>
       </Card>
 
-      <Flex direction="column" display={expand ? "flex" : "none"} gap="3">
-        <ItemCardContent
-          achievement={achievement}
-          cooldownTime={cooldownTime}
-          description={description}
-          maxCharges={maxCharges}
-          mutuallyExclusive={mutuallyExclusive}
-          type={type}
-        />
-      </Flex>
-    </>
+      {open && (
+        <>
+          <ItemCard.Content
+            achievement={achievement}
+            cooldownTime={cooldownTime}
+            maxCharges={maxCharges}
+            mutuallyExclusive={mutuallyExclusive}
+            type={type}
+          >
+            <ItemCard.Description>{description}</ItemCard.Description>
+          </ItemCard.Content>
+        </>
+      )}
+    </Flex>
   );
 };

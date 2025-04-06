@@ -1,0 +1,28 @@
+.buildDescriptionContainer {
+  flex: 1;
+}
+
+.buildDescriptionScrollArea {
+  @media (--md) {
+    height: 500px;
+  }
+
+  margin-top: var(--space-1);
+}
+
+.buildDescription {
+  white-space: pre-wrap;
+}
+
+.actionButton {
+  flex: 1;
+
+  @media (--sm) {
+    flex: none;
+  }
+}
+
+.upgradableParamIcon {
+  margin-right: calc(var(--space-1) * 0.5);
+  margin-left: calc(var(--space-1) * 0.5);
+}

@@ -7,40 +7,52 @@ import { Heading } from "@radix-ui/themes/components/heading";
 import { Inset } from "@radix-ui/themes/components/inset";
 import * as Tabs from "@radix-ui/themes/components/tabs";
 import { Text } from "@radix-ui/themes/components/text";
-import { Theme, type ThemeProps } from "@radix-ui/themes/components/theme";
 import { Tooltip } from "@radix-ui/themes/components/tooltip";
 import { clsx } from "clsx";
 import Image from "next/image";
 import { type FC } from "react";
 
-import { sprites } from "@/lib/constants";
+import { spriteMaxAspectRatio, sprites } from "@/lib/constants";
+import { getTravelerClassIcon } from "@/lib/utils";
+import iconStyles from "@/styles/icons.module.css";
 
-import { ItemDescription } from "../item-card";
+import * as ItemCard from "../item-card";
 
 import { MemoryCard } from "./memory-card";
 import styles from "./traveler-card.module.css";
 
-const getClassIcon = (travelerClass: string) => {
-  if (travelerClass.toLowerCase().includes("attacker")) {
-    return "/images/iconAttacker.png";
-  }
+export interface RootProps extends CardProps {
+  name: string;
+  image: string;
+}
 
-  if (travelerClass.toLowerCase().includes("mage")) {
-    return "/images/iconSpellCaster.png";
-  }
-
-  if (travelerClass.toLowerCase().includes("tank")) {
-    return "/images/iconTank.png";
-  }
-
-  if (travelerClass.toLowerCase().includes("support")) {
-    return "/images/iconSupporter.png";
-  }
+export const Root: FC<RootProps> = ({
+  name,
+  image,
+  className,
+  children,
+  ...props
+}) => {
+  return (
+    <Card className={clsx(styles.card, className)} {...props}>
+      <Flex align="center" direction="column" gap="3" {...props}>
+        <Image
+          alt={name}
+          className="rt-AvatarRoot rt-r-size-8"
+          height={128}
+          src={`/images/${image}`}
+          width={128}
+        />
+        <Heading as="h2" data-accent-color="" size="6">
+          {name}
+        </Heading>
+        {children}
+      </Flex>
+    </Card>
+  );
 };
 
-export interface TravelerCardProps extends Omit<CardProps, "children"> {
-  color: ThemeProps["accentColor"];
-  name: string;
+export interface ContentProps extends Omit<Tabs.RootProps, "children"> {
   class: string;
   health: number;
   armor: number;
@@ -51,18 +63,17 @@ export interface TravelerCardProps extends Omit<CardProps, "children"> {
   criticalStrikeChance: number;
   movementSpeed: number;
   statsGrowthPerLv: {
-    health?: string;
-    armor?: string;
-    attackDamage?: string;
-    attackSpeed?: string;
-    abilityPower?: string;
-    memoryHaste?: string;
-    criticalStrikeChance?: string;
-    movementSpeed?: string;
+    health?: string | null;
+    armor?: string | null;
+    attackDamage?: string | null;
+    attackSpeed?: string | null;
+    abilityPower?: string | null;
+    memoryHaste?: string | null;
+    criticalStrikeChance?: string | null;
+    movementSpeed?: string | null;
   };
   description: string;
   achievement?: { name: string; description: string } | null;
-  image: string;
   memories?: {
     name: string;
     cooldownTime?: number;
@@ -70,9 +81,7 @@ export interface TravelerCardProps extends Omit<CardProps, "children"> {
     description: string;
     shortDescription?: string | null;
     type?: string;
-    tags?: string[];
     image: string;
-    unlockBy?: string;
     mutuallyExclusive?: string[];
     achievement?: { name: string; description: string } | null;
   }[];
@@ -83,10 +92,7 @@ export interface TravelerCardProps extends Omit<CardProps, "children"> {
   }[];
 }
 
-export const TravelerCard: FC<TravelerCardProps> = ({
-  className,
-  color,
-  name,
+export const Content: FC<ContentProps> = ({
   class: travelerClass,
   health,
   armor,
@@ -99,9 +105,9 @@ export const TravelerCard: FC<TravelerCardProps> = ({
   statsGrowthPerLv,
   description,
   achievement,
-  image,
   memories = [],
   constellations = [],
+  className,
   ...props
 }) => {
   const stats = [
@@ -146,171 +152,135 @@ export const TravelerCard: FC<TravelerCardProps> = ({
       name: "Critical Strike Chance",
       value: criticalStrikeChance,
       statGrowth: statsGrowthPerLv.criticalStrikeChance,
-      iconClassName: styles.critIcon,
-      width: undefined,
-      height: undefined,
+      iconClassName: iconStyles.critIcon,
     },
     {
       image: "/images/texMovement.png",
       name: "Movement Speed",
       value: movementSpeed,
       statGrowth: statsGrowthPerLv.movementSpeed,
-      iconClassName: styles.movementSpeedIcon,
-      width: undefined,
-      height: undefined,
+      iconClassName: iconStyles.movementSpeedIcon,
     },
   ];
 
-  const classIcon = getClassIcon(travelerClass);
+  const classIcon = getTravelerClassIcon(travelerClass);
 
   return (
-    <Theme accentColor={color}>
-      <Card className={clsx(styles.card, className)} {...props}>
-        <Flex align="center" direction="column" gap="3">
-          <Image
-            alt={name}
-            className="rt-AvatarRoot rt-r-size-8"
-            height={128}
-            src={`/images/${image}`}
-            width={128}
-          />
-          <Heading as="h2" data-accent-color="" size="6">
-            {name}
-          </Heading>
+    <Tabs.Root
+      className={clsx(styles.tabRoot, className)}
+      defaultValue="stats"
+      {...props}
+    >
+      <Tabs.List>
+        <Tabs.Trigger value="stats">Stats</Tabs.Trigger>
+        <Tabs.Trigger value="memories">Memories</Tabs.Trigger>
+        <Tabs.Trigger value="constellations">Constellations</Tabs.Trigger>
+      </Tabs.List>
 
-          <Tabs.Root className={styles.tabRoot} defaultValue="stats">
-            <Tabs.List>
-              <Tabs.Trigger value="stats">Stats</Tabs.Trigger>
-              <Tabs.Trigger value="memories">Memories</Tabs.Trigger>
-              <Tabs.Trigger value="constellations">Constellations</Tabs.Trigger>
-            </Tabs.List>
-
-            <Box pt="3">
-              <Tabs.Content asChild value="stats">
-                <Flex direction="column" gap="3">
-                  <Flex asChild align="center" gap="2" justify="center">
-                    <Text as="div">
-                      {classIcon && (
-                        <Image
-                          alt={travelerClass}
-                          height={18}
-                          src={classIcon}
-                          width={18}
-                        />
-                      )}
-                      {travelerClass}
-                    </Text>
-                  </Flex>
-                  <Grid columns="4" gap="3">
-                    {stats.map(
-                      ({
-                        image,
-                        name,
-                        value,
-                        statGrowth,
-                        iconClassName,
-                        width = 1,
-                        height = 1,
-                      }) => (
-                        <Tooltip key={name} content={name}>
-                          <Card className={styles.stat}>
-                            <Flex align="center" direction="column" gap="2">
-                              <Image
-                                alt={name}
-                                className={iconClassName}
-                                height={20}
-                                src={image}
-                                width={Math.round(20 * (width / height))}
-                              />
-                              <Text>{value}</Text>
-                            </Flex>
-
-                            <Inset mt="2" side="bottom">
-                              <Text
-                                align="center"
-                                as="div"
-                                className={styles.statGrowth}
-                                color="gray"
-                                size="1"
-                              >
-                                {statGrowth ? `${statGrowth} / lv` : "-"}
-                              </Text>
-                            </Inset>
-                          </Card>
-                        </Tooltip>
-                      ),
-                    )}
-                  </Grid>
-                  <Text as="p" className={styles.paragraph} wrap="pretty">
-                    {description}
-                  </Text>
-                  {achievement && (
-                    <Text
-                      as="p"
-                      className={styles.paragraph}
-                      color="gray"
-                      wrap="pretty"
-                    >
-                      Unlock requirement -{" "}
-                      <Em className={styles.em}>{achievement.name}</Em>:{" "}
-                      {achievement.description}
-                    </Text>
-                  )}
-                </Flex>
-              </Tabs.Content>
-
-              <Tabs.Content asChild value="memories">
-                <Flex direction="column" gap="3">
-                  {memories.map((memory) => (
-                    <MemoryCard key={memory.name} {...memory} />
-                  ))}
-                </Flex>
-              </Tabs.Content>
-
-              <Tabs.Content asChild value="constellations">
-                <Flex direction="column" gap="3">
-                  {constellations.length === 0 ? (
-                    <Text
-                      align="center"
-                      as="p"
-                      color="gray"
-                      my="9"
-                      wrap="pretty"
-                    >
-                      Coming Soon
-                    </Text>
-                  ) : (
-                    constellations.map(({ name, description, image }) => (
-                      <Flex key={name} gap="3">
+      <Box pt="3">
+        <Tabs.Content asChild value="stats">
+          <Flex direction="column" gap="3">
+            <Flex asChild align="center" gap="2" justify="center">
+              <Text as="div">
+                {classIcon && (
+                  <Image
+                    alt={travelerClass}
+                    height={18}
+                    src={classIcon}
+                    width={18}
+                  />
+                )}
+                {travelerClass}
+              </Text>
+            </Flex>
+            <Grid columns="4" gap="3">
+              {stats.map(
+                ({ image, name, value, statGrowth, iconClassName }) => (
+                  <Tooltip key={name} content={name}>
+                    <Card className={styles.stat}>
+                      <Flex align="center" direction="column" gap="2">
                         <Image
                           alt={name}
-                          height={48}
-                          src={`/images/${image}`}
-                          width={48}
-                          className={
-                            color &&
-                            styles[
-                              `constellationFilter${color.charAt(0).toUpperCase() + color.slice(1)}`
-                            ]
-                          }
+                          className={clsx(iconStyles.sprite, iconClassName)}
+                          height={20}
+                          src={image}
+                          width={20 * spriteMaxAspectRatio}
                         />
-                        <div>
-                          <Heading as="h3" size="4">
-                            {name}
-                          </Heading>
-                          <ItemDescription color="gray">
-                            {description}
-                          </ItemDescription>
-                        </div>
+                        <Text>{value}</Text>
                       </Flex>
-                    ))
-                  )}
+
+                      <Inset mt="2" side="bottom">
+                        <Text
+                          align="center"
+                          as="div"
+                          className={styles.statGrowth}
+                          color="gray"
+                          size="1"
+                        >
+                          {statGrowth ? `${statGrowth} / lv` : "-"}
+                        </Text>
+                      </Inset>
+                    </Card>
+                  </Tooltip>
+                ),
+              )}
+            </Grid>
+            <Text as="p" className={styles.paragraph} wrap="pretty">
+              {description}
+            </Text>
+            {achievement && (
+              <Text
+                as="p"
+                className={styles.paragraph}
+                color="gray"
+                wrap="pretty"
+              >
+                Unlock requirement -{" "}
+                <Em className={styles.em}>{achievement.name}</Em>:{" "}
+                {achievement.description}
+              </Text>
+            )}
+          </Flex>
+        </Tabs.Content>
+
+        <Tabs.Content asChild value="memories">
+          <Flex direction="column" gap="3">
+            {memories.map((memory) => (
+              <MemoryCard key={memory.name} {...memory} />
+            ))}
+          </Flex>
+        </Tabs.Content>
+
+        <Tabs.Content asChild value="constellations">
+          <Flex direction="column" gap="3">
+            {constellations.length === 0 ? (
+              <Text align="center" as="p" color="gray" my="9" wrap="pretty">
+                Coming Soon
+              </Text>
+            ) : (
+              constellations.map(({ name, description, image }) => (
+                <Flex key={name} gap="3">
+                  <Image
+                    alt={name}
+                    className={iconStyles.constellationIcon}
+                    height={48}
+                    src={`/images/${image}`}
+                    width={48}
+                  />
+                  <div>
+                    <Heading as="h3" size="4">
+                      {name}
+                    </Heading>
+                    <ItemCard.Description color="gray">
+                      {description}
+                    </ItemCard.Description>
+                  </div>
                 </Flex>
-              </Tabs.Content>
-            </Box>
-          </Tabs.Root>
-        </Flex>
-      </Card>
-    </Theme>
+              ))
+            )}
+          </Flex>
+        </Tabs.Content>
+      </Box>
+    </Tabs.Root>
   );
 };

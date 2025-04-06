@@ -1,11 +1,12 @@
 import { Grid } from "@radix-ui/themes/components/grid";
-import { type Metadata } from "next";
+import { type ResolvingMetadata } from "next";
 import { type SearchParams } from "nuqs/server";
 import { type FC } from "react";
 
-import { ItemCard } from "@/components/item-card";
-import { compareMemories, loadSearchParams } from "@/lib/utils";
-import memories from "@public/data/memories.json";
+import * as ItemCard from "@/components/item-card";
+import { allMemoryEntries } from "@/lib/constants";
+import { routes } from "@/lib/site-config";
+import { getMutuallyExclusiveMemories, loadSearchParams } from "@/lib/utils";
 
 interface MemoriesProps {
   searchParams: Promise<SearchParams>;
@@ -17,8 +18,7 @@ const Memories: FC<MemoriesProps> = async ({ searchParams }) => {
 
   return (
     <Grid columns={{ initial: "1", sm: "2", md: "3" }} gap="3">
-      {Object.entries(memories)
-        .toSorted(([, a], [, b]) => compareMemories(a, b))
+      {allMemoryEntries
         .filter(
           ([
             ,
@@ -55,37 +55,60 @@ const Memories: FC<MemoriesProps> = async ({ searchParams }) => {
           ([
             key,
             {
-              addedCharges,
-              shortDescription,
-              travelerMemoryLocation: _travelerMemoryLocation,
-              ...memory
+              name,
+              rarity,
+              traveler,
+              tags,
+              image,
+              cooldownTime,
+              maxCharges,
+              type,
+              achievement,
+              description,
+              travelerMemoryLocation,
             },
-          ]) => {
-            const mutuallyExclusive = Object.values(memories)
-              .filter(
-                ({ name, traveler, travelerMemoryLocation }) =>
-                  name !== memory.name &&
-                  traveler &&
-                  traveler === memory.traveler &&
-                  travelerMemoryLocation === _travelerMemoryLocation,
-              )
-              .map(({ name }) => name);
-
-            return (
-              <ItemCard
-                key={key}
-                {...memory}
-                mutuallyExclusive={mutuallyExclusive}
+          ]) => (
+            <ItemCard.Root key={key} tags={tags}>
+              <ItemCard.Header
+                image={image}
+                name={name}
+                rarity={rarity}
+                traveler={traveler}
               />
-            );
-          },
+              <ItemCard.Content
+                achievement={achievement}
+                cooldownTime={cooldownTime}
+                maxCharges={maxCharges}
+                type={type}
+                mutuallyExclusive={getMutuallyExclusiveMemories({
+                  name,
+                  rarity,
+                  traveler,
+                  travelerMemoryLocation,
+                })}
+              >
+                <ItemCard.Description>{description}</ItemCard.Description>
+              </ItemCard.Content>
+            </ItemCard.Root>
+          ),
         )}
     </Grid>
   );
 };
 
-export const metadata: Metadata = {
-  title: "Memories",
+export const generateMetadata = async (
+  _: unknown,
+  parent: ResolvingMetadata,
+) => {
+  const { openGraph } = await parent;
+
+  return {
+    title: routes.memories.name,
+    openGraph: {
+      ...openGraph,
+      url: routes.memories.pathname,
+    },
+  };
 };
 
 export default Memories;

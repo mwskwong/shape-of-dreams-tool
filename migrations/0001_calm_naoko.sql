@@ -1,0 +1,1 @@
+ALTER TABLE "builds" ADD COLUMN "createdAt" timestamp DEFAULT now() NOT NULL;

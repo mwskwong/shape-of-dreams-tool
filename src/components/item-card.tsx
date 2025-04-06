@@ -1,16 +1,9 @@
-// rarity
-import "@radix-ui/themes/tokens/colors/sky.css";
-import "@radix-ui/themes/tokens/colors/purple.css";
-import "@radix-ui/themes/tokens/colors/red.css";
-import "@radix-ui/themes/tokens/colors/amber.css";
+import "@/styles/item-colors.css";
 
-// keyword
-import "@radix-ui/themes/tokens/colors/yellow.css";
-
-import { Badge, type BadgeProps } from "@radix-ui/themes/components/badge";
+import { Badge } from "@radix-ui/themes/components/badge";
 import { Card, type CardProps } from "@radix-ui/themes/components/card";
 import { Em } from "@radix-ui/themes/components/em";
-import { Flex } from "@radix-ui/themes/components/flex";
+import { Flex, type FlexProps } from "@radix-ui/themes/components/flex";
 import { Heading } from "@radix-ui/themes/components/heading";
 import { Text, type TextProps } from "@radix-ui/themes/components/text";
 import { Tooltip } from "@radix-ui/themes/components/tooltip";
@@ -21,140 +14,114 @@ import parse, {
   domToReact,
 } from "html-react-parser";
 import Image from "next/image";
-import { type FC, Fragment } from "react";
+import { type FC, Fragment, type PropsWithChildren } from "react";
 
 import { sprites } from "@/lib/constants";
+import { getRarityColor } from "@/lib/utils";
 
 import styles from "./item-card.module.css";
 
-export interface ItemCardProps extends Omit<CardProps, "children"> {
-  name: string;
-  cooldownTime?: number;
-  maxCharges?: number;
-  description: string;
-  rarity: string;
-  type?: string;
-  traveler?: string;
+export interface RootProps extends CardProps {
   tags?: string[];
-  image: string;
-  achievement?: { name: string; description: string } | null;
-  mutuallyExclusive?: string[];
 }
 
-const getRarityColor = (rarity: string): BadgeProps["color"] => {
-  switch (rarity) {
-    case "Common": {
-      return "gray";
-    }
-    case "Rare": {
-      return "sky";
-    }
-    case "Epic": {
-      return "purple";
-    }
-    case "Legendary": {
-      return "red";
-    }
-    default: {
-      return "amber";
-    }
-  }
-};
-
-export const ItemCard: FC<ItemCardProps> = ({
-  name,
-  cooldownTime,
-  maxCharges,
-  description,
-  rarity,
-  type,
-  traveler,
-  tags = [],
-  image,
-  achievement,
-  mutuallyExclusive = [],
-  ...props
-}) => {
-  return (
-    <Card {...props}>
-      <Flex direction="column" gap="3" height="100%">
-        <Flex gap="3">
-          <Image
-            alt={name}
-            className="rt-AvatarRoot rt-r-size-4"
-            height={48}
-            src={`/images/${image}`}
-            width={48}
-          />
-          <div>
-            <Heading as="h2" size="4">
-              {name}
-            </Heading>
-            <Text as="p" color={getRarityColor(rarity)}>
-              {rarity}
-              {traveler ? ` · ${traveler.replace("Hero_", "")}` : undefined}
-            </Text>
-          </div>
+export const Root: FC<RootProps> = ({ tags = [], children, ...props }) => (
+  <Card {...props}>
+    <Flex direction="column" gap="3" height="100%">
+      {children}
+      {tags.length > 0 && (
+        <Flex gap="2" mt="auto" wrap="wrap">
+          {tags.map((tag) => (
+            <Badge key={tag} color="gray">
+              {tag}
+            </Badge>
+          ))}
         </Flex>
-        <ItemCardContent
-          achievement={achievement}
-          cooldownTime={cooldownTime}
-          description={description}
-          maxCharges={maxCharges}
-          mutuallyExclusive={mutuallyExclusive}
-          type={type}
-        />
-        {tags.length > 0 && (
-          <Flex gap="2" mt="auto" wrap="wrap">
-            {tags.map((tag) => (
-              <Badge key={tag} color="gray">
-                {tag}
-              </Badge>
-            ))}
-          </Flex>
-        )}
-      </Flex>
-    </Card>
-  );
-};
+      )}
+    </Flex>
+  </Card>
+);
 
-export interface ItemCardContentProps extends Omit<CardProps, "children"> {
+export interface HeaderProps extends Omit<FlexProps, "children"> {
+  name: string;
+  rarity: string;
+  traveler?: string;
+  image: string;
+  size?: "2" | "3";
+}
+
+export const Header: FC<HeaderProps> = ({
+  name,
+  rarity,
+  traveler,
+  image,
+  size = "3",
+  ...props
+}) => (
+  <Flex gap={size} {...props}>
+    <Image
+      alt={name}
+      className={`rt-AvatarRoot rt-r-size-${size === "3" ? 4 : 3}`}
+      height={size === "3" ? 48 : 40}
+      src={`/images/${image}`}
+      width={size === "3" ? 48 : 40}
+    />
+    <div>
+      {size === "3" ? (
+        <Heading as="h2" size="4">
+          {name}
+        </Heading>
+      ) : (
+        <Text as="p" size="2" weight="bold">
+          {name}
+        </Text>
+      )}
+      <Text as="p" color={getRarityColor(rarity)} size={size}>
+        {rarity}
+        {traveler ? ` · ${traveler.replace("Hero_", "")}` : undefined}
+      </Text>
+    </div>
+  </Flex>
+);
+
+export interface ContentProps extends PropsWithChildren {
   cooldownTime?: number;
   maxCharges?: number;
-  description: string;
   type?: string;
   traveler?: string;
   tags?: string[];
   achievement?: { name: string; description: string } | null;
   mutuallyExclusive?: string[];
+  size?: "2" | "3";
 }
 
-export const ItemCardContent: FC<ItemCardContentProps> = ({
+export const Content: FC<ContentProps> = ({
   cooldownTime,
   maxCharges,
-  description,
   type,
   mutuallyExclusive = [],
   achievement,
+  size = "3",
+  children,
 }) => (
   <>
     {(cooldownTime !== undefined || maxCharges !== undefined || type) && (
-      <Text as="p" color="gray">
+      <Text as="p" color="gray" size={size}>
         {cooldownTime !== undefined &&
           (cooldownTime === 0 ? "Passive" : `Cooldown: ${cooldownTime}s`)}
         {maxCharges && maxCharges > 1 && ` | Charges: ${maxCharges}`}
         {!type || type === "Normal" ? undefined : ` | ${type}`}
       </Text>
     )}
-    <ItemDescription>{description}</ItemDescription>
+    {children}
     {achievement && (
-      <Text as="p" color="gray" wrap="pretty">
+      <Text as="p" color="gray" size={size} wrap="pretty">
         Unlock requirement - <Em className={styles.em}>{achievement.name}</Em>:{" "}
         {achievement.description}
       </Text>
     )}
     {mutuallyExclusive.length > 0 && (
-      <Text as="p" color="gray" wrap="pretty">
+      <Text as="p" color="gray" size={size} wrap="pretty">
         Mutually exclusive:{" "}
         {mutuallyExclusive.map((memory, index) => (
           <Fragment key={memory}>
@@ -211,11 +178,8 @@ const options = {
   },
 } satisfies HTMLReactParserOptions;
 
-export type ItemDescriptionProps = TextProps;
-export const ItemDescription: FC<ItemDescriptionProps> = ({
-  children,
-  ...props
-}) => {
+export type DescriptionProps = TextProps;
+export const Description: FC<DescriptionProps> = ({ children, ...props }) => {
   if (typeof children !== "string") {
     return (
       <Text as="p" wrap="pretty" {...props}>

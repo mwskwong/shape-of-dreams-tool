@@ -10,24 +10,18 @@ import { useQueryState } from "nuqs";
 import { type FC } from "react";
 
 import { CheckboxGroupSelect } from "@/components/checkbox-group-select";
+import {
+  allMemoryRarities,
+  allMemoryTags,
+  allMemoryTypes,
+  allTravelerEntries,
+} from "@/lib/constants";
 import { searchParams } from "@/lib/utils";
 
 import styles from "./memories-toolbar.module.css";
 
-export interface MemoriesToolbarProps extends Omit<FlexProps, "children"> {
-  allRarities?: string[];
-  allTypes?: string[];
-  allTravelers?: string[];
-  allTags?: string[];
-}
-
-export const MemoriesToolbar: FC<MemoriesToolbarProps> = ({
-  allRarities = [],
-  allTypes = [],
-  allTravelers = [],
-  allTags = [],
-  ...props
-}) => {
+export type MemoriesToolbarProps = Omit<FlexProps, "children">;
+export const MemoriesToolbar: FC<MemoriesToolbarProps> = (props) => {
   const [search, setSearch] = useQueryState("search", searchParams.search);
   const [rarities, setRarities] = useQueryState(
     "rarities",
@@ -54,7 +48,7 @@ export const MemoriesToolbar: FC<MemoriesToolbarProps> = ({
         </TextField.Slot>
       </TextField.Root>
       <CheckboxGroupSelect
-        options={allRarities.map((rarity) => ({ value: rarity }))}
+        options={allMemoryRarities.map((rarity) => ({ value: rarity }))}
         value={rarities}
         onReset={() => setRarities([])}
         onValueChange={setRarities}
@@ -63,7 +57,7 @@ export const MemoriesToolbar: FC<MemoriesToolbarProps> = ({
         {rarities.length > 0 && <Badge color="indigo">{rarities.length}</Badge>}
       </CheckboxGroupSelect>
       <CheckboxGroupSelect
-        options={allTypes.map((type) => ({ value: type }))}
+        options={allMemoryTypes.map((type) => ({ value: type }))}
         value={types}
         onReset={() => setTypes([])}
         onValueChange={setTypes}
@@ -73,9 +67,9 @@ export const MemoriesToolbar: FC<MemoriesToolbarProps> = ({
       </CheckboxGroupSelect>
       <CheckboxGroupSelect
         value={travelers}
-        options={allTravelers.map((traveler) => ({
-          value: traveler,
-          name: traveler.replace("Hero_", ""),
+        options={allTravelerEntries.map(([key, { name }]) => ({
+          value: key,
+          name,
         }))}
         onReset={() => setTravelers([])}
         onValueChange={setTravelers}
@@ -86,7 +80,7 @@ export const MemoriesToolbar: FC<MemoriesToolbarProps> = ({
         )}
       </CheckboxGroupSelect>
       <CheckboxGroupSelect
-        options={allTags.map((tag) => ({ value: tag }))}
+        options={allMemoryTags.map((tag) => ({ value: tag }))}
         value={tags}
         onReset={() => setTags([])}
         onValueChange={setTags}

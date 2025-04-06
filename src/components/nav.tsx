@@ -5,31 +5,24 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { type FC } from "react";
 
-const paths = [
-  {
-    name: "Travelers",
-    href: "/travelers",
-  },
-  {
-    name: "Memories",
-    href: "/memories",
-  },
-  {
-    name: "Essences",
-    href: "/essences",
-  },
-];
+import { routes } from "@/lib/site-config";
 
 export type NavProps = Omit<TabNav.RootProps, "children">;
 const Nav: FC<NavProps> = (props) => {
   const pathname = usePathname();
   return (
     <TabNav.Root {...props}>
-      {paths.map((path) => (
-        <TabNav.Link key={path.href} asChild active={path.href === pathname}>
-          <Link href={path.href}>{path.name}</Link>
-        </TabNav.Link>
-      ))}
+      {Object.values(routes)
+        .filter(({ name }) => name)
+        .map((route) => (
+          <TabNav.Link
+            key={route.pathname}
+            asChild
+            active={route.pathname === pathname}
+          >
+            <Link href={route.pathname}>{route.name}</Link>
+          </TabNav.Link>
+        ))}
     </TabNav.Root>
   );
 };
