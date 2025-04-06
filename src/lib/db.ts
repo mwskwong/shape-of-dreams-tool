@@ -29,7 +29,8 @@ export const builds = pgTable(
         description: string;
       }>()
       .notNull(),
+    likes: integer().notNull().default(0),
     createdAt: timestamp().notNull().defaultNow(),
   },
-  ({ createdAt }) => [index().on(createdAt.desc())],
+  ({ likes, createdAt }) => [index().on(likes), index().on(createdAt)],
 );

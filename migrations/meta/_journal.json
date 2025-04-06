@@ -29,6 +29,27 @@
       "when": 1743742899147,
       "tag": "0003_awesome_magdalene",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1743915013307,
+      "tag": "0004_abnormal_franklin_richards",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1743915050283,
+      "tag": "0005_elite_mockingbird",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1743915649794,
+      "tag": "0006_stormy_pepper_potts",
+      "breakpoints": true
     }
   ]
 }

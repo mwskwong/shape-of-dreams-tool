@@ -1,0 +1,1 @@
+CREATE INDEX "builds_likes_index" ON "builds" USING btree ("likes" DESC NULLS LAST);
