@@ -106,6 +106,7 @@ const BuildDetails: FC<BuildDetailsProps> = async ({ params }) => {
         <Flex gap="3" ml={{ sm: "auto" }}>
           <Button
             disabled
+            highContrast
             className={styles.actionButton}
             color="gray"
             variant="ghost"
@@ -115,6 +116,7 @@ const BuildDetails: FC<BuildDetailsProps> = async ({ params }) => {
           </Button>
           <Button
             asChild
+            highContrast
             className={styles.actionButton}
             color="gray"
             variant="ghost"
