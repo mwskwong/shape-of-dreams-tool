@@ -1,0 +1,4 @@
+.upgradableParamIcon {
+  margin-right: calc(var(--space-1) * 0.5);
+  margin-left: calc(var(--space-1) * 0.5);
+}
