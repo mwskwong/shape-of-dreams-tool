@@ -27,11 +27,12 @@ import { EssenceSelect } from "@/components/builds/essence-select";
 import { MemorySelect } from "@/components/builds/memory-select";
 import { TravelerSelect } from "@/components/builds/traveler-select";
 import { submitBuild } from "@/lib/actions";
-import { allMemoryEntries } from "@/lib/constants";
+import { allMemoryEntries, allTravelerEntries } from "@/lib/constants";
 import { formOptions, type schema } from "@/lib/form";
 import { routes, siteUrl } from "@/lib/site-config";
 
 import styles from "./build-form.module.css";
+import { StatsDataList } from "./stats-data-list";
 
 const allMemories = allMemoryEntries
   .filter(([id]) => id !== "St_C_Sneeze")
@@ -129,82 +130,98 @@ export const BuildForm: FC<BuildFormProps> = ({
                 Traveler & Starting Memories
               </Text>
 
-              <form.Field name="traveler">
-                {({ handleChange }) => (
-                  <form.Field name="traveler.id">
-                    {({ name, state, handleBlur }) => (
-                      <TravelerSelect
-                        name={name}
-                        value={state.value}
-                        onBlur={handleBlur}
-                        onChange={(id) =>
-                          handleChange({
-                            id,
-                            startingMemories: {
-                              q: getStartingMemory(id, "Q"),
-                              r: getStartingMemory(id, "R"),
-                              identity: getStartingMemory(id, "Identity"),
-                              movement: getStartingMemory(id, "Movement"),
-                            },
-                          })
-                        }
-                      >
-                        <form.Field name="traveler.startingMemories">
-                          {({ state }) => (
-                            <Flex gap="3">
-                              {Object.entries(state.value).map(([key]) => (
-                                <form.Field
-                                  key={key}
-                                  name={`traveler.startingMemories.${key as keyof typeof state.value}`}
-                                >
-                                  {({
-                                    name,
-                                    state,
-                                    handleChange,
-                                    handleBlur,
-                                    form,
-                                  }) => {
-                                    const options = allMemoryEntries
-                                      .filter(
-                                        ([
-                                          ,
-                                          { traveler, travelerMemoryLocation },
-                                        ]) =>
-                                          traveler ===
-                                            form.state.values.traveler.id &&
-                                          travelerMemoryLocation ===
-                                            key[0].toUpperCase() + key.slice(1),
-                                      )
-                                      .map(([key, memory]) => ({
-                                        id: key,
-                                        ...memory,
-                                      }));
+              <Flex align="center" direction="column" gap="3" width="100%">
+                <form.Field name="traveler">
+                  {({ handleChange }) => (
+                    <form.Field name="traveler.id">
+                      {({ name, state, handleBlur }) => (
+                        <>
+                          <TravelerSelect
+                            name={name}
+                            value={state.value}
+                            onBlur={handleBlur}
+                            onChange={(id) =>
+                              handleChange({
+                                id,
+                                startingMemories: {
+                                  q: getStartingMemory(id, "Q"),
+                                  r: getStartingMemory(id, "R"),
+                                  identity: getStartingMemory(id, "Identity"),
+                                  movement: getStartingMemory(id, "Movement"),
+                                },
+                              })
+                            }
+                          />
 
-                                    return (
-                                      <MemorySelect
-                                        name={name}
-                                        options={options}
-                                        size="1"
-                                        value={state.value}
-                                        disabled={
-                                          !form.state.values.traveler.id ||
-                                          options.length <= 1
-                                        }
-                                        onBlur={handleBlur}
-                                        onChange={handleChange}
-                                      />
-                                    );
-                                  }}
-                                </form.Field>
-                              ))}
-                            </Flex>
-                          )}
-                        </form.Field>
-                      </TravelerSelect>
-                    )}
-                  </form.Field>
-                )}
-              </form.Field>
+                          <form.Field name="traveler.startingMemories">
+                            {({ state }) => (
+                              <Flex gap="3">
+                                {Object.entries(state.value).map(([key]) => (
+                                  <form.Field
+                                    key={key}
+                                    name={`traveler.startingMemories.${key as keyof typeof state.value}`}
+                                  >
+                                    {({
+                                      name,
+                                      state,
+                                      handleChange,
+                                      handleBlur,
+                                      form,
+                                    }) => {
+                                      const options = allMemoryEntries
+                                        .filter(
+                                          ([
+                                            ,
+                                            {
+                                              traveler,
+                                              travelerMemoryLocation,
+                                            },
+                                          ]) =>
+                                            traveler ===
+                                              form.state.values.traveler.id &&
+                                            travelerMemoryLocation ===
+                                              key[0].toUpperCase() +
+                                                key.slice(1),
+                                        )
+                                        .map(([key, memory]) => ({
+                                          id: key,
+                                          ...memory,
+                                        }));
+
+                                      return (
+                                        <MemorySelect
+                                          name={name}
+                                          options={options}
+                                          size="1"
+                                          value={state.value}
+                                          disabled={
+                                            !form.state.values.traveler.id ||
+                                            options.length <= 1
+                                          }
+                                          onBlur={handleBlur}
+                                          onChange={handleChange}
+                                        />
+                                      );
+                                    }}
+                                  </form.Field>
+                                ))}
+                              </Flex>
+                            )}
+                          </form.Field>
+
+                          <StatsDataList
+                            traveler={
+                              allTravelerEntries.find(
+                                ([key]) => key === state.value,
+                              )?.[1]
+                            }
+                          />
+                        </>
+                      )}
+                    </form.Field>
+                  )}
+                </form.Field>
+              </Flex>
             </Flex>
 
             <Flex direction="column" flexGrow={{ sm: "1", md: "0" }} gap="3">
