@@ -1,0 +1,8 @@
+{
+  "crons": [
+    {
+      "path": "/api/builds/vacuum",
+      "schedule": "0 0 * * *"
+    }
+  ]
+}
