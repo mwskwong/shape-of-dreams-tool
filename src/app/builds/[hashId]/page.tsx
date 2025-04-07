@@ -370,7 +370,7 @@ export const generateMetadata = async (
 ) => {
   const { hashId } = await params;
   const entry = await getBuildByHashId(hashId);
-  const { openGraph } = await parent;
+  const { description, openGraph } = await parent;
   const { images, ...openGraphWithoutImages } = openGraph ?? {};
 
   if (!entry) return;
@@ -378,7 +378,9 @@ export const generateMetadata = async (
 
   return {
     title: `${build.buildName} - Details`,
-    description: truncateDescription(build.description),
+    description: build.description
+      ? truncateDescription(build.description)
+      : description,
     openGraph: {
       ...openGraphWithoutImages,
       publishedTime: createdAt.toISOString(),
