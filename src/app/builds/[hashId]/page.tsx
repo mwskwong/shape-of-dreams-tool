@@ -3,29 +3,25 @@ import "@/styles/traveler-colors.css";
 import { Box } from "@radix-ui/themes/components/box";
 import { Button } from "@radix-ui/themes/components/button";
 import { Card } from "@radix-ui/themes/components/card";
-import * as DataList from "@radix-ui/themes/components/data-list";
 import { Flex } from "@radix-ui/themes/components/flex";
 import { Heading } from "@radix-ui/themes/components/heading";
 import * as HoverCard from "@radix-ui/themes/components/hover-card";
 import { Inset } from "@radix-ui/themes/components/inset";
 import { ScrollArea } from "@radix-ui/themes/components/scroll-area";
 import { Text } from "@radix-ui/themes/components/text";
-import { Tooltip } from "@radix-ui/themes/components/tooltip";
 import { IconCopy, IconThumbUp, IconUser } from "@tabler/icons-react";
-import { clsx } from "clsx";
 import { type ResolvingMetadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { type FC } from "react";
 
+import { StatsDataList } from "@/components/builds/stats-data-list";
 import * as ItemCard from "@/components/item-card";
 import {
   allEssenceEntries,
   allMemoryEntries,
   allTravelerEntries,
-  spriteMaxAspectRatio,
-  sprites,
 } from "@/lib/constants";
 import { getBuildByHashId } from "@/lib/queries";
 import { routes } from "@/lib/site-config";
@@ -34,7 +30,6 @@ import {
   getRarityColor,
   getTravelerColor,
 } from "@/lib/utils";
-import iconStyles from "@/styles/icons.module.css";
 
 import styles from "./page.module.css";
 
@@ -52,45 +47,6 @@ const BuildDetails: FC<BuildDetailsProps> = async ({ params }) => {
   const traveler = allTravelerEntries.find(
     ([key]) => key === build.traveler.id,
   )?.[1];
-  const stats = traveler && [
-    {
-      ...sprites.health,
-      image: `/images/${sprites.health.image}`,
-      value: traveler.health,
-      statGrowth: traveler.statsGrowthPerLv.health,
-    },
-    {
-      ...sprites.armor,
-      image: `/images/${sprites.armor.image}`,
-      value: traveler.armor,
-      statGrowth: traveler.statsGrowthPerLv.armor,
-    },
-    {
-      ...sprites.attackDamage,
-      image: `/images/${sprites.attackDamage.image}`,
-      value: traveler.attackDamage,
-      statGrowth: traveler.statsGrowthPerLv.attackDamage,
-    },
-    {
-      ...sprites.abilityPower,
-      image: `/images/${sprites.abilityPower.image}`,
-      value: traveler.abilityPower,
-      statGrowth: traveler.statsGrowthPerLv.abilityPower,
-    },
-    {
-      ...sprites.attackSpeed,
-      image: `/images/${sprites.attackSpeed.image}`,
-      value: traveler.attackSpeed.toFixed(2),
-      statGrowth: traveler.statsGrowthPerLv.attackSpeed,
-    },
-    {
-      image: "/images/texMovement.png",
-      name: "Movement Speed",
-      value: traveler.movementSpeed,
-      iconClassName: iconStyles.movementSpeedIcon,
-      statGrowth: traveler.statsGrowthPerLv.movementSpeed,
-    },
-  ];
 
   return (
     <Flex direction="column" gap="3" pt="3">
@@ -239,49 +195,7 @@ const BuildDetails: FC<BuildDetailsProps> = async ({ params }) => {
               )}
             </Flex>
 
-            <DataList.Root>
-              {stats?.map(
-                ({ name, image, value, iconClassName, statGrowth }) => (
-                  <DataList.Item key={name}>
-                    <DataList.Label minWidth="200px">
-                      <Flex align="center" gap="2">
-                        <Image
-                          alt={name}
-                          className={clsx(iconStyles.sprite, iconClassName)}
-                          height={16}
-                          src={image}
-                          width={Math.round(16 * spriteMaxAspectRatio)}
-                        />
-                        {name}
-                      </Flex>
-                    </DataList.Label>
-                    <DataList.Value>
-                      {value}
-                      {statGrowth && (
-                        <Tooltip content="Stat grow / lv">
-                          <Flex asChild align="center">
-                            <Text color="yellow" size="1">
-                              <Image
-                                alt={sprites.upgradableParameter.name}
-                                className={styles.upgradableParamIcon}
-                                height={14}
-                                src={`/images/${sprites.upgradableParameter.image}`}
-                                width={
-                                  14 *
-                                  (sprites.upgradableParameter.width /
-                                    sprites.upgradableParameter.height)
-                                }
-                              />
-                              ({statGrowth})
-                            </Text>
-                          </Flex>
-                        </Tooltip>
-                      )}
-                    </DataList.Value>
-                  </DataList.Item>
-                ),
-              )}
-            </DataList.Root>
+            <StatsDataList traveler={traveler} />
           </Flex>
         </Flex>
 

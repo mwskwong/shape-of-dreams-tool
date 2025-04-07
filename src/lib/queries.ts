@@ -23,7 +23,7 @@ export const getBuildsMetadata = async () => {
 export const getBuildByHashId = async (hashId: string) => {
   "use cache";
   cacheLife("max");
-  cacheTag(`builds:${hashId}`);
+  cacheTag("builds", `builds:${hashId}`);
 
   if (!hashIds.isValidId(hashId)) return;
 
