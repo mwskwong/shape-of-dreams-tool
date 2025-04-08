@@ -310,7 +310,7 @@
     "image": "Gem_E_Omega.PNG",
     "achievement": {
       "name": "Omega Point",
-      "description": "Enter The Pure White Dream by defeating the boss of the third region, having cast only one Memory during your adventure."
+      "description": "Enter The Pure White Dream by defeating the boss of the third region, having cast only one distinct Memory during your adventure (excluding Evasion and Identity rarity Memories from this count), with multiple copies of that Memory allowed."
     }
   },
   "Gem_R_Rigidity": {
