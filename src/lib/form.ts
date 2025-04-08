@@ -33,11 +33,6 @@ export const schema = pipe(
         }),
       ),
       length(4),
-      checkItems(
-        ({ id }, _, array) =>
-          !id || array.filter((memory) => memory.id === id).length <= 1,
-        "Memories must be unique.",
-      ),
       checkItems(({ essences }, _, array) => {
         const allEssences = array.flatMap(({ essences }) => essences);
         const essenceFrequency = new Map<string, number>();
