@@ -10,6 +10,7 @@ import { hashIds } from "./utils";
 export const getBuildsMetadata = async () => {
   "use cache";
   cacheLife("days");
+  cacheTag("builds");
 
   const result = await db
     .select({ id: builds.id, createdAt: builds.createdAt })
