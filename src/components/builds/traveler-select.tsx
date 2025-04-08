@@ -1,5 +1,6 @@
 import "@/styles/traveler-colors.css";
 
+import { Box } from "@radix-ui/themes/components/box";
 import { Button } from "@radix-ui/themes/components/button";
 import { Card } from "@radix-ui/themes/components/card";
 import * as Dialog from "@radix-ui/themes/components/dialog";
@@ -8,7 +9,6 @@ import { Inset } from "@radix-ui/themes/components/inset";
 import * as RadioCards from "@radix-ui/themes/components/radio-cards";
 import { Text } from "@radix-ui/themes/components/text";
 import { VisuallyHidden } from "@radix-ui/themes/components/visually-hidden";
-import { IconUser } from "@tabler/icons-react";
 import Image from "next/image";
 import { type FC } from "react";
 
@@ -50,16 +50,7 @@ export const TravelerSelect: FC<TravelerSelectProps> = ({
                       width={128}
                     />
                   ) : (
-                    <Text asChild color="gray">
-                      <Flex
-                        align="center"
-                        height="128px"
-                        justify="center"
-                        width="128px"
-                      >
-                        <IconUser />
-                      </Flex>
-                    </Text>
+                    <Box height="128px" width="128px" />
                   )}
                 </Inset>
               </button>
