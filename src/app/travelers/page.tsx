@@ -4,7 +4,11 @@ import { Grid } from "@radix-ui/themes/components/grid";
 import { Theme } from "@radix-ui/themes/components/theme";
 import { type ResolvingMetadata } from "next";
 import { type FC } from "react";
-import { type WebSite, type WithContext } from "schema-dts";
+import {
+  type BreadcrumbList,
+  type WebSite,
+  type WithContext,
+} from "schema-dts";
 
 import * as TravelerCard from "@/components/travelers/traveler-card";
 import { allMemoryEntries, allTravelerEntries } from "@/lib/constants";
@@ -61,12 +65,25 @@ const Travelers: FC = () => (
     </Grid>
     <script
       dangerouslySetInnerHTML={{
-        __html: JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "WebSite",
-          name: siteName,
-          url: siteUrl,
-        } satisfies WithContext<WebSite>),
+        __html: JSON.stringify([
+          {
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            name: siteName,
+            url: siteUrl,
+          } satisfies WithContext<WebSite>,
+          {
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              {
+                "@type": "ListItem",
+                position: 1,
+                name: routes.travelers.name,
+              },
+            ],
+          } satisfies WithContext<BreadcrumbList>,
+        ]),
       }}
       type="application/ld+json"
     />
