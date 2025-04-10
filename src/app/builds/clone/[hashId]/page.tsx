@@ -5,7 +5,7 @@ import { type BreadcrumbList, type WithContext } from "schema-dts";
 
 import { BuildForm } from "@/components/builds/build-form";
 import { getBuildByHashId } from "@/lib/queries";
-import { routes } from "@/lib/site-config";
+import { routes, siteUrl } from "@/lib/site-config";
 
 interface CloneBuildProps {
   params: Promise<{ hashId: string }>;
@@ -30,7 +30,7 @@ const CloneBuild: FC<CloneBuildProps> = async ({ params }) => {
                 "@type": "ListItem",
                 position: 1,
                 name: routes.builds.name,
-                item: routes.builds.pathname,
+                item: `${siteUrl}${routes.builds.pathname}`,
               },
               {
                 "@type": "ListItem",

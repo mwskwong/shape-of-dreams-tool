@@ -25,7 +25,7 @@ import {
   allTravelerEntries,
 } from "@/lib/constants";
 import { getBuildByHashId } from "@/lib/queries";
-import { routes } from "@/lib/site-config";
+import { routes, siteUrl } from "@/lib/site-config";
 import {
   getMutuallyExclusiveMemories,
   getRarityColor,
@@ -365,7 +365,7 @@ const BuildDetails: FC<BuildDetailsProps> = async ({ params }) => {
                 "@type": "ListItem",
                 position: 1,
                 name: routes.builds.name,
-                item: routes.builds.pathname,
+                item: `${siteUrl}${routes.builds.pathname}`,
               },
               {
                 "@type": "ListItem",

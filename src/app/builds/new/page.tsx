@@ -3,7 +3,7 @@ import { type FC } from "react";
 import { type BreadcrumbList, type WithContext } from "schema-dts";
 
 import { BuildForm } from "@/components/builds/build-form";
-import { routes } from "@/lib/site-config";
+import { routes, siteUrl } from "@/lib/site-config";
 
 const NewBuild: FC = () => (
   <>
@@ -18,7 +18,7 @@ const NewBuild: FC = () => (
               "@type": "ListItem",
               position: 1,
               name: routes.builds.name,
-              item: routes.builds.pathname,
+              item: `${siteUrl}${routes.builds.pathname}`,
             },
             {
               "@type": "ListItem",
