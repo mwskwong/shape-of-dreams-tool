@@ -79,9 +79,9 @@ export const BuildForm: FC<BuildFormProps> = ({
   const buildNameId = useId();
   const buildDescriptionId = useId();
 
-  const buildUrlCopiedTimeoutRef = useRef<NodeJS.Timeout>(undefined);
-  const [buildUrlCopied, setBuildUrlCopied] = useState(false);
-  useEffect(() => () => clearTimeout(buildUrlCopiedTimeoutRef.current), []);
+  const urlCopiedTimeoutRef = useRef<NodeJS.Timeout>(undefined);
+  const [urlCopied, setUrlCopied] = useState(false);
+  useEffect(() => () => clearTimeout(urlCopiedTimeoutRef.current), []);
 
   const isDirty = useStore(form.store, (state) => state.isDirty);
   useEffect(() => {
@@ -460,16 +460,16 @@ export const BuildForm: FC<BuildFormProps> = ({
                     onClick={async () => {
                       if (buildUrl) {
                         await navigator.clipboard.writeText(buildUrl);
-                        setBuildUrlCopied(true);
-                        buildUrlCopiedTimeoutRef.current = setTimeout(
-                          () => setBuildUrlCopied(false),
+                        setUrlCopied(true);
+                        urlCopiedTimeoutRef.current = setTimeout(
+                          () => setUrlCopied(false),
                           2000,
                         );
                       }
                     }}
                   >
-                    <Button color={buildUrlCopied ? "green" : undefined}>
-                      {buildUrlCopied ? "Copied" : "Copy URL"}
+                    <Button color={urlCopied ? "green" : undefined}>
+                      {urlCopied ? "Copied" : "Copy URL"}
                     </Button>
                   </AlertDialog.Action>
                 </Flex>
