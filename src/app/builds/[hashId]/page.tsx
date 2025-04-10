@@ -346,6 +346,7 @@ const BuildDetails: FC<BuildDetailsProps> = async ({ params }) => {
             <ScrollArea
               className={styles.buildDescriptionScrollArea}
               scrollbars="vertical"
+              type="auto"
             >
               <Text className={styles.buildDescription}>
                 {build.description}
