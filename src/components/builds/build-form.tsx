@@ -11,7 +11,7 @@ import { Link } from "@radix-ui/themes/components/link";
 import { Text } from "@radix-ui/themes/components/text";
 import { TextArea } from "@radix-ui/themes/components/text-area";
 import * as TextField from "@radix-ui/themes/components/text-field";
-import { useForm, useTransform } from "@tanstack/react-form";
+import { useForm, useStore, useTransform } from "@tanstack/react-form";
 import { initialFormState, mergeForm } from "@tanstack/react-form/nextjs";
 import {
   type FC,
@@ -82,6 +82,22 @@ export const BuildForm: FC<BuildFormProps> = ({
   const buildUrlCopiedTimeoutRef = useRef<NodeJS.Timeout>(undefined);
   const [buildUrlCopied, setBuildUrlCopied] = useState(false);
   useEffect(() => () => clearTimeout(buildUrlCopiedTimeoutRef.current), []);
+
+  const isDirty = useStore(form.store, (state) => state.isDirty);
+  useEffect(() => {
+    if (isDirty) {
+      const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+        event.preventDefault();
+        // eslint-disable-next-line @typescript-eslint/no-deprecated -- backward compatibility
+        event.returnValue = true;
+      };
+
+      window.addEventListener("beforeunload", handleBeforeUnload);
+
+      return () =>
+        window.removeEventListener("beforeunload", handleBeforeUnload);
+    }
+  }, [isDirty]);
 
   return (
     <>
