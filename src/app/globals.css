@@ -257,3 +257,15 @@ input:where([type="button"], [type="reset"], [type="submit"]),
     }
   }
 }
+
+.rt-Text {
+  &:where(label) {
+    &:where(:active) {
+      @media (pointer: coarse) {
+        outline: 0.15em solid var(--gray-a4);
+        outline-offset: 0;
+        background-color: var(--gray-a4);
+      }
+    }
+  }
+}
