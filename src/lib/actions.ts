@@ -35,6 +35,7 @@ export const submitBuild = async (_: unknown, formData: FormData) => {
       .returning({ id: builds.id });
     const hashId = hashIds.encode(id);
 
+    revalidateTag("builds:list");
     revalidateTag(`builds:${hashId}`);
 
     return { hashId };

@@ -1,0 +1,8 @@
+.popoverContent {
+  padding-right: 0;
+}
+
+.scrollArea {
+  max-height: 300px;
+  padding-right: var(--popover-content-padding);
+}

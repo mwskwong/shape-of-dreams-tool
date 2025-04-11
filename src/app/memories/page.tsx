@@ -6,7 +6,10 @@ import { type FC } from "react";
 import * as ItemCard from "@/components/item-card";
 import { allMemoryEntries } from "@/lib/constants";
 import { routes } from "@/lib/site-config";
-import { getMutuallyExclusiveMemories, loadSearchParams } from "@/lib/utils";
+import {
+  getMutuallyExclusiveMemories,
+  loadItemSearchParams,
+} from "@/lib/utils";
 
 interface MemoriesProps {
   searchParams: Promise<SearchParams>;
@@ -14,7 +17,7 @@ interface MemoriesProps {
 
 const Memories: FC<MemoriesProps> = async ({ searchParams }) => {
   const { search, rarities, types, travelers, tags } =
-    await loadSearchParams(searchParams);
+    await loadItemSearchParams(searchParams);
 
   return (
     <Grid columns={{ initial: "1", sm: "2", md: "3" }} gap="3">

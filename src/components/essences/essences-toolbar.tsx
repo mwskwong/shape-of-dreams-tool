@@ -11,17 +11,17 @@ import { type FC } from "react";
 
 import { CheckboxGroupSelect } from "@/components/checkbox-group-select";
 import { allEssenceRarities } from "@/lib/constants";
-import { searchParams } from "@/lib/utils";
+import { itemSearchParams } from "@/lib/utils";
 
 import styles from "./essences-toolbar.module.css";
 
 export type EssencesToolbarProps = Omit<FlexProps, "children">;
 
 export const EssencesToolbar: FC<EssencesToolbarProps> = (props) => {
-  const [search, setSearch] = useQueryState("search", searchParams.search);
+  const [search, setSearch] = useQueryState("search", itemSearchParams.search);
   const [rarities, setRarities] = useQueryState(
     "rarities",
-    searchParams.rarities,
+    itemSearchParams.rarities,
   );
 
   return (

@@ -16,23 +16,23 @@ import {
   allMemoryTypes,
   allTravelerEntries,
 } from "@/lib/constants";
-import { searchParams } from "@/lib/utils";
+import { itemSearchParams } from "@/lib/utils";
 
 import styles from "./memories-toolbar.module.css";
 
 export type MemoriesToolbarProps = Omit<FlexProps, "children">;
 export const MemoriesToolbar: FC<MemoriesToolbarProps> = (props) => {
-  const [search, setSearch] = useQueryState("search", searchParams.search);
+  const [search, setSearch] = useQueryState("search", itemSearchParams.search);
   const [rarities, setRarities] = useQueryState(
     "rarities",
-    searchParams.rarities,
+    itemSearchParams.rarities,
   );
-  const [types, setTypes] = useQueryState("types", searchParams.types);
+  const [types, setTypes] = useQueryState("types", itemSearchParams.types);
   const [travelers, setTravelers] = useQueryState(
     "travelers",
-    searchParams.travelers,
+    itemSearchParams.travelers,
   );
-  const [tags, setTags] = useQueryState("tags", searchParams.tags);
+  const [tags, setTags] = useQueryState("tags", itemSearchParams.tags);
 
   return (
     <Flex align="center" gap="3" wrap="wrap" {...props}>

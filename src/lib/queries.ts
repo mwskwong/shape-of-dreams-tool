@@ -1,4 +1,4 @@
-import { eq } from "drizzle-orm";
+import { desc, eq } from "drizzle-orm";
 import {
   unstable_cacheLife as cacheLife,
   unstable_cacheTag as cacheTag,
@@ -10,6 +10,7 @@ import { hashIds } from "./utils";
 export const getBuildsMetadata = async () => {
   "use cache";
   cacheLife("days");
+  cacheTag("builds", "builds:list");
 
   const result = await db
     .select({ id: builds.id, createdAt: builds.createdAt })
@@ -34,4 +35,17 @@ export const getBuildByHashId = async (hashId: string) => {
     .where(eq(builds.id, id as number));
 
   return build[0];
+};
+
+export const getBuilds = async (orderBy: "newest" | "mostLiked") => {
+  "use cache";
+  cacheLife("days");
+  cacheTag("builds", "builds:list");
+
+  const orderByColumn = orderBy === "newest" ? builds.createdAt : builds.likes;
+  const result = await db.select().from(builds).orderBy(desc(orderByColumn));
+  return result.map(({ id, ...build }) => ({
+    hashId: hashIds.encode(id),
+    ...build,
+  }));
 };
