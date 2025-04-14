@@ -49,7 +49,7 @@ export const builds = pgTable(
       .notNull()
       .generatedAlwaysAs(
         (): SQL =>
-          sql`to_tsvector('english', ${builds.build}->>'buildName' || ' ' || ${builds.build}->>'description')`,
+          sql`to_tsvector('english', (${builds.build}->>'buildName')::text || ' ' || (${builds.build}->>'description')::text)`,
       ),
   },
   ({ build, searchVector, likes, createdAt }) => [
