@@ -1,4 +1,4 @@
-import { desc, eq } from "drizzle-orm";
+import { and, desc, eq, sql } from "drizzle-orm";
 import {
   unstable_cacheLife as cacheLife,
   unstable_cacheTag as cacheTag,
@@ -37,13 +37,33 @@ export const getBuildByHashId = async (hashId: string) => {
   return build[0];
 };
 
-export const getBuilds = async (orderBy: "newest" | "mostLiked") => {
+export const getBuilds = async ({
+  search,
+  memories,
+  essences,
+  orderBy,
+}: {
+  search: string;
+  memories: string[];
+  essences: string[];
+  orderBy: "newest" | "mostLiked";
+}) => {
   "use cache";
   cacheLife("days");
   cacheTag("builds", "builds:list");
 
   const orderByColumn = orderBy === "newest" ? builds.createdAt : builds.likes;
-  const result = await db.select().from(builds).orderBy(desc(orderByColumn));
+  const result = await db
+    .select()
+    .from(builds)
+    .where(
+      and(
+        sql`${builds.searchVector} @@ to_tsquery('english', ${search})`,
+        sql`jsonb_path_query_array(${builds.build}, '$.memories[*].id') @> ${JSON.stringify(memories)}::jsonb`,
+        sql`jsonb_path_exists(${builds.build}, '$.memories[*] ? (@.essences @> ${JSON.stringify(essences)}::jsonb)')`,
+      ),
+    )
+    .orderBy(desc(orderByColumn));
   return result.map(({ id, ...build }) => ({
     hashId: hashIds.encode(id),
     ...build,
