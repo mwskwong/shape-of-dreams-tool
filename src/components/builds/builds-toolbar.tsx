@@ -22,9 +22,9 @@ export type BuildsToolbarProps = Omit<FlexProps, "children">;
 
 const memoryOptions = Object.entries(
   groupBy(allMemoryEntries, "[1].rarity"),
-).map(([rarity, essenceEntries]) => ({
+).map(([rarity, memoryEntries]) => ({
   group: rarity,
-  items: essenceEntries.map(([value, { name }]) => ({ name, value })),
+  items: memoryEntries.map(([value, { name }]) => ({ name, value })),
 }));
 
 const essenceOptions = Object.entries(

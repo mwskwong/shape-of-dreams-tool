@@ -1,14 +1,16 @@
 import { Flex } from "@radix-ui/themes/components/flex";
 import { type ResolvingMetadata } from "next";
-import { type FC } from "react";
+import { type FC, Suspense } from "react";
 
 import { BuildsToolbar } from "@/components/builds/builds-toolbar";
 import { routes } from "@/lib/site-config";
 
-const Builds: FC = () => {
+const BuildsLayout: FC = () => {
   return (
     <Flex direction="column" gap="3" pt="3">
-      <BuildsToolbar />
+      <Suspense>
+        <BuildsToolbar />
+      </Suspense>
     </Flex>
   );
 };
@@ -28,4 +30,4 @@ export const generateMetadata = async (
   };
 };
 
-export default Builds;
+export default BuildsLayout;
