@@ -34,7 +34,7 @@ export const CheckboxGroupSelect: FC<CheckboxGroupSelectProps> = ({
   return (
     <Popover.Root>
       <Popover.Trigger>
-        <Button color="gray" variant="outline">
+        <Button className="rt-SelectTrigger" color="gray" variant="surface">
           {children}
           <IconChevronDown size={16} />
         </Button>
