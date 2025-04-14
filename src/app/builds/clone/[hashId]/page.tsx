@@ -13,13 +13,13 @@ interface CloneBuildProps {
 
 const CloneBuild: FC<CloneBuildProps> = async ({ params }) => {
   const { hashId } = await params;
-  const entry = await getBuildByHashId(hashId);
+  const build = await getBuildByHashId(hashId);
 
-  if (!entry) notFound();
+  if (!build) notFound();
 
   return (
     <>
-      <BuildForm defaultValues={entry.build} pt="3" />
+      <BuildForm defaultValues={build.details} pt="3" />
       <script
         dangerouslySetInnerHTML={{
           __html: JSON.stringify({
@@ -35,7 +35,7 @@ const CloneBuild: FC<CloneBuildProps> = async ({ params }) => {
               {
                 "@type": "ListItem",
                 position: 2,
-                name: `New Build from ${entry.build.buildName}`,
+                name: `New Build from ${build.details.name}`,
               },
             ],
           } satisfies WithContext<BreadcrumbList>),
@@ -51,14 +51,13 @@ export const generateMetadata = async (
   parent: ResolvingMetadata,
 ) => {
   const { hashId } = await params;
-  const entry = await getBuildByHashId(hashId);
+  const build = await getBuildByHashId(hashId);
   const { openGraph } = await parent;
 
-  if (!entry) return;
-  const { build } = entry;
+  if (!build) return;
 
   return {
-    title: `New Build from ${build.buildName}`,
+    title: `New Build from ${build.details.name}`,
     openGraph: {
       ...openGraph,
       url: `${routes.cloneBuild.pathname}/${hashId}`,

@@ -76,8 +76,8 @@ export const BuildForm: FC<BuildFormProps> = ({
     ),
   });
 
-  const buildNameId = useId();
-  const buildDescriptionId = useId();
+  const nameId = useId();
+  const descriptionId = useId();
 
   const urlCopiedTimeoutRef = useRef<NodeJS.Timeout>(undefined);
   const [urlCopied, setUrlCopied] = useState(false);
@@ -103,7 +103,7 @@ export const BuildForm: FC<BuildFormProps> = ({
     <>
       <Flex asChild direction="column" gap="3" {...props}>
         <form action={action} onSubmit={() => form.handleSubmit()}>
-          <form.Field name="buildName">
+          <form.Field name="name">
             {({ name, state, handleChange, handleBlur }) => {
               const error = state.meta.isTouched
                 ? state.meta.errors[0]?.message
@@ -111,13 +111,13 @@ export const BuildForm: FC<BuildFormProps> = ({
 
               return (
                 <Box maxWidth="400px" width="100%">
-                  <Text as="label" htmlFor={buildNameId} size="2" weight="bold">
+                  <Text as="label" htmlFor={nameId} size="2" weight="bold">
                     Build name
                   </Text>
                   <TextField.Root
                     autoCapitalize="on"
                     color={error ? "red" : undefined}
-                    id={buildNameId}
+                    id={nameId}
                     mt="1"
                     name={name}
                     placeholder="My Build"
@@ -338,12 +338,7 @@ export const BuildForm: FC<BuildFormProps> = ({
             </Flex>
 
             <Flex direction="column" flexGrow="1" minWidth="249px">
-              <Text
-                as="label"
-                htmlFor={buildDescriptionId}
-                size="2"
-                weight="bold"
-              >
+              <Text as="label" htmlFor={descriptionId} size="2" weight="bold">
                 Build description
               </Text>
               <form.Field name="description">
@@ -351,7 +346,7 @@ export const BuildForm: FC<BuildFormProps> = ({
                   <TextArea
                     autoCapitalize="on"
                     className={styles.buildDescriptionTextArea}
-                    id={buildDescriptionId}
+                    id={descriptionId}
                     mt="1"
                     name={name}
                     value={state.value}

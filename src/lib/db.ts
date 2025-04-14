@@ -24,9 +24,9 @@ export const builds = pgTable(
   "builds",
   {
     id: integer().primaryKey().generatedAlwaysAsIdentity(),
-    build: jsonb()
+    details: jsonb()
       .$type<{
-        buildName: string;
+        name: string;
         traveler: {
           id: string;
           startingMemories: {
@@ -49,13 +49,13 @@ export const builds = pgTable(
       .notNull()
       .generatedAlwaysAs(
         (): SQL =>
-          sql`to_tsvector('english', (${builds.build}->>'buildName')::text || ' ' || (${builds.build}->>'description')::text)`,
+          sql`to_tsvector('english', (${builds.details}->>'name')::text || ' ' || (${builds.details}->>'description')::text)`,
       ),
   },
-  ({ build, searchVector, likes, createdAt }) => [
+  ({ details, searchVector, likes, createdAt }) => [
     index().on(likes),
     index().on(createdAt),
     index().using("gin", searchVector),
-    index().using("gin", build.op("jsonb_path_ops")),
+    index().using("gin", details.op("jsonb_path_ops")),
   ],
 );

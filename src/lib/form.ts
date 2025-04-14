@@ -15,7 +15,7 @@ import { allMemoryEntries } from "@/lib/constants";
 
 export const schema = pipe(
   object({
-    buildName: pipe(string(), nonEmpty("Build name cannot be empty.")),
+    name: pipe(string(), nonEmpty("Build name cannot be empty.")),
     traveler: object({
       id: string(),
       startingMemories: object({
@@ -71,7 +71,7 @@ export const schema = pipe(
 
 export const formOptions = createFormOptions({
   defaultValues: {
-    buildName: "",
+    name: "",
     traveler: {
       id: "",
       startingMemories: { q: "", r: "", identity: "", movement: "" },

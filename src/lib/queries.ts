@@ -59,8 +59,8 @@ export const getBuilds = async ({
     .where(
       and(
         sql`${builds.searchVector} @@ to_tsquery('english', ${search})`,
-        sql`jsonb_path_query_array(${builds.build}, '$.memories[*].id') @> ${JSON.stringify(memories)}::jsonb`,
-        sql`jsonb_path_exists(${builds.build}, '$.memories[*] ? (@.essences @> ${JSON.stringify(essences)}::jsonb)')`,
+        sql`jsonb_path_query_array(${builds.details}, '$.memories[*].id') @> ${JSON.stringify(memories)}::jsonb`,
+        sql`jsonb_path_exists(${builds.details}, '$.memories[*] ? (@.essences @> ${JSON.stringify(essences)}::jsonb)')`,
       ),
     )
     .orderBy(desc(orderByColumn));
