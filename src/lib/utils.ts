@@ -59,6 +59,9 @@ export const buildSearchParams = {
   search: parseAsString
     .withDefault("")
     .withOptions({ throttleMs: 300, shallow: false }),
+  travelers: parseAsArrayOf(parseAsString)
+    .withDefault([])
+    .withOptions({ shallow: false }),
   memories: parseAsArrayOf(parseAsString)
     .withDefault([])
     .withOptions({ shallow: false }),

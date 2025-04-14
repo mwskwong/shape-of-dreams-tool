@@ -11,7 +11,11 @@ import { groupBy } from "lodash-es";
 import { useQueryState } from "nuqs";
 import { type FC } from "react";
 
-import { allEssenceEntries, allMemoryEntries } from "@/lib/constants";
+import {
+  allEssenceEntries,
+  allMemoryEntries,
+  allTravelerEntries,
+} from "@/lib/constants";
 import { buildSearchParams } from "@/lib/utils";
 
 import { CheckboxGroupSelect } from "../checkbox-group-select";
@@ -36,6 +40,10 @@ const essenceOptions = Object.entries(
 
 export const BuildsToolbar: FC<BuildsToolbarProps> = (props) => {
   const [search, setSearch] = useQueryState("search", buildSearchParams.search);
+  const [travelers, setTravelers] = useQueryState(
+    "travelers",
+    buildSearchParams.travelers,
+  );
   const [memories, setMemories] = useQueryState(
     "memories",
     buildSearchParams.memories,
@@ -62,6 +70,20 @@ export const BuildsToolbar: FC<BuildsToolbarProps> = (props) => {
           <IconSearch size={16} />
         </TextField.Slot>
       </TextField.Root>
+      <CheckboxGroupSelect
+        value={travelers}
+        options={allTravelerEntries.map(([value, { name }]) => ({
+          name,
+          value,
+        }))}
+        onReset={() => setTravelers([])}
+        onValueChange={setTravelers}
+      >
+        Traveler
+        {travelers.length > 0 && (
+          <Badge color="indigo">{travelers.length}</Badge>
+        )}
+      </CheckboxGroupSelect>
       <CheckboxGroupSelect
         options={memoryOptions}
         value={memories}
@@ -95,6 +117,7 @@ export const BuildsToolbar: FC<BuildsToolbarProps> = (props) => {
         variant="ghost"
         onClick={() => {
           void setSearch("");
+          void setTravelers([]);
           void setMemories([]);
           void setEssences([]);
           void setOrderBy("");
