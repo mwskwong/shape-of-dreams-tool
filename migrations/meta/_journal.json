@@ -57,6 +57,13 @@
       "when": 1744619064016,
       "tag": "0007_omniscient_prima",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1744623057231,
+      "tag": "0008_wise_prodigy",
+      "breakpoints": true
     }
   ]
 }
