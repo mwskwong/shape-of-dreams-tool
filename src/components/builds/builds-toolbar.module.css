@@ -5,3 +5,10 @@
     width: auto;
   }
 }
+
+.selectTrigger {
+  /* stylelint-disable-next-line selector-class-pattern */
+  & .rt-SelectIcon {
+    display: none; /* use custom icon */
+  }
+}

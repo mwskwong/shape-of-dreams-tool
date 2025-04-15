@@ -6,7 +6,7 @@ import { Flex, type FlexProps } from "@radix-ui/themes/components/flex";
 import * as Select from "@radix-ui/themes/components/select";
 import { Separator } from "@radix-ui/themes/components/separator";
 import * as TextField from "@radix-ui/themes/components/text-field";
-import { IconSearch } from "@tabler/icons-react";
+import { IconChevronDown, IconSearch } from "@tabler/icons-react";
 import { groupBy } from "lodash-es";
 import { useQueryState } from "nuqs";
 import { type FC } from "react";
@@ -108,8 +108,10 @@ export const BuildsToolbar: FC<BuildsToolbarProps> = (props) => {
         value={sort}
         onValueChange={(value) => setSort(value as "newest" | "mostLiked")}
       >
-        <Select.Trigger>
+        <Select.Trigger className={styles.selectTrigger}>
+          {/* WORKAROUND: prevent default value missing during SSR */}
           {sortOptions.find(({ value }) => value === sort)?.name}
+          <IconChevronDown size={16} />
         </Select.Trigger>
         <Select.Content>
           <Select.Group>
