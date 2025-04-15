@@ -1,4 +1,4 @@
-import { and, arrayContains, desc, eq, inArray, sql } from "drizzle-orm";
+import { and, desc, eq, inArray, sql } from "drizzle-orm";
 import {
   unstable_cacheLife as cacheLife,
   unstable_cacheTag as cacheTag,
@@ -69,19 +69,13 @@ export const getBuilds = async ({
 
   if (memories.length > 0) {
     conditions.push(
-      arrayContains(
-        sql`jsonb_path_query_array(${builds.details}, '$.memories[*].id')`,
-        memories,
-      ),
+      sql`jsonb_path_query_array(${builds.details}, '$.memories[*].id') @> ${JSON.stringify(memories)}`,
     );
   }
 
   if (essences.length > 0) {
     conditions.push(
-      arrayContains(
-        sql`jsonb_path_query_array(${builds.details}, '$.memories[*].essences[*]')`,
-        essences,
-      ),
+      sql`jsonb_path_query_array(${builds.details}, '$.memories[*].essences[*]') @> ${JSON.stringify(essences)}`,
     );
   }
 
