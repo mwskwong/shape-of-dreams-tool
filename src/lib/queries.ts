@@ -1,4 +1,4 @@
-import { and, desc, eq, exists, sql } from "drizzle-orm";
+import { and, arrayContains, desc, eq, inArray, sql } from "drizzle-orm";
 import {
   unstable_cacheLife as cacheLife,
   unstable_cacheTag as cacheTag,
@@ -39,39 +39,57 @@ export const getBuildByHashId = async (hashId: string) => {
 
 export const getBuilds = async ({
   search,
+  travelers,
   memories,
   essences,
-  orderBy,
+  sort,
 }: {
   search: string;
+  travelers: string[];
   memories: string[];
   essences: string[];
-  orderBy: "newest" | "mostLiked";
+  sort: "newest" | "mostLiked";
 }) => {
   "use cache";
   cacheLife("days");
   cacheTag("builds", "builds:list");
 
+  const conditions = [];
+  if (search) {
+    conditions.push(
+      sql`to_tsvector('english', (${builds.details}->>'name') || ' ' || (${builds.details}->>'description')) @@ websearch_to_tsquery('english', ${search})`,
+    );
+  }
+
+  if (travelers.length > 0) {
+    conditions.push(
+      inArray(sql`${builds.details}->'traveler'->>'id'`, travelers),
+    );
+  }
+
+  if (memories.length > 0) {
+    conditions.push(
+      arrayContains(
+        sql`jsonb_path_query_array(${builds.details}, '$.memories[*].id')`,
+        memories,
+      ),
+    );
+  }
+
+  if (essences.length > 0) {
+    conditions.push(
+      arrayContains(
+        sql`jsonb_path_query_array(${builds.details}, '$.memories[*].essences[*]')`,
+        essences,
+      ),
+    );
+  }
+
   const result = await db
     .select()
     .from(builds)
-    .where(
-      and(
-        sql`${builds.searchVector} @@ to_tsquery('english', ${search})`,
-        sql`jsonb_path_query_array(${builds.details}, '$.memories[*].id') @> ${JSON.stringify(memories)}::jsonb`,
-        exists(
-          db
-            .select({ id: sql`1` })
-            .from(
-              sql`jsonb_array_elements(${builds.details}->'memories') AS memory`,
-            )
-            .where(sql`memory->'essences' @> ${JSON.stringify(essences)}`),
-        ),
-      ),
-    )
-    .orderBy(
-      orderBy === "newest" ? desc(builds.createdAt) : desc(builds.likes),
-    );
+    .where(and(...conditions))
+    .orderBy(sort === "newest" ? desc(builds.createdAt) : desc(builds.likes));
   return result.map(({ id, ...build }) => ({
     hashId: hashIds.encode(id),
     ...build,

@@ -1,23 +1,10 @@
-import { type SQL, sql } from "drizzle-orm";
+import { sql } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/neon-http";
-import {
-  customType,
-  index,
-  integer,
-  jsonb,
-  pgTable,
-  timestamp,
-} from "drizzle-orm/pg-core";
+import { index, integer, jsonb, pgTable, timestamp } from "drizzle-orm/pg-core";
 
 export const db = drizzle({
   connection: process.env.DATABASE_URL ?? "",
   casing: "snake_case",
-});
-
-const tsvector = customType<{
-  data: string;
-}>({
-  dataType: () => "tsvector",
 });
 
 export const builds = pgTable(
@@ -45,17 +32,14 @@ export const builds = pgTable(
       .notNull(),
     likes: integer().notNull().default(0),
     createdAt: timestamp().notNull().defaultNow(),
-    searchVector: tsvector()
-      .notNull()
-      .generatedAlwaysAs(
-        (): SQL =>
-          sql`to_tsvector('english', (${builds.details}->>'name')::text || ' ' || (${builds.details}->>'description')::text)`,
-      ),
   },
-  ({ details, searchVector, likes, createdAt }) => [
+  ({ details, likes, createdAt }) => [
     index().on(likes),
     index().on(createdAt),
-    index().using("gin", searchVector),
+    index("builds_name_and_description_search_index").using(
+      "gin",
+      sql`to_tsvector('english', (${details}->>'name') || ' ' || (${details}->>'description'))`,
+    ),
     index().using("gin", details.op("jsonb_path_ops")),
   ],
 );
