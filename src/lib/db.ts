@@ -5,6 +5,7 @@ import { index, integer, jsonb, pgTable, timestamp } from "drizzle-orm/pg-core";
 export const db = drizzle({
   connection: process.env.DATABASE_URL ?? "",
   casing: "snake_case",
+  logger: true,
 });
 
 export const builds = pgTable(
