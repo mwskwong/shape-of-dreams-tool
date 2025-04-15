@@ -38,6 +38,11 @@ const essenceOptions = Object.entries(
   items: essenceEntries.map(([value, { name }]) => ({ name, value })),
 }));
 
+const sortOptions = [
+  { name: "Newest", value: "newest" },
+  { name: "Most Liked", value: "mostLiked" },
+];
+
 export const BuildsToolbar: FC<BuildsToolbarProps> = (props) => {
   const [search, setSearch] = useQueryState("search", buildSearchParams.search);
   const [travelers, setTravelers] = useQueryState(
@@ -103,11 +108,16 @@ export const BuildsToolbar: FC<BuildsToolbarProps> = (props) => {
         value={sort}
         onValueChange={(value) => setSort(value as "newest" | "mostLiked")}
       >
-        <Select.Trigger>{sort}</Select.Trigger>
+        <Select.Trigger>
+          {sortOptions.find(({ value }) => value === sort)?.name}
+        </Select.Trigger>
         <Select.Content>
           <Select.Group>
-            <Select.Item value="newest">Newest</Select.Item>
-            <Select.Item value="mostLiked">Most liked</Select.Item>
+            {sortOptions.map(({ name, value }) => (
+              <Select.Item key={value} value={value}>
+                {name}
+              </Select.Item>
+            ))}
           </Select.Group>
         </Select.Content>
       </Select.Root>
