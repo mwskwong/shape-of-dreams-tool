@@ -100,6 +100,7 @@ export const BuildsToolbar: FC<BuildsToolbarProps> = (props) => {
         {essences.length > 0 && <Badge color="indigo">{essences.length}</Badge>}
       </CheckboxGroupSelect>
       <Select.Root
+        defaultValue="newest"
         value={sort}
         onValueChange={(value) => setSort(value as "newest" | "mostLiked")}
       >
