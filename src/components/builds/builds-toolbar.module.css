@@ -8,6 +8,14 @@
 
 .selectTrigger {
   /* stylelint-disable-next-line selector-class-pattern */
+  & .rt-SelectTriggerInner {
+    display: inline-flex;
+    gap: calc(var(--space-1) * 1.5);
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  /* stylelint-disable-next-line selector-class-pattern */
   & .rt-SelectIcon {
     display: none; /* use custom icon */
   }
