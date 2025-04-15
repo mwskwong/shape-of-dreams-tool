@@ -1,5 +1,6 @@
 import { Button } from "@radix-ui/themes/components/button";
 import * as CheckboxGroup from "@radix-ui/themes/components/checkbox-group";
+import { Inset } from "@radix-ui/themes/components/inset";
 import * as Popover from "@radix-ui/themes/components/popover";
 import { ScrollArea } from "@radix-ui/themes/components/scroll-area";
 import { Text } from "@radix-ui/themes/components/text";
@@ -39,29 +40,31 @@ export const CheckboxGroupSelect: FC<CheckboxGroupSelectProps> = ({
           <IconChevronDown size={16} />
         </Button>
       </Popover.Trigger>
-      <Popover.Content className={styles.popoverContent} minWidth="150px">
-        <ScrollArea className={styles.scrollArea} type="scroll">
-          <CheckboxGroup.Root {...props}>
-            {options.map((option) =>
-              "group" in option ? (
-                <Fragment key={option.group}>
-                  <Text color="gray" size="2">
-                    {option.group}
-                  </Text>
-                  {option.items.map(({ name, value }) => (
-                    <CheckboxGroup.Item key={value} value={value}>
-                      {name ?? value}
-                    </CheckboxGroup.Item>
-                  ))}
-                </Fragment>
-              ) : (
-                <CheckboxGroup.Item key={option.value} value={option.value}>
-                  {option.name ?? option.value}
-                </CheckboxGroup.Item>
-              ),
-            )}
-          </CheckboxGroup.Root>
-        </ScrollArea>
+      <Popover.Content minWidth="150px">
+        <Inset side="x">
+          <ScrollArea className={styles.scrollArea} type="scroll">
+            <CheckboxGroup.Root {...props}>
+              {options.map((option) =>
+                "group" in option ? (
+                  <Fragment key={option.group}>
+                    <Text color="gray" size="2">
+                      {option.group}
+                    </Text>
+                    {option.items.map(({ name, value }) => (
+                      <CheckboxGroup.Item key={value} value={value}>
+                        {name ?? value}
+                      </CheckboxGroup.Item>
+                    ))}
+                  </Fragment>
+                ) : (
+                  <CheckboxGroup.Item key={option.value} value={option.value}>
+                    {option.name ?? option.value}
+                  </CheckboxGroup.Item>
+                ),
+              )}
+            </CheckboxGroup.Root>
+          </ScrollArea>
+        </Inset>
         <Popover.Close>
           <Button color="gray" mt="4" variant="ghost" onClick={onReset}>
             Reset
