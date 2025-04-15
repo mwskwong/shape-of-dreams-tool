@@ -1,2 +1,2 @@
-DROP INDEX "builds_name_and_description_search_index";--> statement-breakpoint
+-- DROP INDEX "builds_name_and_description_search_index";--> statement-breakpoint
 CREATE INDEX "builds_name_and_description_search_index" ON "builds" USING gin (to_tsvector('english', ("details"->>'name')::text || ' ' || ("details"->>'description')::text));
