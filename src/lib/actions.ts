@@ -17,17 +17,15 @@ const serverValidate = createServerValidate({
 
 export const submitBuild = async (_: unknown, formData: FormData) => {
   try {
+    for (const key in formData.keys()) {
+      if (key.startsWith("$ACTION")) {
+        formData.delete(key);
+      }
+    }
+
     const details = await serverValidate(formData, {
       arrays: ["memories.$.essences"],
     });
-
-    for (const key in details) {
-      if (key.startsWith("$ACTION")) {
-        // @ts-expect-error -- delete action keys
-        // eslint-disable-next-line @typescript-eslint/no-dynamic-delete, @typescript-eslint/no-unsafe-member-access
-        delete build[key];
-      }
-    }
 
     const [{ id }] = await db
       .insert(builds)
