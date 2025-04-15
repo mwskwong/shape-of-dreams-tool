@@ -52,10 +52,7 @@ export const BuildsToolbar: FC<BuildsToolbarProps> = (props) => {
     "essences",
     buildSearchParams.essences,
   );
-  const [orderBy, setOrderBy] = useQueryState(
-    "orderBy",
-    buildSearchParams.orderBy,
-  );
+  const [sort, setSort] = useQueryState("sort", buildSearchParams.sort);
 
   return (
     <Flex align="center" gap="3" wrap="wrap" {...props}>
@@ -102,7 +99,10 @@ export const BuildsToolbar: FC<BuildsToolbarProps> = (props) => {
         Essence
         {essences.length > 0 && <Badge color="indigo">{essences.length}</Badge>}
       </CheckboxGroupSelect>
-      <Select.Root value={orderBy || "newest"} onValueChange={setOrderBy}>
+      <Select.Root
+        value={sort}
+        onValueChange={(value) => setSort(value as "newest" | "mostLiked")}
+      >
         <Select.Trigger />
         <Select.Content>
           <Select.Group>
@@ -120,7 +120,7 @@ export const BuildsToolbar: FC<BuildsToolbarProps> = (props) => {
           void setTravelers([]);
           void setMemories([]);
           void setEssences([]);
-          void setOrderBy("");
+          void setSort("newest");
         }}
       >
         Reset

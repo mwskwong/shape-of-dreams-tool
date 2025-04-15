@@ -1,6 +1,11 @@
 import { type ThemeProps } from "@radix-ui/themes/components/theme";
 import Hashids from "hashids";
-import { createLoader, parseAsArrayOf, parseAsString } from "nuqs/server";
+import {
+  createLoader,
+  parseAsArrayOf,
+  parseAsString,
+  parseAsStringLiteral,
+} from "nuqs/server";
 
 import memories from "@public/data/memories.json";
 
@@ -68,10 +73,12 @@ export const buildSearchParams = {
   essences: parseAsArrayOf(parseAsString)
     .withDefault([])
     .withOptions({ shallow: false }),
-  orderBy: parseAsString.withDefault("").withOptions({ shallow: false }),
+  sort: parseAsStringLiteral(["newest", "mostLiked"])
+    .withDefault("newest")
+    .withOptions({ shallow: false }),
 };
 
-export const loadBuildSearchParams = createLoader(itemSearchParams);
+export const loadBuildSearchParams = createLoader(buildSearchParams);
 
 export const getTravelerClassIcon = (travelerClass: string) => {
   if (travelerClass.toLowerCase().includes("attacker")) {
