@@ -3,40 +3,36 @@
 import "@radix-ui/themes/tokens/colors/red.css";
 import "@radix-ui/themes/tokens/colors/green.css";
 
-import * as AlertDialog from "@radix-ui/themes/components/alert-dialog";
+import { ErrorMessage } from "@hookform/error-message";
+import { valibotResolver } from "@hookform/resolvers/valibot";
 import { Box } from "@radix-ui/themes/components/box";
 import { Button } from "@radix-ui/themes/components/button";
 import { Flex, type FlexProps } from "@radix-ui/themes/components/flex";
-import { Link } from "@radix-ui/themes/components/link";
 import { Text } from "@radix-ui/themes/components/text";
 import { TextArea } from "@radix-ui/themes/components/text-area";
 import * as TextField from "@radix-ui/themes/components/text-field";
-import { useForm, useStore, useTransform } from "@tanstack/react-form";
-import { initialFormState, mergeForm } from "@tanstack/react-form/nextjs";
-import {
-  type FC,
-  useActionState,
-  useEffect,
-  useId,
-  useRef,
-  useState,
-} from "react";
-import { type InferOutput } from "valibot";
+import { type FC, useEffect, useId } from "react";
+import { Controller, useForm, useFormState, useWatch } from "react-hook-form";
+import { type InferOutput, parse } from "valibot";
 
-import { EssenceSelect } from "@/components/builds/essence-select";
-import { MemorySelect } from "@/components/builds/memory-select";
-import { TravelerSelect } from "@/components/builds/traveler-select";
-import { submitBuild } from "@/lib/actions";
+import {
+  maxNumberOfEssencesPerMemory,
+  maxNumberOfMemories,
+  schema,
+} from "@/lib/build-form";
 import { allMemoryEntries, allTravelerEntries } from "@/lib/constants";
-import { formOptions, type schema } from "@/lib/form";
-import { routes, siteUrl } from "@/lib/site-config";
 
 import styles from "./build-form.module.css";
+import { EssenceSelect } from "./essence-select";
+import { MemorySelect } from "./memory-select";
 import { StatsDataList } from "./stats-data-list";
+import { TravelerSelect } from "./traveler-select";
 
 const allMemories = allMemoryEntries
   .filter(([id]) => id !== "St_C_Sneeze")
   .map(([id, memory]) => ({ id, ...memory }));
+
+const startingMemoryLocations = ["q", "r", "identity", "movement"] as const;
 
 const getStartingMemory = (
   traveler: string,
@@ -58,82 +54,69 @@ export interface BuildFormProps
   defaultValues?: InferOutput<typeof schema>;
 }
 
-export const BuildForm: FC<BuildFormProps> = ({
-  defaultValues = formOptions.defaultValues,
-  ...props
-}) => {
-  const [{ hashId, formState }, action, isSubmitting] = useActionState(
-    submitBuild,
-    { formState: initialFormState },
-  );
-  const form = useForm({
-    ...formOptions,
-    defaultValues,
-    transform: useTransform(
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      (baseForm) => mergeForm(baseForm, formState!),
-      [formState],
-    ),
+export const BuildForm: FC<BuildFormProps> = ({ defaultValues, ...props }) => {
+  const {
+    control,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+    trigger,
+  } = useForm({
+    defaultValues:
+      defaultValues ??
+      ({
+        name: "",
+        traveler: {
+          id: "",
+          startingMemories: { q: "", r: "", identity: "", movement: "" },
+        },
+        memories: Array.from({ length: 4 }, () => ({
+          id: "",
+          essences: Array.from({ length: 3 }, () => ""),
+        })),
+        description: "",
+      } satisfies InferOutput<typeof schema>),
+    mode: "onTouched",
+    resolver: valibotResolver(schema),
   });
+  const selectedTraveler = useWatch({ control, name: "traveler" });
 
   const nameId = useId();
   const descriptionId = useId();
 
-  const urlCopiedTimeoutRef = useRef<NodeJS.Timeout>(undefined);
-  const [urlCopied, setUrlCopied] = useState(false);
-  useEffect(() => () => clearTimeout(urlCopiedTimeoutRef.current), []);
-
-  const isDirty = useStore(form.store, (state) => state.isDirty);
-  useEffect(() => {
-    if (isDirty) {
-      const handleBeforeUnload = (event: BeforeUnloadEvent) => {
-        event.preventDefault();
-        // eslint-disable-next-line @typescript-eslint/no-deprecated -- backward compatibility
-        event.returnValue = true;
-      };
-
-      window.addEventListener("beforeunload", handleBeforeUnload);
-
-      return () =>
-        window.removeEventListener("beforeunload", handleBeforeUnload);
-    }
-  }, [isDirty]);
-
   return (
     <>
       <Flex asChild direction="column" gap="3" {...props}>
-        <form action={action} onSubmit={() => form.handleSubmit()}>
-          <form.Field name="name">
-            {({ name, state, handleChange, handleBlur }) => {
-              const error = state.meta.isTouched
-                ? state.meta.errors[0]?.message
-                : undefined;
-
-              return (
-                <Box maxWidth="400px" width="100%">
-                  <Text as="label" htmlFor={nameId} size="2" weight="bold">
-                    Build name
+        <form
+          onSubmit={handleSubmit((data) => {
+            console.log(data);
+            parse(schema, data);
+          })}
+        >
+          <Controller
+            control={control}
+            name="name"
+            render={({ field, fieldState }) => (
+              <Box maxWidth="400px" width="100%">
+                <Text as="label" htmlFor={nameId} size="2" weight="bold">
+                  Build name
+                </Text>
+                <TextField.Root
+                  {...field}
+                  autoCapitalize="on"
+                  color={fieldState.error ? "red" : undefined}
+                  id={nameId}
+                  mt="1"
+                  placeholder="My Build"
+                />
+                {fieldState.error && (
+                  <Text color="red" mt="1" size="2">
+                    {fieldState.error.message}
                   </Text>
-                  <TextField.Root
-                    autoCapitalize="on"
-                    color={error ? "red" : undefined}
-                    id={nameId}
-                    mt="1"
-                    name={name}
-                    placeholder="My Build"
-                    value={state.value}
-                    onBlur={handleBlur}
-                    onChange={(e) => handleChange(e.target.value)}
-                  />
-                  {error && (
-                    <Text color="red" mt="1" size="2">
-                      {error}
-                    </Text>
-                  )}
-                </Box>
-              );
-            }}
-          </form.Field>
+                )}
+              </Box>
+            )}
+          />
 
           <Flex
             direction={{ initial: "column", sm: "row" }}
@@ -147,96 +130,67 @@ export const BuildForm: FC<BuildFormProps> = ({
               </Text>
 
               <Flex align="center" direction="column" gap="3" width="100%">
-                <form.Field name="traveler">
-                  {({ handleChange }) => (
-                    <form.Field name="traveler.id">
-                      {({ name, state, handleBlur }) => (
-                        <>
-                          <TravelerSelect
-                            name={name}
-                            value={state.value}
-                            onBlur={handleBlur}
-                            onChange={(id) =>
-                              handleChange({
-                                id,
-                                startingMemories: {
-                                  q: getStartingMemory(id, "Q"),
-                                  r: getStartingMemory(id, "R"),
-                                  identity: getStartingMemory(id, "Identity"),
-                                  movement: getStartingMemory(id, "Movement"),
-                                },
-                              })
-                            }
-                          />
-
-                          <form.Field name="traveler.startingMemories">
-                            {({ state }) => (
-                              <Flex gap="3">
-                                {Object.entries(state.value).map(([key]) => (
-                                  <form.Field
-                                    key={key}
-                                    name={`traveler.startingMemories.${key as keyof typeof state.value}`}
-                                  >
-                                    {({
-                                      name,
-                                      state,
-                                      handleChange,
-                                      handleBlur,
-                                      form,
-                                    }) => {
-                                      const options = allMemoryEntries
-                                        .filter(
-                                          ([
-                                            ,
-                                            {
-                                              traveler,
-                                              travelerMemoryLocation,
-                                            },
-                                          ]) =>
-                                            traveler ===
-                                              form.state.values.traveler.id &&
-                                            travelerMemoryLocation ===
-                                              key[0].toUpperCase() +
-                                                key.slice(1),
-                                        )
-                                        .map(([key, memory]) => ({
-                                          id: key,
-                                          ...memory,
-                                        }));
-
-                                      return (
-                                        <MemorySelect
-                                          name={name}
-                                          options={options}
-                                          size="1"
-                                          value={state.value}
-                                          disabled={
-                                            !form.state.values.traveler.id ||
-                                            options.length <= 1
-                                          }
-                                          onBlur={handleBlur}
-                                          onChange={handleChange}
-                                        />
-                                      );
-                                    }}
-                                  </form.Field>
-                                ))}
-                              </Flex>
-                            )}
-                          </form.Field>
-
-                          <StatsDataList
-                            traveler={
-                              allTravelerEntries.find(
-                                ([key]) => key === state.value,
-                              )?.[1]
-                            }
-                          />
-                        </>
-                      )}
-                    </form.Field>
+                <Controller
+                  control={control}
+                  name="traveler.id"
+                  render={({ field: { onChange, ...field } }) => (
+                    <TravelerSelect
+                      {...field}
+                      onChange={(id) => {
+                        onChange(id);
+                        setValue("traveler.startingMemories", {
+                          q: getStartingMemory(id, "Q"),
+                          r: getStartingMemory(id, "R"),
+                          identity: getStartingMemory(id, "Identity"),
+                          movement: getStartingMemory(id, "Movement"),
+                        });
+                      }}
+                    />
                   )}
-                </form.Field>
+                />
+
+                <Flex gap="3">
+                  {startingMemoryLocations.map((location) => (
+                    <Controller
+                      key={location}
+                      control={control}
+                      name={`traveler.startingMemories.${location}`}
+                      render={({ field: { disabled, ...field } }) => {
+                        const options = selectedTraveler.id
+                          ? allMemoryEntries
+                              .filter(
+                                ([, { traveler, travelerMemoryLocation }]) =>
+                                  traveler === selectedTraveler.id &&
+                                  travelerMemoryLocation ===
+                                    location[0].toUpperCase() +
+                                      location.slice(1),
+                              )
+                              .map(([key, memory]) => ({
+                                id: key,
+                                ...memory,
+                              }))
+                          : [];
+
+                        return (
+                          <MemorySelect
+                            {...field}
+                            disabled={disabled ?? options.length <= 1}
+                            options={options}
+                            size="1"
+                          />
+                        );
+                      }}
+                    />
+                  ))}
+                </Flex>
+
+                <StatsDataList
+                  traveler={
+                    allTravelerEntries.find(
+                      ([id]) => id === selectedTraveler.id,
+                    )?.[1]
+                  }
+                />
               </Flex>
             </Flex>
 
@@ -245,234 +199,100 @@ export const BuildForm: FC<BuildFormProps> = ({
                 Memories and Essences
               </Text>
 
-              <form.Field mode="array" name="memories">
-                {({ state }) => {
-                  return (
-                    <>
-                      <Flex
-                        align={{ initial: "center", sm: "start" }}
-                        direction="column"
-                        gap="3"
-                      >
-                        {state.value.map((_, memoryIndex) => (
-                          <div key={memoryIndex}>
-                            <Flex gap="3">
-                              <form.Field name={`memories[${memoryIndex}].id`}>
-                                {({
-                                  name,
-                                  state,
-                                  handleChange,
-                                  handleBlur,
-                                  form,
-                                }) => (
-                                  <MemorySelect
-                                    name={name}
-                                    value={state.value}
-                                    options={allMemories.filter(
-                                      ({ id, traveler }) =>
-                                        !traveler ||
-                                        id ===
-                                          form.state.values.traveler
-                                            .startingMemories.q ||
-                                        id ===
-                                          form.state.values.traveler
-                                            .startingMemories.r,
-                                    )}
-                                    onBlur={handleBlur}
-                                    onChange={handleChange}
-                                  />
-                                )}
-                              </form.Field>
+              <Flex
+                align={{ initial: "center", sm: "start" }}
+                direction="column"
+                gap="3"
+              >
+                {Array.from(
+                  { length: maxNumberOfMemories },
+                  (_, memoryIndex) => (
+                    <div key={memoryIndex}>
+                      <Flex gap="3">
+                        <Controller
+                          control={control}
+                          name={`memories.${memoryIndex}.id`}
+                          render={({ field: { onChange, ...field } }) => (
+                            <MemorySelect
+                              {...field}
+                              options={allMemories.filter(
+                                ({ id, traveler }) =>
+                                  !traveler ||
+                                  id === selectedTraveler.startingMemories.q ||
+                                  id === selectedTraveler.startingMemories.r,
+                              )}
+                              onChange={(id) => {
+                                onChange(id);
+                                void trigger(`memories.${memoryIndex}`);
+                              }}
+                            />
+                          )}
+                        />
 
-                              <form.Field
-                                mode="array"
-                                name={`memories[${memoryIndex}].essences`}
-                              >
-                                {({ state }) =>
-                                  state.value.map((_, essenceIndex) => (
-                                    <form.Field
-                                      key={essenceIndex}
-                                      name={`memories[${memoryIndex}].essences[${essenceIndex}]`}
-                                    >
-                                      {({
-                                        name,
-                                        state,
-                                        handleChange,
-                                        handleBlur,
-                                      }) => (
-                                        <EssenceSelect
-                                          name={name}
-                                          value={state.value}
-                                          onBlur={handleBlur}
-                                          onChange={handleChange}
-                                        />
-                                      )}
-                                    </form.Field>
-                                  ))
-                                }
-                              </form.Field>
-                            </Flex>
-
-                            <form.Subscribe
-                              selector={(state) =>
-                                state.errors[0]?.[
-                                  `memories[${memoryIndex}]`
-                                ]?.[0].message
-                              }
-                            >
-                              {(memoryError) =>
-                                memoryError && (
-                                  <Text as="div" color="red" mt="1" size="2">
-                                    {memoryError}
-                                  </Text>
-                                )
-                              }
-                            </form.Subscribe>
-                          </div>
-                        ))}
+                        {Array.from(
+                          { length: maxNumberOfEssencesPerMemory },
+                          (_, essenceIndex) => (
+                            <Controller
+                              key={essenceIndex}
+                              control={control}
+                              name={`memories.${memoryIndex}.essences.${essenceIndex}`}
+                              render={({ field: { onChange, ...field } }) => (
+                                <EssenceSelect
+                                  {...field}
+                                  onChange={(id) => {
+                                    onChange(id);
+                                    void trigger(`memories`);
+                                  }}
+                                />
+                              )}
+                            />
+                          ),
+                        )}
                       </Flex>
-                    </>
-                  );
-                }}
-              </form.Field>
+
+                      <ErrorMessage
+                        errors={errors}
+                        name={`memories.${memoryIndex}`}
+                        render={({ message }) => (
+                          <Text as="p" color="red" mt="1" size="2">
+                            {message}
+                          </Text>
+                        )}
+                      />
+                    </div>
+                  ),
+                )}
+              </Flex>
             </Flex>
 
-            <Flex direction="column" flexGrow="1" minWidth="249px">
-              <Text as="label" htmlFor={descriptionId} size="2" weight="bold">
-                Build description
-              </Text>
-              <form.Field name="description">
-                {({ name, state, handleChange, handleBlur }) => (
+            <Controller
+              control={control}
+              name="description"
+              render={({ field }) => (
+                <Flex direction="column" flexGrow="1" minWidth="249px">
+                  <Text
+                    as="label"
+                    htmlFor={descriptionId}
+                    size="2"
+                    weight="bold"
+                  >
+                    Build description
+                  </Text>
                   <TextArea
+                    {...field}
                     autoCapitalize="on"
                     className={styles.buildDescriptionTextArea}
                     id={descriptionId}
                     mt="1"
-                    name={name}
-                    value={state.value}
-                    onBlur={handleBlur}
-                    onChange={(e) => handleChange(e.target.value)}
                   />
-                )}
-              </form.Field>
-            </Flex>
-          </Flex>
-
-          <form.Subscribe
-            selector={(state) => state.errors[0]?.[""]?.[0].message}
-          >
-            {(globalError) =>
-              globalError && (
-                <Text color="red" mt="" size="2">
-                  {globalError}
-                </Text>
-              )
-            }
-          </form.Subscribe>
-
-          <Flex
-            direction={{ initial: "column", sm: "row" }}
-            gap="3"
-            justify="end"
-            pt="4"
-          >
-            <AlertDialog.Root>
-              <AlertDialog.Trigger>
-                <Button color="gray" type="reset" variant="soft">
-                  Reset
-                </Button>
-              </AlertDialog.Trigger>
-              <AlertDialog.Content maxWidth="450px">
-                <AlertDialog.Title>Confirm reset</AlertDialog.Title>
-                <AlertDialog.Description size="2">
-                  Are you sure you want to reset? All current build settings
-                  will be cleared.
-                </AlertDialog.Description>
-
-                <Flex gap="3" justify="end" mt="4">
-                  <AlertDialog.Cancel>
-                    <Button color="gray" variant="soft">
-                      Cancel
-                    </Button>
-                  </AlertDialog.Cancel>
-                  <AlertDialog.Action onClick={() => form.reset()}>
-                    <Button color="red">Reset</Button>
-                  </AlertDialog.Action>
                 </Flex>
-              </AlertDialog.Content>
-            </AlertDialog.Root>
-            <form.Subscribe
-              selector={({ isTouched, canSubmit }) => ({
-                isTouched,
-                canSubmit,
-              })}
-            >
-              {({ isTouched, canSubmit }) => (
-                <Button
-                  disabled={!isTouched || !canSubmit}
-                  loading={isSubmitting}
-                  type="submit"
-                >
-                  Submit
-                </Button>
               )}
-            </form.Subscribe>
+            />
           </Flex>
+
+          <Button type="submit">Submit</Button>
         </form>
       </Flex>
-
-      <form.Subscribe selector={({ isSubmitted }) => isSubmitted}>
-        {(isSubmitted) => {
-          const buildUrl =
-            hashId && `${siteUrl}${routes.builds.pathname}/${hashId}`;
-
-          return (
-            <AlertDialog.Root open={isSubmitted && !isSubmitting}>
-              <AlertDialog.Content maxWidth="450px">
-                <AlertDialog.Title>
-                  Build submission successful
-                </AlertDialog.Title>
-                <AlertDialog.Description mb="3" size="2">
-                  Your build has been saved. Below is the unique URL to access
-                  it. Copy the link to share or save it for later use.
-                </AlertDialog.Description>
-
-                <Link href={buildUrl} rel="noreferrer" size="2" target="_blank">
-                  {buildUrl}
-                </Link>
-
-                <Flex gap="3" justify="end" mt="4">
-                  <AlertDialog.Cancel>
-                    <Button
-                      color="gray"
-                      variant="soft"
-                      onClick={() => form.reset()}
-                    >
-                      Close
-                    </Button>
-                  </AlertDialog.Cancel>
-                  <AlertDialog.Action
-                    onClick={async () => {
-                      if (buildUrl) {
-                        await navigator.clipboard.writeText(buildUrl);
-                        setUrlCopied(true);
-                        urlCopiedTimeoutRef.current = setTimeout(
-                          () => setUrlCopied(false),
-                          2000,
-                        );
-                      }
-                    }}
-                  >
-                    <Button color={urlCopied ? "green" : undefined}>
-                      {urlCopied ? "Copied" : "Copy URL"}
-                    </Button>
-                  </AlertDialog.Action>
-                </Flex>
-              </AlertDialog.Content>
-            </AlertDialog.Root>
-          );
-        }}
-      </form.Subscribe>
     </>
   );
 };

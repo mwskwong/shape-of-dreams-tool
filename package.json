@@ -15,6 +15,8 @@
     "upgrade": "npm update && npm run postinstall && npm run lint -- --fix && npm run stylelint -- --fix && npm run format:fix"
   },
   "dependencies": {
+    "@hookform/error-message": "^2.0.1",
+    "@hookform/resolvers": "^5.0.1",
     "@neondatabase/serverless": "^1.0.0",
     "@radix-ui/themes": "^3.2.1",
     "@tabler/icons-react": "^3.31.0",
@@ -28,11 +30,14 @@
     "hashids": "^2.3.0",
     "html-react-parser": "^5.2.3",
     "http-status": "^2.1.0",
+    "install": "^0.13.0",
     "lodash-es": "^4.17.21",
     "next": "15.3.0",
+    "npm": "^11.3.0",
     "nuqs": "^2.4.2",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
+    "react-hook-form": "^7.55.0",
     "valibot": "^1.0.0"
   },
   "devDependencies": {

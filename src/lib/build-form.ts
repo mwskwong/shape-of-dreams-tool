@@ -1,6 +1,4 @@
-import { formOptions as createFormOptions } from "@tanstack/react-form/nextjs";
 import {
-  type InferOutput,
   array,
   check,
   checkItems,
@@ -19,6 +17,9 @@ import {
   allMemoryEntries,
   allTravelerEntries,
 } from "@/lib/constants";
+
+export const maxNumberOfMemories = 4;
+export const maxNumberOfEssencesPerMemory = 3;
 
 export const schema = pipe(
   object({
@@ -109,11 +110,11 @@ export const schema = pipe(
                 literal(""),
               ]),
             ),
-            length(3),
+            length(maxNumberOfEssencesPerMemory),
           ),
         }),
       ),
-      length(4),
+      length(maxNumberOfMemories),
       checkItems(({ essences }, _, array) => {
         const allEssences = array.flatMap(({ essences }) => essences);
         const essenceCounts = new Map<string, number>();
@@ -150,19 +151,3 @@ export const schema = pipe(
     "Traveler rarity memories must match the starting memories.",
   ),
 );
-
-export const formOptions = createFormOptions({
-  defaultValues: {
-    name: "",
-    traveler: {
-      id: "",
-      startingMemories: { q: "", r: "", identity: "", movement: "" },
-    },
-    memories: Array.from({ length: 4 }, () => ({
-      id: "",
-      essences: Array.from({ length: 3 }, () => ""),
-    })),
-    description: "",
-  } satisfies InferOutput<typeof schema>,
-  validators: { onChange: schema },
-});
