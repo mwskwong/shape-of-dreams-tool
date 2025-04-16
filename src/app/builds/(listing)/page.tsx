@@ -7,6 +7,7 @@ import { Grid } from "@radix-ui/themes/components/grid";
 import { Heading } from "@radix-ui/themes/components/heading";
 import * as HoverCard from "@radix-ui/themes/components/hover-card";
 import { Inset } from "@radix-ui/themes/components/inset";
+import { Separator } from "@radix-ui/themes/components/separator";
 import { Text } from "@radix-ui/themes/components/text";
 import Image from "next/image";
 import Link from "next/link";
@@ -26,6 +27,8 @@ import {
   getTravelerColor,
   loadBuildSearchParams,
 } from "@/lib/utils";
+
+const dateFormatter = new Intl.DateTimeFormat("en", { dateStyle: "medium" });
 
 interface BuildsProps {
   searchParams: Promise<SearchParams>;
@@ -60,6 +63,7 @@ const Builds: FC<BuildsProps> = async ({ searchParams }) => {
                     )}
                   </Inset>
                 </Card>
+
                 <Flex align="center" direction="column">
                   <Heading as="h2" size="4">
                     {build.details.name}
@@ -174,6 +178,16 @@ const Builds: FC<BuildsProps> = async ({ searchParams }) => {
                     </Flex>
                   );
                 })}
+
+                <Flex align="center" gap="3">
+                  <Text color="gray" size="2">
+                    {dateFormatter.format(build.createdAt)}
+                  </Text>
+                  <Separator orientation="vertical" />
+                  <Text color="gray" size="2">
+                    {build.likes} likes
+                  </Text>
+                </Flex>
               </Flex>
             </Link>
           </Card>
