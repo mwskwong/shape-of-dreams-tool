@@ -1,11 +1,11 @@
 import "@/styles/traveler-colors.css";
 
-import { Avatar } from "@radix-ui/themes/components/avatar";
 import { Box } from "@radix-ui/themes/components/box";
 import { Card } from "@radix-ui/themes/components/card";
 import { Flex } from "@radix-ui/themes/components/flex";
 import { Grid } from "@radix-ui/themes/components/grid";
 import { Heading } from "@radix-ui/themes/components/heading";
+import { Inset } from "@radix-ui/themes/components/inset";
 import { Text } from "@radix-ui/themes/components/text";
 import Image from "next/image";
 import Link from "next/link";
@@ -40,17 +40,20 @@ const Builds: FC<BuildsProps> = async ({ searchParams }) => {
           <Card key={build.hashId} asChild>
             <Link href={`${routes.builds.pathname}/${build.hashId}`}>
               <Flex align="center" direction="column" gap="3">
-                {traveler ? (
-                  <Image
-                    alt={traveler.name}
-                    className={"rt-AvatarRoot rt-r-size-6"}
-                    height={80}
-                    src={`/images/${traveler.image}`}
-                    width={80}
-                  />
-                ) : (
-                  <Avatar color="gray" fallback="?" size="6" />
-                )}
+                <Card>
+                  <Inset side="all">
+                    {traveler ? (
+                      <Image
+                        alt={traveler.name}
+                        height={128}
+                        src={`/images/${traveler.image}`}
+                        width={128}
+                      />
+                    ) : (
+                      <Box height="128px" width="128px" />
+                    )}
+                  </Inset>
+                </Card>
                 <Flex align="center" direction="column">
                   <Heading as="h2" size="4">
                     {build.details.name}
@@ -71,33 +74,39 @@ const Builds: FC<BuildsProps> = async ({ searchParams }) => {
 
                   return (
                     <Flex key={index} align="center" gap="3">
-                      {memory ? (
-                        <Image
-                          alt={memory.name}
-                          className={"rt-AvatarRoot rt-r-size-4"}
-                          height={48}
-                          src={`/images/${memory.image}`}
-                          width={48}
-                        />
-                      ) : (
-                        <Avatar color="gray" fallback="?" size="4" />
-                      )}
+                      <Card>
+                        <Inset side="all">
+                          {memory ? (
+                            <Image
+                              alt={memory.name}
+                              height={64}
+                              src={`/images/${memory.image}`}
+                              width={64}
+                            />
+                          ) : (
+                            <Box height="64px" width="64px" />
+                          )}
+                        </Inset>
+                      </Card>
 
                       {essences.map((id, index) => {
                         const essence = allEssenceEntries.find(
                           ([essenceId]) => essenceId === id,
                         )?.[1];
 
-                        if (!essence) return <Box key={index} width="32px" />;
-
                         return (
-                          <Image
-                            key={index}
-                            alt={essence.name}
-                            height={32}
-                            src={`/images/${essence.image}`}
-                            width={32}
-                          />
+                          <Card key={index}>
+                            {essence ? (
+                              <Image
+                                alt={essence.name}
+                                height={40}
+                                src={`/images/${essence.image}`}
+                                width={40}
+                              />
+                            ) : (
+                              <Box height="40px" width="40px" />
+                            )}
+                          </Card>
                         );
                       })}
                     </Flex>
