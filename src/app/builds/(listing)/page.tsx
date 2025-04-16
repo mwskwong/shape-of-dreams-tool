@@ -132,18 +132,43 @@ const Builds: FC<BuildsProps> = async ({ searchParams }) => {
                         )?.[1];
 
                         return (
-                          <Card key={index}>
-                            {essence ? (
-                              <Image
-                                alt={essence.name}
-                                height={24}
-                                src={`/images/${essence.image}`}
-                                width={24}
-                              />
-                            ) : (
-                              <Box height="24px" width="24px" />
+                          <HoverCard.Root key={index}>
+                            <HoverCard.Trigger>
+                              <Card>
+                                {essence ? (
+                                  <Image
+                                    alt={essence.name}
+                                    height={24}
+                                    src={`/images/${essence.image}`}
+                                    width={24}
+                                  />
+                                ) : (
+                                  <Box height="24px" width="24px" />
+                                )}
+                              </Card>
+                            </HoverCard.Trigger>
+
+                            {essence && (
+                              <HoverCard.Content>
+                                <Flex direction="column" gap="3">
+                                  <ItemCard.Header
+                                    image={essence.image}
+                                    name={essence.name}
+                                    rarity={essence.rarity}
+                                    size="2"
+                                  />
+                                  <ItemCard.Content
+                                    achievement={essence.achievement}
+                                    size="2"
+                                  >
+                                    <ItemCard.Description size="2">
+                                      {essence.description}
+                                    </ItemCard.Description>
+                                  </ItemCard.Content>
+                                </Flex>
+                              </HoverCard.Content>
                             )}
-                          </Card>
+                          </HoverCard.Root>
                         );
                       })}
                     </Flex>
