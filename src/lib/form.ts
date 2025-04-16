@@ -7,44 +7,95 @@ import {
   length,
   nonEmpty,
   object,
+  picklist,
   pipe,
   string,
 } from "valibot";
 
-import { allMemoryEntries } from "@/lib/constants";
+import {
+  allEssenceEntries,
+  allMemoryEntries,
+  allTravelerEntries,
+} from "@/lib/constants";
 
 export const schema = pipe(
   object({
     name: pipe(string(), nonEmpty("Build name cannot be empty.")),
-    traveler: object({
-      id: string(),
-      startingMemories: object({
-        q: string(),
-        r: string(),
-        identity: string(),
-        movement: string(),
+    traveler: pipe(
+      object({
+        id: picklist(allTravelerEntries.map(([id]) => id)),
+        startingMemories: object({
+          q: picklist(
+            allMemoryEntries
+              .filter(
+                ([, { travelerMemoryLocation }]) =>
+                  travelerMemoryLocation === "Q",
+              )
+              .map(([id]) => id),
+          ),
+          r: picklist(
+            allMemoryEntries
+              .filter(
+                ([, { travelerMemoryLocation }]) =>
+                  travelerMemoryLocation === "R",
+              )
+              .map(([id]) => id),
+          ),
+          identity: picklist(
+            allMemoryEntries
+              .filter(
+                ([, { travelerMemoryLocation }]) =>
+                  travelerMemoryLocation === "Identity",
+              )
+              .map(([id]) => id),
+          ),
+          movement: picklist(
+            allMemoryEntries
+              .filter(
+                ([, { travelerMemoryLocation }]) =>
+                  travelerMemoryLocation === "Movement",
+              )
+              .map(([id]) => id),
+          ),
+        }),
       }),
-    }),
+      check(({ id, startingMemories }) =>
+        Object.values(startingMemories).every((memoryId) => {
+          const memory = allMemoryEntries.find(
+            ([key]) => key === memoryId,
+          )?.[1];
+          return memory?.traveler === id;
+        }),
+      ),
+    ),
     memories: pipe(
       array(
         object({
-          id: string(),
-          essences: pipe(array(string()), length(3)),
+          id: picklist(
+            allMemoryEntries
+              .filter(
+                ([, { travelerMemoryLocation }]) =>
+                  travelerMemoryLocation !== "Identity" &&
+                  travelerMemoryLocation !== "Movement",
+              )
+              .map(([id]) => id),
+          ),
+          essences: pipe(
+            array(picklist(allEssenceEntries.map(([id]) => id))),
+            length(3),
+          ),
         }),
       ),
       length(4),
       checkItems(({ essences }, _, array) => {
         const allEssences = array.flatMap(({ essences }) => essences);
-        const essenceFrequency = new Map<string, number>();
+        const essenceCounts = new Map<string, number>();
         for (const essence of allEssences) {
-          essenceFrequency.set(
-            essence,
-            (essenceFrequency.get(essence) ?? 0) + 1,
-          );
+          essenceCounts.set(essence, (essenceCounts.get(essence) ?? 0) + 1);
         }
 
         for (const essence of essences) {
-          if (essence && (essenceFrequency.get(essence) ?? 0) > 1) {
+          if (essence && (essenceCounts.get(essence) ?? 0) > 1) {
             return false;
           }
         }
@@ -57,7 +108,9 @@ export const schema = pipe(
   check(
     ({ traveler, memories }) =>
       memories.every(({ id }) => {
-        const memory = allMemoryEntries.find(([key]) => key === id)?.[1];
+        const memory = allMemoryEntries.find(
+          ([memoryId]) => memoryId === id,
+        )?.[1];
         if (!memory?.traveler) return true;
 
         return (
