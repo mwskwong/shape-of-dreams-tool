@@ -99,12 +99,12 @@ const Builds: FC<BuildsProps> = async ({ searchParams }) => {
                             {essence ? (
                               <Image
                                 alt={essence.name}
-                                height={40}
+                                height={24}
                                 src={`/images/${essence.image}`}
-                                width={40}
+                                width={24}
                               />
                             ) : (
-                              <Box height="40px" width="40px" />
+                              <Box height="24px" width="24px" />
                             )}
                           </Card>
                         );
