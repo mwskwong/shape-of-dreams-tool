@@ -9,6 +9,7 @@ import * as HoverCard from "@radix-ui/themes/components/hover-card";
 import { Inset } from "@radix-ui/themes/components/inset";
 import { Separator } from "@radix-ui/themes/components/separator";
 import { Text } from "@radix-ui/themes/components/text";
+import { IconThumbUp } from "@tabler/icons-react";
 import Image from "next/image";
 import Link from "next/link";
 import { type SearchParams } from "nuqs/server";
@@ -27,6 +28,8 @@ import {
   getTravelerColor,
   loadBuildSearchParams,
 } from "@/lib/utils";
+
+import styles from "./page.module.css";
 
 const dateFormatter = new Intl.DateTimeFormat("en", { dateStyle: "medium" });
 
@@ -54,12 +57,12 @@ const Builds: FC<BuildsProps> = async ({ searchParams }) => {
                     {traveler ? (
                       <Image
                         alt={traveler.name}
-                        height={128}
+                        height={80}
                         src={`/images/${traveler.image}`}
-                        width={128}
+                        width={80}
                       />
                     ) : (
-                      <Box height="128px" width="128px" />
+                      <Box height="80px" width="80px" />
                     )}
                   </Inset>
                 </Card>
@@ -179,14 +182,21 @@ const Builds: FC<BuildsProps> = async ({ searchParams }) => {
                   );
                 })}
 
-                <Flex align="center" gap="3">
+                <Flex
+                  align="center"
+                  className={styles.buildCardMetadata}
+                  gap="3"
+                >
                   <Text color="gray" size="2">
                     {dateFormatter.format(build.createdAt)}
                   </Text>
                   <Separator orientation="vertical" />
-                  <Text color="gray" size="2">
-                    {build.likes} likes
-                  </Text>
+                  <Flex asChild align="center" gap="2">
+                    <Text color="gray" size="2">
+                      <IconThumbUp size={18} />
+                      <span>{build.likes} likes</span>
+                    </Text>
+                  </Flex>
                 </Flex>
               </Flex>
             </Link>
