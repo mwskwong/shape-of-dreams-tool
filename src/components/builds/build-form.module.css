@@ -2,3 +2,7 @@
   flex: 1;
   min-height: 350px;
 }
+
+.startingMemoriesError {
+  max-width: 292px;
+}

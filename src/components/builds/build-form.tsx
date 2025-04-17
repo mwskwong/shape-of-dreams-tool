@@ -3,7 +3,6 @@
 import "@radix-ui/themes/tokens/colors/red.css";
 import "@radix-ui/themes/tokens/colors/green.css";
 
-import { ErrorMessage } from "@hookform/error-message";
 import { valibotResolver } from "@hookform/resolvers/valibot";
 import { Box } from "@radix-ui/themes/components/box";
 import { Button } from "@radix-ui/themes/components/button";
@@ -62,7 +61,6 @@ export const BuildForm: FC<BuildFormProps> = ({ defaultValues, ...props }) => {
     control,
     handleSubmit,
     setValue,
-    trigger,
     formState: { errors },
     watch,
   } = useForm({
@@ -92,10 +90,13 @@ export const BuildForm: FC<BuildFormProps> = ({ defaultValues, ...props }) => {
     <>
       <Flex asChild direction="column" gap="3" {...props}>
         <form
-          onSubmit={handleSubmit((data) => {
-            console.log({ data });
-            console.log({ result: safeParse(schema, data) });
-          })}
+          onSubmit={handleSubmit(
+            (data) => {
+              console.log({ data });
+              console.log({ result: safeParse(schema, data) });
+            },
+            (error) => console.error({ error }),
+          )}
         >
           <Controller
             control={control}
@@ -153,39 +154,54 @@ export const BuildForm: FC<BuildFormProps> = ({ defaultValues, ...props }) => {
                   )}
                 />
 
-                <Flex gap="3">
-                  {startingMemoryLocations.map((location) => (
-                    <Controller
-                      key={location}
-                      control={control}
-                      name={`traveler.startingMemories.${location}`}
-                      render={({ field: { disabled, ...field } }) => {
-                        const options = selectedTraveler.id
-                          ? allMemoryEntries
-                              .filter(
-                                ([, { traveler, travelerMemoryLocation }]) =>
-                                  traveler === selectedTraveler.id &&
-                                  travelerMemoryLocation ===
-                                    location[0].toUpperCase() +
-                                      location.slice(1),
-                              )
-                              .map(([key, memory]) => ({
-                                id: key,
-                                ...memory,
-                              }))
-                          : [];
+                <Flex align="center" direction="column" gap="1">
+                  <Flex gap="3">
+                    {startingMemoryLocations.map((location) => (
+                      <Controller
+                        key={location}
+                        control={control}
+                        name={`traveler.startingMemories.${location}`}
+                        render={({ field: { disabled, ...field } }) => {
+                          const options = selectedTraveler.id
+                            ? allMemoryEntries
+                                .filter(
+                                  ([, { traveler, travelerMemoryLocation }]) =>
+                                    traveler === selectedTraveler.id &&
+                                    travelerMemoryLocation ===
+                                      location[0].toUpperCase() +
+                                        location.slice(1),
+                                )
+                                .map(([key, memory]) => ({
+                                  id: key,
+                                  ...memory,
+                                }))
+                            : [];
 
-                        return (
-                          <MemorySelect
-                            {...field}
-                            disabled={disabled ?? options.length <= 1}
-                            options={options}
-                            size="1"
-                          />
-                        );
-                      }}
-                    />
-                  ))}
+                          return (
+                            <MemorySelect
+                              {...field}
+                              disabled={disabled ?? options.length <= 1}
+                              options={options}
+                              size="1"
+                            />
+                          );
+                        }}
+                      />
+                    ))}
+                  </Flex>
+
+                  {(errors.traveler?.startingMemories?.q ??
+                    errors.traveler?.startingMemories?.r) && (
+                    <Text
+                      className={styles.startingMemoriesError}
+                      color="red"
+                      size="2"
+                      wrap="pretty"
+                    >
+                      {errors.traveler.startingMemories.q?.message ??
+                        errors.traveler.startingMemories.r?.message}
+                    </Text>
+                  )}
                 </Flex>
 
                 <StatsDataList
@@ -210,57 +226,60 @@ export const BuildForm: FC<BuildFormProps> = ({ defaultValues, ...props }) => {
               >
                 {Array.from(
                   { length: maxNumberOfMemories },
-                  (_, memoryIndex) => (
-                    <div key={memoryIndex}>
-                      <Flex gap="3">
-                        <Controller
-                          control={control}
-                          name={`memories.${memoryIndex}.id`}
-                          render={({ field }) => (
-                            <MemorySelect
-                              {...field}
-                              options={allMemories.filter(
-                                ({ id, traveler }) =>
-                                  !traveler ||
-                                  id === selectedTraveler.startingMemories.q ||
-                                  id === selectedTraveler.startingMemories.r,
-                              )}
-                            />
+                  (_, memoryIndex) => {
+                    const memoryError = errors.memories?.[memoryIndex]?.id;
+                    const firstEssenceError =
+                      errors.memories?.[memoryIndex]?.essences?.find?.(Boolean);
+
+                    return (
+                      <div key={memoryIndex}>
+                        <Flex gap="3">
+                          <Controller
+                            control={control}
+                            name={`memories.${memoryIndex}.id`}
+                            render={({ field }) => (
+                              <MemorySelect
+                                {...field}
+                                options={allMemories.filter(
+                                  ({ id, traveler }) =>
+                                    !traveler ||
+                                    id ===
+                                      selectedTraveler.startingMemories.q ||
+                                    id === selectedTraveler.startingMemories.r,
+                                )}
+                              />
+                            )}
+                          />
+
+                          {Array.from(
+                            { length: maxNumberOfEssencesPerMemory },
+                            (_, essenceIndex) => (
+                              <Controller
+                                key={essenceIndex}
+                                control={control}
+                                name={`memories.${memoryIndex}.essences.${essenceIndex}`}
+                                render={({ field }) => (
+                                  <EssenceSelect {...field} />
+                                )}
+                              />
+                            ),
                           )}
-                        />
+                        </Flex>
 
-                        {Array.from(
-                          { length: maxNumberOfEssencesPerMemory },
-                          (_, essenceIndex) => (
-                            <Controller
-                              key={essenceIndex}
-                              control={control}
-                              name={`memories.${memoryIndex}.essences.${essenceIndex}`}
-                              render={({ field: { onChange, ...field } }) => (
-                                <EssenceSelect
-                                  {...field}
-                                  onChange={(id) => {
-                                    onChange(id);
-                                    void trigger(`memories`);
-                                  }}
-                                />
-                              )}
-                            />
-                          ),
-                        )}
-                      </Flex>
-
-                      <ErrorMessage
-                        errors={errors}
-                        name={`memories.${memoryIndex}`}
-                        render={({ message }) => (
-                          <Text as="p" color="red" mt="1" size="2">
-                            {message}
+                        {(memoryError ?? firstEssenceError) && (
+                          <Text
+                            as="p"
+                            color="red"
+                            mt="1"
+                            size="2"
+                            wrap="pretty"
+                          >
+                            {memoryError?.message ?? firstEssenceError?.message}
                           </Text>
                         )}
-                      />
-                    </div>
-                  ),
+                      </div>
+                    );
+                  },
                 )}
               </Flex>
             </Flex>
@@ -289,15 +308,6 @@ export const BuildForm: FC<BuildFormProps> = ({ defaultValues, ...props }) => {
               )}
             />
           </Flex>
-          <ErrorMessage
-            errors={errors}
-            name="root"
-            render={({ message }) => (
-              <Text as="p" color="red">
-                {message}
-              </Text>
-            )}
-          />
 
           <Button type="submit">Submit</Button>
         </form>
