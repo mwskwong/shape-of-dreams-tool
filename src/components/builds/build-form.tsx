@@ -11,9 +11,9 @@ import { Flex, type FlexProps } from "@radix-ui/themes/components/flex";
 import { Text } from "@radix-ui/themes/components/text";
 import { TextArea } from "@radix-ui/themes/components/text-area";
 import * as TextField from "@radix-ui/themes/components/text-field";
-import { type FC, useEffect, useId } from "react";
-import { Controller, useForm, useFormState, useWatch } from "react-hook-form";
-import { type InferOutput, parse } from "valibot";
+import { type FC, useId } from "react";
+import { Controller, useForm } from "react-hook-form";
+import { type InferOutput, safeParse } from "valibot";
 
 import {
   maxNumberOfEssencesPerMemory,
@@ -55,12 +55,16 @@ export interface BuildFormProps
 }
 
 export const BuildForm: FC<BuildFormProps> = ({ defaultValues, ...props }) => {
+  // eslint-disable-next-line react-compiler/react-compiler
+  "use no memo";
+
   const {
     control,
     handleSubmit,
     setValue,
-    formState: { errors },
     trigger,
+    formState: { errors },
+    watch,
   } = useForm({
     defaultValues:
       defaultValues ??
@@ -79,7 +83,7 @@ export const BuildForm: FC<BuildFormProps> = ({ defaultValues, ...props }) => {
     mode: "onTouched",
     resolver: valibotResolver(schema),
   });
-  const selectedTraveler = useWatch({ control, name: "traveler" });
+  const selectedTraveler = watch("traveler");
 
   const nameId = useId();
   const descriptionId = useId();
@@ -89,8 +93,8 @@ export const BuildForm: FC<BuildFormProps> = ({ defaultValues, ...props }) => {
       <Flex asChild direction="column" gap="3" {...props}>
         <form
           onSubmit={handleSubmit((data) => {
-            console.log(data);
-            parse(schema, data);
+            console.log({ data });
+            console.log({ result: safeParse(schema, data) });
           })}
         >
           <Controller
@@ -212,7 +216,7 @@ export const BuildForm: FC<BuildFormProps> = ({ defaultValues, ...props }) => {
                         <Controller
                           control={control}
                           name={`memories.${memoryIndex}.id`}
-                          render={({ field: { onChange, ...field } }) => (
+                          render={({ field }) => (
                             <MemorySelect
                               {...field}
                               options={allMemories.filter(
@@ -221,10 +225,6 @@ export const BuildForm: FC<BuildFormProps> = ({ defaultValues, ...props }) => {
                                   id === selectedTraveler.startingMemories.q ||
                                   id === selectedTraveler.startingMemories.r,
                               )}
-                              onChange={(id) => {
-                                onChange(id);
-                                void trigger(`memories.${memoryIndex}`);
-                              }}
                             />
                           )}
                         />
@@ -289,6 +289,15 @@ export const BuildForm: FC<BuildFormProps> = ({ defaultValues, ...props }) => {
               )}
             />
           </Flex>
+          <ErrorMessage
+            errors={errors}
+            name="root"
+            render={({ message }) => (
+              <Text as="p" color="red">
+                {message}
+              </Text>
+            )}
+          />
 
           <Button type="submit">Submit</Button>
         </form>
