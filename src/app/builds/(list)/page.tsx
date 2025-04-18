@@ -115,11 +115,14 @@ const Builds: FC<BuildsProps> = async ({ searchParams }) => {
                                 size="2"
                               />
                               <ItemCard.Content
-                                achievement={memory.achievement}
+                                achievementName={memory.achievementName}
                                 cooldownTime={memory.cooldownTime}
                                 maxCharges={memory.maxCharges}
                                 size="2"
                                 type={memory.type}
+                                achievementDescription={
+                                  memory.achievementDescription
+                                }
                                 mutuallyExclusive={getMutuallyExclusiveMemories(
                                   memory,
                                 )}
@@ -165,8 +168,11 @@ const Builds: FC<BuildsProps> = async ({ searchParams }) => {
                                     size="2"
                                   />
                                   <ItemCard.Content
-                                    achievement={essence.achievement}
+                                    achievementName={essence.achievementName}
                                     size="2"
+                                    achievementDescription={
+                                      essence.achievementDescription
+                                    }
                                   >
                                     <ItemCard.Description size="2">
                                       {essence.description}

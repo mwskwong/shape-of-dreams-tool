@@ -32,23 +32,25 @@ const Memories: FC<MemoriesProps> = async ({ searchParams }) => {
               rarity,
               type,
               traveler,
-              achievement,
+              achievementName,
+              achievementDescription,
               tags: _tags,
             },
           ]) =>
             (search === "" ||
               name.toLowerCase().includes(search.toLowerCase()) ||
               description.toLowerCase().includes(search.toLowerCase()) ||
-              shortDescription.toLowerCase().includes(search.toLowerCase()) ||
-              (achievement &&
-                (achievement.name
-                  .normalize("NFD") // cater for accented characters
-                  .replaceAll(/[\u0300-\u036F]/g, "")
-                  .toLowerCase()
-                  .includes(search.toLowerCase()) ||
-                  achievement.description
-                    .toLowerCase()
-                    .includes(search.toLowerCase())))) &&
+              Boolean(
+                shortDescription?.toLowerCase().includes(search.toLowerCase()),
+              ) ||
+              achievementName
+                .normalize("NFD") // cater for accented characters
+                .replaceAll(/[\u0300-\u036F]/g, "")
+                .toLowerCase()
+                .includes(search.toLowerCase()) ||
+              achievementDescription
+                .toLowerCase()
+                .includes(search.toLowerCase())) &&
             (rarities.length === 0 || rarities.includes(rarity)) &&
             (types.length === 0 || types.includes(type)) &&
             (travelers.length === 0 || travelers.includes(traveler)) &&
@@ -66,7 +68,8 @@ const Memories: FC<MemoriesProps> = async ({ searchParams }) => {
               cooldownTime,
               maxCharges,
               type,
-              achievement,
+              achievementDescription,
+              achievementName,
               description,
               travelerMemoryLocation,
             },
@@ -79,7 +82,8 @@ const Memories: FC<MemoriesProps> = async ({ searchParams }) => {
                 traveler={traveler}
               />
               <ItemCard.Content
-                achievement={achievement}
+                achievementDescription={achievementDescription}
+                achievementName={achievementName}
                 cooldownTime={cooldownTime}
                 maxCharges={maxCharges}
                 type={type}

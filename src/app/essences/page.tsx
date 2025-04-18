@@ -25,14 +25,29 @@ const Essences: FC<EssencesProps> = async ({ searchParams }) => {
               description.toLowerCase().includes(search.toLowerCase())) &&
             (rarities.length === 0 || rarities.includes(rarity)),
         )
-        .map(([key, { name, rarity, image, achievement, description }]) => (
-          <ItemCard.Root key={key}>
-            <ItemCard.Header image={image} name={name} rarity={rarity} />
-            <ItemCard.Content achievement={achievement}>
-              <ItemCard.Description>{description}</ItemCard.Description>
-            </ItemCard.Content>
-          </ItemCard.Root>
-        ))}
+        .map(
+          ([
+            key,
+            {
+              name,
+              rarity,
+              image,
+              achievementName,
+              achievementDescription,
+              description,
+            },
+          ]) => (
+            <ItemCard.Root key={key}>
+              <ItemCard.Header image={image} name={name} rarity={rarity} />
+              <ItemCard.Content
+                achievementDescription={achievementDescription}
+                achievementName={achievementName}
+              >
+                <ItemCard.Description>{description}</ItemCard.Description>
+              </ItemCard.Content>
+            </ItemCard.Root>
+          ),
+        )}
     </Grid>
   );
 };

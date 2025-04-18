@@ -173,11 +173,14 @@ const BuildDetails: FC<BuildDetailsProps> = async ({ params }) => {
                                   {memory.rarity}
                                 </Text>
                                 <ItemCard.Content
-                                  achievement={memory.achievement}
+                                  achievementName={memory.achievementName}
                                   cooldownTime={memory.cooldownTime}
                                   maxCharges={memory.maxCharges}
                                   size="2"
                                   type={memory.type}
+                                  achievementDescription={
+                                    memory.achievementDescription
+                                  }
                                   mutuallyExclusive={getMutuallyExclusiveMemories(
                                     memory,
                                   )}
@@ -258,11 +261,14 @@ const BuildDetails: FC<BuildDetailsProps> = async ({ params }) => {
                                   {memory.rarity}
                                 </Text>
                                 <ItemCard.Content
-                                  achievement={memory.achievement}
+                                  achievementName={memory.achievementName}
                                   cooldownTime={memory.cooldownTime}
                                   maxCharges={memory.maxCharges}
                                   size="2"
                                   type={memory.type}
+                                  achievementDescription={
+                                    memory.achievementDescription
+                                  }
                                   mutuallyExclusive={getMutuallyExclusiveMemories(
                                     memory,
                                   )}
@@ -315,8 +321,11 @@ const BuildDetails: FC<BuildDetailsProps> = async ({ params }) => {
                                     {essence.rarity}
                                   </Text>
                                   <ItemCard.Content
-                                    achievement={essence.achievement}
+                                    achievementName={essence.achievementName}
                                     size="2"
+                                    achievementDescription={
+                                      essence.achievementDescription
+                                    }
                                   >
                                     <ItemCard.Description size="2">
                                       {essence.description}

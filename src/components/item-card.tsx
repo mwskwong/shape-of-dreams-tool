@@ -90,7 +90,8 @@ export interface ContentProps extends PropsWithChildren {
   type?: string;
   traveler?: string;
   tags?: string[];
-  achievement?: { name: string; description: string } | null;
+  achievementName?: string;
+  achievementDescription?: string;
   mutuallyExclusive?: string[];
   size?: "2" | "3";
 }
@@ -100,7 +101,8 @@ export const Content: FC<ContentProps> = ({
   maxCharges,
   type,
   mutuallyExclusive = [],
-  achievement,
+  achievementName,
+  achievementDescription,
   size = "3",
   children,
 }) => (
@@ -114,10 +116,10 @@ export const Content: FC<ContentProps> = ({
       </Text>
     )}
     {children}
-    {achievement && (
+    {achievementName && (
       <Text as="p" color="gray" size={size} wrap="pretty">
-        Unlock requirement - <Em className={styles.em}>{achievement.name}</Em>:{" "}
-        {achievement.description}
+        Unlock requirement - <Em className={styles.em}>{achievementName}</Em>:{" "}
+        {achievementDescription}
       </Text>
     )}
     {mutuallyExclusive.length > 0 && (
