@@ -210,51 +210,6 @@ export const schema = pipe(
     for (const [location, startingMemory] of Object.entries(
       traveler.startingMemories,
     )) {
-      const currentTravelerLocationMemory = memories
-        .map(({ id }) => memoryMap.get(id))
-        .find(
-          (memory) =>
-            memory?.travelerMemoryLocation ===
-            location[0].toUpperCase() + location.slice(1),
-        );
-
-      if (!startingMemory && currentTravelerLocationMemory) {
-        addIssue({
-          message: `Cannot use "${currentTravelerLocationMemory.name}" when the corresponding starting memory is set to "Any".`,
-          path: [
-            {
-              type: "object",
-              origin: "value",
-              input: dataset.value,
-              key: "traveler",
-              value: traveler,
-            },
-            {
-              type: "object",
-              origin: "value",
-              input: traveler,
-              key: "startingMemories",
-              value: traveler.startingMemories,
-            },
-            {
-              type: "object",
-              origin: "value",
-              input: traveler.startingMemories,
-              key: location,
-              value: startingMemory,
-            },
-          ],
-        });
-      }
-    }
-  }),
-  rawCheck(({ dataset, addIssue }) => {
-    if (!dataset.typed) return;
-
-    const { traveler, memories } = dataset.value;
-    for (const [location, startingMemory] of Object.entries(
-      traveler.startingMemories,
-    )) {
       const currentTravelerLocationMemory = memories.find(({ id }) => {
         const memory = memoryMap.get(id);
         return (
@@ -264,7 +219,6 @@ export const schema = pipe(
       });
 
       if (
-        startingMemory &&
         currentTravelerLocationMemory &&
         startingMemory !== currentTravelerLocationMemory.id
       ) {

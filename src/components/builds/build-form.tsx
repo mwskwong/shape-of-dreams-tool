@@ -4,22 +4,26 @@ import "@radix-ui/themes/tokens/colors/red.css";
 import "@radix-ui/themes/tokens/colors/green.css";
 
 import { valibotResolver } from "@hookform/resolvers/valibot";
+import * as AlertDialog from "@radix-ui/themes/components/alert-dialog";
 import { Box } from "@radix-ui/themes/components/box";
 import { Button } from "@radix-ui/themes/components/button";
 import { Flex, type FlexProps } from "@radix-ui/themes/components/flex";
+import { Link } from "@radix-ui/themes/components/link";
 import { Text } from "@radix-ui/themes/components/text";
 import { TextArea } from "@radix-ui/themes/components/text-area";
 import * as TextField from "@radix-ui/themes/components/text-field";
-import { type FC, useId } from "react";
+import { type FC, useEffect, useId, useRef, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { type InferOutput, safeParse } from "valibot";
+import { type InferOutput } from "valibot";
 
+import { submitBuild } from "@/lib/actions";
 import {
   maxNumberOfEssencesPerMemory,
   maxNumberOfMemories,
   schema,
 } from "@/lib/build-form";
 import { allMemoryEntries, allTravelerEntries } from "@/lib/constants";
+import { routes, siteUrl } from "@/lib/site-config";
 
 import styles from "./build-form.module.css";
 import { EssenceSelect } from "./essence-select";
@@ -61,8 +65,10 @@ export const BuildForm: FC<BuildFormProps> = ({ defaultValues, ...props }) => {
     control,
     handleSubmit,
     setValue,
-    formState: { errors },
+    formState: { errors, isValid, isSubmitting, isSubmitSuccessful },
     watch,
+    reset,
+    setError,
   } = useForm({
     defaultValues:
       defaultValues ??
@@ -86,17 +92,25 @@ export const BuildForm: FC<BuildFormProps> = ({ defaultValues, ...props }) => {
   const nameId = useId();
   const descriptionId = useId();
 
+  const [hashId, setHashId] = useState<string>();
+  const buildUrl = hashId && `${siteUrl}${routes.builds.pathname}/${hashId}`;
+
+  const urlCopiedTimeoutRef = useRef<NodeJS.Timeout>(undefined);
+  const [urlCopied, setUrlCopied] = useState(false);
+  useEffect(() => () => clearTimeout(urlCopiedTimeoutRef.current), []);
+
   return (
     <>
       <Flex asChild direction="column" gap="3" {...props}>
         <form
-          onSubmit={handleSubmit(
-            (data) => {
-              console.log({ data });
-              console.log({ result: safeParse(schema, data) });
-            },
-            (error) => console.error({ error }),
-          )}
+          onSubmit={handleSubmit(async (data) => {
+            try {
+              const { hashId } = await submitBuild(data);
+              setHashId(hashId);
+            } catch (error) {
+              setError("root", { type: "server", message: String(error) });
+            }
+          })}
         >
           <Controller
             control={control}
@@ -309,9 +323,88 @@ export const BuildForm: FC<BuildFormProps> = ({ defaultValues, ...props }) => {
             />
           </Flex>
 
-          <Button type="submit">Submit</Button>
+          {errors.root && (
+            <Text color="red" size="2">
+              {errors.root.message}
+            </Text>
+          )}
+
+          <Flex
+            direction={{ initial: "column", sm: "row" }}
+            gap="3"
+            justify="end"
+            pt="4"
+          >
+            <AlertDialog.Root>
+              <AlertDialog.Trigger>
+                <Button color="gray" type="reset" variant="soft">
+                  Reset
+                </Button>
+              </AlertDialog.Trigger>
+              <AlertDialog.Content maxWidth="450px">
+                <AlertDialog.Title>Confirm reset</AlertDialog.Title>
+                <AlertDialog.Description size="2">
+                  Are you sure you want to reset? All current build settings
+                  will be cleared.
+                </AlertDialog.Description>
+
+                <Flex gap="3" justify="end" mt="4">
+                  <AlertDialog.Cancel>
+                    <Button color="gray" variant="soft">
+                      Cancel
+                    </Button>
+                  </AlertDialog.Cancel>
+                  <AlertDialog.Action onClick={() => reset()}>
+                    <Button color="red">Reset</Button>
+                  </AlertDialog.Action>
+                </Flex>
+              </AlertDialog.Content>
+            </AlertDialog.Root>
+
+            <Button disabled={!isValid} loading={isSubmitting} type="submit">
+              Submit
+            </Button>
+          </Flex>
         </form>
       </Flex>
+
+      <AlertDialog.Root open={isSubmitSuccessful}>
+        <AlertDialog.Content maxWidth="450px">
+          <AlertDialog.Title>Build submission successful</AlertDialog.Title>
+          <AlertDialog.Description mb="3" size="2">
+            Your build has been saved. Below is the unique URL to access it.
+            Copy the link to share or save it for later use.
+          </AlertDialog.Description>
+
+          <Link href={buildUrl} rel="noreferrer" size="2" target="_blank">
+            {buildUrl}
+          </Link>
+
+          <Flex gap="3" justify="end" mt="4">
+            <AlertDialog.Cancel>
+              <Button color="gray" variant="soft" onClick={() => reset()}>
+                Close
+              </Button>
+            </AlertDialog.Cancel>
+            <AlertDialog.Action
+              onClick={async () => {
+                if (buildUrl) {
+                  await navigator.clipboard.writeText(buildUrl);
+                  setUrlCopied(true);
+                  urlCopiedTimeoutRef.current = setTimeout(
+                    () => setUrlCopied(false),
+                    2000,
+                  );
+                }
+              }}
+            >
+              <Button color={urlCopied ? "green" : undefined}>
+                {urlCopied ? "Copied" : "Copy URL"}
+              </Button>
+            </AlertDialog.Action>
+          </Flex>
+        </AlertDialog.Content>
+      </AlertDialog.Root>
     </>
   );
 };
