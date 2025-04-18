@@ -44,6 +44,19 @@ export interface MemorySelectProps
     achievement?: { name: string; description: string } | null;
     mutuallyExclusive?: string[];
     description: string;
+    rawDesc: string;
+    rawDescVars: {
+      rendered: string;
+      format: string;
+      scalingType: string;
+      data: {
+        basicConstant?: number;
+        basicAP?: number;
+        basicAD?: number;
+        basicLvl?: number;
+        basicAddedMultiplierPerLevel?: number;
+      };
+    }[];
   }[];
   size?: "1" | "2";
   name?: string;
@@ -201,7 +214,8 @@ export const MemorySelect: FC<MemorySelectProps> = ({
                   maxCharges,
                   type,
                   mutuallyExclusive,
-                  description,
+                  rawDesc,
+                  rawDescVars,
                 }) => (
                   <Dialog.Close key={id}>
                     <RadioCards.Item
@@ -222,8 +236,11 @@ export const MemorySelect: FC<MemorySelectProps> = ({
                         size="2"
                         type={type}
                       >
-                        <ItemCard.Description size="2">
-                          {description}
+                        <ItemCard.Description
+                          rawDescVars={rawDescVars}
+                          size="2"
+                        >
+                          {rawDesc}
                         </ItemCard.Description>
                       </ItemCard.Content>
                     </RadioCards.Item>

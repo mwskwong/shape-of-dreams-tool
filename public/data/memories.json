@@ -34,7 +34,7 @@
         }
       }
     ],
-    "shortDescription": null,
+    "shortDescription": "Enhances attacks, with double strike after skills",
     "rarity": "Identity",
     "type": "Normal",
     "traveler": "Hero_Lacerta",
@@ -80,7 +80,7 @@
         }
       }
     ],
-    "shortDescription": null,
+    "shortDescription": "Periodic critical explosion with area fire damage",
     "rarity": "Identity",
     "type": "Normal",
     "traveler": "Hero_Lacerta",
@@ -395,7 +395,7 @@
         "data": {}
       }
     ],
-    "shortDescription": null,
+    "shortDescription": "Powerful opening attacks with shield",
     "rarity": "Identity",
     "type": "Normal",
     "traveler": "Hero_Mist",
@@ -716,7 +716,7 @@
         }
       }
     ],
-    "shortDescription": null,
+    "shortDescription": "Increase HP, strikes stun and heal",
     "rarity": "Identity",
     "type": "Normal",
     "traveler": "Hero_Vesper",
@@ -984,7 +984,7 @@
         }
       }
     ],
-    "shortDescription": null,
+    "shortDescription": "Boosts damage, attacks bounce after skills",
     "rarity": "Identity",
     "type": "Normal",
     "traveler": "Hero_Yubar",
@@ -1030,7 +1030,7 @@
         }
       }
     ],
-    "shortDescription": null,
+    "shortDescription": "Charge skills, explode on attack",
     "rarity": "Identity",
     "type": "Normal",
     "traveler": "Hero_Yubar",
@@ -3016,7 +3016,7 @@
         }
       }
     ],
-    "shortDescription": null,
+    "shortDescription": "Attack for speed, crits, and healing",
     "rarity": "Identity",
     "type": "Normal",
     "traveler": "Hero_Vesper",
@@ -3035,8 +3035,8 @@
     "description": "Move swiftly to evade enemy attacks.",
     "rawDesc": "Move swiftly to evade enemy attacks.",
     "rawDescVars": [],
-    "shortDescription": null,
-    "rarity": "Traveler",
+    "shortDescription": "Swift evasion",
+    "rarity": "Evasion",
     "type": "Normal",
     "traveler": "Hero_Lacerta",
     "travelerMemoryLocation": "Movement",
@@ -3094,8 +3094,8 @@
         }
       }
     ],
-    "shortDescription": null,
-    "rarity": "Traveler",
+    "shortDescription": "Shielded dash that damages and knocks back",
+    "rarity": "Evasion",
     "type": "Normal",
     "traveler": "Hero_Vesper",
     "travelerMemoryLocation": "Movement",
@@ -3113,8 +3113,8 @@
     "description": "Move quickly to evade enemy attacks.",
     "rawDesc": "Move quickly to evade enemy attacks.",
     "rawDescVars": [],
-    "shortDescription": null,
-    "rarity": "Traveler",
+    "shortDescription": "Quick evasion maneuver",
+    "rarity": "Evasion",
     "type": "Normal",
     "traveler": "Hero_Mist",
     "travelerMemoryLocation": "Movement",
@@ -3132,8 +3132,8 @@
     "description": "Instantly teleport to the target location to evade enemy attacks.\n<color=yellow>Can be used even when unable to use Memories.</color>",
     "rawDesc": "Instantly teleport to the target location to evade enemy attacks.\n<color=yellow>Can be used even when unable to use Memories.</color>",
     "rawDescVars": [],
-    "shortDescription": null,
-    "rarity": "Traveler",
+    "shortDescription": "Teleport to dodge attacks",
+    "rarity": "Evasion",
     "type": "Normal",
     "traveler": "Hero_Yubar",
     "travelerMemoryLocation": "Movement",
@@ -3210,8 +3210,8 @@
     "description": "Swiftly move to evade enemy attacks.",
     "rawDesc": "Swiftly move to evade enemy attacks.",
     "rawDescVars": [],
-    "shortDescription": null,
-    "rarity": "Traveler",
+    "shortDescription": "Shielded dash that damages and knocks back",
+    "rarity": "Evasion",
     "type": "Normal",
     "traveler": "Hero_Aurena",
     "travelerMemoryLocation": "Movement",

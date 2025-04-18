@@ -70,7 +70,8 @@ const Memories: FC<MemoriesProps> = async ({ searchParams }) => {
               type,
               achievementDescription,
               achievementName,
-              description,
+              rawDesc,
+              rawDescVars,
               travelerMemoryLocation,
             },
           ]) => (
@@ -94,7 +95,9 @@ const Memories: FC<MemoriesProps> = async ({ searchParams }) => {
                   travelerMemoryLocation,
                 })}
               >
-                <ItemCard.Description>{description}</ItemCard.Description>
+                <ItemCard.Description rawDescVars={rawDescVars}>
+                  {rawDesc}
+                </ItemCard.Description>
               </ItemCard.Content>
             </ItemCard.Root>
           ),

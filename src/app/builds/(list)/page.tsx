@@ -127,8 +127,11 @@ const Builds: FC<BuildsProps> = async ({ searchParams }) => {
                                   memory,
                                 )}
                               >
-                                <ItemCard.Description size="2">
-                                  {memory.description}
+                                <ItemCard.Description
+                                  rawDescVars={memory.rawDescVars}
+                                  size="2"
+                                >
+                                  {memory.rawDesc}
                                 </ItemCard.Description>
                               </ItemCard.Content>
                             </Flex>
@@ -174,8 +177,12 @@ const Builds: FC<BuildsProps> = async ({ searchParams }) => {
                                       essence.achievementDescription
                                     }
                                   >
-                                    <ItemCard.Description size="2">
-                                      {essence.description}
+                                    <ItemCard.Description
+                                      leveling="quality"
+                                      rawDescVars={essence.rawDescVars}
+                                      size="2"
+                                    >
+                                      {essence.rawDesc}
                                     </ItemCard.Description>
                                   </ItemCard.Content>
                                 </Flex>

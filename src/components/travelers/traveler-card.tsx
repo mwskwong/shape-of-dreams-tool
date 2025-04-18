@@ -73,17 +73,31 @@ export interface ContentProps extends Omit<Tabs.RootProps, "children"> {
     movementSpeed?: string | null;
   };
   description: string;
-  achievement?: { name: string; description: string } | null;
+  achievementName: string;
+  achievementDescription: string;
   memories?: {
     name: string;
     cooldownTime?: number;
     maxCharges?: number;
-    description: string;
+    rawDesc: string;
+    rawDescVars: {
+      rendered: string;
+      format: string;
+      scalingType: string;
+      data: {
+        basicConstant?: number;
+        basicAP?: number;
+        basicAD?: number;
+        basicLvl?: number;
+        basicAddedMultiplierPerLevel?: number;
+      };
+    }[];
     shortDescription?: string | null;
     type?: string;
     image: string;
     mutuallyExclusive?: string[];
-    achievement?: { name: string; description: string } | null;
+    achievementName: string;
+    achievementDescription: string;
   }[];
   constellations?: {
     name: string;
@@ -104,7 +118,8 @@ export const Content: FC<ContentProps> = ({
   movementSpeed,
   statsGrowthPerLv,
   description,
-  achievement,
+  achievementDescription,
+  achievementName,
   memories = [],
   constellations = [],
   className,
@@ -228,7 +243,7 @@ export const Content: FC<ContentProps> = ({
             <Text as="p" className={styles.paragraph} wrap="pretty">
               {description}
             </Text>
-            {achievement && (
+            {achievementName && (
               <Text
                 as="p"
                 className={styles.paragraph}
@@ -236,8 +251,8 @@ export const Content: FC<ContentProps> = ({
                 wrap="pretty"
               >
                 Unlock requirement -{" "}
-                <Em className={styles.em}>{achievement.name}</Em>:{" "}
-                {achievement.description}
+                <Em className={styles.em}>{achievementName}</Em>:{" "}
+                {achievementDescription}
               </Text>
             )}
           </Flex>
@@ -271,7 +286,7 @@ export const Content: FC<ContentProps> = ({
                     <Heading as="h3" size="4">
                       {name}
                     </Heading>
-                    <ItemCard.Description color="gray">
+                    <ItemCard.Description color="gray" rawDescVars={[]}>
                       {description}
                     </ItemCard.Description>
                   </div>

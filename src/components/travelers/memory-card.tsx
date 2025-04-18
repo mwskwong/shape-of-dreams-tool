@@ -15,12 +15,25 @@ export interface MemoryCardProps extends Omit<FlexProps, "children"> {
   name: string;
   cooldownTime?: number;
   maxCharges?: number;
-  description: string;
+  rawDesc: string;
+  rawDescVars: {
+    rendered: string;
+    format: string;
+    scalingType: string;
+    data: {
+      basicConstant?: number;
+      basicAP?: number;
+      basicAD?: number;
+      basicLvl?: number;
+      basicAddedMultiplierPerLevel?: number;
+    };
+  }[];
   shortDescription?: string | null;
   type?: string;
   tags?: string[];
   image: string;
-  achievement?: { name: string; description: string } | null;
+  achievementName: string;
+  achievementDescription: string;
   mutuallyExclusive?: string[];
 }
 
@@ -28,11 +41,13 @@ export const MemoryCard: FC<MemoryCardProps> = ({
   name,
   cooldownTime,
   maxCharges,
-  description,
+  rawDesc,
+  rawDescVars,
   shortDescription,
   type,
   image,
-  achievement,
+  achievementName,
+  achievementDescription,
   mutuallyExclusive = [],
   ...props
 }) => {
@@ -65,13 +80,16 @@ export const MemoryCard: FC<MemoryCardProps> = ({
       {open && (
         <>
           <ItemCard.Content
-            achievement={achievement}
+            achievementDescription={achievementDescription}
+            achievementName={achievementName}
             cooldownTime={cooldownTime}
             maxCharges={maxCharges}
             mutuallyExclusive={mutuallyExclusive}
             type={type}
           >
-            <ItemCard.Description>{description}</ItemCard.Description>
+            <ItemCard.Description rawDescVars={rawDescVars}>
+              {rawDesc}
+            </ItemCard.Description>
           </ItemCard.Content>
         </>
       )}

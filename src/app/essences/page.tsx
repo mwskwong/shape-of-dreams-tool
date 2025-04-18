@@ -34,7 +34,8 @@ const Essences: FC<EssencesProps> = async ({ searchParams }) => {
               image,
               achievementName,
               achievementDescription,
-              description,
+              rawDesc,
+              rawDescVars,
             },
           ]) => (
             <ItemCard.Root key={key}>
@@ -43,7 +44,12 @@ const Essences: FC<EssencesProps> = async ({ searchParams }) => {
                 achievementDescription={achievementDescription}
                 achievementName={achievementName}
               >
-                <ItemCard.Description>{description}</ItemCard.Description>
+                <ItemCard.Description
+                  leveling="quality"
+                  rawDescVars={rawDescVars}
+                >
+                  {rawDesc}
+                </ItemCard.Description>
               </ItemCard.Content>
             </ItemCard.Root>
           ),

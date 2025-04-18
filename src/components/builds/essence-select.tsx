@@ -134,7 +134,7 @@ export const EssenceSelect: FC<EssenceSelectProps> = ({
                   (deferredRarities.length === 0 ||
                     deferredRarities.includes(rarity)),
               )
-              .map(([id, { name, rarity, image, description }]) => (
+              .map(([id, { name, rarity, image, rawDesc, rawDescVars }]) => (
                 <Dialog.Close key={id}>
                   <RadioCards.Item className={styles.radioCardItem} value={id}>
                     <ItemCard.Header
@@ -143,8 +143,12 @@ export const EssenceSelect: FC<EssenceSelectProps> = ({
                       rarity={rarity}
                       size="2"
                     />
-                    <ItemCard.Description size="2">
-                      {description}
+                    <ItemCard.Description
+                      leveling="quality"
+                      rawDescVars={rawDescVars}
+                      size="2"
+                    >
+                      {rawDesc}
                     </ItemCard.Description>
                   </RadioCards.Item>
                 </Dialog.Close>

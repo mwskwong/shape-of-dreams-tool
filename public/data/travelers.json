@@ -22,7 +22,8 @@
       "movementSpeed": null
     },
     "description": "Lacerta is a former Royal Guard sniper and hunter proficient in handling firearms and gunpowder. He is accustomed to taking out enemies from long range.",
-    "achievement": null,
+    "achievementName": "",
+    "achievementDescription": "",
     "image": "Hero_Lacerta.png",
     "constellations": [
       {
@@ -85,7 +86,8 @@
       "movementSpeed": null
     },
     "description": "Mist is a courageous duelist of noble birth. With agile combat techniques, she can evade dangerous attacks and swiftly dispatch enemies.",
-    "achievement": null,
+    "achievementName": "",
+    "achievementDescription": "",
     "image": "Hero_Mist.png",
     "constellations": [
       {
@@ -148,10 +150,8 @@
       "movementSpeed": null
     },
     "description": "Yubar is a fairy tale being from dreams, a god who governs the creation and destruction of stars. He can deal high damage from long range using magic.",
-    "achievement": {
-      "name": "Pure Imagination",
-      "description": "Acquire a total of 300 Dream Dust."
-    },
+    "achievementName": "Pure Imagination",
+    "achievementDescription": "Acquire a total of 300 Dream Dust.",
     "image": "Hero_Yubar.png",
     "constellations": [
       {
@@ -214,10 +214,8 @@
       "movementSpeed": null
     },
     "description": "Vesper is the leader and cruel inquisitor of the Order of the Sacred Flame. He can block enemies in melee range while dealing high damage.",
-    "achievement": {
-      "name": "Through Time and Space",
-      "description": "Reach the Dream of the Night Sky (the third region)."
-    },
+    "achievementName": "Through Time and Space",
+    "achievementDescription": "Reach the Dream of the Night Sky (the third region).",
     "image": "Hero_Vesper.png",
     "constellations": []
   },
@@ -244,10 +242,8 @@
       "movementSpeed": null
     },
     "description": "Aurena is a sage from the Lunar Conclave of Arcanum who was expelled for researching forbidden knowledge. She is a battle healer who utilizes her own life force.",
-    "achievement": {
-      "name": "Horns, Feathers, and Gold",
-      "description": "Heal yourself or allies for a total of 25,000 health."
-    },
+    "achievementName": "Horns, Feathers, and Gold",
+    "achievementDescription": "Heal yourself or allies for a total of 25,000 health.",
     "image": "Hero_Aurena.png",
     "constellations": []
   }

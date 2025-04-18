@@ -185,8 +185,11 @@ const BuildDetails: FC<BuildDetailsProps> = async ({ params }) => {
                                     memory,
                                   )}
                                 >
-                                  <ItemCard.Description size="2">
-                                    {memory.description}
+                                  <ItemCard.Description
+                                    rawDescVars={memory.rawDescVars}
+                                    size="2"
+                                  >
+                                    {memory.rawDesc}
                                   </ItemCard.Description>
                                 </ItemCard.Content>
                               </Flex>
@@ -273,8 +276,11 @@ const BuildDetails: FC<BuildDetailsProps> = async ({ params }) => {
                                     memory,
                                   )}
                                 >
-                                  <ItemCard.Description size="2">
-                                    {memory.description}
+                                  <ItemCard.Description
+                                    rawDescVars={memory.rawDescVars}
+                                    size="2"
+                                  >
+                                    {memory.rawDesc}
                                   </ItemCard.Description>
                                 </ItemCard.Content>
                               </Flex>
@@ -327,8 +333,12 @@ const BuildDetails: FC<BuildDetailsProps> = async ({ params }) => {
                                       essence.achievementDescription
                                     }
                                   >
-                                    <ItemCard.Description size="2">
-                                      {essence.description}
+                                    <ItemCard.Description
+                                      leveling="quality"
+                                      rawDescVars={essence.rawDescVars}
+                                      size="2"
+                                    >
+                                      {essence.rawDesc}
                                     </ItemCard.Description>
                                   </ItemCard.Content>
                                 </Flex>
