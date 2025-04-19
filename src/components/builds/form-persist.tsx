@@ -4,18 +4,28 @@
 import { debounce } from "lodash-es";
 import { useParams } from "next/navigation";
 import { type FC, useEffect } from "react";
-import { type Control, type UseFormSetValue, useWatch } from "react-hook-form";
+import {
+  type Control,
+  type UseFormSetValue,
+  type UseFormTrigger,
+  useWatch,
+} from "react-hook-form";
 
 import { type Build } from "@/lib/build-form";
 
 export interface FormPersistProps {
   control: Control<Build>;
   setValue: UseFormSetValue<Build>;
+  trigger: UseFormTrigger<Build>;
 }
 
 // Make this a component instead of a hook because `useWatch` will re-render this component only
 // if this is a hook, then the parent component (i.e. the entire form) will also be re-rendered, which is unnecessary
-export const FormPersist: FC<FormPersistProps> = ({ control, setValue }) => {
+export const FormPersist: FC<FormPersistProps> = ({
+  control,
+  setValue,
+  trigger,
+}) => {
   const watchedValues = useWatch({ control });
   const params = useParams<{ hashId?: string }>();
 
@@ -37,10 +47,12 @@ export const FormPersist: FC<FormPersistProps> = ({ control, setValue }) => {
 
       for (const [key, value] of Object.entries(values)) {
         // @ts-expect-error -- restore form value
-        setValue(key, value, { shouldValidate: true });
+        setValue(key, value);
       }
+
+      void trigger();
     }
-  }, [setValue, storageKey, timeout]);
+  }, [setValue, storageKey, timeout, trigger]);
 
   const debouncedPersist = debounce(() => {
     if (Object.keys(watchedValues).length > 0) {
