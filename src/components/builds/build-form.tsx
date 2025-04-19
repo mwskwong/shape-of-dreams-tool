@@ -27,6 +27,7 @@ import { routes, siteUrl } from "@/lib/site-config";
 
 import styles from "./build-form.module.css";
 import { EssenceSelect } from "./essence-select";
+import { FormPersist } from "./form-presist";
 import { MemorySelect } from "./memory-select";
 import { StatsDataList } from "./stats-data-list";
 import { TravelerSelect } from "./traveler-select";
@@ -87,6 +88,7 @@ export const BuildForm: FC<BuildFormProps> = ({ defaultValues, ...props }) => {
     mode: "onTouched",
     resolver: valibotResolver(schema),
   });
+
   const selectedTraveler = watch("traveler");
 
   const nameId = useId();
@@ -101,6 +103,7 @@ export const BuildForm: FC<BuildFormProps> = ({ defaultValues, ...props }) => {
 
   return (
     <>
+      <FormPersist control={control} reset={reset} />
       <Flex asChild direction="column" gap="3" {...props}>
         <form
           onSubmit={handleSubmit(async (data) => {
