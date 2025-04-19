@@ -14,7 +14,7 @@ import {
 } from "valibot";
 
 import {
-  allEssenceEntries,
+  allEssences,
   allMemoryEntries,
   allTravelerEntries,
 } from "@/lib/constants";
@@ -24,7 +24,7 @@ export const maxNumberOfEssencesPerMemory = 3;
 
 const memoryMap = new Map(allMemoryEntries);
 
-export const schema = pipe(
+export const buildDetailsSchema = pipe(
   object({
     name: pipe(string(), nonEmpty("Build name cannot be empty.")),
     traveler: pipe(
@@ -108,10 +108,7 @@ export const schema = pipe(
           ]),
           essences: pipe(
             array(
-              union([
-                picklist(allEssenceEntries.map(([id]) => id)),
-                literal(""),
-              ]),
+              union([picklist(allEssences.map(({ id }) => id)), literal("")]),
             ),
             length(maxNumberOfEssencesPerMemory),
           ),
@@ -254,4 +251,4 @@ export const schema = pipe(
   }),
 );
 
-export type Build = InferOutput<typeof schema>;
+export type BuildDetails = InferOutput<typeof buildDetailsSchema>;

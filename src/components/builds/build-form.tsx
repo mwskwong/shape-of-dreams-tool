@@ -16,13 +16,13 @@ import { type FC, useEffect, useId, useRef, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 
 import { submitBuild } from "@/lib/actions";
+import { allMemoryEntries, allTravelerEntries } from "@/lib/constants";
 import {
-  type Build,
+  type BuildDetails,
   maxNumberOfEssencesPerMemory,
   maxNumberOfMemories,
-  schema,
-} from "@/lib/build-form";
-import { allMemoryEntries, allTravelerEntries } from "@/lib/constants";
+} from "@/lib/schemas";
+import { buildDetailsSchema } from "@/lib/schemas";
 import { routes, siteUrl } from "@/lib/site-config";
 
 import styles from "./build-form.module.css";
@@ -55,7 +55,7 @@ const getStartingMemory = (
 
 export interface BuildFormProps
   extends Omit<FlexProps, "asChild" | "children"> {
-  defaultValues?: Build;
+  defaultValues?: BuildDetails;
 }
 
 export const BuildForm: FC<BuildFormProps> = ({ defaultValues, ...props }) => {
@@ -82,10 +82,10 @@ export const BuildForm: FC<BuildFormProps> = ({ defaultValues, ...props }) => {
           essences: Array.from({ length: 3 }, () => ""),
         })),
         description: "",
-      } satisfies Build),
+      } satisfies BuildDetails),
     mode: "onTouched",
     criteriaMode: "all",
-    resolver: valibotResolver(schema),
+    resolver: valibotResolver(buildDetailsSchema),
   });
 
   const travelerId = watch("traveler.id");

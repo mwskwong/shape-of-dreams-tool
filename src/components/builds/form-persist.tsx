@@ -11,12 +11,12 @@ import {
   useWatch,
 } from "react-hook-form";
 
-import { type Build } from "@/lib/build-form";
+import { type BuildDetails } from "@/lib/schemas";
 
 export interface FormPersistProps {
-  control: Control<Build>;
-  setValue: UseFormSetValue<Build>;
-  trigger: UseFormTrigger<Build>;
+  control: Control<BuildDetails>;
+  setValue: UseFormSetValue<BuildDetails>;
+  trigger: UseFormTrigger<BuildDetails>;
 }
 
 // Make this a component instead of a hook because `useWatch` will re-render this component only
@@ -38,7 +38,7 @@ export const FormPersist: FC<FormPersistProps> = ({
     if (str) {
       const { _timestamp = 0, ...values } = JSON.parse(str) as {
         _timestamp?: number;
-      } & Build;
+      } & BuildDetails;
 
       if (Date.now() - _timestamp > timeout) {
         localStorage.removeItem(storageKey);

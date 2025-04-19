@@ -12,7 +12,7 @@ import { useQueryState } from "nuqs";
 import { type FC } from "react";
 
 import {
-  allEssenceEntries,
+  allEssences,
   allMemoryEntries,
   allTravelerEntries,
 } from "@/lib/constants";
@@ -31,12 +31,12 @@ const memoryOptions = Object.entries(
   items: memoryEntries.map(([value, { name }]) => ({ name, value })),
 }));
 
-const essenceOptions = Object.entries(
-  groupBy(allEssenceEntries, "[1].rarity"),
-).map(([rarity, essenceEntries]) => ({
-  group: rarity,
-  items: essenceEntries.map(([value, { name }]) => ({ name, value })),
-}));
+const essenceOptions = Object.entries(groupBy(allEssences, "rarity")).map(
+  ([rarity, essences]) => ({
+    group: rarity,
+    items: essences.map(({ id, name }) => ({ name, value: id })),
+  }),
+);
 
 const sortOptions = [
   { name: "Newest", value: "newest" },

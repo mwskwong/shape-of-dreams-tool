@@ -15,7 +15,7 @@ import { IconSearch } from "@tabler/icons-react";
 import Image from "next/image";
 import { type FC, useDeferredValue, useState } from "react";
 
-import { allEssenceEntries, allEssenceRarities } from "@/lib/constants";
+import { allEssenceRarities, allEssences } from "@/lib/constants";
 
 import { CheckboxGroupSelect } from "../checkbox-group-select";
 import * as ItemCard from "../item-card";
@@ -36,7 +36,7 @@ export const EssenceSelect: FC<EssenceSelectProps> = ({
   onChange,
   ...props
 }) => {
-  const selectedEssence = allEssenceEntries.find(([key]) => key === value)?.[1];
+  const selectedEssence = allEssences.find(({ id }) => id === value);
 
   const [search, setSearch] = useState("");
   const deferredSearch = useDeferredValue(search);
@@ -123,9 +123,9 @@ export const EssenceSelect: FC<EssenceSelectProps> = ({
               </RadioCards.Item>
             </Dialog.Close>
 
-            {allEssenceEntries
+            {allEssences
               .filter(
-                ([, { name, description, rarity }]) =>
+                ({ name, description, rarity }) =>
                   (!deferredSearch ||
                     name.toLowerCase().includes(deferredSearch.toLowerCase()) ||
                     description
@@ -134,7 +134,7 @@ export const EssenceSelect: FC<EssenceSelectProps> = ({
                   (deferredRarities.length === 0 ||
                     deferredRarities.includes(rarity)),
               )
-              .map(([id, { name, rarity, image, rawDesc, rawDescVars }]) => (
+              .map(({ id, name, rarity, image, rawDesc, rawDescVars }) => (
                 <Dialog.Close key={id}>
                   <RadioCards.Item className={styles.radioCardItem} value={id}>
                     <ItemCard.Header

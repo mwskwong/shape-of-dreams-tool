@@ -17,7 +17,7 @@ import { type FC } from "react";
 
 import * as ItemCard from "@/components/item-card";
 import {
-  allEssenceEntries,
+  allEssences,
   allMemoryEntries,
   allTravelerEntries,
 } from "@/lib/constants";
@@ -140,9 +140,9 @@ const Builds: FC<BuildsProps> = async ({ searchParams }) => {
                       </HoverCard.Root>
 
                       {essences.map((id, index) => {
-                        const essence = allEssenceEntries.find(
-                          ([essenceId]) => essenceId === id,
-                        )?.[1];
+                        const essence = allEssences.find(
+                          (essence) => essence.id === id,
+                        );
 
                         return (
                           <HoverCard.Root key={index}>

@@ -7,7 +7,7 @@ import path from "node:path";
 import { ImageResponse } from "next/og";
 
 import {
-  allEssenceEntries,
+  allEssences,
   allMemoryEntries,
   allTravelerEntries,
   spriteMaxAspectRatio,
@@ -336,8 +336,8 @@ const OpengraphImage = async ({ params }: { params: { hashId: string } }) => {
                   const memory = allMemoryEntries.find(
                     ([key]) => key === id,
                   )?.[1];
-                  const essences = essenceIds.map(
-                    (id) => allEssenceEntries.find(([key]) => key === id)?.[1],
+                  const essences = essenceIds.map((id) =>
+                    allEssences.find((essence) => essence.id === id),
                   );
 
                   return (

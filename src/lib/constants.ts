@@ -4,9 +4,9 @@ import travelers from "@public/data/travelers.json";
 
 import { compareEssences, compareMemories, compareRarities } from "./utils";
 
-export const allEssenceEntries = Object.entries(essences).toSorted(
-  ([, a], [, b]) => compareEssences(a, b),
-);
+export const allEssences = Object.entries(essences)
+  .map(([id, essence]) => ({ id: id as keyof typeof essences, ...essence }))
+  .toSorted(compareEssences);
 
 export const allMemoryEntries = Object.entries(memories).toSorted(
   ([, a], [, b]) => compareMemories(a, b),

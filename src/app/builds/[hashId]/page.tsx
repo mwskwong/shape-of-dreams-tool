@@ -20,7 +20,7 @@ import { type BreadcrumbList, type WithContext } from "schema-dts";
 import { StatsDataList } from "@/components/builds/stats-data-list";
 import * as ItemCard from "@/components/item-card";
 import {
-  allEssenceEntries,
+  allEssences,
   allMemoryEntries,
   allTravelerEntries,
 } from "@/lib/constants";
@@ -224,8 +224,8 @@ const BuildDetails: FC<BuildDetailsProps> = async ({ params }) => {
                   const memory = allMemoryEntries.find(
                     ([key]) => key === id,
                   )?.[1];
-                  const essences = essenceIds.map(
-                    (id) => allEssenceEntries.find(([key]) => key === id)?.[1],
+                  const essences = essenceIds.map((id) =>
+                    allEssences.find((essence) => essence.id === id),
                   );
 
                   return (
