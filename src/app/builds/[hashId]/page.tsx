@@ -9,7 +9,7 @@ import * as HoverCard from "@radix-ui/themes/components/hover-card";
 import { Inset } from "@radix-ui/themes/components/inset";
 import { ScrollArea } from "@radix-ui/themes/components/scroll-area";
 import { Text } from "@radix-ui/themes/components/text";
-import { IconCopy, IconThumbUp, IconUser } from "@tabler/icons-react";
+import { IconCopy, IconThumbUp } from "@tabler/icons-react";
 import { type ResolvingMetadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
@@ -105,21 +105,12 @@ const BuildDetails: FC<BuildDetailsProps> = async ({ params }) => {
                         width={128}
                       />
                     ) : (
-                      <Text asChild color="gray">
-                        <Flex
-                          align="center"
-                          height="128px"
-                          justify="center"
-                          width="128px"
-                        >
-                          <IconUser />
-                        </Flex>
-                      </Text>
+                      <Box height="128px" width="128px" />
                     )}
                   </Inset>
                 </Card>
                 <Text
-                  as="div"
+                  as="p"
                   color={getTravelerColor(build.details.traveler.id)}
                 >
                   {traveler?.name ?? "Any"}

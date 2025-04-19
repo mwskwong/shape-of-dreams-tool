@@ -21,6 +21,7 @@ import { getBuilds } from "@/lib/queries";
 import { routes } from "@/lib/site-config";
 import {
   getMutuallyExclusiveMemories,
+  getRarityColor,
   getTravelerColor,
   loadBuildSearchParams,
 } from "@/lib/utils";
@@ -53,12 +54,12 @@ const Builds: FC<BuildsProps> = async ({ searchParams }) => {
                     {traveler ? (
                       <Image
                         alt={traveler.name}
-                        height={80}
+                        height={128}
                         src={`/images/${traveler.image}`}
-                        width={80}
+                        width={128}
                       />
                     ) : (
-                      <Box height="80px" width="80px" />
+                      <Box height="128px" width="128px" />
                     )}
                   </Inset>
                 </Card>
@@ -68,6 +69,7 @@ const Builds: FC<BuildsProps> = async ({ searchParams }) => {
                     {build.details.name}
                   </Heading>
                   <Text
+                    as="p"
                     color={
                       getTravelerColor(build.details.traveler.id) ?? "gray"
                     }
@@ -80,58 +82,69 @@ const Builds: FC<BuildsProps> = async ({ searchParams }) => {
                   const memory = allMemories.find((memory) => memory.id === id);
 
                   return (
-                    <Flex key={index} align="center" gap="3">
-                      <HoverCard.Root>
-                        <HoverCard.Trigger>
-                          <Card>
-                            <Inset side="all">
-                              {memory ? (
-                                <Image
-                                  alt={memory.name}
-                                  height={64}
-                                  src={`/images/${memory.image}`}
-                                  width={64}
-                                />
-                              ) : (
-                                <Box height="64px" width="64px" />
-                              )}
-                            </Inset>
-                          </Card>
-                        </HoverCard.Trigger>
-
-                        {memory && (
-                          <HoverCard.Content>
-                            <Flex direction="column" gap="3">
-                              <ItemCard.Header
-                                image={memory.image}
-                                name={memory.name}
-                                rarity={memory.rarity}
-                                size="2"
-                              />
-                              <ItemCard.Content
-                                achievementName={memory.achievementName}
-                                cooldownTime={memory.cooldownTime}
-                                maxCharges={memory.maxCharges}
-                                size="2"
-                                type={memory.type}
-                                achievementDescription={
-                                  memory.achievementDescription
-                                }
-                                mutuallyExclusive={getMutuallyExclusiveMemories(
-                                  memory,
+                    <Flex key={index} gap="3">
+                      <Flex
+                        align="center"
+                        direction="column"
+                        gap="2"
+                        maxWidth="80px"
+                      >
+                        <HoverCard.Root>
+                          <HoverCard.Trigger>
+                            <Card>
+                              <Inset side="all">
+                                {memory ? (
+                                  <Image
+                                    alt={memory.name}
+                                    height={80}
+                                    src={`/images/${memory.image}`}
+                                    width={80}
+                                  />
+                                ) : (
+                                  <Box height="80px" width="80px" />
                                 )}
-                              >
-                                <ItemCard.Description
-                                  rawDescVars={memory.rawDescVars}
+                              </Inset>
+                            </Card>
+                          </HoverCard.Trigger>
+
+                          {memory && (
+                            <HoverCard.Content>
+                              <Flex direction="column" gap="3">
+                                <Text
+                                  color={getRarityColor(memory.rarity)}
                                   size="2"
                                 >
-                                  {memory.rawDesc}
-                                </ItemCard.Description>
-                              </ItemCard.Content>
-                            </Flex>
-                          </HoverCard.Content>
-                        )}
-                      </HoverCard.Root>
+                                  {memory.rarity}
+                                </Text>
+                                <ItemCard.Content
+                                  achievementName={memory.achievementName}
+                                  cooldownTime={memory.cooldownTime}
+                                  maxCharges={memory.maxCharges}
+                                  size="2"
+                                  type={memory.type}
+                                  achievementDescription={
+                                    memory.achievementDescription
+                                  }
+                                  mutuallyExclusive={getMutuallyExclusiveMemories(
+                                    memory,
+                                  )}
+                                >
+                                  <ItemCard.Description
+                                    rawDescVars={memory.rawDescVars}
+                                    size="2"
+                                  >
+                                    {memory.rawDesc}
+                                  </ItemCard.Description>
+                                </ItemCard.Content>
+                              </Flex>
+                            </HoverCard.Content>
+                          )}
+                        </HoverCard.Root>
+
+                        <Text align="center" as="div" size="2">
+                          {memory?.name ?? "Any"}
+                        </Text>
+                      </Flex>
 
                       {essences.map((id, index) => {
                         const essence = allEssences.find(
@@ -139,50 +152,62 @@ const Builds: FC<BuildsProps> = async ({ searchParams }) => {
                         );
 
                         return (
-                          <HoverCard.Root key={index}>
-                            <HoverCard.Trigger>
-                              <Card>
-                                {essence ? (
-                                  <Image
-                                    alt={essence.name}
-                                    height={24}
-                                    src={`/images/${essence.image}`}
-                                    width={24}
-                                  />
-                                ) : (
-                                  <Box height="24px" width="24px" />
-                                )}
-                              </Card>
-                            </HoverCard.Trigger>
+                          <Flex
+                            key={index}
+                            align="center"
+                            direction="column"
+                            gap="2"
+                            maxWidth="64px"
+                          >
+                            <HoverCard.Root>
+                              <HoverCard.Trigger>
+                                <Card>
+                                  {essence ? (
+                                    <Image
+                                      alt={essence.name}
+                                      height={40}
+                                      src={`/images/${essence.image}`}
+                                      width={40}
+                                    />
+                                  ) : (
+                                    <Box height="40px" width="40px" />
+                                  )}
+                                </Card>
+                              </HoverCard.Trigger>
 
-                            {essence && (
-                              <HoverCard.Content>
-                                <Flex direction="column" gap="3">
-                                  <ItemCard.Header
-                                    image={essence.image}
-                                    name={essence.name}
-                                    rarity={essence.rarity}
-                                    size="2"
-                                  />
-                                  <ItemCard.Content
-                                    achievementName={essence.achievementName}
-                                    size="2"
-                                    achievementDescription={
-                                      essence.achievementDescription
-                                    }
-                                  >
-                                    <ItemCard.Description
-                                      leveling="quality"
-                                      rawDescVars={essence.rawDescVars}
+                              {essence && (
+                                <HoverCard.Content>
+                                  <Flex direction="column" gap="3">
+                                    <Text
+                                      color={getRarityColor(essence.rarity)}
                                       size="2"
                                     >
-                                      {essence.rawDesc}
-                                    </ItemCard.Description>
-                                  </ItemCard.Content>
-                                </Flex>
-                              </HoverCard.Content>
-                            )}
-                          </HoverCard.Root>
+                                      {essence.rarity}
+                                    </Text>
+                                    <ItemCard.Content
+                                      achievementName={essence.achievementName}
+                                      size="2"
+                                      achievementDescription={
+                                        essence.achievementDescription
+                                      }
+                                    >
+                                      <ItemCard.Description
+                                        leveling="quality"
+                                        rawDescVars={essence.rawDescVars}
+                                        size="2"
+                                      >
+                                        {essence.rawDesc}
+                                      </ItemCard.Description>
+                                    </ItemCard.Content>
+                                  </Flex>
+                                </HoverCard.Content>
+                              )}
+                            </HoverCard.Root>
+
+                            <Text align="center" as="div" size="1">
+                              {essence?.name ?? "Any"}
+                            </Text>
+                          </Flex>
                         );
                       })}
                     </Flex>
