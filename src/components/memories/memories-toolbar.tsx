@@ -14,7 +14,7 @@ import {
   allMemoryRarities,
   allMemoryTags,
   allMemoryTypes,
-  allTravelerEntries,
+  allTravelers,
 } from "@/lib/constants";
 import { itemSearchParams } from "@/lib/utils";
 
@@ -66,11 +66,8 @@ export const MemoriesToolbar: FC<MemoriesToolbarProps> = (props) => {
         {types.length > 0 && <Badge color="indigo">{types.length}</Badge>}
       </CheckboxGroupSelect>
       <CheckboxGroupSelect
+        options={allTravelers.map(({ id, name }) => ({ name, value: id }))}
         value={travelers}
-        options={allTravelerEntries.map(([key, { name }]) => ({
-          value: key,
-          name,
-        }))}
         onReset={() => setTravelers([])}
         onValueChange={setTravelers}
       >

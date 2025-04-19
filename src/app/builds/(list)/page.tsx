@@ -16,7 +16,7 @@ import { type SearchParams } from "nuqs/server";
 import { type FC } from "react";
 
 import * as ItemCard from "@/components/item-card";
-import { allEssences, allMemories, allTravelerEntries } from "@/lib/constants";
+import { allEssences, allMemories, allTravelers } from "@/lib/constants";
 import { getBuilds } from "@/lib/queries";
 import { routes } from "@/lib/site-config";
 import {
@@ -40,9 +40,9 @@ const Builds: FC<BuildsProps> = async ({ searchParams }) => {
   return (
     <Grid columns={{ initial: "1", sm: "2", md: "3" }} gap="3">
       {builds.map((build) => {
-        const traveler = allTravelerEntries.find(
-          ([id]) => id === build.details.traveler.id,
-        )?.[1];
+        const traveler = allTravelers.find(
+          ({ id }) => id === build.details.traveler.id,
+        );
 
         return (
           <Card key={build.hashId} asChild>

@@ -13,7 +13,7 @@ import {
   union,
 } from "valibot";
 
-import { allEssences, allMemories, allTravelerEntries } from "@/lib/constants";
+import { allEssences, allMemories, allTravelers } from "@/lib/constants";
 
 export const maxNumberOfMemories = 4;
 export const maxNumberOfEssencesPerMemory = 3;
@@ -23,10 +23,7 @@ export const buildDetailsSchema = pipe(
     name: pipe(string(), nonEmpty("Build name cannot be empty.")),
     traveler: pipe(
       object({
-        id: union([
-          picklist(allTravelerEntries.map(([id]) => id)),
-          literal(""),
-        ]),
+        id: union([picklist(allTravelers.map(({ id }) => id)), literal("")]),
         startingMemories: object({
           q: union([
             picklist(

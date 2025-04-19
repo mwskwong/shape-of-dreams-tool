@@ -16,7 +16,7 @@ import { type FC, useEffect, useId, useRef, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 
 import { submitBuild } from "@/lib/actions";
-import { allMemories, allTravelerEntries } from "@/lib/constants";
+import { allMemories, allTravelers } from "@/lib/constants";
 import {
   type BuildDetails,
   maxNumberOfEssencesPerMemory,
@@ -222,9 +222,7 @@ export const BuildForm: FC<BuildFormProps> = ({ defaultValues, ...props }) => {
                 </Flex>
 
                 <StatsDataList
-                  traveler={
-                    allTravelerEntries.find(([id]) => id === travelerId)?.[1]
-                  }
+                  traveler={allTravelers.find(({ id }) => id === travelerId)}
                 />
               </Flex>
             </Flex>

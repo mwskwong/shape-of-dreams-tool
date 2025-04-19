@@ -12,7 +12,10 @@ export const allMemories = Object.entries(memories)
   .map(([id, memory]) => ({ id: id as keyof typeof memories, ...memory }))
   .toSorted(compareMemories);
 
-export const allTravelerEntries = Object.entries(travelers);
+export const allTravelers = Object.entries(travelers).map(([id, traveler]) => ({
+  id: id as keyof typeof travelers,
+  ...traveler,
+}));
 
 export const allEssenceRarities = [
   ...new Set(Object.values(essences).map(({ rarity }) => rarity)),

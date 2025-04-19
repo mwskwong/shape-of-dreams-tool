@@ -11,7 +11,7 @@ import { groupBy } from "lodash-es";
 import { useQueryState } from "nuqs";
 import { type FC } from "react";
 
-import { allEssences, allMemories, allTravelerEntries } from "@/lib/constants";
+import { allEssences, allMemories, allTravelers } from "@/lib/constants";
 import { buildSearchParams } from "@/lib/utils";
 
 import { CheckboxGroupSelect } from "../checkbox-group-select";
@@ -69,11 +69,8 @@ export const BuildsToolbar: FC<BuildsToolbarProps> = (props) => {
         </TextField.Slot>
       </TextField.Root>
       <CheckboxGroupSelect
+        options={allTravelers.map(({ id, name }) => ({ name, value: id }))}
         value={travelers}
-        options={allTravelerEntries.map(([value, { name }]) => ({
-          name,
-          value,
-        }))}
         onReset={() => setTravelers([])}
         onValueChange={setTravelers}
       >

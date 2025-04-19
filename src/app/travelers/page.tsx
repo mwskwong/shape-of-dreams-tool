@@ -11,20 +11,20 @@ import {
 } from "schema-dts";
 
 import * as TravelerCard from "@/components/travelers/traveler-card";
-import { allMemories, allTravelerEntries } from "@/lib/constants";
+import { allMemories, allTravelers } from "@/lib/constants";
 import { routes, siteName, siteUrl } from "@/lib/site-config";
 import { getMutuallyExclusiveMemories, getTravelerColor } from "@/lib/utils";
 
 const Travelers: FC = () => (
   <>
     <Grid columns={{ initial: "1", sm: "2", md: "3" }} gap="3" pt="3">
-      {allTravelerEntries.map(([key, { name, image, ...traveler }]) => (
-        <Theme key={key} accentColor={getTravelerColor(key)}>
+      {allTravelers.map(({ id, name, image, ...traveler }) => (
+        <Theme key={id} accentColor={getTravelerColor(id)}>
           <TravelerCard.Root image={image} name={name}>
             <TravelerCard.Content
               {...traveler}
               memories={allMemories
-                .filter(({ traveler }) => traveler === key)
+                .filter(({ traveler }) => traveler === id)
                 .map(
                   ({
                     name,

@@ -19,7 +19,7 @@ import { type BreadcrumbList, type WithContext } from "schema-dts";
 
 import { StatsDataList } from "@/components/builds/stats-data-list";
 import * as ItemCard from "@/components/item-card";
-import { allEssences, allMemories, allTravelerEntries } from "@/lib/constants";
+import { allEssences, allMemories, allTravelers } from "@/lib/constants";
 import { getBuildByHashId } from "@/lib/queries";
 import { routes, siteUrl } from "@/lib/site-config";
 import {
@@ -40,9 +40,9 @@ const BuildDetails: FC<BuildDetailsProps> = async ({ params }) => {
 
   if (!build) notFound();
 
-  const traveler = allTravelerEntries.find(
-    ([key]) => key === build.details.traveler.id,
-  )?.[1];
+  const traveler = allTravelers.find(
+    ({ id }) => id === build.details.traveler.id,
+  );
 
   return (
     <>

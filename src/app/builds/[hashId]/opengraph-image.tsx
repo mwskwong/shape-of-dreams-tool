@@ -9,7 +9,7 @@ import { ImageResponse } from "next/og";
 import {
   allEssences,
   allMemories,
-  allTravelerEntries,
+  allTravelers,
   spriteMaxAspectRatio,
   sprites,
 } from "@/lib/constants";
@@ -61,9 +61,9 @@ const OpengraphImage = async ({ params }: { params: { hashId: string } }) => {
   const build = await getBuildByHashId(hashId);
 
   if (!build) return;
-  const traveler = allTravelerEntries.find(
-    ([key]) => key === build.details.traveler.id,
-  )?.[1];
+  const traveler = allTravelers.find(
+    ({ id }) => id === build.details.traveler.id,
+  );
   const stats = traveler && [
     {
       ...sprites.health,
