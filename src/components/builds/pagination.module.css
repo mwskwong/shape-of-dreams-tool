@@ -1,0 +1,9 @@
+.root {
+  & > * {
+    margin: 0;
+  }
+}
+
+.number {
+  width: 20px;
+}

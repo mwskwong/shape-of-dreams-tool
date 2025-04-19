@@ -3,6 +3,7 @@ import Hashids from "hashids";
 import {
   createLoader,
   parseAsArrayOf,
+  parseAsInteger,
   parseAsString,
   parseAsStringLiteral,
 } from "nuqs/server";
@@ -76,6 +77,7 @@ export const buildSearchParams = {
   sort: parseAsStringLiteral(["newest", "mostLiked"])
     .withDefault("newest")
     .withOptions({ shallow: false }),
+  page: parseAsInteger.withDefault(1).withOptions({ shallow: false }),
 };
 
 export const loadBuildSearchParams = createLoader(buildSearchParams);

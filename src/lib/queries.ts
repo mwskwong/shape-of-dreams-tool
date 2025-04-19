@@ -43,12 +43,16 @@ export const getBuilds = async ({
   memories,
   essences,
   sort,
+  limit,
+  offset,
 }: {
   search: string;
   travelers: string[];
   memories: string[];
   essences: string[];
   sort: "newest" | "mostLiked";
+  limit: number;
+  offset: number;
 }) => {
   "use cache";
   cacheLife("days");
@@ -79,13 +83,27 @@ export const getBuilds = async ({
     );
   }
 
-  const result = await db
-    .select()
-    .from(builds)
-    .where(and(...conditions))
-    .orderBy(sort === "newest" ? desc(builds.createdAt) : desc(builds.likes));
-  return result.map(({ id, ...build }) => ({
-    hashId: hashIds.encode(id),
-    ...build,
-  }));
+  const condition = and(...conditions);
+
+  const [result, count] = await Promise.all([
+    db
+      .select()
+      .from(builds)
+      .where(condition)
+      .orderBy(
+        sort === "newest" ? desc(builds.createdAt) : desc(builds.likes),
+        builds.id,
+      )
+      .limit(limit)
+      .offset(offset),
+    db.$count(builds, condition),
+  ]);
+
+  return {
+    builds: result.map(({ id, ...build }) => ({
+      hashId: hashIds.encode(id),
+      ...build,
+    })),
+    count,
+  };
 };

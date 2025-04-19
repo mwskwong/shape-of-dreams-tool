@@ -55,6 +55,8 @@ export const BuildsToolbar: FC<BuildsToolbarProps> = (props) => {
   );
   const [sort, setSort] = useQueryState("sort", buildSearchParams.sort);
 
+  const [, setPage] = useQueryState("page", buildSearchParams.page);
+
   return (
     <Flex align="center" gap="3" wrap="wrap" {...props}>
       <TextField.Root
@@ -62,7 +64,10 @@ export const BuildsToolbar: FC<BuildsToolbarProps> = (props) => {
         placeholder="Search..."
         type="search"
         value={search}
-        onInput={(e) => setSearch((e.target as HTMLInputElement).value)}
+        onInput={(e) => {
+          void setSearch((e.target as HTMLInputElement).value);
+          void setPage(1);
+        }}
       >
         <TextField.Slot>
           <IconSearch size={16} />
@@ -71,8 +76,14 @@ export const BuildsToolbar: FC<BuildsToolbarProps> = (props) => {
       <CheckboxGroupSelect
         options={allTravelers.map(({ id, name }) => ({ name, value: id }))}
         value={travelers}
-        onReset={() => setTravelers([])}
-        onValueChange={setTravelers}
+        onReset={() => {
+          void setTravelers([]);
+          void setPage(1);
+        }}
+        onValueChange={(value) => {
+          void setTravelers(value);
+          void setPage(1);
+        }}
       >
         Traveler
         {travelers.length > 0 && (
@@ -82,8 +93,14 @@ export const BuildsToolbar: FC<BuildsToolbarProps> = (props) => {
       <CheckboxGroupSelect
         options={memoryOptions}
         value={memories}
-        onReset={() => setMemories([])}
-        onValueChange={setMemories}
+        onReset={() => {
+          void setMemories([]);
+          void setPage(1);
+        }}
+        onValueChange={(value) => {
+          void setMemories(value);
+          void setPage(1);
+        }}
       >
         Memory
         {memories.length > 0 && <Badge color="indigo">{memories.length}</Badge>}
@@ -91,15 +108,24 @@ export const BuildsToolbar: FC<BuildsToolbarProps> = (props) => {
       <CheckboxGroupSelect
         options={essenceOptions}
         value={essences}
-        onReset={() => setEssences([])}
-        onValueChange={setEssences}
+        onReset={() => {
+          void setEssences([]);
+          void setPage(1);
+        }}
+        onValueChange={(value) => {
+          void setEssences(value);
+          void setPage(1);
+        }}
       >
         Essence
         {essences.length > 0 && <Badge color="indigo">{essences.length}</Badge>}
       </CheckboxGroupSelect>
       <Select.Root
         value={sort}
-        onValueChange={(value) => setSort(value as "newest" | "mostLiked")}
+        onValueChange={(value) => {
+          void setSort(value as "newest" | "mostLiked");
+          void setPage(1);
+        }}
       >
         <Select.Trigger className={styles.selectTrigger}>
           {/* WORKAROUND: prevent default value missing during SSR */}
@@ -126,6 +152,7 @@ export const BuildsToolbar: FC<BuildsToolbarProps> = (props) => {
           void setMemories([]);
           void setEssences([]);
           void setSort("newest");
+          void setPage(1);
         }}
       >
         Reset
