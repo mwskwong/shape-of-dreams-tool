@@ -27,7 +27,7 @@ import { routes, siteUrl } from "@/lib/site-config";
 
 import styles from "./build-form.module.css";
 import { EssenceSelect } from "./essence-select";
-import { FormPersist } from "./form-presist";
+import { FormPersist } from "./form-persist";
 import { MemorySelect } from "./memory-select";
 import { StatsDataList } from "./stats-data-list";
 import { TravelerSelect } from "./traveler-select";

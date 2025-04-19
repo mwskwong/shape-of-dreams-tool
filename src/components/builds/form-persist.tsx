@@ -45,20 +45,22 @@ export const FormPersist = <T extends FieldValues>({
     }
   }, [reset, storageKey, timeout]);
 
+  const debouncedPersist = debounce(() => {
+    if (Object.keys(watchedValues).length > 0) {
+      localStorage.setItem(
+        storageKey,
+        JSON.stringify({
+          ...(watchedValues as T),
+          _timestamp: Date.now(),
+        }),
+      );
+    }
+  }, 500);
+
   useEffect(() => {
-    const debouncedPersist = debounce(() => {
-      const values = Object.assign({}, watchedValues);
-      if (Object.entries(watchedValues).length > 0) {
-        values._timestamp = Date.now();
-
-        localStorage.setItem(storageKey, JSON.stringify(values));
-      }
-    }, 500);
-
     debouncedPersist();
-
     return () => debouncedPersist.cancel();
-  }, [storageKey, watchedValues]);
+  }, [debouncedPersist]);
 
   // eslint-disable-next-line unicorn/no-null
   return null;
