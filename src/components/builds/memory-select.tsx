@@ -19,7 +19,7 @@ import Image from "next/image";
 import { type FC, useDeferredValue, useState } from "react";
 
 import {
-  allMemoryEntries,
+  allMemories,
   allMemoryRarities,
   allMemoryTypes,
 } from "@/lib/constants";
@@ -73,7 +73,7 @@ export const MemorySelect: FC<MemorySelectProps> = ({
   onChange,
   ...props
 }) => {
-  const selectedMemory = allMemoryEntries.find(([key]) => key === value)?.[1];
+  const selectedMemory = allMemories.find(({ id }) => id === value);
 
   const [search, setSearch] = useState("");
   const deferredSearch = useDeferredValue(search);

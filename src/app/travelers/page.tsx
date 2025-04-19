@@ -11,7 +11,7 @@ import {
 } from "schema-dts";
 
 import * as TravelerCard from "@/components/travelers/traveler-card";
-import { allMemoryEntries, allTravelerEntries } from "@/lib/constants";
+import { allMemories, allTravelerEntries } from "@/lib/constants";
 import { routes, siteName, siteUrl } from "@/lib/site-config";
 import { getMutuallyExclusiveMemories, getTravelerColor } from "@/lib/utils";
 
@@ -23,27 +23,24 @@ const Travelers: FC = () => (
           <TravelerCard.Root image={image} name={name}>
             <TravelerCard.Content
               {...traveler}
-              memories={allMemoryEntries
-                .filter(([, { traveler }]) => traveler === key)
+              memories={allMemories
+                .filter(({ traveler }) => traveler === key)
                 .map(
-                  ([
-                    ,
-                    {
-                      name,
-                      rarity,
-                      cooldownTime,
-                      maxCharges,
-                      rawDesc,
-                      rawDescVars,
-                      shortDescription,
-                      type,
-                      image,
-                      achievementDescription,
-                      achievementName,
-                      traveler,
-                      travelerMemoryLocation,
-                    },
-                  ]) => ({
+                  ({
+                    name,
+                    rarity,
+                    cooldownTime,
+                    maxCharges,
+                    rawDesc,
+                    rawDescVars,
+                    shortDescription,
+                    type,
+                    image,
+                    achievementDescription,
+                    achievementName,
+                    traveler,
+                    travelerMemoryLocation,
+                  }) => ({
                     name,
                     cooldownTime,
                     maxCharges,

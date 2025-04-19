@@ -8,9 +8,9 @@ export const allEssences = Object.entries(essences)
   .map(([id, essence]) => ({ id: id as keyof typeof essences, ...essence }))
   .toSorted(compareEssences);
 
-export const allMemoryEntries = Object.entries(memories).toSorted(
-  ([, a], [, b]) => compareMemories(a, b),
-);
+export const allMemories = Object.entries(memories)
+  .map(([id, memory]) => ({ id: id as keyof typeof memories, ...memory }))
+  .toSorted(compareMemories);
 
 export const allTravelerEntries = Object.entries(travelers);
 

@@ -8,7 +8,7 @@ import { ImageResponse } from "next/og";
 
 import {
   allEssences,
-  allMemoryEntries,
+  allMemories,
   allTravelerEntries,
   spriteMaxAspectRatio,
   sprites,
@@ -197,9 +197,7 @@ const OpengraphImage = async ({ params }: { params: { hashId: string } }) => {
               <div style={{ display: "flex", gap: space * 3 }}>
                 {Object.entries(build.details.traveler.startingMemories).map(
                   ([key, value]) => {
-                    const memory = allMemoryEntries.find(
-                      ([key]) => key === value,
-                    )?.[1];
+                    const memory = allMemories.find(({ id }) => id === value);
 
                     return (
                       <div
@@ -333,9 +331,7 @@ const OpengraphImage = async ({ params }: { params: { hashId: string } }) => {
             >
               {build.details.memories.map(
                 ({ id, essences: essenceIds }, index) => {
-                  const memory = allMemoryEntries.find(
-                    ([key]) => key === id,
-                  )?.[1];
+                  const memory = allMemories.find((memory) => memory.id === id);
                   const essences = essenceIds.map((id) =>
                     allEssences.find((essence) => essence.id === id),
                   );

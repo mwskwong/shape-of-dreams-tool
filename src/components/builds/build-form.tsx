@@ -16,7 +16,7 @@ import { type FC, useEffect, useId, useRef, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 
 import { submitBuild } from "@/lib/actions";
-import { allMemoryEntries, allTravelerEntries } from "@/lib/constants";
+import { allMemories, allTravelerEntries } from "@/lib/constants";
 import {
   type BuildDetails,
   maxNumberOfEssencesPerMemory,
@@ -32,10 +32,6 @@ import { MemorySelect } from "./memory-select";
 import { StatsDataList } from "./stats-data-list";
 import { TravelerSelect } from "./traveler-select";
 
-const allMemories = allMemoryEntries
-  .filter(([id]) => id !== "St_C_Sneeze")
-  .map(([id, memory]) => ({ id, ...memory }));
-
 const startingMemoryLocations = ["q", "r", "identity", "movement"] as const;
 
 const getStartingMemory = (
@@ -45,11 +41,11 @@ const getStartingMemory = (
   if (!traveler) return "";
 
   return (
-    allMemoryEntries.find(
-      ([, memory]) =>
+    allMemories.find(
+      (memory) =>
         memory.traveler === traveler &&
         memory.travelerMemoryLocation === travelerMemoryLocation,
-    )?.[0] ?? ""
+    )?.id ?? ""
   );
 };
 
@@ -190,18 +186,13 @@ export const BuildForm: FC<BuildFormProps> = ({ defaultValues, ...props }) => {
                         name={`traveler.startingMemories.${location}`}
                         render={({ field: { disabled, ...field } }) => {
                           const options = travelerId
-                            ? allMemoryEntries
-                                .filter(
-                                  ([, { traveler, travelerMemoryLocation }]) =>
-                                    traveler === travelerId &&
-                                    travelerMemoryLocation ===
-                                      location[0].toUpperCase() +
-                                        location.slice(1),
-                                )
-                                .map(([key, memory]) => ({
-                                  id: key,
-                                  ...memory,
-                                }))
+                            ? allMemories.filter(
+                                ({ traveler, travelerMemoryLocation }) =>
+                                  traveler === travelerId &&
+                                  travelerMemoryLocation ===
+                                    location[0].toUpperCase() +
+                                      location.slice(1),
+                              )
                             : [];
 
                           return (
@@ -267,9 +258,10 @@ export const BuildForm: FC<BuildFormProps> = ({ defaultValues, ...props }) => {
                                 {...field}
                                 options={allMemories.filter(
                                   ({ id, traveler }) =>
-                                    !traveler ||
-                                    id === startingMemoryQ ||
-                                    id === startingMemoryR,
+                                    id !== "St_C_Sneeze" &&
+                                    (!traveler ||
+                                      id === startingMemoryQ ||
+                                      id === startingMemoryR),
                                 )}
                                 onChange={(id) => {
                                   onChange(id);

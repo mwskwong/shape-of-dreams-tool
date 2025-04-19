@@ -13,16 +13,10 @@ import {
   union,
 } from "valibot";
 
-import {
-  allEssences,
-  allMemoryEntries,
-  allTravelerEntries,
-} from "@/lib/constants";
+import { allEssences, allMemories, allTravelerEntries } from "@/lib/constants";
 
 export const maxNumberOfMemories = 4;
 export const maxNumberOfEssencesPerMemory = 3;
-
-const memoryMap = new Map(allMemoryEntries);
 
 export const buildDetailsSchema = pipe(
   object({
@@ -36,45 +30,45 @@ export const buildDetailsSchema = pipe(
         startingMemories: object({
           q: union([
             picklist(
-              allMemoryEntries
+              allMemories
                 .filter(
-                  ([, { travelerMemoryLocation }]) =>
+                  ({ travelerMemoryLocation }) =>
                     travelerMemoryLocation === "Q",
                 )
-                .map(([id]) => id),
+                .map(({ id }) => id),
             ),
             literal(""),
           ]),
           r: union([
             picklist(
-              allMemoryEntries
+              allMemories
                 .filter(
-                  ([, { travelerMemoryLocation }]) =>
+                  ({ travelerMemoryLocation }) =>
                     travelerMemoryLocation === "R",
                 )
-                .map(([id]) => id),
+                .map(({ id }) => id),
             ),
             literal(""),
           ]),
           identity: union([
             picklist(
-              allMemoryEntries
+              allMemories
                 .filter(
-                  ([, { travelerMemoryLocation }]) =>
+                  ({ travelerMemoryLocation }) =>
                     travelerMemoryLocation === "Identity",
                 )
-                .map(([id]) => id),
+                .map(({ id }) => id),
             ),
             literal(""),
           ]),
           movement: union([
             picklist(
-              allMemoryEntries
+              allMemories
                 .filter(
-                  ([, { travelerMemoryLocation }]) =>
+                  ({ travelerMemoryLocation }) =>
                     travelerMemoryLocation === "Movement",
                 )
-                .map(([id]) => id),
+                .map(({ id }) => id),
             ),
             literal(""),
           ]),
@@ -84,9 +78,7 @@ export const buildDetailsSchema = pipe(
         Object.values(startingMemories).every((memoryId) => {
           if (!memoryId) return true;
 
-          const memory = allMemoryEntries.find(
-            ([key]) => key === memoryId,
-          )?.[1];
+          const memory = allMemories.find(({ id }) => id === memoryId);
           return memory?.traveler === id;
         }),
       ),
@@ -96,13 +88,13 @@ export const buildDetailsSchema = pipe(
         object({
           id: union([
             picklist(
-              allMemoryEntries
+              allMemories
                 .filter(
-                  ([, { travelerMemoryLocation }]) =>
+                  ({ travelerMemoryLocation }) =>
                     travelerMemoryLocation !== "Identity" &&
                     travelerMemoryLocation !== "Movement",
                 )
-                .map(([id]) => id),
+                .map(({ id }) => id),
             ),
             literal(""),
           ]),
@@ -125,7 +117,7 @@ export const buildDetailsSchema = pipe(
 
         for (const [index, memoryItem] of dataset.value.entries()) {
           const { id } = memoryItem;
-          const memory = memoryMap.get(id);
+          const memory = allMemories.find((memory) => memory.id === id);
 
           if (
             memory?.rarity === "Traveler" &&
@@ -209,7 +201,7 @@ export const buildDetailsSchema = pipe(
       traveler.startingMemories,
     )) {
       const currentTravelerLocationMemory = memories.find(({ id }) => {
-        const memory = memoryMap.get(id);
+        const memory = allMemories.find((memory) => memory.id === id);
         return (
           memory?.travelerMemoryLocation ===
           location[0].toUpperCase() + location.slice(1)

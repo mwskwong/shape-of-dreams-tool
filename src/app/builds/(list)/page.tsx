@@ -16,11 +16,7 @@ import { type SearchParams } from "nuqs/server";
 import { type FC } from "react";
 
 import * as ItemCard from "@/components/item-card";
-import {
-  allEssences,
-  allMemoryEntries,
-  allTravelerEntries,
-} from "@/lib/constants";
+import { allEssences, allMemories, allTravelerEntries } from "@/lib/constants";
 import { getBuilds } from "@/lib/queries";
 import { routes } from "@/lib/site-config";
 import {
@@ -81,9 +77,7 @@ const Builds: FC<BuildsProps> = async ({ searchParams }) => {
                 </Flex>
 
                 {build.details.memories.map(({ id, essences }, index) => {
-                  const memory = allMemoryEntries.find(
-                    ([memoryId]) => memoryId === id,
-                  )?.[1];
+                  const memory = allMemories.find((memory) => memory.id === id);
 
                   return (
                     <Flex key={index} align="center" gap="3">

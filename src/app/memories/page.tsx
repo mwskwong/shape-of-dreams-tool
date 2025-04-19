@@ -4,7 +4,7 @@ import { type SearchParams } from "nuqs/server";
 import { type FC } from "react";
 
 import * as ItemCard from "@/components/item-card";
-import { allMemoryEntries } from "@/lib/constants";
+import { allMemories } from "@/lib/constants";
 import { routes } from "@/lib/site-config";
 import {
   getMutuallyExclusiveMemories,
@@ -21,22 +21,19 @@ const Memories: FC<MemoriesProps> = async ({ searchParams }) => {
 
   return (
     <Grid columns={{ initial: "1", sm: "2", md: "3" }} gap="3">
-      {allMemoryEntries
+      {allMemories
         .filter(
-          ([
-            ,
-            {
-              name,
-              description,
-              shortDescription,
-              rarity,
-              type,
-              traveler,
-              achievementName,
-              achievementDescription,
-              tags: _tags,
-            },
-          ]) =>
+          ({
+            name,
+            description,
+            shortDescription,
+            rarity,
+            type,
+            traveler,
+            achievementName,
+            achievementDescription,
+            tags: _tags,
+          }) =>
             (search === "" ||
               name.toLowerCase().includes(search.toLowerCase()) ||
               description.toLowerCase().includes(search.toLowerCase()) ||
@@ -57,25 +54,23 @@ const Memories: FC<MemoriesProps> = async ({ searchParams }) => {
             tags.every((tag) => (_tags as string[]).includes(tag)),
         )
         .map(
-          ([
-            key,
-            {
-              name,
-              rarity,
-              traveler,
-              tags,
-              image,
-              cooldownTime,
-              maxCharges,
-              type,
-              achievementDescription,
-              achievementName,
-              rawDesc,
-              rawDescVars,
-              travelerMemoryLocation,
-            },
-          ]) => (
-            <ItemCard.Root key={key} tags={tags}>
+          ({
+            id,
+            name,
+            rarity,
+            traveler,
+            tags,
+            image,
+            cooldownTime,
+            maxCharges,
+            type,
+            achievementDescription,
+            achievementName,
+            rawDesc,
+            rawDescVars,
+            travelerMemoryLocation,
+          }) => (
+            <ItemCard.Root key={id} tags={tags}>
               <ItemCard.Header
                 image={image}
                 name={name}

@@ -19,11 +19,7 @@ import { type BreadcrumbList, type WithContext } from "schema-dts";
 
 import { StatsDataList } from "@/components/builds/stats-data-list";
 import * as ItemCard from "@/components/item-card";
-import {
-  allEssences,
-  allMemoryEntries,
-  allTravelerEntries,
-} from "@/lib/constants";
+import { allEssences, allMemories, allTravelerEntries } from "@/lib/constants";
 import { getBuildByHashId } from "@/lib/queries";
 import { routes, siteUrl } from "@/lib/site-config";
 import {
@@ -133,9 +129,7 @@ const BuildDetails: FC<BuildDetailsProps> = async ({ params }) => {
               <Flex gap="3">
                 {Object.entries(build.details.traveler.startingMemories).map(
                   ([key, value]) => {
-                    const memory = allMemoryEntries.find(
-                      ([key]) => key === value,
-                    )?.[1];
+                    const memory = allMemories.find(({ id }) => id === value);
 
                     return (
                       <Flex
@@ -221,9 +215,7 @@ const BuildDetails: FC<BuildDetailsProps> = async ({ params }) => {
             >
               {build.details.memories.map(
                 ({ id, essences: essenceIds }, index) => {
-                  const memory = allMemoryEntries.find(
-                    ([key]) => key === id,
-                  )?.[1];
+                  const memory = allMemories.find((memory) => memory.id === id);
                   const essences = essenceIds.map((id) =>
                     allEssences.find((essence) => essence.id === id),
                   );

@@ -11,11 +11,7 @@ import { groupBy } from "lodash-es";
 import { useQueryState } from "nuqs";
 import { type FC } from "react";
 
-import {
-  allEssences,
-  allMemoryEntries,
-  allTravelerEntries,
-} from "@/lib/constants";
+import { allEssences, allMemories, allTravelerEntries } from "@/lib/constants";
 import { buildSearchParams } from "@/lib/utils";
 
 import { CheckboxGroupSelect } from "../checkbox-group-select";
@@ -24,12 +20,12 @@ import styles from "./builds-toolbar.module.css";
 
 export type BuildsToolbarProps = Omit<FlexProps, "children">;
 
-const memoryOptions = Object.entries(
-  groupBy(allMemoryEntries, "[1].rarity"),
-).map(([rarity, memoryEntries]) => ({
-  group: rarity,
-  items: memoryEntries.map(([value, { name }]) => ({ name, value })),
-}));
+const memoryOptions = Object.entries(groupBy(allMemories, "rarity")).map(
+  ([rarity, memories]) => ({
+    group: rarity,
+    items: memories.map(({ id, name }) => ({ name, value: id })),
+  }),
+);
 
 const essenceOptions = Object.entries(groupBy(allEssences, "rarity")).map(
   ([rarity, essences]) => ({
