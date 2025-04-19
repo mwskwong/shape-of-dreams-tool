@@ -20,12 +20,15 @@ import styles from "./builds-toolbar.module.css";
 
 export type BuildsToolbarProps = Omit<FlexProps, "children">;
 
-const memoryOptions = Object.entries(groupBy(allMemories, "rarity")).map(
-  ([rarity, memories]) => ({
-    group: rarity,
-    items: memories.map(({ id, name }) => ({ name, value: id })),
-  }),
-);
+const memoryOptions = Object.entries(
+  groupBy(
+    allMemories.filter(({ id }) => id !== "St_C_Sneeze"),
+    "rarity",
+  ),
+).map(([rarity, memories]) => ({
+  group: rarity,
+  items: memories.map(({ id, name }) => ({ name, value: id })),
+}));
 
 const essenceOptions = Object.entries(groupBy(allEssences, "rarity")).map(
   ([rarity, essences]) => ({
