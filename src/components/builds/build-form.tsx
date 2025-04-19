@@ -13,11 +13,18 @@ import { Text } from "@radix-ui/themes/components/text";
 import { TextArea } from "@radix-ui/themes/components/text-area";
 import * as TextField from "@radix-ui/themes/components/text-field";
 import { type FC, useEffect, useId, useRef, useState } from "react";
-import { Controller, useForm } from "react-hook-form";
-import { type InferOutput } from "valibot";
+import {
+  type Control,
+  Controller,
+  type FieldPath,
+  useController,
+  useForm,
+  useWatch,
+} from "react-hook-form";
 
 import { submitBuild } from "@/lib/actions";
 import {
+  type Build,
   maxNumberOfEssencesPerMemory,
   maxNumberOfMemories,
   schema,
@@ -28,8 +35,8 @@ import { routes, siteUrl } from "@/lib/site-config";
 import styles from "./build-form.module.css";
 import { EssenceSelect } from "./essence-select";
 import { FormPersist } from "./form-persist";
-import { MemorySelect } from "./memory-select";
-import { StatsDataList } from "./stats-data-list";
+import { MemorySelect, type MemorySelectProps } from "./memory-select";
+import { StatsDataList, type StatsDataListProps } from "./stats-data-list";
 import { TravelerSelect } from "./traveler-select";
 
 const allMemories = allMemoryEntries
@@ -55,7 +62,7 @@ const getStartingMemory = (
 
 export interface BuildFormProps
   extends Omit<FlexProps, "asChild" | "children"> {
-  defaultValues?: InferOutput<typeof schema>;
+  defaultValues?: Build;
 }
 
 export const BuildForm: FC<BuildFormProps> = ({ defaultValues, ...props }) => {
@@ -67,7 +74,6 @@ export const BuildForm: FC<BuildFormProps> = ({ defaultValues, ...props }) => {
     handleSubmit,
     setValue,
     formState: { errors, isValid, isSubmitting, isSubmitSuccessful },
-    watch,
     reset,
     setError,
   } = useForm({
@@ -84,12 +90,11 @@ export const BuildForm: FC<BuildFormProps> = ({ defaultValues, ...props }) => {
           essences: Array.from({ length: 3 }, () => ""),
         })),
         description: "",
-      } satisfies InferOutput<typeof schema>),
+      } satisfies Build),
     mode: "onTouched",
+    criteriaMode: "all",
     resolver: valibotResolver(schema),
   });
-
-  const selectedTraveler = watch("traveler");
 
   const nameId = useId();
   const descriptionId = useId();
@@ -174,35 +179,11 @@ export const BuildForm: FC<BuildFormProps> = ({ defaultValues, ...props }) => {
                 <Flex align="center" direction="column" gap="1">
                   <Flex gap="3">
                     {startingMemoryLocations.map((location) => (
-                      <Controller
+                      <StartingMemorySelect
                         key={location}
                         control={control}
                         name={`traveler.startingMemories.${location}`}
-                        render={({ field: { disabled, ...field } }) => {
-                          const options = selectedTraveler.id
-                            ? allMemoryEntries
-                                .filter(
-                                  ([, { traveler, travelerMemoryLocation }]) =>
-                                    traveler === selectedTraveler.id &&
-                                    travelerMemoryLocation ===
-                                      location[0].toUpperCase() +
-                                        location.slice(1),
-                                )
-                                .map(([key, memory]) => ({
-                                  id: key,
-                                  ...memory,
-                                }))
-                            : [];
-
-                          return (
-                            <MemorySelect
-                              {...field}
-                              disabled={disabled ?? options.length <= 1}
-                              options={options}
-                              size="1"
-                            />
-                          );
-                        }}
+                        size="1"
                       />
                     ))}
                   </Flex>
@@ -221,13 +202,7 @@ export const BuildForm: FC<BuildFormProps> = ({ defaultValues, ...props }) => {
                   )}
                 </Flex>
 
-                <StatsDataList
-                  traveler={
-                    allTravelerEntries.find(
-                      ([id]) => id === selectedTraveler.id,
-                    )?.[1]
-                  }
-                />
+                <StatsDataListWatched control={control} />
               </Flex>
             </Flex>
 
@@ -251,21 +226,9 @@ export const BuildForm: FC<BuildFormProps> = ({ defaultValues, ...props }) => {
                     return (
                       <div key={memoryIndex}>
                         <Flex gap="3">
-                          <Controller
+                          <SlotMemorySelect
                             control={control}
                             name={`memories.${memoryIndex}.id`}
-                            render={({ field }) => (
-                              <MemorySelect
-                                {...field}
-                                options={allMemories.filter(
-                                  ({ id, traveler }) =>
-                                    !traveler ||
-                                    id ===
-                                      selectedTraveler.startingMemories.q ||
-                                    id === selectedTraveler.startingMemories.r,
-                                )}
-                              />
-                            )}
                           />
 
                           {Array.from(
@@ -409,5 +372,103 @@ export const BuildForm: FC<BuildFormProps> = ({ defaultValues, ...props }) => {
         </AlertDialog.Content>
       </AlertDialog.Root>
     </>
+  );
+};
+
+// these components are all depending on value of other field(s)
+// extracting them such that useWatch will only re-render the individual components
+// instead of the entire form
+
+interface StartingMemorySelectProps
+  extends Omit<MemorySelectProps, "options" | "disabled"> {
+  name: `traveler.startingMemories.${FieldPath<Build["traveler"]["startingMemories"]>}`;
+  control: Control<Build>;
+}
+
+const StartingMemorySelect: FC<StartingMemorySelectProps> = ({
+  name,
+  control,
+  ...props
+}) => {
+  const {
+    field: { disabled, ...field },
+  } = useController({ control, name });
+  const travelerId = useWatch({ control, name: "traveler.id" });
+  const location = name.split(".").at(-1) ?? "";
+
+  const options = travelerId
+    ? allMemoryEntries
+        .filter(
+          ([, { traveler, travelerMemoryLocation }]) =>
+            traveler === travelerId &&
+            travelerMemoryLocation ===
+              location[0].toUpperCase() + location.slice(1),
+        )
+        .map(([key, memory]) => ({
+          id: key,
+          ...memory,
+        }))
+    : [];
+
+  return (
+    <MemorySelect
+      {...field}
+      disabled={disabled ?? options.length <= 1}
+      options={options}
+      {...props}
+    />
+  );
+};
+
+interface StatsDataListWatchedProps extends StatsDataListProps {
+  control: Control<Build>;
+}
+
+const StatsDataListWatched: FC<StatsDataListWatchedProps> = ({
+  control,
+  traveler,
+  ...props
+}) => {
+  const travelerId = useWatch({ control, name: "traveler.id" });
+
+  return (
+    <StatsDataList
+      traveler={
+        traveler ?? allTravelerEntries.find(([id]) => id === travelerId)?.[1]
+      }
+      {...props}
+    />
+  );
+};
+
+interface SlotMemorySelectProps extends Omit<MemorySelectProps, "options"> {
+  name: `memories.${number}.id`;
+  control: Control<Build>;
+}
+
+const SlotMemorySelect: FC<SlotMemorySelectProps> = ({
+  name,
+  control,
+  ...props
+}) => {
+  const { field } = useController({ control, name });
+  const startingMemoryQ = useWatch({
+    control,
+    name: "traveler.startingMemories.q",
+  });
+  const startingMemoryR = useWatch({
+    control,
+    name: "traveler.startingMemories.r",
+  });
+
+  return (
+    <MemorySelect
+      {...field}
+      options={allMemories.filter(
+        ({ id, traveler }) =>
+          !traveler || id === startingMemoryQ || id === startingMemoryR,
+      )}
+      {...props}
+    />
   );
 };

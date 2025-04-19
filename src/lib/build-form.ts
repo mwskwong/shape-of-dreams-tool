@@ -1,4 +1,5 @@
 import {
+  type InferOutput,
   array,
   check,
   length,
@@ -252,3 +253,5 @@ export const schema = pipe(
     }
   }),
 );
+
+export type Build = InferOutput<typeof schema>;
