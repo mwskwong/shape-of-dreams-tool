@@ -215,6 +215,14 @@ export const Description: FC<DescriptionProps> = ({
       if (domNode instanceof Element) {
         const { name, attribs, children, parentNode } = domNode;
 
+        if (name === "span" && attribs["data-index"]) {
+          return (
+            <Text wrap="nowrap" {...attribs}>
+              {domToReact(children as DOMNode[], options)}
+            </Text>
+          );
+        }
+
         if (name === "i" && attribs["data-sprite"]) {
           const sprite = Object.values(sprites).find(
             ({ image }) => image === `${attribs["data-sprite"]}.png`,
