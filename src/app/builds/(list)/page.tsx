@@ -222,7 +222,7 @@ const Builds: FC<BuildsProps> = async ({ searchParams }) => {
           );
         })}
       </Grid>
-      <Pagination mx="auto" pages={Math.max(Math.ceil(count / pageSize), 1)} />
+      <Pagination ml="auto" pages={Math.max(Math.ceil(count / pageSize), 1)} />
     </Flex>
   );
 };
