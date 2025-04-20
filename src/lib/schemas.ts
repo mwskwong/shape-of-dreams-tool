@@ -241,3 +241,16 @@ export const buildDetailsSchema = pipe(
 );
 
 export type BuildDetails = InferOutput<typeof buildDetailsSchema>;
+
+export const defaultBuildDetails: BuildDetails = {
+  name: "",
+  traveler: {
+    id: "",
+    startingMemories: { q: "", r: "", identity: "", movement: "" },
+  },
+  memories: Array.from({ length: 4 }, () => ({
+    id: "",
+    essences: Array.from({ length: 3 }, () => ""),
+  })),
+  description: "",
+};

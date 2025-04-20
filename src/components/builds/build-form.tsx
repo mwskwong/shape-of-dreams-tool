@@ -19,6 +19,7 @@ import { submitBuild } from "@/lib/actions";
 import { allMemories, allTravelers } from "@/lib/constants";
 import {
   type BuildDetails,
+  defaultBuildDetails,
   maxNumberOfEssencesPerMemory,
   maxNumberOfMemories,
 } from "@/lib/schemas";
@@ -26,7 +27,7 @@ import { buildDetailsSchema } from "@/lib/schemas";
 import { routes, siteUrl } from "@/lib/site-config";
 
 import { EssenceSelect } from "./essence-select";
-import { FormPersist } from "./form-persist";
+// import { FormPersist } from "./form-persist";
 import { MemorySelect } from "./memory-select";
 import { StatsDataList } from "./stats-data-list";
 import { TravelerSelect } from "./traveler-select";
@@ -64,20 +65,7 @@ export const BuildForm: FC<BuildFormProps> = ({ defaultValues, ...props }) => {
     trigger,
     watch,
   } = useForm({
-    defaultValues:
-      defaultValues ??
-      ({
-        name: "",
-        traveler: {
-          id: "",
-          startingMemories: { q: "", r: "", identity: "", movement: "" },
-        },
-        memories: Array.from({ length: 4 }, () => ({
-          id: "",
-          essences: Array.from({ length: 3 }, () => ""),
-        })),
-        description: "",
-      } satisfies BuildDetails),
+    defaultValues: defaultValues ?? defaultBuildDetails,
     mode: "onTouched",
     criteriaMode: "all",
     resolver: valibotResolver(buildDetailsSchema),
@@ -103,7 +91,7 @@ export const BuildForm: FC<BuildFormProps> = ({ defaultValues, ...props }) => {
 
   return (
     <>
-      <FormPersist control={control} setValue={setValue} />
+      {/* <FormPersist control={control} reset={reset} /> */}
 
       <Flex asChild direction="column" gap="3" {...props}>
         <form
