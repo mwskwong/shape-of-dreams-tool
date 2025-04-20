@@ -1,14 +1,12 @@
 "use client";
 
-import { Badge } from "@radix-ui/themes/components/badge";
 import { Box } from "@radix-ui/themes/components/box";
 import { Button } from "@radix-ui/themes/components/button";
 import { Flex, type FlexProps } from "@radix-ui/themes/components/flex";
-import * as Select from "@radix-ui/themes/components/select";
 import { Separator } from "@radix-ui/themes/components/separator";
 import { Spinner } from "@radix-ui/themes/components/spinner";
 import * as TextField from "@radix-ui/themes/components/text-field";
-import { IconChevronDown, IconSearch } from "@tabler/icons-react";
+import { IconSearch } from "@tabler/icons-react";
 import { groupBy } from "lodash-es";
 import { useQueryState } from "nuqs";
 import { type FC, useTransition } from "react";
@@ -16,7 +14,7 @@ import { type FC, useTransition } from "react";
 import { allEssences, allMemories, allTravelers } from "@/lib/constants";
 import { buildSearchParams } from "@/lib/utils";
 
-import { CheckboxGroupSelect } from "../checkbox-group-select";
+import { Select } from "../select";
 
 import styles from "./builds-toolbar.module.css";
 
@@ -108,10 +106,14 @@ export const BuildsToolbar: FC<BuildsToolbarProps> = (props) => {
           </TextField.Slot>
         </TextField.Root>
       </Box>
-      <CheckboxGroupSelect
+      <Select
+        multiple
         loading={travelersPending}
-        options={allTravelers.map(({ id, name }) => ({ name, value: id }))}
+        name="Traveler"
         value={travelers}
+        options={[
+          { items: allTravelers.map(({ id, name }) => ({ name, value: id })) },
+        ]}
         onReset={() => {
           void setTravelers([]);
           void setPage(1);
@@ -120,14 +122,11 @@ export const BuildsToolbar: FC<BuildsToolbarProps> = (props) => {
           void setTravelers(value);
           void setPage(1);
         }}
-      >
-        Traveler
-        {travelers.length > 0 && (
-          <Badge color="indigo">{travelers.length}</Badge>
-        )}
-      </CheckboxGroupSelect>
-      <CheckboxGroupSelect
+      />
+      <Select
+        multiple
         loading={memoriesPending}
+        name="Memory"
         options={memoryOptions}
         value={memories}
         onReset={() => {
@@ -138,12 +137,11 @@ export const BuildsToolbar: FC<BuildsToolbarProps> = (props) => {
           void setMemories(value);
           void setPage(1);
         }}
-      >
-        Memory
-        {memories.length > 0 && <Badge color="indigo">{memories.length}</Badge>}
-      </CheckboxGroupSelect>
-      <CheckboxGroupSelect
+      />
+      <Select
+        multiple
         loading={essencesPending}
+        name="Essence"
         options={essenceOptions}
         value={essences}
         onReset={() => {
@@ -154,37 +152,14 @@ export const BuildsToolbar: FC<BuildsToolbarProps> = (props) => {
           void setEssences(value);
           void setPage(1);
         }}
-      >
-        Essence
-        {essences.length > 0 && <Badge color="indigo">{essences.length}</Badge>}
-      </CheckboxGroupSelect>
-      <Select.Root
-        value={sort}
-        onValueChange={(value) => {
-          void setSort(value as "newest" | "mostLiked");
-          void setPage(1);
-        }}
-      >
-        <Select.Trigger
-          aria-label="select sort"
-          className={styles.selectTrigger}
-        >
-          {/* WORKAROUND: prevent default value missing during SSR */}
-          {sortOptions.find(({ value }) => value === sort)?.name}
-          <Spinner loading={sortPending}>
-            <IconChevronDown size={16} />
-          </Spinner>
-        </Select.Trigger>
-        <Select.Content>
-          <Select.Group>
-            {sortOptions.map(({ name, value }) => (
-              <Select.Item key={value} value={value}>
-                {name}
-              </Select.Item>
-            ))}
-          </Select.Group>
-        </Select.Content>
-      </Select.Root>
+      />
+      <Select
+        loading={sortPending}
+        name="Sort"
+        options={[{ items: sortOptions }]}
+        value={[sort]}
+        onValueChange={([value]) => setSort(value as typeof sort)}
+      />
       <Separator orientation="vertical" size="2" />
       <Button
         color="gray"

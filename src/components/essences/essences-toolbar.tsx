@@ -1,6 +1,5 @@
 "use client";
 
-import { Badge } from "@radix-ui/themes/components/badge";
 import { Box } from "@radix-ui/themes/components/box";
 import { Button } from "@radix-ui/themes/components/button";
 import { Flex, type FlexProps } from "@radix-ui/themes/components/flex";
@@ -11,9 +10,10 @@ import { IconSearch } from "@tabler/icons-react";
 import { useQueryState } from "nuqs";
 import { type FC, useTransition } from "react";
 
-import { CheckboxGroupSelect } from "@/components/checkbox-group-select";
 import { allEssenceRarities } from "@/lib/constants";
 import { itemSearchParams } from "@/lib/utils";
+
+import { Select } from "../select";
 
 export type EssencesToolbarProps = Omit<FlexProps, "children">;
 
@@ -51,16 +51,17 @@ export const EssencesToolbar: FC<EssencesToolbarProps> = (props) => {
           </TextField.Slot>
         </TextField.Root>
       </Box>
-      <CheckboxGroupSelect
+      <Select
+        multiple
         loading={raritiesPending}
-        options={allEssenceRarities.map((rarity) => ({ value: rarity }))}
+        name="Rarity"
         value={rarities}
+        options={[
+          { items: allEssenceRarities.map((rarity) => ({ value: rarity })) },
+        ]}
         onReset={() => setRarities([])}
         onValueChange={setRarities}
-      >
-        Rarity
-        {rarities.length > 0 && <Badge color="indigo">{rarities.length}</Badge>}
-      </CheckboxGroupSelect>
+      />
       <Separator orientation="vertical" size="2" />
       <Button
         color="gray"

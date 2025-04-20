@@ -1,6 +1,5 @@
 "use client";
 
-import { Badge } from "@radix-ui/themes/components/badge";
 import { Box } from "@radix-ui/themes/components/box";
 import { Button } from "@radix-ui/themes/components/button";
 import { Flex, type FlexProps } from "@radix-ui/themes/components/flex";
@@ -11,7 +10,6 @@ import { IconSearch } from "@tabler/icons-react";
 import { useQueryState } from "nuqs";
 import { type FC, useTransition } from "react";
 
-import { CheckboxGroupSelect } from "@/components/checkbox-group-select";
 import {
   allMemoryRarities,
   allMemoryTags,
@@ -19,6 +17,8 @@ import {
   allTravelers,
 } from "@/lib/constants";
 import { itemSearchParams } from "@/lib/utils";
+
+import { Select } from "../select";
 
 export type MemoriesToolbarProps = Omit<FlexProps, "children">;
 export const MemoriesToolbar: FC<MemoriesToolbarProps> = (props) => {
@@ -77,48 +77,46 @@ export const MemoriesToolbar: FC<MemoriesToolbarProps> = (props) => {
           </TextField.Slot>
         </TextField.Root>
       </Box>
-      <CheckboxGroupSelect
+      <Select
+        multiple
         loading={raritiesPending}
-        options={allMemoryRarities.map((rarity) => ({ value: rarity }))}
+        name="Rarity"
         value={rarities}
+        options={[
+          { items: allMemoryRarities.map((rarity) => ({ value: rarity })) },
+        ]}
         onReset={() => setRarities([])}
         onValueChange={setRarities}
-      >
-        Rarity
-        {rarities.length > 0 && <Badge color="indigo">{rarities.length}</Badge>}
-      </CheckboxGroupSelect>
-      <CheckboxGroupSelect
+      />
+      <Select
+        multiple
         loading={typesPending}
-        options={allMemoryTypes.map((type) => ({ value: type }))}
+        name="Type"
+        options={[{ items: allMemoryTypes.map((type) => ({ value: type })) }]}
         value={types}
         onReset={() => setTypes([])}
         onValueChange={setTypes}
-      >
-        Type
-        {types.length > 0 && <Badge color="indigo">{types.length}</Badge>}
-      </CheckboxGroupSelect>
-      <CheckboxGroupSelect
+      />
+      <Select
+        multiple
         loading={travelersPending}
-        options={allTravelers.map(({ id, name }) => ({ name, value: id }))}
+        name="Traveler"
         value={travelers}
+        options={[
+          { items: allTravelers.map(({ id, name }) => ({ name, value: id })) },
+        ]}
         onReset={() => setTravelers([])}
         onValueChange={setTravelers}
-      >
-        Traveler
-        {travelers.length > 0 && (
-          <Badge color="indigo">{travelers.length}</Badge>
-        )}
-      </CheckboxGroupSelect>
-      <CheckboxGroupSelect
+      />
+      <Select
+        multiple
         loading={tagsPending}
-        options={allMemoryTags.map((tag) => ({ value: tag }))}
+        name="Tag"
+        options={[{ items: allMemoryTags.map((tag) => ({ value: tag })) }]}
         value={tags}
         onReset={() => setTags([])}
         onValueChange={setTags}
-      >
-        Tag
-        {tags.length > 0 && <Badge color="indigo">{tags.length}</Badge>}
-      </CheckboxGroupSelect>
+      />
       <Separator orientation="vertical" size="2" />
       <Button
         color="gray"

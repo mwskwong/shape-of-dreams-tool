@@ -1,0 +1,11 @@
+.item {
+  user-select: none;
+  border-radius: var(--radius-2);
+
+  @media (hover: hover) {
+    &:hover {
+      color: var(--accent-contrast);
+      background-color: var(--accent-9);
+    }
+  }
+}
