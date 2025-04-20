@@ -25,7 +25,6 @@ import {
 import { buildDetailsSchema } from "@/lib/schemas";
 import { routes, siteUrl } from "@/lib/site-config";
 
-import styles from "./build-form.module.css";
 import { EssenceSelect } from "./essence-select";
 import { FormPersist } from "./form-persist";
 import { MemorySelect } from "./memory-select";
@@ -209,15 +208,11 @@ export const BuildForm: FC<BuildFormProps> = ({ defaultValues, ...props }) => {
                   </Flex>
 
                   {startingMemoriesError && (
-                    <Text
-                      as="p"
-                      className={styles.startingMemoriesError}
-                      color="red"
-                      size="2"
-                      wrap="pretty"
-                    >
-                      {startingMemoriesError}
-                    </Text>
+                    <Box asChild maxWidth="292px">
+                      <Text as="p" color="red" size="2" wrap="pretty">
+                        {startingMemoriesError}
+                      </Text>
+                    </Box>
                   )}
                 </Flex>
 
@@ -309,13 +304,14 @@ export const BuildForm: FC<BuildFormProps> = ({ defaultValues, ...props }) => {
                   >
                     Build description
                   </Text>
-                  <TextArea
-                    {...field}
-                    autoCapitalize="on"
-                    className={styles.buildDescriptionTextArea}
-                    id={descriptionId}
-                    mt="1"
-                  />
+                  <Box asChild flexBasis="0%" flexGrow="1" minHeight="350px">
+                    <TextArea
+                      {...field}
+                      autoCapitalize="on"
+                      id={descriptionId}
+                      mt="1"
+                    />
+                  </Box>
                 </Flex>
               )}
             />

@@ -29,8 +29,6 @@ import { getMutuallyExclusiveMemories, getRarityColor } from "@/lib/utils";
 import { CheckboxGroupSelect } from "../checkbox-group-select";
 import * as ItemCard from "../item-card";
 
-import styles from "./memory-select.module.css";
-
 export interface MemorySelectProps
   extends Omit<Dialog.TriggerProps, "children" | "onChange"> {
   options?: {
@@ -161,17 +159,20 @@ export const MemorySelect: FC<MemorySelectProps> = ({
 
           {options.length > 6 && (
             <Flex align="center" gap="3" mb="3" wrap="wrap">
-              <TextField.Root
-                className={styles.search}
-                placeholder="Search..."
-                type="search"
-                value={search}
-                onInput={(e) => setSearch((e.target as HTMLInputElement).value)}
-              >
-                <TextField.Slot>
-                  <IconSearch size={16} />
-                </TextField.Slot>
-              </TextField.Root>
+              <Box asChild width={{ initial: "100%", xs: "250px" }}>
+                <TextField.Root
+                  placeholder="Search..."
+                  type="search"
+                  value={search}
+                  onInput={(e) =>
+                    setSearch((e.target as HTMLInputElement).value)
+                  }
+                >
+                  <TextField.Slot>
+                    <IconSearch size={16} />
+                  </TextField.Slot>
+                </TextField.Root>
+              </Box>
 
               <CheckboxGroupSelect
                 value={rarities}
@@ -255,33 +256,37 @@ export const MemorySelect: FC<MemorySelectProps> = ({
                   rawDescVars,
                 }) => (
                   <Dialog.Close key={id}>
-                    <RadioCards.Item
-                      className={styles.radioCardItem}
-                      value={id}
+                    <Flex
+                      asChild
+                      align="stretch"
+                      direction="column"
+                      justify="start"
                     >
-                      <ItemCard.Header
-                        insetImage
-                        image={image}
-                        name={name}
-                        rarity={rarity}
-                        size="2"
-                        traveler={traveler}
-                      />
-                      <ItemCard.Content
-                        cooldownTime={cooldownTime}
-                        maxCharges={maxCharges}
-                        mutuallyExclusive={mutuallyExclusive}
-                        size="2"
-                        type={type}
-                      >
-                        <ItemCard.Description
-                          rawDescVars={rawDescVars}
+                      <RadioCards.Item value={id}>
+                        <ItemCard.Header
+                          insetImage
+                          image={image}
+                          name={name}
+                          rarity={rarity}
                           size="2"
+                          traveler={traveler}
+                        />
+                        <ItemCard.Content
+                          cooldownTime={cooldownTime}
+                          maxCharges={maxCharges}
+                          mutuallyExclusive={mutuallyExclusive}
+                          size="2"
+                          type={type}
                         >
-                          {rawDesc}
-                        </ItemCard.Description>
-                      </ItemCard.Content>
-                    </RadioCards.Item>
+                          <ItemCard.Description
+                            rawDescVars={rawDescVars}
+                            size="2"
+                          >
+                            {rawDesc}
+                          </ItemCard.Description>
+                        </ItemCard.Content>
+                      </RadioCards.Item>
+                    </Flex>
                   </Dialog.Close>
                 ),
               )}

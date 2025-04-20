@@ -22,8 +22,6 @@ import { getRarityColor } from "@/lib/utils";
 import { CheckboxGroupSelect } from "../checkbox-group-select";
 import * as ItemCard from "../item-card";
 
-import styles from "./essence-select.module.css";
-
 export interface EssenceSelectProps
   extends Omit<Dialog.TriggerProps, "children" | "onChange"> {
   name?: string;
@@ -105,17 +103,18 @@ export const EssenceSelect: FC<EssenceSelectProps> = ({
           <Dialog.Title mb="4">Select essence</Dialog.Title>
 
           <Flex align="center" gap="3" mb="3" wrap="wrap">
-            <TextField.Root
-              className={styles.search}
-              placeholder="Search..."
-              type="search"
-              value={search}
-              onInput={(e) => setSearch((e.target as HTMLInputElement).value)}
-            >
-              <TextField.Slot>
-                <IconSearch size={16} />
-              </TextField.Slot>
-            </TextField.Root>
+            <Box asChild width={{ initial: "100%", xs: "250px" }}>
+              <TextField.Root
+                placeholder="Search..."
+                type="search"
+                value={search}
+                onInput={(e) => setSearch((e.target as HTMLInputElement).value)}
+              >
+                <TextField.Slot>
+                  <IconSearch size={16} />
+                </TextField.Slot>
+              </TextField.Root>
+            </Box>
 
             <CheckboxGroupSelect
               options={allEssenceRarities.map((rarity) => ({ value: rarity }))}
@@ -168,21 +167,28 @@ export const EssenceSelect: FC<EssenceSelectProps> = ({
               )
               .map(({ id, name, rarity, image, rawDesc, rawDescVars }) => (
                 <Dialog.Close key={id}>
-                  <RadioCards.Item className={styles.radioCardItem} value={id}>
-                    <ItemCard.Header
-                      image={image}
-                      name={name}
-                      rarity={rarity}
-                      size="2"
-                    />
-                    <ItemCard.Description
-                      leveling="quality"
-                      rawDescVars={rawDescVars}
-                      size="2"
-                    >
-                      {rawDesc}
-                    </ItemCard.Description>
-                  </RadioCards.Item>
+                  <Flex
+                    asChild
+                    align="stretch"
+                    direction="column"
+                    justify="start"
+                  >
+                    <RadioCards.Item value={id}>
+                      <ItemCard.Header
+                        image={image}
+                        name={name}
+                        rarity={rarity}
+                        size="2"
+                      />
+                      <ItemCard.Description
+                        leveling="quality"
+                        rawDescVars={rawDescVars}
+                        size="2"
+                      >
+                        {rawDesc}
+                      </ItemCard.Description>
+                    </RadioCards.Item>
+                  </Flex>
                 </Dialog.Close>
               ))}
           </RadioCards.Root>

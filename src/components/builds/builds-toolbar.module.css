@@ -1,11 +1,3 @@
-.search {
-  width: 100%;
-
-  @media (--xs) {
-    width: 250px;
-  }
-}
-
 .selectTrigger {
   /* stylelint-disable-next-line selector-class-pattern */
   & :global(.rt-SelectTriggerInner) {

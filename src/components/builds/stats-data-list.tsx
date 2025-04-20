@@ -104,11 +104,11 @@ export const StatsDataList: FC<StatsDataListProps> = ({
                       className={styles.upgradableParamIcon}
                       height={14}
                       src={`/images/${sprites.upgradableParameter.image}`}
-                      width={
+                      width={Math.round(
                         14 *
-                        (sprites.upgradableParameter.width /
-                          sprites.upgradableParameter.height)
-                      }
+                          (sprites.upgradableParameter.width /
+                            sprites.upgradableParameter.height),
+                      )}
                     />
                     ({statGrowth})
                   </Text>

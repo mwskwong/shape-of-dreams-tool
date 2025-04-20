@@ -1,6 +1,7 @@
 "use client";
 
 import { Badge } from "@radix-ui/themes/components/badge";
+import { Box } from "@radix-ui/themes/components/box";
 import { Button } from "@radix-ui/themes/components/button";
 import { Flex, type FlexProps } from "@radix-ui/themes/components/flex";
 import { Separator } from "@radix-ui/themes/components/separator";
@@ -18,8 +19,6 @@ import {
   allTravelers,
 } from "@/lib/constants";
 import { itemSearchParams } from "@/lib/utils";
-
-import styles from "./memories-toolbar.module.css";
 
 export type MemoriesToolbarProps = Omit<FlexProps, "children">;
 export const MemoriesToolbar: FC<MemoriesToolbarProps> = (props) => {
@@ -63,20 +62,21 @@ export const MemoriesToolbar: FC<MemoriesToolbarProps> = (props) => {
 
   return (
     <Flex align="center" gap="3" wrap="wrap" {...props}>
-      <TextField.Root
-        className={styles.search}
-        placeholder="Search..."
-        type="search"
-        value={search}
-        onInput={(e) => setSearch((e.target as HTMLInputElement).value)}
-      >
-        <TextField.Slot>
-          <IconSearch size={16} />
-        </TextField.Slot>
-        <TextField.Slot>
-          <Spinner loading={searchPending} />
-        </TextField.Slot>
-      </TextField.Root>
+      <Box asChild width={{ initial: "100%", xs: "250px" }}>
+        <TextField.Root
+          placeholder="Search..."
+          type="search"
+          value={search}
+          onInput={(e) => setSearch((e.target as HTMLInputElement).value)}
+        >
+          <TextField.Slot>
+            <IconSearch size={16} />
+          </TextField.Slot>
+          <TextField.Slot>
+            <Spinner loading={searchPending} />
+          </TextField.Slot>
+        </TextField.Root>
+      </Box>
       <CheckboxGroupSelect
         loading={raritiesPending}
         options={allMemoryRarities.map((rarity) => ({ value: rarity }))}

@@ -57,28 +57,20 @@ const BuildDetails: FC<BuildDetailsProps> = async ({ params }) => {
             {build.details.name}
           </Heading>
           <Flex gap="3" ml={{ sm: "auto" }}>
-            <Button
-              disabled
-              highContrast
-              className={styles.actionButton}
-              color="gray"
-              variant="ghost"
-            >
-              <IconThumbUp size={18} />
-              Like (0)
-            </Button>
-            <Button
-              asChild
-              highContrast
-              className={styles.actionButton}
-              color="gray"
-              variant="ghost"
-            >
-              <Link href={`${routes.cloneBuild.pathname}/${hashId}`}>
-                <IconCopy size={18} />
-                Clone
-              </Link>
-            </Button>
+            <Box asChild flexGrow={{ initial: "1", sm: "0" }}>
+              <Button disabled highContrast color="gray" variant="ghost">
+                <IconThumbUp size={18} />
+                Like (0)
+              </Button>
+            </Box>
+            <Box asChild flexGrow={{ initial: "1", sm: "0" }}>
+              <Button asChild highContrast color="gray" variant="ghost">
+                <Link href={`${routes.cloneBuild.pathname}/${hashId}`}>
+                  <IconCopy size={18} />
+                  Clone
+                </Link>
+              </Button>
+            </Box>
           </Flex>
         </Flex>
 
@@ -341,23 +333,17 @@ const BuildDetails: FC<BuildDetailsProps> = async ({ params }) => {
             </Flex>
           </Flex>
 
-          <Flex
-            className={styles.buildDescriptionContainer}
-            direction="column"
-            minWidth="249px"
-          >
+          <Flex direction="column" flexBasis="0%" flexGrow="1" minWidth="249px">
             <Text size="2" weight="bold">
               Build description
             </Text>
-            <ScrollArea
-              className={styles.buildDescriptionScrollArea}
-              scrollbars="vertical"
-              type="scroll"
-            >
-              <Text className={styles.buildDescription}>
-                {build.details.description}
-              </Text>
-            </ScrollArea>
+            <Box asChild height={{ md: "500px" }} mt="1">
+              <ScrollArea scrollbars="vertical" type="scroll">
+                <Text as="p" className={styles.buildDescription}>
+                  {build.details.description}
+                </Text>
+              </ScrollArea>
+            </Box>
           </Flex>
         </Flex>
       </Flex>

@@ -1,5 +1,6 @@
 "use client";
 
+import { Box } from "@radix-ui/themes/components/box";
 import { Flex, type FlexProps } from "@radix-ui/themes/components/flex";
 import { IconButton } from "@radix-ui/themes/components/icon-button";
 import { Spinner } from "@radix-ui/themes/components/spinner";
@@ -62,9 +63,9 @@ export const Pagination: FC<PaginationProps> = ({
             variant={active ? undefined : "ghost"}
             onClick={() => setPage(index + 1)}
           >
-            <Text className={styles.number} size="2">
-              {index + 1}
-            </Text>
+            <Box asChild minWidth="20px">
+              <Text size="2">{index + 1}</Text>
+            </Box>
           </IconButton>
         );
       })}

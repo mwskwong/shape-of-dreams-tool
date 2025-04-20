@@ -15,8 +15,8 @@ import Link from "next/link";
 import { type SearchParams } from "nuqs/server";
 import { type FC } from "react";
 
-import { Pagination } from "@/components/builds/pagination";
 import * as ItemCard from "@/components/item-card";
+import { Pagination } from "@/components/pagination";
 import { allEssences, allMemories, allTravelers } from "@/lib/constants";
 import { getBuilds } from "@/lib/queries";
 import { routes } from "@/lib/site-config";
@@ -200,12 +200,7 @@ const Builds: FC<BuildsProps> = async ({ searchParams }) => {
                     );
                   })}
 
-                  <Flex
-                    align="center"
-                    className={styles.buildCardMetadata}
-                    gap="3"
-                    mt="auto"
-                  >
+                  <Flex align="center" gap="3" mr="auto" mt="auto">
                     <Text color="gray" size="2">
                       {dateFormatter.format(build.createdAt)}
                     </Text>

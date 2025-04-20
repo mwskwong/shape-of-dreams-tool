@@ -306,11 +306,11 @@ const OpengraphImage = async ({ params }: { params: { hashId: string } }) => {
                                 marginLeft: space * 0.4,
                                 marginRight: space * 0.4,
                               }}
-                              width={
+                              width={Math.round(
                                 14 *
-                                (sprites.upgradableParameter.width /
-                                  sprites.upgradableParameter.height)
-                              }
+                                  (sprites.upgradableParameter.width /
+                                    sprites.upgradableParameter.height),
+                              )}
                             />
                             ({statGrowth})
                           </span>

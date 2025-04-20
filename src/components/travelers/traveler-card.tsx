@@ -26,15 +26,9 @@ export interface RootProps extends CardProps {
   image: string;
 }
 
-export const Root: FC<RootProps> = ({
-  name,
-  image,
-  className,
-  children,
-  ...props
-}) => {
-  return (
-    <Card className={clsx(styles.card, className)} {...props}>
+export const Root: FC<RootProps> = ({ name, image, children, ...props }) => (
+  <Box asChild height="100%">
+    <Card {...props}>
       <Flex align="center" direction="column" gap="3" {...props}>
         <Image
           alt={name}
@@ -49,8 +43,8 @@ export const Root: FC<RootProps> = ({
         {children}
       </Flex>
     </Card>
-  );
-};
+  </Box>
+);
 
 export interface ContentProps extends Omit<Tabs.RootProps, "children"> {
   class: string;
@@ -122,7 +116,6 @@ export const Content: FC<ContentProps> = ({
   achievementName,
   memories = [],
   constellations = [],
-  className,
   ...props
 }) => {
   const stats = [
@@ -181,121 +174,127 @@ export const Content: FC<ContentProps> = ({
   const classIcon = getTravelerClassIcon(travelerClass);
 
   return (
-    <Tabs.Root
-      className={clsx(styles.tabRoot, className)}
-      defaultValue="stats"
-      {...props}
-    >
-      <Tabs.List>
-        <Tabs.Trigger value="stats">Stats</Tabs.Trigger>
-        <Tabs.Trigger value="memories">Memories</Tabs.Trigger>
-        <Tabs.Trigger value="constellations">Constellations</Tabs.Trigger>
-      </Tabs.List>
+    <Box asChild width="100%">
+      <Tabs.Root defaultValue="stats" {...props}>
+        <Tabs.List>
+          <Tabs.Trigger value="stats">Stats</Tabs.Trigger>
+          <Tabs.Trigger value="memories">Memories</Tabs.Trigger>
+          <Tabs.Trigger value="constellations">Constellations</Tabs.Trigger>
+        </Tabs.List>
 
-      <Box pt="3">
-        <Tabs.Content asChild value="stats">
-          <Flex direction="column" gap="3">
-            <Flex asChild align="center" gap="2" justify="center">
-              <Text as="div">
-                {classIcon && (
-                  <Image
-                    alt={travelerClass}
-                    height={18}
-                    src={classIcon}
-                    width={18}
-                  />
+        <Box pt="3">
+          <Tabs.Content asChild value="stats">
+            <Flex direction="column" gap="3">
+              <Flex asChild align="center" gap="2" justify="center">
+                <Text as="div">
+                  {classIcon && (
+                    <Image
+                      alt={travelerClass}
+                      height={18}
+                      src={classIcon}
+                      width={18}
+                    />
+                  )}
+                  {travelerClass}
+                </Text>
+              </Flex>
+              <Grid columns="4" gap="3">
+                {stats.map(
+                  ({ image, name, value, statGrowth, iconClassName }) => (
+                    <Tooltip key={name} content={name}>
+                      <Box asChild minWidth="52px">
+                        <Card className={styles.stat}>
+                          <Flex align="center" direction="column" gap="2">
+                            <Image
+                              alt={name}
+                              className={clsx(iconStyles.sprite, iconClassName)}
+                              height={20}
+                              src={image}
+                              width={20 * spriteMaxAspectRatio}
+                            />
+                            <Text>{value}</Text>
+                          </Flex>
+
+                          <Inset mt="2" side="bottom">
+                            <Box asChild p="1">
+                              <Text
+                                align="center"
+                                as="div"
+                                className={styles.statGrowth}
+                                color="gray"
+                                size="1"
+                              >
+                                {statGrowth ? `${statGrowth} / lv` : "-"}
+                              </Text>
+                            </Box>
+                          </Inset>
+                        </Card>
+                      </Box>
+                    </Tooltip>
+                  ),
                 )}
-                {travelerClass}
+              </Grid>
+              <Text as="p" className={styles.paragraph} wrap="pretty">
+                {description}
               </Text>
-            </Flex>
-            <Grid columns="4" gap="3">
-              {stats.map(
-                ({ image, name, value, statGrowth, iconClassName }) => (
-                  <Tooltip key={name} content={name}>
-                    <Card className={styles.stat}>
-                      <Flex align="center" direction="column" gap="2">
-                        <Image
-                          alt={name}
-                          className={clsx(iconStyles.sprite, iconClassName)}
-                          height={20}
-                          src={image}
-                          width={20 * spriteMaxAspectRatio}
-                        />
-                        <Text>{value}</Text>
-                      </Flex>
-
-                      <Inset mt="2" side="bottom">
-                        <Text
-                          align="center"
-                          as="div"
-                          className={styles.statGrowth}
-                          color="gray"
-                          size="1"
-                        >
-                          {statGrowth ? `${statGrowth} / lv` : "-"}
-                        </Text>
-                      </Inset>
-                    </Card>
-                  </Tooltip>
-                ),
+              {achievementName && (
+                <Text
+                  as="p"
+                  className={styles.paragraph}
+                  color="gray"
+                  wrap="pretty"
+                >
+                  Unlock requirement -{" "}
+                  <Text color="yellow">
+                    <Em className={styles.em}>{achievementName}</Em>
+                  </Text>
+                  : {achievementDescription}
+                </Text>
               )}
-            </Grid>
-            <Text as="p" className={styles.paragraph} wrap="pretty">
-              {description}
-            </Text>
-            {achievementName && (
-              <Text
-                as="p"
-                className={styles.paragraph}
-                color="gray"
-                wrap="pretty"
-              >
-                Unlock requirement -{" "}
-                <Em className={styles.em}>{achievementName}</Em>:{" "}
-                {achievementDescription}
-              </Text>
-            )}
-          </Flex>
-        </Tabs.Content>
+            </Flex>
+          </Tabs.Content>
 
-        <Tabs.Content asChild value="memories">
-          <Flex direction="column" gap="3">
-            {memories.map((memory) => (
-              <MemoryCard key={memory.name} {...memory} />
-            ))}
-          </Flex>
-        </Tabs.Content>
+          <Tabs.Content asChild value="memories">
+            <Flex direction="column" gap="3">
+              {memories.map((memory) => (
+                <MemoryCard key={memory.name} {...memory} />
+              ))}
+            </Flex>
+          </Tabs.Content>
 
-        <Tabs.Content asChild value="constellations">
-          <Flex direction="column" gap="3">
-            {constellations.length === 0 ? (
-              <Text align="center" as="p" color="gray" my="9" wrap="pretty">
-                Coming Soon
-              </Text>
-            ) : (
-              constellations.map(({ name, description, image }) => (
-                <Flex key={name} gap="3">
-                  <Image
-                    alt={name}
-                    className={iconStyles.constellationIcon}
-                    height={48}
-                    src={`/images/${image}`}
-                    width={48}
-                  />
-                  <div>
-                    <Heading as="h3" size="4">
-                      {name}
-                    </Heading>
-                    <ItemCard.Description color="gray" rawDescVars={[]}>
-                      {description}
-                    </ItemCard.Description>
-                  </div>
-                </Flex>
-              ))
-            )}
-          </Flex>
-        </Tabs.Content>
-      </Box>
-    </Tabs.Root>
+          <Tabs.Content asChild value="constellations">
+            <Flex direction="column" gap="3">
+              {constellations.length === 0 ? (
+                <Text align="center" as="p" color="gray" my="9" wrap="pretty">
+                  Coming Soon
+                </Text>
+              ) : (
+                constellations.map(({ name, description, image }) => (
+                  <Flex key={name} gap="3">
+                    <Box asChild p="1">
+                      <Image
+                        alt={name}
+                        className={iconStyles.constellationIcon}
+                        height={48}
+                        src={`/images/${image}`}
+                        width={48}
+                      />
+                    </Box>
+                    <div>
+                      <Heading as="h3" size="4">
+                        {name}
+                      </Heading>
+                      <ItemCard.Description color="gray" rawDescVars={[]}>
+                        {description}
+                      </ItemCard.Description>
+                    </div>
+                  </Flex>
+                ))
+              )}
+            </Flex>
+          </Tabs.Content>
+        </Box>
+      </Tabs.Root>
+    </Box>
   );
 };
