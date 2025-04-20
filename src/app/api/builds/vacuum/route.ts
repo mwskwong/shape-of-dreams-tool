@@ -6,7 +6,7 @@ import { builds, db } from "@/lib/db";
 
 // Cron endpoints must be GET
 export const GET = async () => {
-  await db.execute(sql`VACUUM ${builds}`);
+  await db.execute(sql`VACUUM (FREEZE, ANALYZE) ${builds}`);
 
   return NextResponse.json(
     { status: "success", message: status[status.OK], data: {} },
