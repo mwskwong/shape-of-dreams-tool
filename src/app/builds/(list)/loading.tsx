@@ -6,7 +6,7 @@ import { type FC } from "react";
 import styles from "./loading.module.css";
 
 const BuildsLoading: FC = () => (
-  <Grid columns={{ initial: "1", sm: "2", md: "3" }} gap="3">
+  <Grid columns={{ initial: "1", sm: "2", md: "3", lg: "4" }} gap="3">
     {Array.from({ length: 12 }, (_, index) => (
       <Skeleton key={index}>
         <Card className={styles.card} />

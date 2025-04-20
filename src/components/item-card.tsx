@@ -58,7 +58,7 @@ export const Header: FC<HeaderProps> = ({
   size = "3",
   ...props
 }) => (
-  <Flex gap={size} {...props}>
+  <Flex gap="3" {...props}>
     <Image
       alt={name}
       className={`rt-AvatarRoot rt-r-size-${size === "3" ? 4 : 3}`}
