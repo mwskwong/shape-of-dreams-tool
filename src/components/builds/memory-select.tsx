@@ -8,6 +8,7 @@ import { Button } from "@radix-ui/themes/components/button";
 import { Card } from "@radix-ui/themes/components/card";
 import * as Dialog from "@radix-ui/themes/components/dialog";
 import { Flex } from "@radix-ui/themes/components/flex";
+import * as HoverCard from "@radix-ui/themes/components/hover-card";
 import { Inset } from "@radix-ui/themes/components/inset";
 import * as RadioCards from "@radix-ui/themes/components/radio-cards";
 import { Separator } from "@radix-ui/themes/components/separator";
@@ -23,6 +24,7 @@ import {
   allMemoryRarities,
   allMemoryTypes,
 } from "@/lib/constants";
+import { getMutuallyExclusiveMemories, getRarityColor } from "@/lib/utils";
 
 import { CheckboxGroupSelect } from "../checkbox-group-select";
 import * as ItemCard from "../item-card";
@@ -93,27 +95,62 @@ export const MemorySelect: FC<MemorySelectProps> = ({
           gap="2"
           maxWidth={`${size === "1" ? 64 : 80}px`}
         >
-          <Dialog.Trigger {...props}>
-            <Card asChild>
-              <button aria-label="select memory">
-                <Inset side="all">
-                  {selectedMemory ? (
-                    <Image
-                      alt={selectedMemory.name}
-                      height={size === "1" ? 62 : 78}
-                      src={`/images/${selectedMemory.image}`}
-                      width={size === "1" ? 62 : 78}
-                    />
-                  ) : (
-                    <Box
-                      height={`${size === "1" ? 62 : 78}px`}
-                      width={`${size === "1" ? 62 : 78}px`}
-                    />
-                  )}
-                </Inset>
-              </button>
-            </Card>
-          </Dialog.Trigger>
+          <HoverCard.Root>
+            <Dialog.Trigger {...props}>
+              <HoverCard.Trigger>
+                <Card asChild>
+                  <button aria-label="select memory">
+                    <Inset side="all">
+                      {selectedMemory ? (
+                        <Image
+                          alt={selectedMemory.name}
+                          height={size === "1" ? 62 : 78}
+                          src={`/images/${selectedMemory.image}`}
+                          width={size === "1" ? 62 : 78}
+                        />
+                      ) : (
+                        <Box
+                          height={`${size === "1" ? 62 : 78}px`}
+                          width={`${size === "1" ? 62 : 78}px`}
+                        />
+                      )}
+                    </Inset>
+                  </button>
+                </Card>
+              </HoverCard.Trigger>
+            </Dialog.Trigger>
+
+            {selectedMemory && (
+              <HoverCard.Content>
+                <Flex direction="column" gap="3">
+                  <Text color={getRarityColor(selectedMemory.rarity)} size="2">
+                    {selectedMemory.rarity}
+                  </Text>
+                  <ItemCard.Content
+                    achievementName={selectedMemory.achievementName}
+                    cooldownTime={selectedMemory.cooldownTime}
+                    maxCharges={selectedMemory.maxCharges}
+                    size="2"
+                    type={selectedMemory.type}
+                    achievementDescription={
+                      selectedMemory.achievementDescription
+                    }
+                    mutuallyExclusive={getMutuallyExclusiveMemories(
+                      selectedMemory,
+                    )}
+                  >
+                    <ItemCard.Description
+                      rawDescVars={selectedMemory.rawDescVars}
+                      size="2"
+                    >
+                      {selectedMemory.rawDesc}
+                    </ItemCard.Description>
+                  </ItemCard.Content>
+                </Flex>
+              </HoverCard.Content>
+            )}
+          </HoverCard.Root>
+
           <Text align="center" as="div" size={size}>
             {selectedMemory?.name ?? "Any"}
           </Text>

@@ -6,6 +6,7 @@ import { Button } from "@radix-ui/themes/components/button";
 import { Card } from "@radix-ui/themes/components/card";
 import * as Dialog from "@radix-ui/themes/components/dialog";
 import { Flex } from "@radix-ui/themes/components/flex";
+import * as HoverCard from "@radix-ui/themes/components/hover-card";
 import * as RadioCards from "@radix-ui/themes/components/radio-cards";
 import { Separator } from "@radix-ui/themes/components/separator";
 import { Text } from "@radix-ui/themes/components/text";
@@ -16,6 +17,7 @@ import Image from "next/image";
 import { type FC, useDeferredValue, useState } from "react";
 
 import { allEssenceRarities, allEssences } from "@/lib/constants";
+import { getRarityColor } from "@/lib/utils";
 
 import { CheckboxGroupSelect } from "../checkbox-group-select";
 import * as ItemCard from "../item-card";
@@ -48,22 +50,52 @@ export const EssenceSelect: FC<EssenceSelectProps> = ({
     <>
       <Dialog.Root>
         <Flex align="center" direction="column" gap="2" maxWidth="64px">
-          <Dialog.Trigger {...props}>
-            <Card asChild>
-              <button aria-label="select essence">
-                {selectedEssence ? (
-                  <Image
-                    alt={selectedEssence.name}
-                    height={40}
-                    src={`/images/${selectedEssence.image}`}
-                    width={40}
-                  />
-                ) : (
-                  <Box height="40px" width="40px" />
-                )}
-              </button>
-            </Card>
-          </Dialog.Trigger>
+          <HoverCard.Root>
+            <Dialog.Trigger {...props}>
+              <HoverCard.Trigger>
+                <Card asChild>
+                  <button aria-label="select essence">
+                    {selectedEssence ? (
+                      <Image
+                        alt={selectedEssence.name}
+                        height={40}
+                        src={`/images/${selectedEssence.image}`}
+                        width={40}
+                      />
+                    ) : (
+                      <Box height="40px" width="40px" />
+                    )}
+                  </button>
+                </Card>
+              </HoverCard.Trigger>
+            </Dialog.Trigger>
+
+            {selectedEssence && (
+              <HoverCard.Content>
+                <Flex direction="column" gap="3">
+                  <Text color={getRarityColor(selectedEssence.rarity)} size="2">
+                    {selectedEssence.rarity}
+                  </Text>
+                  <ItemCard.Content
+                    achievementName={selectedEssence.achievementName}
+                    size="2"
+                    achievementDescription={
+                      selectedEssence.achievementDescription
+                    }
+                  >
+                    <ItemCard.Description
+                      leveling="quality"
+                      rawDescVars={selectedEssence.rawDescVars}
+                      size="2"
+                    >
+                      {selectedEssence.rawDesc}
+                    </ItemCard.Description>
+                  </ItemCard.Content>
+                </Flex>
+              </HoverCard.Content>
+            )}
+          </HoverCard.Root>
+
           <Text align="center" as="div" size="1">
             {selectedEssence?.name ?? "Any"}
           </Text>
