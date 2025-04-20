@@ -29,7 +29,7 @@ import {
 import styles from "./page.module.css";
 
 const dateFormatter = new Intl.DateTimeFormat("en", { dateStyle: "medium" });
-const pageSize = 16;
+const pageSize = 12;
 
 interface BuildsProps {
   searchParams: Promise<SearchParams>;
