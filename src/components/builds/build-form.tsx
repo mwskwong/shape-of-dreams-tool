@@ -103,7 +103,7 @@ export const BuildForm: FC<BuildFormProps> = ({ defaultValues, ...props }) => {
 
   return (
     <>
-      <FormPersist control={control} setValue={setValue} trigger={trigger} />
+      <FormPersist control={control} setValue={setValue} />
 
       <Flex asChild direction="column" gap="3" {...props}>
         <form
