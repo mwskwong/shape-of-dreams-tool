@@ -165,7 +165,10 @@ export const BuildsToolbar: FC<BuildsToolbarProps> = (props) => {
           void setPage(1);
         }}
       >
-        <Select.Trigger className={styles.selectTrigger}>
+        <Select.Trigger
+          aria-label="select sort"
+          className={styles.selectTrigger}
+        >
           {/* WORKAROUND: prevent default value missing during SSR */}
           {sortOptions.find(({ value }) => value === sort)?.name}
           <Spinner loading={sortPending}>

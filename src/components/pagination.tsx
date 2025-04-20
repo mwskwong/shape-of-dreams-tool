@@ -46,6 +46,7 @@ export const Pagination: FC<PaginationProps> = ({
       <Spinner loading={pending} />
       <IconButton
         highContrast
+        aria-label="previous page"
         color="gray"
         disabled={page <= 1}
         variant="ghost"
@@ -71,6 +72,7 @@ export const Pagination: FC<PaginationProps> = ({
       })}
       <IconButton
         highContrast
+        aria-label="next page"
         color="gray"
         disabled={page >= pages}
         variant="ghost"
