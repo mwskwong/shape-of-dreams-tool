@@ -5,8 +5,10 @@ import { Card, type CardProps } from "@radix-ui/themes/components/card";
 import { Em } from "@radix-ui/themes/components/em";
 import { Flex, type FlexProps } from "@radix-ui/themes/components/flex";
 import { Heading } from "@radix-ui/themes/components/heading";
+import { Inset } from "@radix-ui/themes/components/inset";
 import { Text, type TextProps } from "@radix-ui/themes/components/text";
 import { Tooltip } from "@radix-ui/themes/components/tooltip";
+import clsx from "clsx";
 import parse, {
   type DOMNode,
   Element,
@@ -48,6 +50,7 @@ export interface HeaderProps extends Omit<FlexProps, "children"> {
   traveler?: string;
   image: string;
   size?: "2" | "3";
+  insetImage?: boolean;
 }
 
 export const Header: FC<HeaderProps> = ({
@@ -56,33 +59,45 @@ export const Header: FC<HeaderProps> = ({
   traveler,
   image,
   size = "3",
+  insetImage,
   ...props
-}) => (
-  <Flex gap="3" {...props}>
+}) => {
+  const imageWrapperSize = size === "3" ? 48 : 40;
+  const imageSize = insetImage
+    ? imageWrapperSize - 2
+    : imageWrapperSize - (size === "3" ? 12 * 2 : 8 * 2);
+  const imageElement = (
     <Image
       alt={name}
-      className={`rt-AvatarRoot rt-r-size-${size === "3" ? 4 : 3}`}
-      height={size === "3" ? 48 : 40}
+      height={imageSize}
       src={`/images/${image}`}
-      width={size === "3" ? 48 : 40}
+      width={imageSize}
     />
-    <div>
-      {size === "3" ? (
-        <Heading as="h2" size="4">
-          {name}
-        </Heading>
-      ) : (
-        <Text as="p" size="2" weight="bold">
-          {name}
+  );
+
+  return (
+    <Flex gap="3" {...props}>
+      <Card className={clsx({ [styles.imageCardWrapperSize2]: size === "2" })}>
+        {insetImage ? <Inset side="all">{imageElement}</Inset> : imageElement}
+      </Card>
+      <div>
+        {size === "3" ? (
+          <Heading as="h2" size="4">
+            {name}
+          </Heading>
+        ) : (
+          <Text as="p" size="2" weight="bold">
+            {name}
+          </Text>
+        )}
+        <Text as="p" color={getRarityColor(rarity)} size={size}>
+          {rarity}
+          {traveler ? ` · ${traveler.replace("Hero_", "")}` : undefined}
         </Text>
-      )}
-      <Text as="p" color={getRarityColor(rarity)} size={size}>
-        {rarity}
-        {traveler ? ` · ${traveler.replace("Hero_", "")}` : undefined}
-      </Text>
-    </div>
-  </Flex>
-);
+      </div>
+    </Flex>
+  );
+};
 
 export interface ContentProps extends PropsWithChildren {
   cooldownTime?: number;

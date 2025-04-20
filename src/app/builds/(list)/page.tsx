@@ -114,6 +114,7 @@ const Builds: FC<BuildsProps> = async ({ searchParams }) => {
                             <HoverCard.Content>
                               <Flex direction="column" gap="3">
                                 <ItemCard.Header
+                                  insetImage
                                   image={memory.image}
                                   name={memory.name}
                                   rarity={memory.rarity}

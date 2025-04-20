@@ -72,6 +72,7 @@ const Memories: FC<MemoriesProps> = async ({ searchParams }) => {
           }) => (
             <ItemCard.Root key={id} tags={tags}>
               <ItemCard.Header
+                insetImage
                 image={image}
                 name={name}
                 rarity={rarity}
