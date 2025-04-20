@@ -2,7 +2,6 @@
 
 import "@/styles/item-colors.css";
 
-import { Badge } from "@radix-ui/themes/components/badge";
 import { Box } from "@radix-ui/themes/components/box";
 import { Button } from "@radix-ui/themes/components/button";
 import { Card } from "@radix-ui/themes/components/card";
@@ -26,8 +25,8 @@ import {
 } from "@/lib/constants";
 import { getMutuallyExclusiveMemories, getRarityColor } from "@/lib/utils";
 
-import { CheckboxGroupSelect } from "../checkbox-group-select";
 import * as ItemCard from "../item-card";
+import { Select } from "../select";
 
 export interface MemorySelectProps
   extends Omit<Dialog.TriggerProps, "children" | "onChange"> {
@@ -173,33 +172,32 @@ export const MemorySelect: FC<MemorySelectProps> = ({
                   </TextField.Slot>
                 </TextField.Root>
               </Box>
-
-              <CheckboxGroupSelect
+              <Select
+                multiple
+                name="Rarity"
                 value={rarities}
-                options={allMemoryRarities
-                  .filter((rarity) => !["Identity", "Evasion"].includes(rarity))
-                  .map((rarity) => ({ value: rarity }))}
+                options={[
+                  {
+                    items: allMemoryRarities
+                      .filter(
+                        (rarity) => !["Identity", "Evasion"].includes(rarity),
+                      )
+                      .map((rarity) => ({ value: rarity })),
+                  },
+                ]}
                 onReset={() => setRarities([])}
                 onValueChange={setRarities}
-              >
-                Rarity
-                {rarities.length > 0 && (
-                  <Badge color="indigo">{rarities.length}</Badge>
-                )}
-              </CheckboxGroupSelect>
-
-              <CheckboxGroupSelect
-                options={allMemoryTypes.map((type) => ({ value: type }))}
+              />
+              <Select
+                multiple
+                name="Type"
                 value={types}
+                options={[
+                  { items: allMemoryTypes.map((type) => ({ value: type })) },
+                ]}
                 onReset={() => setTypes([])}
                 onValueChange={setTypes}
-              >
-                Type
-                {types.length > 0 && (
-                  <Badge color="indigo">{types.length}</Badge>
-                )}
-              </CheckboxGroupSelect>
-
+              />
               <Separator orientation="vertical" size="2" />
               <Button
                 color="gray"

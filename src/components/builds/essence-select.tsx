@@ -1,6 +1,5 @@
 "use client";
 
-import { Badge } from "@radix-ui/themes/components/badge";
 import { Box } from "@radix-ui/themes/components/box";
 import { Button } from "@radix-ui/themes/components/button";
 import { Card } from "@radix-ui/themes/components/card";
@@ -19,8 +18,8 @@ import { type FC, useDeferredValue, useState } from "react";
 import { allEssenceRarities, allEssences } from "@/lib/constants";
 import { getRarityColor } from "@/lib/utils";
 
-import { CheckboxGroupSelect } from "../checkbox-group-select";
 import * as ItemCard from "../item-card";
+import { Select } from "../select";
 
 export interface EssenceSelectProps
   extends Omit<Dialog.TriggerProps, "children" | "onChange"> {
@@ -115,19 +114,20 @@ export const EssenceSelect: FC<EssenceSelectProps> = ({
                 </TextField.Slot>
               </TextField.Root>
             </Box>
-
-            <CheckboxGroupSelect
-              options={allEssenceRarities.map((rarity) => ({ value: rarity }))}
+            <Select
+              multiple
+              name="Rarity"
               value={rarities}
+              options={[
+                {
+                  items: allEssenceRarities.map((rarity) => ({
+                    value: rarity,
+                  })),
+                },
+              ]}
               onReset={() => setRarities([])}
               onValueChange={setRarities}
-            >
-              Rarity
-              {rarities.length > 0 && (
-                <Badge color="indigo">{rarities.length}</Badge>
-              )}
-            </CheckboxGroupSelect>
-
+            />
             <Separator orientation="vertical" size="2" />
             <Button
               color="gray"
