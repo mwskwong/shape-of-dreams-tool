@@ -152,16 +152,16 @@ const Builds: FC<BuildsProps> = async ({ searchParams }) => {
                           return (
                             <HoverCard.Root key={index}>
                               <HoverCard.Trigger>
-                                <Card>
+                                <Card className={styles.essenceCardWrapper}>
                                   {essence ? (
                                     <Image
                                       alt={essence.name}
-                                      height={24}
+                                      height={32}
                                       src={`/images/${essence.image}`}
-                                      width={24}
+                                      width={32}
                                     />
                                   ) : (
-                                    <Box height="24px" width="24px" />
+                                    <Box height="32px" width="32px" />
                                   )}
                                 </Card>
                               </HoverCard.Trigger>

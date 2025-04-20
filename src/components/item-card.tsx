@@ -8,7 +8,6 @@ import { Heading } from "@radix-ui/themes/components/heading";
 import { Inset } from "@radix-ui/themes/components/inset";
 import { Text, type TextProps } from "@radix-ui/themes/components/text";
 import { Tooltip } from "@radix-ui/themes/components/tooltip";
-import clsx from "clsx";
 import parse, {
   type DOMNode,
   Element,
@@ -65,7 +64,7 @@ export const Header: FC<HeaderProps> = ({
   const imageWrapperSize = size === "3" ? 48 : 40;
   const imageSize = insetImage
     ? imageWrapperSize - 2
-    : imageWrapperSize - (size === "3" ? 12 * 2 : 8 * 2);
+    : imageWrapperSize - 8 * 2;
   const imageElement = (
     <Image
       alt={name}
@@ -77,7 +76,7 @@ export const Header: FC<HeaderProps> = ({
 
   return (
     <Flex gap="3" {...props}>
-      <Card className={clsx({ [styles.imageCardWrapperSize2]: size === "2" })}>
+      <Card className={styles.imageCardWrapper}>
         {insetImage ? <Inset side="all">{imageElement}</Inset> : imageElement}
       </Card>
       <div>
