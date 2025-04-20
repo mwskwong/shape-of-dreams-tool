@@ -5,11 +5,12 @@ import { Button } from "@radix-ui/themes/components/button";
 import { Flex, type FlexProps } from "@radix-ui/themes/components/flex";
 import * as Select from "@radix-ui/themes/components/select";
 import { Separator } from "@radix-ui/themes/components/separator";
+import { Spinner } from "@radix-ui/themes/components/spinner";
 import * as TextField from "@radix-ui/themes/components/text-field";
 import { IconChevronDown, IconSearch } from "@tabler/icons-react";
 import { groupBy } from "lodash-es";
 import { useQueryState } from "nuqs";
-import { type FC } from "react";
+import { type FC, useTransition } from "react";
 
 import { allEssences, allMemories, allTravelers } from "@/lib/constants";
 import { buildSearchParams } from "@/lib/utils";
@@ -43,20 +44,45 @@ const sortOptions = [
 ];
 
 export const BuildsToolbar: FC<BuildsToolbarProps> = (props) => {
-  const [search, setSearch] = useQueryState("search", buildSearchParams.search);
+  const [searchPending, searchStartTransition] = useTransition();
+  const [search, setSearch] = useQueryState(
+    "search",
+    buildSearchParams.search.withOptions({
+      startTransition: searchStartTransition,
+    }),
+  );
+
+  const [travelersPending, travelersStartTransition] = useTransition();
   const [travelers, setTravelers] = useQueryState(
     "travelers",
-    buildSearchParams.travelers,
+    buildSearchParams.travelers.withOptions({
+      startTransition: travelersStartTransition,
+    }),
   );
+
+  const [memoriesPending, memoriesStartTransition] = useTransition();
   const [memories, setMemories] = useQueryState(
     "memories",
-    buildSearchParams.memories,
+    buildSearchParams.memories.withOptions({
+      startTransition: memoriesStartTransition,
+    }),
   );
+
+  const [essencesPending, essencesStartTransition] = useTransition();
   const [essences, setEssences] = useQueryState(
     "essences",
-    buildSearchParams.essences,
+    buildSearchParams.essences.withOptions({
+      startTransition: essencesStartTransition,
+    }),
   );
-  const [sort, setSort] = useQueryState("sort", buildSearchParams.sort);
+
+  const [sortPending, sortStartTransition] = useTransition();
+  const [sort, setSort] = useQueryState(
+    "sort",
+    buildSearchParams.sort.withOptions({
+      startTransition: sortStartTransition,
+    }),
+  );
 
   const [, setPage] = useQueryState("page", buildSearchParams.page);
 
@@ -75,8 +101,12 @@ export const BuildsToolbar: FC<BuildsToolbarProps> = (props) => {
         <TextField.Slot>
           <IconSearch size={16} />
         </TextField.Slot>
+        <TextField.Slot>
+          <Spinner loading={searchPending} />
+        </TextField.Slot>
       </TextField.Root>
       <CheckboxGroupSelect
+        loading={travelersPending}
         options={allTravelers.map(({ id, name }) => ({ name, value: id }))}
         value={travelers}
         onReset={() => {
@@ -94,6 +124,7 @@ export const BuildsToolbar: FC<BuildsToolbarProps> = (props) => {
         )}
       </CheckboxGroupSelect>
       <CheckboxGroupSelect
+        loading={memoriesPending}
         options={memoryOptions}
         value={memories}
         onReset={() => {
@@ -109,6 +140,7 @@ export const BuildsToolbar: FC<BuildsToolbarProps> = (props) => {
         {memories.length > 0 && <Badge color="indigo">{memories.length}</Badge>}
       </CheckboxGroupSelect>
       <CheckboxGroupSelect
+        loading={essencesPending}
         options={essenceOptions}
         value={essences}
         onReset={() => {
@@ -133,7 +165,9 @@ export const BuildsToolbar: FC<BuildsToolbarProps> = (props) => {
         <Select.Trigger className={styles.selectTrigger}>
           {/* WORKAROUND: prevent default value missing during SSR */}
           {sortOptions.find(({ value }) => value === sort)?.name}
-          <IconChevronDown size={16} />
+          <Spinner loading={sortPending}>
+            <IconChevronDown size={16} />
+          </Spinner>
         </Select.Trigger>
         <Select.Content>
           <Select.Group>

@@ -3,6 +3,7 @@ import * as CheckboxGroup from "@radix-ui/themes/components/checkbox-group";
 import { Inset } from "@radix-ui/themes/components/inset";
 import * as Popover from "@radix-ui/themes/components/popover";
 import { ScrollArea } from "@radix-ui/themes/components/scroll-area";
+import { Spinner } from "@radix-ui/themes/components/spinner";
 import { Text } from "@radix-ui/themes/components/text";
 import { IconChevronDown } from "@tabler/icons-react";
 import {
@@ -24,12 +25,14 @@ export interface CheckboxGroupSelectProps
     Omit<CheckboxGroup.RootProps, "onReset"> {
   options?: Item[] | { group: string; items: Item[] }[];
   onReset?: MouseEventHandler<HTMLButtonElement>;
+  loading?: boolean;
 }
 
 export const CheckboxGroupSelect: FC<CheckboxGroupSelectProps> = ({
   children,
   options = [],
   onReset,
+  loading = false,
   ...props
 }) => {
   return (
@@ -37,7 +40,9 @@ export const CheckboxGroupSelect: FC<CheckboxGroupSelectProps> = ({
       <Popover.Trigger>
         <Button className="rt-SelectTrigger" color="gray" variant="surface">
           {children}
-          <IconChevronDown size={16} />
+          <Spinner loading={loading}>
+            <IconChevronDown size={16} />
+          </Spinner>
         </Button>
       </Popover.Trigger>
       <Popover.Content minWidth="150px">

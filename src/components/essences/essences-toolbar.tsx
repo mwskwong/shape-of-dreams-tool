@@ -4,10 +4,11 @@ import { Badge } from "@radix-ui/themes/components/badge";
 import { Button } from "@radix-ui/themes/components/button";
 import { Flex, type FlexProps } from "@radix-ui/themes/components/flex";
 import { Separator } from "@radix-ui/themes/components/separator";
+import { Spinner } from "@radix-ui/themes/components/spinner";
 import * as TextField from "@radix-ui/themes/components/text-field";
 import { IconSearch } from "@tabler/icons-react";
 import { useQueryState } from "nuqs";
-import { type FC } from "react";
+import { type FC, useTransition } from "react";
 
 import { CheckboxGroupSelect } from "@/components/checkbox-group-select";
 import { allEssenceRarities } from "@/lib/constants";
@@ -18,10 +19,20 @@ import styles from "./essences-toolbar.module.css";
 export type EssencesToolbarProps = Omit<FlexProps, "children">;
 
 export const EssencesToolbar: FC<EssencesToolbarProps> = (props) => {
-  const [search, setSearch] = useQueryState("search", itemSearchParams.search);
+  const [searchPending, searchStartTransition] = useTransition();
+  const [search, setSearch] = useQueryState(
+    "search",
+    itemSearchParams.search.withOptions({
+      startTransition: searchStartTransition,
+    }),
+  );
+
+  const [raritiesPending, raritiesStartTransition] = useTransition();
   const [rarities, setRarities] = useQueryState(
     "rarities",
-    itemSearchParams.rarities,
+    itemSearchParams.rarities.withOptions({
+      startTransition: raritiesStartTransition,
+    }),
   );
 
   return (
@@ -36,8 +47,12 @@ export const EssencesToolbar: FC<EssencesToolbarProps> = (props) => {
         <TextField.Slot>
           <IconSearch size={16} />
         </TextField.Slot>
+        <TextField.Slot>
+          <Spinner loading={searchPending} />
+        </TextField.Slot>
       </TextField.Root>
       <CheckboxGroupSelect
+        loading={raritiesPending}
         options={allEssenceRarities.map((rarity) => ({ value: rarity }))}
         value={rarities}
         onReset={() => setRarities([])}

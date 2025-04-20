@@ -42,7 +42,7 @@ export const Pagination: FC<PaginationProps> = ({
       gap="1"
       {...props}
     >
-      {pending && <Spinner />}
+      <Spinner loading={pending} />
       <IconButton
         highContrast
         color="gray"
