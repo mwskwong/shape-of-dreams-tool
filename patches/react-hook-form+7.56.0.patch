@@ -1,0 +1,15 @@
+diff --git a/node_modules/react-hook-form/dist/index.esm.mjs b/node_modules/react-hook-form/dist/index.esm.mjs
+index 9af5cbc..d1a5e0e 100644
+--- a/node_modules/react-hook-form/dist/index.esm.mjs
++++ b/node_modules/react-hook-form/dist/index.esm.mjs
+@@ -2661,6 +2661,10 @@ function useForm(props = {}) {
+             ...data,
+             isReady: true,
+         }));
++
++        // https://github.com/react-hook-form/react-hook-form/commit/8d8217583b32d86882225c07817fbcf340712894#diff-07a36f93b9f2954db217ab021a0444c89c5fabc9506b8c390db329e5e74b9f06
++        control._formState.isReady = true;
++
+         return sub;
+     }, [control]);
+     React.useEffect(() => control._disableForm(props.disabled), [control, props.disabled]);
