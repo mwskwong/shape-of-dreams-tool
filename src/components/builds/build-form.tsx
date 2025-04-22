@@ -3,6 +3,7 @@
 import "@radix-ui/themes/tokens/colors/red.css";
 import "@radix-ui/themes/tokens/colors/green.css";
 
+import { valibotResolver } from "@hookform/resolvers/valibot";
 import * as AlertDialog from "@radix-ui/themes/components/alert-dialog";
 import { Box } from "@radix-ui/themes/components/box";
 import { Button } from "@radix-ui/themes/components/button";
@@ -11,32 +12,28 @@ import { Link } from "@radix-ui/themes/components/link";
 import { Text } from "@radix-ui/themes/components/text";
 import { TextArea } from "@radix-ui/themes/components/text-area";
 import * as TextField from "@radix-ui/themes/components/text-field";
-import { useForm, useStore, useTransform } from "@tanstack/react-form";
-import { initialFormState, mergeForm } from "@tanstack/react-form/nextjs";
-import {
-  type FC,
-  useActionState,
-  useEffect,
-  useId,
-  useRef,
-  useState,
-} from "react";
-import { type InferOutput } from "valibot";
+import { type FC, useEffect, useId, useRef, useState } from "react";
+import { Controller, useForm } from "react-hook-form";
 
-import { EssenceSelect } from "@/components/builds/essence-select";
-import { MemorySelect } from "@/components/builds/memory-select";
-import { TravelerSelect } from "@/components/builds/traveler-select";
 import { submitBuild } from "@/lib/actions";
-import { allMemoryEntries, allTravelerEntries } from "@/lib/constants";
-import { formOptions, type schema } from "@/lib/form";
+import { allMemories, allTravelers } from "@/lib/constants";
+import {
+  type BuildDetails,
+  defaultBuildDetails,
+  maxNumberOfEssencesPerMemory,
+  maxNumberOfMemories,
+} from "@/lib/schemas";
+import { buildDetailsSchema } from "@/lib/schemas";
 import { routes, siteUrl } from "@/lib/site-config";
 
-import styles from "./build-form.module.css";
+import { EssenceSelect } from "./essence-select";
+import { FormBeforeUnload } from "./form-before-unload";
+// import { FormPersist } from "./form-persist";
+import { MemorySelect } from "./memory-select";
 import { StatsDataList } from "./stats-data-list";
+import { TravelerSelect } from "./traveler-select";
 
-const allMemories = allMemoryEntries
-  .filter(([id]) => id !== "St_C_Sneeze")
-  .map(([id, memory]) => ({ id, ...memory }));
+const startingMemoryLocations = ["q", "r", "identity", "movement"] as const;
 
 const getStartingMemory = (
   traveler: string,
@@ -45,95 +42,94 @@ const getStartingMemory = (
   if (!traveler) return "";
 
   return (
-    allMemoryEntries.find(
-      ([, memory]) =>
+    allMemories.find(
+      (memory) =>
         memory.traveler === traveler &&
         memory.travelerMemoryLocation === travelerMemoryLocation,
-    )?.[0] ?? ""
+    )?.id ?? ""
   );
 };
 
 export interface BuildFormProps
   extends Omit<FlexProps, "asChild" | "children"> {
-  defaultValues?: InferOutput<typeof schema>;
+  defaultValues?: BuildDetails;
 }
 
-export const BuildForm: FC<BuildFormProps> = ({
-  defaultValues = formOptions.defaultValues,
-  ...props
-}) => {
-  const [{ hashId, formState }, action, isSubmitting] = useActionState(
-    submitBuild,
-    { formState: initialFormState },
-  );
-  const form = useForm({
-    ...formOptions,
-    defaultValues,
-    transform: useTransform(
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      (baseForm) => mergeForm(baseForm, formState!),
-      [formState],
-    ),
+export const BuildForm: FC<BuildFormProps> = ({ defaultValues, ...props }) => {
+  const {
+    control,
+    handleSubmit,
+    setValue,
+    formState: { errors, isSubmitting, isSubmitSuccessful },
+    reset,
+    setError,
+    trigger,
+    watch,
+  } = useForm({
+    defaultValues: defaultValues ?? defaultBuildDetails,
+    mode: "onTouched",
+    criteriaMode: "all",
+    resolver: valibotResolver(buildDetailsSchema),
   });
 
-  const buildNameId = useId();
-  const buildDescriptionId = useId();
+  const travelerId = watch("traveler.id");
+  const startingMemoryQ = watch("traveler.startingMemories.q");
+  const startingMemoryR = watch("traveler.startingMemories.r");
 
-  const buildUrlCopiedTimeoutRef = useRef<NodeJS.Timeout>(undefined);
-  const [buildUrlCopied, setBuildUrlCopied] = useState(false);
-  useEffect(() => () => clearTimeout(buildUrlCopiedTimeoutRef.current), []);
+  const startingMemoriesError =
+    errors.traveler?.startingMemories?.q?.message ??
+    errors.traveler?.startingMemories?.r?.message;
 
-  const isDirty = useStore(form.store, (state) => state.isDirty);
-  useEffect(() => {
-    if (isDirty) {
-      const handleBeforeUnload = (event: BeforeUnloadEvent) => {
-        event.preventDefault();
-        // eslint-disable-next-line @typescript-eslint/no-deprecated -- backward compatibility
-        event.returnValue = true;
-      };
+  const nameId = useId();
+  const descriptionId = useId();
 
-      window.addEventListener("beforeunload", handleBeforeUnload);
+  const [hashId, setHashId] = useState<string>();
+  const buildUrl = hashId && `${siteUrl}${routes.builds.pathname}/${hashId}`;
 
-      return () =>
-        window.removeEventListener("beforeunload", handleBeforeUnload);
-    }
-  }, [isDirty]);
+  const urlCopiedTimeoutRef = useRef<NodeJS.Timeout>(undefined);
+  const [urlCopied, setUrlCopied] = useState(false);
+  useEffect(() => () => clearTimeout(urlCopiedTimeoutRef.current), []);
 
   return (
     <>
-      <Flex asChild direction="column" gap="3" {...props}>
-        <form action={action} onSubmit={() => form.handleSubmit()}>
-          <form.Field name="buildName">
-            {({ name, state, handleChange, handleBlur }) => {
-              const error = state.meta.isTouched
-                ? state.meta.errors[0]?.message
-                : undefined;
+      <FormBeforeUnload control={control} />
+      {/* <FormPersist control={control} reset={reset} /> */}
 
-              return (
-                <Box maxWidth="400px" width="100%">
-                  <Text as="label" htmlFor={buildNameId} size="2" weight="bold">
-                    Build name
+      <Flex asChild direction="column" gap="3" {...props}>
+        <form
+          onSubmit={handleSubmit(async (data) => {
+            try {
+              const { hashId } = await submitBuild(data);
+              setHashId(hashId);
+            } catch (error) {
+              setError("root", { type: "server", message: String(error) });
+            }
+          })}
+        >
+          <Controller
+            control={control}
+            name="name"
+            render={({ field, fieldState }) => (
+              <Box maxWidth="400px" width="100%">
+                <Text as="label" htmlFor={nameId} size="2" weight="bold">
+                  Build name
+                </Text>
+                <TextField.Root
+                  {...field}
+                  autoCapitalize="on"
+                  color={fieldState.error ? "red" : undefined}
+                  id={nameId}
+                  mt="1"
+                  placeholder="My Build"
+                />
+                {fieldState.error && (
+                  <Text color="red" mt="1" size="2">
+                    {fieldState.error.message}
                   </Text>
-                  <TextField.Root
-                    autoCapitalize="on"
-                    color={error ? "red" : undefined}
-                    id={buildNameId}
-                    mt="1"
-                    name={name}
-                    placeholder="My Build"
-                    value={state.value}
-                    onBlur={handleBlur}
-                    onChange={(e) => handleChange(e.target.value)}
-                  />
-                  {error && (
-                    <Text color="red" mt="1" size="2">
-                      {error}
-                    </Text>
-                  )}
-                </Box>
-              );
-            }}
-          </form.Field>
+                )}
+              </Box>
+            )}
+          />
 
           <Flex
             direction={{ initial: "column", sm: "row" }}
@@ -147,96 +143,72 @@ export const BuildForm: FC<BuildFormProps> = ({
               </Text>
 
               <Flex align="center" direction="column" gap="3" width="100%">
-                <form.Field name="traveler">
-                  {({ handleChange }) => (
-                    <form.Field name="traveler.id">
-                      {({ name, state, handleBlur }) => (
-                        <>
-                          <TravelerSelect
-                            name={name}
-                            value={state.value}
-                            onBlur={handleBlur}
-                            onChange={(id) =>
-                              handleChange({
-                                id,
-                                startingMemories: {
-                                  q: getStartingMemory(id, "Q"),
-                                  r: getStartingMemory(id, "R"),
-                                  identity: getStartingMemory(id, "Identity"),
-                                  movement: getStartingMemory(id, "Movement"),
-                                },
-                              })
-                            }
-                          />
-
-                          <form.Field name="traveler.startingMemories">
-                            {({ state }) => (
-                              <Flex gap="3">
-                                {Object.entries(state.value).map(([key]) => (
-                                  <form.Field
-                                    key={key}
-                                    name={`traveler.startingMemories.${key as keyof typeof state.value}`}
-                                  >
-                                    {({
-                                      name,
-                                      state,
-                                      handleChange,
-                                      handleBlur,
-                                      form,
-                                    }) => {
-                                      const options = allMemoryEntries
-                                        .filter(
-                                          ([
-                                            ,
-                                            {
-                                              traveler,
-                                              travelerMemoryLocation,
-                                            },
-                                          ]) =>
-                                            traveler ===
-                                              form.state.values.traveler.id &&
-                                            travelerMemoryLocation ===
-                                              key[0].toUpperCase() +
-                                                key.slice(1),
-                                        )
-                                        .map(([key, memory]) => ({
-                                          id: key,
-                                          ...memory,
-                                        }));
-
-                                      return (
-                                        <MemorySelect
-                                          name={name}
-                                          options={options}
-                                          size="1"
-                                          value={state.value}
-                                          disabled={
-                                            !form.state.values.traveler.id ||
-                                            options.length <= 1
-                                          }
-                                          onBlur={handleBlur}
-                                          onChange={handleChange}
-                                        />
-                                      );
-                                    }}
-                                  </form.Field>
-                                ))}
-                              </Flex>
-                            )}
-                          </form.Field>
-
-                          <StatsDataList
-                            traveler={
-                              allTravelerEntries.find(
-                                ([key]) => key === state.value,
-                              )?.[1]
-                            }
-                          />
-                        </>
-                      )}
-                    </form.Field>
+                <Controller
+                  control={control}
+                  name="traveler.id"
+                  render={({ field: { onChange, ...field } }) => (
+                    <TravelerSelect
+                      {...field}
+                      onChange={(id) => {
+                        onChange(id);
+                        setValue(
+                          "traveler.startingMemories",
+                          {
+                            q: getStartingMemory(id, "Q"),
+                            r: getStartingMemory(id, "R"),
+                            identity: getStartingMemory(id, "Identity"),
+                            movement: getStartingMemory(id, "Movement"),
+                          },
+                          { shouldValidate: true },
+                        );
+                      }}
+                    />
                   )}
-                </form.Field>
+                />
+
+                <Flex align="center" direction="column" gap="1">
+                  <Flex gap="3">
+                    {startingMemoryLocations.map((location) => (
+                      <Controller
+                        key={location}
+                        control={control}
+                        name={`traveler.startingMemories.${location}`}
+                        render={({ field: { disabled, ...field } }) => {
+                          const options = travelerId
+                            ? allMemories.filter(
+                                ({ traveler, travelerMemoryLocation }) =>
+                                  traveler === travelerId &&
+                                  travelerMemoryLocation ===
+                                    location[0].toUpperCase() +
+                                      location.slice(1),
+                              )
+                            : [];
+
+                          return (
+                            <MemorySelect
+                              {...field}
+                              disabled={disabled ?? options.length <= 1}
+                              options={options}
+                              size="1"
+                            />
+                          );
+                        }}
+                      />
+                    ))}
+                  </Flex>
+
+                  {startingMemoriesError && (
+                    <Box asChild maxWidth="292px">
+                      <Text as="p" color="red" size="2" wrap="pretty">
+                        {startingMemoriesError}
+                      </Text>
+                    </Box>
+                  )}
+                </Flex>
+
+                <StatsDataList
+                  traveler={allTravelers.find(({ id }) => id === travelerId)}
+                />
               </Flex>
             </Flex>
 
@@ -245,135 +217,101 @@ export const BuildForm: FC<BuildFormProps> = ({
                 Memories and Essences
               </Text>
 
-              <form.Field mode="array" name="memories">
-                {({ state }) => {
-                  return (
-                    <>
-                      <Flex
-                        align={{ initial: "center", sm: "start" }}
-                        direction="column"
-                        gap="3"
-                      >
-                        {state.value.map((_, memoryIndex) => (
-                          <div key={memoryIndex}>
-                            <Flex gap="3">
-                              <form.Field name={`memories[${memoryIndex}].id`}>
-                                {({
-                                  name,
-                                  state,
-                                  handleChange,
-                                  handleBlur,
-                                  form,
-                                }) => (
-                                  <MemorySelect
-                                    name={name}
-                                    value={state.value}
-                                    options={allMemories.filter(
-                                      ({ id, traveler }) =>
-                                        !traveler ||
-                                        id ===
-                                          form.state.values.traveler
-                                            .startingMemories.q ||
-                                        id ===
-                                          form.state.values.traveler
-                                            .startingMemories.r,
-                                    )}
-                                    onBlur={handleBlur}
-                                    onChange={handleChange}
-                                  />
-                                )}
-                              </form.Field>
-
-                              <form.Field
-                                mode="array"
-                                name={`memories[${memoryIndex}].essences`}
-                              >
-                                {({ state }) =>
-                                  state.value.map((_, essenceIndex) => (
-                                    <form.Field
-                                      key={essenceIndex}
-                                      name={`memories[${memoryIndex}].essences[${essenceIndex}]`}
-                                    >
-                                      {({
-                                        name,
-                                        state,
-                                        handleChange,
-                                        handleBlur,
-                                      }) => (
-                                        <EssenceSelect
-                                          name={name}
-                                          value={state.value}
-                                          onBlur={handleBlur}
-                                          onChange={handleChange}
-                                        />
-                                      )}
-                                    </form.Field>
-                                  ))
-                                }
-                              </form.Field>
-                            </Flex>
-
-                            <form.Subscribe
-                              selector={(state) =>
-                                state.errors[0]?.[
-                                  `memories[${memoryIndex}]`
-                                ]?.[0].message
-                              }
-                            >
-                              {(memoryError) =>
-                                memoryError && (
-                                  <Text as="div" color="red" mt="1" size="2">
-                                    {memoryError}
-                                  </Text>
-                                )
-                              }
-                            </form.Subscribe>
-                          </div>
-                        ))}
-                      </Flex>
-                    </>
-                  );
-                }}
-              </form.Field>
-            </Flex>
-
-            <Flex direction="column" flexGrow="1" minWidth="249px">
-              <Text
-                as="label"
-                htmlFor={buildDescriptionId}
-                size="2"
-                weight="bold"
+              <Flex
+                align={{ initial: "center", sm: "start" }}
+                direction="column"
+                gap="3"
               >
-                Build description
-              </Text>
-              <form.Field name="description">
-                {({ name, state, handleChange, handleBlur }) => (
-                  <TextArea
-                    autoCapitalize="on"
-                    className={styles.buildDescriptionTextArea}
-                    id={buildDescriptionId}
-                    mt="1"
-                    name={name}
-                    value={state.value}
-                    onBlur={handleBlur}
-                    onChange={(e) => handleChange(e.target.value)}
-                  />
+                {Array.from(
+                  { length: maxNumberOfMemories },
+                  (_, memoryIndex) => {
+                    const error =
+                      errors.memories?.[memoryIndex]?.id?.message ??
+                      errors.memories?.[memoryIndex]?.essences?.find?.(Boolean)
+                        ?.message;
+
+                    return (
+                      <Flex key={memoryIndex} direction="column" gap="1">
+                        <Flex gap="3">
+                          <Controller
+                            control={control}
+                            name={`memories.${memoryIndex}.id`}
+                            render={({ field: { onChange, ...field } }) => (
+                              <MemorySelect
+                                {...field}
+                                options={allMemories.filter(
+                                  ({ id, traveler }) =>
+                                    id !== "St_C_Sneeze" &&
+                                    (!traveler ||
+                                      id === startingMemoryQ ||
+                                      id === startingMemoryR),
+                                )}
+                                onChange={(id) => {
+                                  onChange(id);
+                                  void trigger("traveler.startingMemories");
+                                }}
+                              />
+                            )}
+                          />
+
+                          {Array.from(
+                            { length: maxNumberOfEssencesPerMemory },
+                            (_, essenceIndex) => (
+                              <Controller
+                                key={essenceIndex}
+                                control={control}
+                                name={`memories.${memoryIndex}.essences.${essenceIndex}`}
+                                render={({ field }) => (
+                                  <EssenceSelect {...field} />
+                                )}
+                              />
+                            ),
+                          )}
+                        </Flex>
+
+                        {error && (
+                          <Text as="p" color="red" size="2" wrap="pretty">
+                            {error}
+                          </Text>
+                        )}
+                      </Flex>
+                    );
+                  },
                 )}
-              </form.Field>
+              </Flex>
             </Flex>
+
+            <Controller
+              control={control}
+              name="description"
+              render={({ field }) => (
+                <Flex direction="column" flexGrow="1" minWidth="249px">
+                  <Text
+                    as="label"
+                    htmlFor={descriptionId}
+                    size="2"
+                    weight="bold"
+                  >
+                    Build description
+                  </Text>
+                  <Box asChild flexBasis="0%" flexGrow="1" minHeight="350px">
+                    <TextArea
+                      {...field}
+                      autoCapitalize="on"
+                      id={descriptionId}
+                      mt="1"
+                    />
+                  </Box>
+                </Flex>
+              )}
+            />
           </Flex>
 
-          <form.Subscribe
-            selector={(state) => state.errors[0]?.[""]?.[0].message}
-          >
-            {(globalError) =>
-              globalError && (
-                <Text color="red" mt="" size="2">
-                  {globalError}
-                </Text>
-              )
-            }
-          </form.Subscribe>
+          {errors.root && (
+            <Text color="red" size="2">
+              {errors.root.message}
+            </Text>
+          )}
 
           <Flex
             direction={{ initial: "column", sm: "row" }}
@@ -400,84 +338,57 @@ export const BuildForm: FC<BuildFormProps> = ({
                       Cancel
                     </Button>
                   </AlertDialog.Cancel>
-                  <AlertDialog.Action onClick={() => form.reset()}>
+                  <AlertDialog.Action onClick={() => reset()}>
                     <Button color="red">Reset</Button>
                   </AlertDialog.Action>
                 </Flex>
               </AlertDialog.Content>
             </AlertDialog.Root>
-            <form.Subscribe
-              selector={({ isTouched, canSubmit }) => ({
-                isTouched,
-                canSubmit,
-              })}
-            >
-              {({ isTouched, canSubmit }) => (
-                <Button
-                  disabled={!isTouched || !canSubmit}
-                  loading={isSubmitting}
-                  type="submit"
-                >
-                  Submit
-                </Button>
-              )}
-            </form.Subscribe>
+
+            <Button loading={isSubmitting} type="submit">
+              Submit
+            </Button>
           </Flex>
         </form>
       </Flex>
 
-      <form.Subscribe selector={({ isSubmitted }) => isSubmitted}>
-        {(isSubmitted) => {
-          const buildUrl =
-            hashId && `${siteUrl}${routes.builds.pathname}/${hashId}`;
+      <AlertDialog.Root open={isSubmitSuccessful}>
+        <AlertDialog.Content maxWidth="450px">
+          <AlertDialog.Title>Build submission successful</AlertDialog.Title>
+          <AlertDialog.Description mb="3" size="2">
+            Your build has been saved. Below is the unique URL to access it.
+            Copy the link to share or save it for later use.
+          </AlertDialog.Description>
 
-          return (
-            <AlertDialog.Root open={isSubmitted && !isSubmitting}>
-              <AlertDialog.Content maxWidth="450px">
-                <AlertDialog.Title>
-                  Build submission successful
-                </AlertDialog.Title>
-                <AlertDialog.Description mb="3" size="2">
-                  Your build has been saved. Below is the unique URL to access
-                  it. Copy the link to share or save it for later use.
-                </AlertDialog.Description>
+          <Link href={buildUrl} rel="noreferrer" size="2" target="_blank">
+            {buildUrl}
+          </Link>
 
-                <Link href={buildUrl} rel="noreferrer" size="2" target="_blank">
-                  {buildUrl}
-                </Link>
-
-                <Flex gap="3" justify="end" mt="4">
-                  <AlertDialog.Cancel>
-                    <Button
-                      color="gray"
-                      variant="soft"
-                      onClick={() => form.reset()}
-                    >
-                      Close
-                    </Button>
-                  </AlertDialog.Cancel>
-                  <AlertDialog.Action
-                    onClick={async () => {
-                      if (buildUrl) {
-                        await navigator.clipboard.writeText(buildUrl);
-                        setBuildUrlCopied(true);
-                        buildUrlCopiedTimeoutRef.current = setTimeout(
-                          () => setBuildUrlCopied(false),
-                          2000,
-                        );
-                      }
-                    }}
-                  >
-                    <Button color={buildUrlCopied ? "green" : undefined}>
-                      {buildUrlCopied ? "Copied" : "Copy URL"}
-                    </Button>
-                  </AlertDialog.Action>
-                </Flex>
-              </AlertDialog.Content>
-            </AlertDialog.Root>
-          );
-        }}
-      </form.Subscribe>
+          <Flex gap="3" justify="end" mt="4">
+            <AlertDialog.Cancel>
+              <Button color="gray" variant="soft" onClick={() => reset()}>
+                Close
+              </Button>
+            </AlertDialog.Cancel>
+            <AlertDialog.Action
+              onClick={async () => {
+                if (buildUrl) {
+                  await navigator.clipboard.writeText(buildUrl);
+                  setUrlCopied(true);
+                  urlCopiedTimeoutRef.current = setTimeout(
+                    () => setUrlCopied(false),
+                    2000,
+                  );
+                }
+              }}
+            >
+              <Button color={urlCopied ? "green" : undefined}>
+                {urlCopied ? "Copied" : "Copy URL"}
+              </Button>
+            </AlertDialog.Action>
+          </Flex>
+        </AlertDialog.Content>
+      </AlertDialog.Root>
     </>
   );
 };

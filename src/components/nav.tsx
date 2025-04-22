@@ -12,7 +12,7 @@ const Nav: FC<NavProps> = (props) => {
   const pathname = usePathname();
   return (
     <TabNav.Root {...props}>
-      {[routes.travelers, routes.memories, routes.essences, routes.newBuild]
+      {[routes.travelers, routes.memories, routes.essences, routes.builds]
         .filter(({ name }) => name)
         .map((route) => (
           <TabNav.Link

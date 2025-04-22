@@ -7,9 +7,9 @@ import path from "node:path";
 import { ImageResponse } from "next/og";
 
 import {
-  allEssenceEntries,
-  allMemoryEntries,
-  allTravelerEntries,
+  allEssences,
+  allMemories,
+  allTravelers,
   spriteMaxAspectRatio,
   sprites,
 } from "@/lib/constants";
@@ -58,13 +58,12 @@ const getTravelerColorHex = (travelerId: string) => {
 
 const OpengraphImage = async ({ params }: { params: { hashId: string } }) => {
   const { hashId } = params;
-  const entry = await getBuildByHashId(hashId);
+  const build = await getBuildByHashId(hashId);
 
-  if (!entry) return;
-  const { build } = entry;
-  const traveler = allTravelerEntries.find(
-    ([key]) => key === build.traveler.id,
-  )?.[1];
+  if (!build) return;
+  const traveler = allTravelers.find(
+    ({ id }) => id === build.details.traveler.id,
+  );
   const stats = traveler && [
     {
       ...sprites.health,
@@ -147,7 +146,7 @@ const OpengraphImage = async ({ params }: { params: { hashId: string } }) => {
               maxWidth: 640,
             }}
           >
-            {build.buildName}
+            {build.details.name}
           </div>
 
           <div style={{ display: "flex", columnGap: space * 9 }}>
@@ -186,17 +185,19 @@ const OpengraphImage = async ({ params }: { params: { hashId: string } }) => {
                     />
                   )}
                 </div>
-                <div style={{ color: getTravelerColorHex(build.traveler.id) }}>
+                <div
+                  style={{
+                    color: getTravelerColorHex(build.details.traveler.id),
+                  }}
+                >
                   {traveler?.name ?? "Any"}
                 </div>
               </div>
 
               <div style={{ display: "flex", gap: space * 3 }}>
-                {Object.entries(build.traveler.startingMemories).map(
+                {Object.entries(build.details.traveler.startingMemories).map(
                   ([key, value]) => {
-                    const memory = allMemoryEntries.find(
-                      ([key]) => key === value,
-                    )?.[1];
+                    const memory = allMemories.find(({ id }) => id === value);
 
                     return (
                       <div
@@ -305,11 +306,11 @@ const OpengraphImage = async ({ params }: { params: { hashId: string } }) => {
                                 marginLeft: space * 0.4,
                                 marginRight: space * 0.4,
                               }}
-                              width={
+                              width={Math.round(
                                 14 *
-                                (sprites.upgradableParameter.width /
-                                  sprites.upgradableParameter.height)
-                              }
+                                  (sprites.upgradableParameter.width /
+                                    sprites.upgradableParameter.height),
+                              )}
                             />
                             ({statGrowth})
                           </span>
@@ -328,89 +329,92 @@ const OpengraphImage = async ({ params }: { params: { hashId: string } }) => {
                 gap: space * 3,
               }}
             >
-              {build.memories.map(({ id, essences: essenceIds }, index) => {
-                const memory = allMemoryEntries.find(
-                  ([key]) => key === id,
-                )?.[1];
-                const essences = essenceIds.map(
-                  (id) => allEssenceEntries.find(([key]) => key === id)?.[1],
-                );
+              {build.details.memories.map(
+                ({ id, essences: essenceIds }, index) => {
+                  const memory = allMemories.find((memory) => memory.id === id);
+                  const essences = essenceIds.map((id) =>
+                    allEssences.find((essence) => essence.id === id),
+                  );
 
-                return (
-                  <div key={index} style={{ display: "flex", gap: space * 3 }}>
+                  return (
                     <div
-                      style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        alignItems: "center",
-                        gap: space * 2,
-                        maxWidth: 80,
-                      }}
+                      key={index}
+                      style={{ display: "flex", gap: space * 3 }}
                     >
                       <div
-                        style={{
-                          display: "flex",
-                          height: 80,
-                          width: 80,
-                          borderRadius: 8,
-                          border: `1px solid ${colors.slateA7}`,
-                          backgroundColor: colors.slateA2,
-                          overflow: "hidden",
-                        }}
-                      >
-                        {memory && (
-                          <img
-                            height="100%"
-                            src={`${siteUrl}/images/${memory.image}`}
-                            width="100%"
-                          />
-                        )}
-                      </div>
-
-                      <div style={{ fontSize: 14, textAlign: "center" }}>
-                        {memory?.name ?? "Any"}
-                      </div>
-                    </div>
-
-                    {essences.map((essence, index) => (
-                      <div
-                        key={index}
                         style={{
                           display: "flex",
                           flexDirection: "column",
                           alignItems: "center",
                           gap: space * 2,
-                          maxWidth: 64,
+                          maxWidth: 80,
                         }}
                       >
                         <div
                           style={{
                             display: "flex",
-                            height: 64,
-                            width: 64,
-                            padding: space * 3,
+                            height: 80,
+                            width: 80,
                             borderRadius: 8,
                             border: `1px solid ${colors.slateA7}`,
                             backgroundColor: colors.slateA2,
                             overflow: "hidden",
                           }}
                         >
-                          {essence && (
+                          {memory && (
                             <img
                               height="100%"
-                              src={`${siteUrl}/images/${essence.image}`}
+                              src={`${siteUrl}/images/${memory.image}`}
                               width="100%"
                             />
                           )}
                         </div>
-                        <div style={{ fontSize: 12, textAlign: "center" }}>
-                          {essence?.name ?? "Any"}
+
+                        <div style={{ fontSize: 14, textAlign: "center" }}>
+                          {memory?.name ?? "Any"}
                         </div>
                       </div>
-                    ))}
-                  </div>
-                );
-              })}
+
+                      {essences.map((essence, index) => (
+                        <div
+                          key={index}
+                          style={{
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems: "center",
+                            gap: space * 2,
+                            maxWidth: 64,
+                          }}
+                        >
+                          <div
+                            style={{
+                              display: "flex",
+                              height: 64,
+                              width: 64,
+                              padding: space * 3,
+                              borderRadius: 8,
+                              border: `1px solid ${colors.slateA7}`,
+                              backgroundColor: colors.slateA2,
+                              overflow: "hidden",
+                            }}
+                          >
+                            {essence && (
+                              <img
+                                height="100%"
+                                src={`${siteUrl}/images/${essence.image}`}
+                                width="100%"
+                              />
+                            )}
+                          </div>
+                          <div style={{ fontSize: 12, textAlign: "center" }}>
+                            {essence?.name ?? "Any"}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  );
+                },
+              )}
             </div>
           </div>
         </div>

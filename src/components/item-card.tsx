@@ -5,6 +5,7 @@ import { Card, type CardProps } from "@radix-ui/themes/components/card";
 import { Em } from "@radix-ui/themes/components/em";
 import { Flex, type FlexProps } from "@radix-ui/themes/components/flex";
 import { Heading } from "@radix-ui/themes/components/heading";
+import { Inset } from "@radix-ui/themes/components/inset";
 import { Text, type TextProps } from "@radix-ui/themes/components/text";
 import { Tooltip } from "@radix-ui/themes/components/tooltip";
 import parse, {
@@ -48,6 +49,7 @@ export interface HeaderProps extends Omit<FlexProps, "children"> {
   traveler?: string;
   image: string;
   size?: "2" | "3";
+  insetImage?: boolean;
 }
 
 export const Header: FC<HeaderProps> = ({
@@ -56,33 +58,45 @@ export const Header: FC<HeaderProps> = ({
   traveler,
   image,
   size = "3",
+  insetImage,
   ...props
-}) => (
-  <Flex gap={size} {...props}>
+}) => {
+  const imageWrapperSize = size === "3" ? 48 : 40;
+  const imageSize = insetImage
+    ? imageWrapperSize - 2
+    : imageWrapperSize - 8 * 2;
+  const imageElement = (
     <Image
       alt={name}
-      className={`rt-AvatarRoot rt-r-size-${size === "3" ? 4 : 3}`}
-      height={size === "3" ? 48 : 40}
+      height={imageSize}
       src={`/images/${image}`}
-      width={size === "3" ? 48 : 40}
+      width={imageSize}
     />
-    <div>
-      {size === "3" ? (
-        <Heading as="h2" size="4">
-          {name}
-        </Heading>
-      ) : (
-        <Text as="p" size="2" weight="bold">
-          {name}
+  );
+
+  return (
+    <Flex gap="3" {...props}>
+      <Card className={styles.imageCardWrapper}>
+        {insetImage ? <Inset side="all">{imageElement}</Inset> : imageElement}
+      </Card>
+      <div>
+        {size === "3" ? (
+          <Heading as="h2" size="4">
+            {name}
+          </Heading>
+        ) : (
+          <Text as="p" size="2" weight="bold">
+            {name}
+          </Text>
+        )}
+        <Text as="p" color={getRarityColor(rarity)} size={size}>
+          {rarity}
+          {traveler ? ` · ${traveler.replace("Hero_", "")}` : undefined}
         </Text>
-      )}
-      <Text as="p" color={getRarityColor(rarity)} size={size}>
-        {rarity}
-        {traveler ? ` · ${traveler.replace("Hero_", "")}` : undefined}
-      </Text>
-    </div>
-  </Flex>
-);
+      </div>
+    </Flex>
+  );
+};
 
 export interface ContentProps extends PropsWithChildren {
   cooldownTime?: number;
@@ -90,7 +104,8 @@ export interface ContentProps extends PropsWithChildren {
   type?: string;
   traveler?: string;
   tags?: string[];
-  achievement?: { name: string; description: string } | null;
+  achievementName?: string;
+  achievementDescription?: string;
   mutuallyExclusive?: string[];
   size?: "2" | "3";
 }
@@ -100,7 +115,8 @@ export const Content: FC<ContentProps> = ({
   maxCharges,
   type,
   mutuallyExclusive = [],
-  achievement,
+  achievementName,
+  achievementDescription,
   size = "3",
   children,
 }) => (
@@ -114,10 +130,10 @@ export const Content: FC<ContentProps> = ({
       </Text>
     )}
     {children}
-    {achievement && (
+    {achievementName && (
       <Text as="p" color="gray" size={size} wrap="pretty">
-        Unlock requirement - <Em className={styles.em}>{achievement.name}</Em>:{" "}
-        {achievement.description}
+        Unlock requirement - <Em className={styles.em}>{achievementName}</Em>:{" "}
+        {achievementDescription}
       </Text>
     )}
     {mutuallyExclusive.length > 0 && (
@@ -136,50 +152,27 @@ export const Content: FC<ContentProps> = ({
   </>
 );
 
-const options = {
-  replace: (domNode) => {
-    if (domNode instanceof Element) {
-      const { name, attribs, children } = domNode;
-
-      if (name === "i" && attribs["data-sprite"]) {
-        const sprite = Object.values(sprites).find(
-          ({ image }) => image === `${attribs["data-sprite"]}.png`,
-        );
-
-        return (
-          sprite && (
-            <Tooltip content={sprite.name}>
-              <Image
-                alt={sprite.name}
-                className={styles.sprite}
-                height={18}
-                src={`/images/${sprite.image}`}
-                width={Math.round(18 * (sprite.width / sprite.height))}
-              />
-            </Tooltip>
-          )
-        );
-      }
-
-      if (name === "em" && attribs["data-color"]) {
-        const color =
-          attribs["data-color"] === "yellow"
-            ? undefined
-            : attribs["data-color"];
-        return (
-          <Em className={styles.em} style={{ color }}>
-            {domToReact(children as DOMNode[], options)}
-          </Em>
-        );
-      }
-    }
-
-    return;
-  },
-} satisfies HTMLReactParserOptions;
-
-export type DescriptionProps = TextProps;
-export const Description: FC<DescriptionProps> = ({ children, ...props }) => {
+export type DescriptionProps = TextProps & {
+  leveling?: "level" | "quality";
+  rawDescVars: {
+    rendered: string;
+    format: string;
+    scalingType: string;
+    data: {
+      basicConstant?: number;
+      basicAP?: number;
+      basicAD?: number;
+      basicLvl?: number;
+      basicAddedMultiplierPerLevel?: number;
+    };
+  }[];
+};
+export const Description: FC<DescriptionProps> = ({
+  leveling = "level",
+  children,
+  rawDescVars = [],
+  ...props
+}) => {
   if (typeof children !== "string") {
     return (
       <Text as="p" wrap="pretty" {...props}>
@@ -188,10 +181,106 @@ export const Description: FC<DescriptionProps> = ({ children, ...props }) => {
     );
   }
 
+  const getScaling = (varIndex?: number) => {
+    const rawDescVar =
+      typeof varIndex === "number" ? rawDescVars[varIndex] : undefined;
+    const {
+      basicAD = 0,
+      basicAP = 0,
+      basicAddedMultiplierPerLevel = 0,
+      basicConstant = 0,
+      basicLvl = 0,
+    } = rawDescVar?.data ?? {};
+
+    let value =
+      basicAddedMultiplierPerLevel * (basicConstant + basicAP + basicAD) +
+      basicLvl * (1 + 2 * basicAddedMultiplierPerLevel);
+    if (
+      rawDescVar?.rendered.includes("%") &&
+      !rawDescVar.format.endsWith(String.raw`\%`)
+    ) {
+      value *= 100;
+    }
+    if (leveling === "quality") value *= 50;
+
+    const unit = rawDescVar?.rendered.includes("%") ? "%" : "";
+
+    return rawDescVar?.scalingType === "basic"
+      ? `+${+value.toFixed(2)}${unit} / ${leveling === "level" ? "lv" : "50% quality"}`
+      : undefined;
+  };
+
+  const options = {
+    replace: (domNode) => {
+      if (domNode instanceof Element) {
+        const { name, attribs, children, parentNode } = domNode;
+
+        if (name === "span" && attribs["data-index"]) {
+          return (
+            <Text wrap="nowrap" {...attribs}>
+              {domToReact(children as DOMNode[], options)}
+            </Text>
+          );
+        }
+
+        if (name === "i" && attribs["data-sprite"]) {
+          const sprite = Object.values(sprites).find(
+            ({ image }) => image === `${attribs["data-sprite"]}.png`,
+          );
+
+          if (sprite) {
+            const isUpgradableParam = attribs["data-sprite"] === "5";
+            const varIndex =
+              parentNode instanceof Element
+                ? Number.parseInt(parentNode.attribs["data-index"])
+                : undefined;
+
+            return (
+              <Tooltip
+                content={
+                  isUpgradableParam
+                    ? (getScaling(varIndex) ?? sprite.name)
+                    : sprite.name
+                }
+              >
+                <Image
+                  alt={sprite.name}
+                  className={styles.sprite}
+                  height={18}
+                  src={`/images/${sprite.image}`}
+                  width={Math.round(18 * (sprite.width / sprite.height))}
+                />
+              </Tooltip>
+            );
+          }
+        }
+
+        if (name === "em" && attribs["data-color"]) {
+          const color =
+            attribs["data-color"] === "yellow"
+              ? undefined
+              : attribs["data-color"];
+          return (
+            <Em className={styles.em} style={{ color }}>
+              {domToReact(children as DOMNode[], options)}
+            </Em>
+          );
+        }
+      }
+
+      return;
+    },
+  } satisfies HTMLReactParserOptions;
+
   return children.split("\n\n").map((paragraph, index) => (
     <Text key={index} as="p" wrap="pretty" {...props}>
       {parse(
         paragraph
+          .replaceAll(
+            /{(\d+)}/g,
+            (_, index: string) =>
+              `<span data-index="${index}">${rawDescVars[Number.parseInt(index)].rendered}</span>`,
+          )
           .replaceAll("\n", "<br>")
           .replaceAll(
             /<color=(.*?)>(.*?)<\/color>/g,

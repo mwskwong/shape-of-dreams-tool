@@ -1,0 +1,2 @@
+-- ALTER TABLE "builds" drop column "search_vector";--> statement-breakpoint
+-- ALTER TABLE "builds" ADD COLUMN "search_vector" "tsvector" GENERATED ALWAYS AS (to_tsvector('english', ("builds"."build"->>'buildName')::text || ' ' || ("builds"."build"->>'description')::text)) STORED NOT NULL;

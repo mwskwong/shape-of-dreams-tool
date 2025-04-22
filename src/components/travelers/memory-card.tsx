@@ -1,8 +1,10 @@
 "use client";
 
+import { Box } from "@radix-ui/themes/components/box";
 import { Card } from "@radix-ui/themes/components/card";
 import { Flex, type FlexProps } from "@radix-ui/themes/components/flex";
 import { Heading } from "@radix-ui/themes/components/heading";
+import { Inset } from "@radix-ui/themes/components/inset";
 import { Text } from "@radix-ui/themes/components/text";
 import Image from "next/image";
 import { type FC, useState } from "react";
@@ -15,12 +17,25 @@ export interface MemoryCardProps extends Omit<FlexProps, "children"> {
   name: string;
   cooldownTime?: number;
   maxCharges?: number;
-  description: string;
+  rawDesc: string;
+  rawDescVars: {
+    rendered: string;
+    format: string;
+    scalingType: string;
+    data: {
+      basicConstant?: number;
+      basicAP?: number;
+      basicAD?: number;
+      basicLvl?: number;
+      basicAddedMultiplierPerLevel?: number;
+    };
+  }[];
   shortDescription?: string | null;
   type?: string;
   tags?: string[];
   image: string;
-  achievement?: { name: string; description: string } | null;
+  achievementName: string;
+  achievementDescription: string;
   mutuallyExclusive?: string[];
 }
 
@@ -28,11 +43,13 @@ export const MemoryCard: FC<MemoryCardProps> = ({
   name,
   cooldownTime,
   maxCharges,
-  description,
+  rawDesc,
+  rawDescVars,
   shortDescription,
   type,
   image,
-  achievement,
+  achievementName,
+  achievementDescription,
   mutuallyExclusive = [],
   ...props
 }) => {
@@ -42,14 +59,20 @@ export const MemoryCard: FC<MemoryCardProps> = ({
     <Flex direction="column" gap="3" {...props}>
       <Card asChild className={styles.card} variant="ghost">
         <button onClick={() => setOpen(!open)}>
-          <Flex gap="3">
-            <Image
-              alt={name}
-              className="rt-AvatarRoot rt-r-size-4"
-              height={48}
-              src={`/images/${image}`}
-              width={48}
-            />
+          <Flex align="start" gap="3">
+            <Box asChild flexShrink="0">
+              <Card>
+                <Inset side="all">
+                  <Image
+                    alt={name}
+                    height={46}
+                    src={`/images/${image}`}
+                    width={46}
+                  />
+                </Inset>
+              </Card>
+            </Box>
+
             <div>
               <Heading as="h3" size="4">
                 {name}
@@ -65,13 +88,16 @@ export const MemoryCard: FC<MemoryCardProps> = ({
       {open && (
         <>
           <ItemCard.Content
-            achievement={achievement}
+            achievementDescription={achievementDescription}
+            achievementName={achievementName}
             cooldownTime={cooldownTime}
             maxCharges={maxCharges}
             mutuallyExclusive={mutuallyExclusive}
             type={type}
           >
-            <ItemCard.Description>{description}</ItemCard.Description>
+            <ItemCard.Description rawDescVars={rawDescVars}>
+              {rawDesc}
+            </ItemCard.Description>
           </ItemCard.Content>
         </>
       )}

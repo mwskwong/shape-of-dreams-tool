@@ -1,5 +1,11 @@
+.imageCardWrapper {
+  --card-padding: var(--space-2);
+}
+
 .sprite {
   display: inline-block;
+  width: auto;
+  height: 1.125em;
   vertical-align: sub;
 }
 

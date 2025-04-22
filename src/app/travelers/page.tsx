@@ -11,45 +11,46 @@ import {
 } from "schema-dts";
 
 import * as TravelerCard from "@/components/travelers/traveler-card";
-import { allMemoryEntries, allTravelerEntries } from "@/lib/constants";
+import { allMemories, allTravelers } from "@/lib/constants";
 import { routes, siteName, siteUrl } from "@/lib/site-config";
 import { getMutuallyExclusiveMemories, getTravelerColor } from "@/lib/utils";
 
 const Travelers: FC = () => (
   <>
     <Grid columns={{ initial: "1", sm: "2", md: "3" }} gap="3" pt="3">
-      {allTravelerEntries.map(([key, { name, image, ...traveler }]) => (
-        <Theme key={key} accentColor={getTravelerColor(key)}>
+      {allTravelers.map(({ id, name, image, ...traveler }) => (
+        <Theme key={id} accentColor={getTravelerColor(id)}>
           <TravelerCard.Root image={image} name={name}>
             <TravelerCard.Content
               {...traveler}
-              memories={allMemoryEntries
-                .filter(([, { traveler }]) => traveler === key)
+              memories={allMemories
+                .filter(({ traveler }) => traveler === id)
                 .map(
-                  ([
-                    ,
-                    {
-                      name,
-                      rarity,
-                      cooldownTime,
-                      maxCharges,
-                      description,
-                      shortDescription,
-                      type,
-                      image,
-                      achievement,
-                      traveler,
-                      travelerMemoryLocation,
-                    },
-                  ]) => ({
+                  ({
                     name,
+                    rarity,
                     cooldownTime,
                     maxCharges,
-                    description,
+                    rawDesc,
+                    rawDescVars,
                     shortDescription,
                     type,
                     image,
-                    achievement,
+                    achievementDescription,
+                    achievementName,
+                    traveler,
+                    travelerMemoryLocation,
+                  }) => ({
+                    name,
+                    cooldownTime,
+                    maxCharges,
+                    rawDesc,
+                    rawDescVars,
+                    shortDescription,
+                    type,
+                    image,
+                    achievementDescription,
+                    achievementName,
                     mutuallyExclusive: getMutuallyExclusiveMemories({
                       name,
                       rarity,

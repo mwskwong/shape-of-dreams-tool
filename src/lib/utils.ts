@@ -1,6 +1,12 @@
 import { type ThemeProps } from "@radix-ui/themes/components/theme";
 import Hashids from "hashids";
-import { createLoader, parseAsArrayOf, parseAsString } from "nuqs/server";
+import {
+  createLoader,
+  parseAsArrayOf,
+  parseAsInteger,
+  parseAsString,
+  parseAsStringLiteral,
+} from "nuqs/server";
 
 import memories from "@public/data/memories.json";
 
@@ -35,7 +41,7 @@ export const compareMemories = (a: Memory, b: Memory) =>
 export const compareEssences = (a: Item, b: Item) =>
   compareRarities(a.rarity, b.rarity) || a.name.localeCompare(b.name);
 
-export const searchParams = {
+export const itemSearchParams = {
   search: parseAsString
     .withDefault("")
     .withOptions({ throttleMs: 300, shallow: false }),
@@ -53,7 +59,28 @@ export const searchParams = {
     .withOptions({ shallow: false }),
 };
 
-export const loadSearchParams = createLoader(searchParams);
+export const loadItemSearchParams = createLoader(itemSearchParams);
+
+export const buildSearchParams = {
+  search: parseAsString
+    .withDefault("")
+    .withOptions({ throttleMs: 300, shallow: false }),
+  travelers: parseAsArrayOf(parseAsString)
+    .withDefault([])
+    .withOptions({ shallow: false }),
+  memories: parseAsArrayOf(parseAsString)
+    .withDefault([])
+    .withOptions({ shallow: false }),
+  essences: parseAsArrayOf(parseAsString)
+    .withDefault([])
+    .withOptions({ shallow: false }),
+  sort: parseAsStringLiteral(["newest", "mostLiked"])
+    .withDefault("newest")
+    .withOptions({ shallow: false }),
+  page: parseAsInteger.withDefault(1).withOptions({ shallow: false }),
+};
+
+export const loadBuildSearchParams = createLoader(buildSearchParams);
 
 export const getTravelerClassIcon = (travelerClass: string) => {
   if (travelerClass.toLowerCase().includes("attacker")) {

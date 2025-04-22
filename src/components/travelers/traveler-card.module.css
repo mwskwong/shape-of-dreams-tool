@@ -1,19 +1,8 @@
-.card {
-  height: 100%;
-}
-
-.tabRoot {
-  width: 100%;
-}
-
 .stat {
   --card-padding: var(--space-2);
-
-  min-width: 52px;
 }
 
 .statGrowth {
-  padding: var(--space-1);
   background-color: var(--card-background-color);
 }
 
@@ -23,6 +12,4 @@
 
 .em {
   --em-font-size-adjust: 1;
-
-  color: var(--yellow-a11);
 }

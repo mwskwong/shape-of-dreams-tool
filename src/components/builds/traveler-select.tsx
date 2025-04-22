@@ -12,10 +12,8 @@ import { VisuallyHidden } from "@radix-ui/themes/components/visually-hidden";
 import Image from "next/image";
 import { type FC } from "react";
 
-import { allTravelerEntries } from "@/lib/constants";
+import { allTravelers } from "@/lib/constants";
 import { getTravelerClassIcon, getTravelerColor } from "@/lib/utils";
-
-import styles from "./traveler-select.module.css";
 
 export interface TravelerSelectProps
   extends Omit<Dialog.TriggerProps, "children" | "onChange"> {
@@ -30,9 +28,7 @@ export const TravelerSelect: FC<TravelerSelectProps> = ({
   onChange,
   ...props
 }) => {
-  const selectedTraveler = allTravelerEntries.find(
-    ([key]) => key === value,
-  )?.[1];
+  const selectedTraveler = allTravelers.find(({ id }) => id === value);
 
   return (
     <>
@@ -72,39 +68,41 @@ export const TravelerSelect: FC<TravelerSelectProps> = ({
               </RadioCards.Item>
             </Dialog.Close>
 
-            {allTravelerEntries.map(([key, traveler]) => {
-              const color = getTravelerColor(key);
-              const classIcon = getTravelerClassIcon(traveler.class);
+            {allTravelers.map(({ id, class: travelerClass, name, image }) => {
+              const color = getTravelerColor(id);
+              const classIcon = getTravelerClassIcon(travelerClass);
 
               return (
-                <Dialog.Close key={key}>
-                  <RadioCards.Item className={styles.radioCardItem} value={key}>
-                    <Image
-                      alt={traveler.name}
-                      className="rt-AvatarRoot rt-r-size-3"
-                      height={40}
-                      src={`/images/${traveler.image}`}
-                      width={40}
-                    />
-                    <div>
-                      <Text as="p" color={color} size="2" weight="bold">
-                        {traveler.name}
-                      </Text>
-                      <Flex asChild align="center" gap="2" justify="center">
-                        <Text as="div">
-                          {classIcon && (
-                            <Image
-                              alt={traveler.class}
-                              height={16}
-                              src={classIcon}
-                              width={16}
-                            />
-                          )}
-                          {traveler.class}
+                <Dialog.Close key={id}>
+                  <Flex asChild justify="start">
+                    <RadioCards.Item value={id}>
+                      <Image
+                        alt={name}
+                        className="rt-AvatarRoot rt-r-size-3"
+                        height={40}
+                        src={`/images/${image}`}
+                        width={40}
+                      />
+                      <div>
+                        <Text as="p" color={color} size="2" weight="bold">
+                          {name}
                         </Text>
-                      </Flex>
-                    </div>
-                  </RadioCards.Item>
+                        <Flex asChild align="center" gap="2" justify="center">
+                          <Text as="div">
+                            {classIcon && (
+                              <Image
+                                alt={travelerClass}
+                                height={16}
+                                src={classIcon}
+                                width={16}
+                              />
+                            )}
+                            {travelerClass}
+                          </Text>
+                        </Flex>
+                      </div>
+                    </RadioCards.Item>
+                  </Flex>
                 </Dialog.Close>
               );
             })}

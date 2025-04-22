@@ -9,7 +9,7 @@ import * as HoverCard from "@radix-ui/themes/components/hover-card";
 import { Inset } from "@radix-ui/themes/components/inset";
 import { ScrollArea } from "@radix-ui/themes/components/scroll-area";
 import { Text } from "@radix-ui/themes/components/text";
-import { IconCopy, IconThumbUp, IconUser } from "@tabler/icons-react";
+import { IconCopy, IconThumbUp } from "@tabler/icons-react";
 import { type ResolvingMetadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
@@ -19,11 +19,7 @@ import { type BreadcrumbList, type WithContext } from "schema-dts";
 
 import { StatsDataList } from "@/components/builds/stats-data-list";
 import * as ItemCard from "@/components/item-card";
-import {
-  allEssenceEntries,
-  allMemoryEntries,
-  allTravelerEntries,
-} from "@/lib/constants";
+import { allEssences, allMemories, allTravelers } from "@/lib/constants";
 import { getBuildByHashId } from "@/lib/queries";
 import { routes, siteUrl } from "@/lib/site-config";
 import {
@@ -40,14 +36,13 @@ interface BuildDetailsProps {
 
 const BuildDetails: FC<BuildDetailsProps> = async ({ params }) => {
   const { hashId } = await params;
-  const entry = await getBuildByHashId(hashId);
+  const build = await getBuildByHashId(hashId);
 
-  if (!entry) notFound();
+  if (!build) notFound();
 
-  const { build } = entry;
-  const traveler = allTravelerEntries.find(
-    ([key]) => key === build.traveler.id,
-  )?.[1];
+  const traveler = allTravelers.find(
+    ({ id }) => id === build.details.traveler.id,
+  );
 
   return (
     <>
@@ -59,31 +54,23 @@ const BuildDetails: FC<BuildDetailsProps> = async ({ params }) => {
           gapY="3"
         >
           <Heading as="h2" size="6">
-            {build.buildName}
+            {build.details.name}
           </Heading>
           <Flex gap="3" ml={{ sm: "auto" }}>
-            <Button
-              disabled
-              highContrast
-              className={styles.actionButton}
-              color="gray"
-              variant="ghost"
-            >
-              <IconThumbUp size={18} />
-              Like (0)
-            </Button>
-            <Button
-              asChild
-              highContrast
-              className={styles.actionButton}
-              color="gray"
-              variant="ghost"
-            >
-              <Link href={`${routes.cloneBuild.pathname}/${hashId}`}>
-                <IconCopy size={18} />
-                Clone
-              </Link>
-            </Button>
+            <Box asChild flexGrow={{ initial: "1", sm: "0" }}>
+              <Button disabled highContrast color="gray" variant="ghost">
+                <IconThumbUp size={18} />
+                Like (0)
+              </Button>
+            </Box>
+            <Box asChild flexGrow={{ initial: "1", sm: "0" }}>
+              <Button asChild highContrast color="gray" variant="ghost">
+                <Link href={`${routes.cloneBuild.pathname}/${hashId}`}>
+                  <IconCopy size={18} />
+                  Clone
+                </Link>
+              </Button>
+            </Box>
           </Flex>
         </Flex>
 
@@ -110,30 +97,22 @@ const BuildDetails: FC<BuildDetailsProps> = async ({ params }) => {
                         width={128}
                       />
                     ) : (
-                      <Text asChild color="gray">
-                        <Flex
-                          align="center"
-                          height="128px"
-                          justify="center"
-                          width="128px"
-                        >
-                          <IconUser />
-                        </Flex>
-                      </Text>
+                      <Box height="128px" width="128px" />
                     )}
                   </Inset>
                 </Card>
-                <Text as="div" color={getTravelerColor(build.traveler.id)}>
+                <Text
+                  as="p"
+                  color={getTravelerColor(build.details.traveler.id)}
+                >
                   {traveler?.name ?? "Any"}
                 </Text>
               </Flex>
 
               <Flex gap="3">
-                {Object.entries(build.traveler.startingMemories).map(
+                {Object.entries(build.details.traveler.startingMemories).map(
                   ([key, value]) => {
-                    const memory = allMemoryEntries.find(
-                      ([key]) => key === value,
-                    )?.[1];
+                    const memory = allMemories.find(({ id }) => id === value);
 
                     return (
                       <Flex
@@ -171,17 +150,23 @@ const BuildDetails: FC<BuildDetailsProps> = async ({ params }) => {
                                   {memory.rarity}
                                 </Text>
                                 <ItemCard.Content
-                                  achievement={memory.achievement}
+                                  achievementName={memory.achievementName}
                                   cooldownTime={memory.cooldownTime}
                                   maxCharges={memory.maxCharges}
                                   size="2"
                                   type={memory.type}
+                                  achievementDescription={
+                                    memory.achievementDescription
+                                  }
                                   mutuallyExclusive={getMutuallyExclusiveMemories(
                                     memory,
                                   )}
                                 >
-                                  <ItemCard.Description size="2">
-                                    {memory.description}
+                                  <ItemCard.Description
+                                    rawDescVars={memory.rawDescVars}
+                                    size="2"
+                                  >
+                                    {memory.rawDesc}
                                   </ItemCard.Description>
                                 </ItemCard.Content>
                               </Flex>
@@ -211,112 +196,66 @@ const BuildDetails: FC<BuildDetailsProps> = async ({ params }) => {
               direction="column"
               gap="3"
             >
-              {build.memories.map(({ id, essences: essenceIds }, index) => {
-                const memory = allMemoryEntries.find(
-                  ([key]) => key === id,
-                )?.[1];
-                const essences = essenceIds.map(
-                  (id) => allEssenceEntries.find(([key]) => key === id)?.[1],
-                );
+              {build.details.memories.map(
+                ({ id, essences: essenceIds }, index) => {
+                  const memory = allMemories.find((memory) => memory.id === id);
+                  const essences = essenceIds.map((id) =>
+                    allEssences.find((essence) => essence.id === id),
+                  );
 
-                return (
-                  <Flex key={index} gap="3">
-                    <Flex
-                      align="center"
-                      direction="column"
-                      gap="2"
-                      maxWidth="80px"
-                    >
-                      <HoverCard.Root>
-                        <HoverCard.Trigger>
-                          <Card>
-                            <Inset side="all">
-                              {memory ? (
-                                <Image
-                                  alt={memory.name}
-                                  height={78}
-                                  src={`/images/${memory.image}`}
-                                  width={78}
-                                />
-                              ) : (
-                                <Box height="78px" width="78px" />
-                              )}
-                            </Inset>
-                          </Card>
-                        </HoverCard.Trigger>
-
-                        {memory && (
-                          <HoverCard.Content>
-                            <Flex direction="column" gap="3">
-                              <Text
-                                color={getRarityColor(memory.rarity)}
-                                size="2"
-                              >
-                                {memory.rarity}
-                              </Text>
-                              <ItemCard.Content
-                                achievement={memory.achievement}
-                                cooldownTime={memory.cooldownTime}
-                                maxCharges={memory.maxCharges}
-                                size="2"
-                                type={memory.type}
-                                mutuallyExclusive={getMutuallyExclusiveMemories(
-                                  memory,
-                                )}
-                              >
-                                <ItemCard.Description size="2">
-                                  {memory.description}
-                                </ItemCard.Description>
-                              </ItemCard.Content>
-                            </Flex>
-                          </HoverCard.Content>
-                        )}
-                      </HoverCard.Root>
-
-                      <Text align="center" as="div" size="2">
-                        {memory?.name ?? "Any"}
-                      </Text>
-                    </Flex>
-
-                    {essences.map((essence, index) => (
+                  return (
+                    <Flex key={index} gap="3">
                       <Flex
-                        key={index}
                         align="center"
                         direction="column"
                         gap="2"
-                        maxWidth="64px"
+                        maxWidth="80px"
                       >
                         <HoverCard.Root>
                           <HoverCard.Trigger>
                             <Card>
-                              {essence ? (
-                                <Image
-                                  alt={essence.name}
-                                  height={40}
-                                  src={`/images/${essence.image}`}
-                                  width={40}
-                                />
-                              ) : (
-                                <Box height="40px" width="40px" />
-                              )}
+                              <Inset side="all">
+                                {memory ? (
+                                  <Image
+                                    alt={memory.name}
+                                    height={78}
+                                    src={`/images/${memory.image}`}
+                                    width={78}
+                                  />
+                                ) : (
+                                  <Box height="78px" width="78px" />
+                                )}
+                              </Inset>
                             </Card>
                           </HoverCard.Trigger>
 
-                          {essence && (
+                          {memory && (
                             <HoverCard.Content>
                               <Flex direction="column" gap="3">
                                 <Text
-                                  color={getRarityColor(essence.rarity)}
+                                  color={getRarityColor(memory.rarity)}
                                   size="2"
                                 >
-                                  {essence.rarity}
+                                  {memory.rarity}
                                 </Text>
                                 <ItemCard.Content
-                                  achievement={essence.achievement}
+                                  achievementName={memory.achievementName}
+                                  cooldownTime={memory.cooldownTime}
+                                  maxCharges={memory.maxCharges}
                                   size="2"
+                                  type={memory.type}
+                                  achievementDescription={
+                                    memory.achievementDescription
+                                  }
+                                  mutuallyExclusive={getMutuallyExclusiveMemories(
+                                    memory,
+                                  )}
                                 >
-                                  <ItemCard.Description size="2">
-                                    {essence.description}
+                                  <ItemCard.Description
+                                    rawDescVars={memory.rawDescVars}
+                                    size="2"
+                                  >
+                                    {memory.rawDesc}
                                   </ItemCard.Description>
                                 </ItemCard.Content>
                               </Flex>
@@ -324,33 +263,87 @@ const BuildDetails: FC<BuildDetailsProps> = async ({ params }) => {
                           )}
                         </HoverCard.Root>
 
-                        <Text align="center" as="div" size="1">
-                          {essence?.name ?? "Any"}
+                        <Text align="center" as="div" size="2">
+                          {memory?.name ?? "Any"}
                         </Text>
                       </Flex>
-                    ))}
-                  </Flex>
-                );
-              })}
+
+                      {essences.map((essence, index) => (
+                        <Flex
+                          key={index}
+                          align="center"
+                          direction="column"
+                          gap="2"
+                          maxWidth="64px"
+                        >
+                          <HoverCard.Root>
+                            <HoverCard.Trigger>
+                              <Card>
+                                {essence ? (
+                                  <Image
+                                    alt={essence.name}
+                                    height={40}
+                                    src={`/images/${essence.image}`}
+                                    width={40}
+                                  />
+                                ) : (
+                                  <Box height="40px" width="40px" />
+                                )}
+                              </Card>
+                            </HoverCard.Trigger>
+
+                            {essence && (
+                              <HoverCard.Content>
+                                <Flex direction="column" gap="3">
+                                  <Text
+                                    color={getRarityColor(essence.rarity)}
+                                    size="2"
+                                  >
+                                    {essence.rarity}
+                                  </Text>
+                                  <ItemCard.Content
+                                    achievementName={essence.achievementName}
+                                    size="2"
+                                    achievementDescription={
+                                      essence.achievementDescription
+                                    }
+                                  >
+                                    <ItemCard.Description
+                                      leveling="quality"
+                                      rawDescVars={essence.rawDescVars}
+                                      size="2"
+                                    >
+                                      {essence.rawDesc}
+                                    </ItemCard.Description>
+                                  </ItemCard.Content>
+                                </Flex>
+                              </HoverCard.Content>
+                            )}
+                          </HoverCard.Root>
+
+                          <Text align="center" as="div" size="1">
+                            {essence?.name ?? "Any"}
+                          </Text>
+                        </Flex>
+                      ))}
+                    </Flex>
+                  );
+                },
+              )}
             </Flex>
           </Flex>
 
-          <Flex
-            className={styles.buildDescriptionContainer}
-            direction="column"
-            minWidth="249px"
-          >
+          <Flex direction="column" flexBasis="0%" flexGrow="1" minWidth="249px">
             <Text size="2" weight="bold">
               Build description
             </Text>
-            <ScrollArea
-              className={styles.buildDescriptionScrollArea}
-              scrollbars="vertical"
-            >
-              <Text className={styles.buildDescription}>
-                {build.description}
-              </Text>
-            </ScrollArea>
+            <Box asChild height={{ md: "500px" }} mt="1">
+              <ScrollArea scrollbars="vertical" type="scroll">
+                <Text as="p" className={styles.buildDescription}>
+                  {build.details.description}
+                </Text>
+              </ScrollArea>
+            </Box>
           </Flex>
         </Flex>
       </Flex>
@@ -370,7 +363,7 @@ const BuildDetails: FC<BuildDetailsProps> = async ({ params }) => {
               {
                 "@type": "ListItem",
                 position: 2,
-                name: build.buildName,
+                name: build.details.name,
               },
             ],
           } satisfies WithContext<BreadcrumbList>),
@@ -399,21 +392,20 @@ export const generateMetadata = async (
   parent: ResolvingMetadata,
 ) => {
   const { hashId } = await params;
-  const entry = await getBuildByHashId(hashId);
+  const build = await getBuildByHashId(hashId);
   const { description, openGraph } = await parent;
   const { images, ...openGraphWithoutImages } = openGraph ?? {};
 
-  if (!entry) return;
-  const { build, createdAt } = entry;
+  if (!build) return;
 
   return {
-    title: `${build.buildName} - Details`,
-    description: build.description
-      ? truncateDescription(build.description)
+    title: `${build.details.name} - Details`,
+    description: build.details.description
+      ? truncateDescription(build.details.description)
       : description,
     openGraph: {
       ...openGraphWithoutImages,
-      publishedTime: createdAt.toISOString(),
+      publishedTime: build.createdAt.toISOString(),
       url: `${routes.builds.pathname}/${hashId}`,
     },
   };

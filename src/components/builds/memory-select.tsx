@@ -2,12 +2,12 @@
 
 import "@/styles/item-colors.css";
 
-import { Badge } from "@radix-ui/themes/components/badge";
 import { Box } from "@radix-ui/themes/components/box";
 import { Button } from "@radix-ui/themes/components/button";
 import { Card } from "@radix-ui/themes/components/card";
 import * as Dialog from "@radix-ui/themes/components/dialog";
 import { Flex } from "@radix-ui/themes/components/flex";
+import * as HoverCard from "@radix-ui/themes/components/hover-card";
 import { Inset } from "@radix-ui/themes/components/inset";
 import * as RadioCards from "@radix-ui/themes/components/radio-cards";
 import { Separator } from "@radix-ui/themes/components/separator";
@@ -19,15 +19,14 @@ import Image from "next/image";
 import { type FC, useDeferredValue, useState } from "react";
 
 import {
-  allMemoryEntries,
+  allMemories,
   allMemoryRarities,
   allMemoryTypes,
 } from "@/lib/constants";
+import { getMutuallyExclusiveMemories, getRarityColor } from "@/lib/utils";
 
-import { CheckboxGroupSelect } from "../checkbox-group-select";
 import * as ItemCard from "../item-card";
-
-import styles from "./memory-select.module.css";
+import { Select } from "../select";
 
 export interface MemorySelectProps
   extends Omit<Dialog.TriggerProps, "children" | "onChange"> {
@@ -44,6 +43,19 @@ export interface MemorySelectProps
     achievement?: { name: string; description: string } | null;
     mutuallyExclusive?: string[];
     description: string;
+    rawDesc: string;
+    rawDescVars: {
+      rendered: string;
+      format: string;
+      scalingType: string;
+      data: {
+        basicConstant?: number;
+        basicAP?: number;
+        basicAD?: number;
+        basicLvl?: number;
+        basicAddedMultiplierPerLevel?: number;
+      };
+    }[];
   }[];
   size?: "1" | "2";
   name?: string;
@@ -60,7 +72,7 @@ export const MemorySelect: FC<MemorySelectProps> = ({
   onChange,
   ...props
 }) => {
-  const selectedMemory = allMemoryEntries.find(([key]) => key === value)?.[1];
+  const selectedMemory = allMemories.find(({ id }) => id === value);
 
   const [search, setSearch] = useState("");
   const deferredSearch = useDeferredValue(search);
@@ -80,27 +92,62 @@ export const MemorySelect: FC<MemorySelectProps> = ({
           gap="2"
           maxWidth={`${size === "1" ? 64 : 80}px`}
         >
-          <Dialog.Trigger {...props}>
-            <Card asChild>
-              <button aria-label="select memory">
-                <Inset side="all">
-                  {selectedMemory ? (
-                    <Image
-                      alt={selectedMemory.name}
-                      height={size === "1" ? 62 : 78}
-                      src={`/images/${selectedMemory.image}`}
-                      width={size === "1" ? 62 : 78}
-                    />
-                  ) : (
-                    <Box
-                      height={`${size === "1" ? 62 : 78}px`}
-                      width={`${size === "1" ? 62 : 78}px`}
-                    />
-                  )}
-                </Inset>
-              </button>
-            </Card>
-          </Dialog.Trigger>
+          <HoverCard.Root>
+            <Dialog.Trigger {...props}>
+              <HoverCard.Trigger>
+                <Card asChild>
+                  <button aria-label="select memory">
+                    <Inset side="all">
+                      {selectedMemory ? (
+                        <Image
+                          alt={selectedMemory.name}
+                          height={size === "1" ? 62 : 78}
+                          src={`/images/${selectedMemory.image}`}
+                          width={size === "1" ? 62 : 78}
+                        />
+                      ) : (
+                        <Box
+                          height={`${size === "1" ? 62 : 78}px`}
+                          width={`${size === "1" ? 62 : 78}px`}
+                        />
+                      )}
+                    </Inset>
+                  </button>
+                </Card>
+              </HoverCard.Trigger>
+            </Dialog.Trigger>
+
+            {selectedMemory && (
+              <HoverCard.Content>
+                <Flex direction="column" gap="3">
+                  <Text color={getRarityColor(selectedMemory.rarity)} size="2">
+                    {selectedMemory.rarity}
+                  </Text>
+                  <ItemCard.Content
+                    achievementName={selectedMemory.achievementName}
+                    cooldownTime={selectedMemory.cooldownTime}
+                    maxCharges={selectedMemory.maxCharges}
+                    size="2"
+                    type={selectedMemory.type}
+                    achievementDescription={
+                      selectedMemory.achievementDescription
+                    }
+                    mutuallyExclusive={getMutuallyExclusiveMemories(
+                      selectedMemory,
+                    )}
+                  >
+                    <ItemCard.Description
+                      rawDescVars={selectedMemory.rawDescVars}
+                      size="2"
+                    >
+                      {selectedMemory.rawDesc}
+                    </ItemCard.Description>
+                  </ItemCard.Content>
+                </Flex>
+              </HoverCard.Content>
+            )}
+          </HoverCard.Root>
+
           <Text align="center" as="div" size={size}>
             {selectedMemory?.name ?? "Any"}
           </Text>
@@ -111,44 +158,46 @@ export const MemorySelect: FC<MemorySelectProps> = ({
 
           {options.length > 6 && (
             <Flex align="center" gap="3" mb="3" wrap="wrap">
-              <TextField.Root
-                className={styles.search}
-                placeholder="Search..."
-                type="search"
-                value={search}
-                onInput={(e) => setSearch((e.target as HTMLInputElement).value)}
-              >
-                <TextField.Slot>
-                  <IconSearch size={16} />
-                </TextField.Slot>
-              </TextField.Root>
-
-              <CheckboxGroupSelect
+              <Box asChild width={{ initial: "100%", xs: "250px" }}>
+                <TextField.Root
+                  placeholder="Search..."
+                  type="search"
+                  value={search}
+                  onInput={(e) =>
+                    setSearch((e.target as HTMLInputElement).value)
+                  }
+                >
+                  <TextField.Slot>
+                    <IconSearch size={16} />
+                  </TextField.Slot>
+                </TextField.Root>
+              </Box>
+              <Select
+                multiple
+                name="Rarity"
                 value={rarities}
-                options={allMemoryRarities
-                  .filter((rarity) => !["Identity", "Evasion"].includes(rarity))
-                  .map((rarity) => ({ value: rarity }))}
+                options={[
+                  {
+                    items: allMemoryRarities
+                      .filter(
+                        (rarity) => !["Identity", "Evasion"].includes(rarity),
+                      )
+                      .map((rarity) => ({ value: rarity })),
+                  },
+                ]}
                 onReset={() => setRarities([])}
                 onValueChange={setRarities}
-              >
-                Rarity
-                {rarities.length > 0 && (
-                  <Badge color="indigo">{rarities.length}</Badge>
-                )}
-              </CheckboxGroupSelect>
-
-              <CheckboxGroupSelect
-                options={allMemoryTypes.map((type) => ({ value: type }))}
+              />
+              <Select
+                multiple
+                name="Type"
                 value={types}
+                options={[
+                  { items: allMemoryTypes.map((type) => ({ value: type })) },
+                ]}
                 onReset={() => setTypes([])}
                 onValueChange={setTypes}
-              >
-                Type
-                {types.length > 0 && (
-                  <Badge color="indigo">{types.length}</Badge>
-                )}
-              </CheckboxGroupSelect>
-
+              />
               <Separator orientation="vertical" size="2" />
               <Button
                 color="gray"
@@ -201,32 +250,41 @@ export const MemorySelect: FC<MemorySelectProps> = ({
                   maxCharges,
                   type,
                   mutuallyExclusive,
-                  description,
+                  rawDesc,
+                  rawDescVars,
                 }) => (
                   <Dialog.Close key={id}>
-                    <RadioCards.Item
-                      className={styles.radioCardItem}
-                      value={id}
+                    <Flex
+                      asChild
+                      align="stretch"
+                      direction="column"
+                      justify="start"
                     >
-                      <ItemCard.Header
-                        image={image}
-                        name={name}
-                        rarity={rarity}
-                        size="2"
-                        traveler={traveler}
-                      />
-                      <ItemCard.Content
-                        cooldownTime={cooldownTime}
-                        maxCharges={maxCharges}
-                        mutuallyExclusive={mutuallyExclusive}
-                        size="2"
-                        type={type}
-                      >
-                        <ItemCard.Description size="2">
-                          {description}
-                        </ItemCard.Description>
-                      </ItemCard.Content>
-                    </RadioCards.Item>
+                      <RadioCards.Item value={id}>
+                        <ItemCard.Header
+                          insetImage
+                          image={image}
+                          name={name}
+                          rarity={rarity}
+                          size="2"
+                          traveler={traveler}
+                        />
+                        <ItemCard.Content
+                          cooldownTime={cooldownTime}
+                          maxCharges={maxCharges}
+                          mutuallyExclusive={mutuallyExclusive}
+                          size="2"
+                          type={type}
+                        >
+                          <ItemCard.Description
+                            rawDescVars={rawDescVars}
+                            size="2"
+                          >
+                            {rawDesc}
+                          </ItemCard.Description>
+                        </ItemCard.Content>
+                      </RadioCards.Item>
+                    </Flex>
                   </Dialog.Close>
                 ),
               )}
