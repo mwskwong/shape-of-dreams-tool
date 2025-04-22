@@ -68,6 +68,5 @@ export const FormPersist: FC<FormPersistProps> = ({ control, reset }) => {
     return () => clearTimeout(debounceTimeoutRef.current);
   }, [isReady, storageKey, watchedValues]);
 
-  // eslint-disable-next-line unicorn/no-null
-  return null;
+  return <></>;
 };

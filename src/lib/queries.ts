@@ -58,7 +58,7 @@ export const getBuilds = async ({
   cacheLife("days");
   cacheTag("builds", "builds:list");
 
-  const conditions = [];
+  const conditions = [eq(builds.hidden, false)];
   if (search) {
     conditions.push(
       sql`to_tsvector('english', (${builds.details}->>'name') || ' ' || (${builds.details}->>'description')) @@ websearch_to_tsquery('english', ${search})`,
@@ -84,7 +84,6 @@ export const getBuilds = async ({
   }
 
   const condition = and(...conditions);
-
   const [result, count] = await Promise.all([
     db
       .select()

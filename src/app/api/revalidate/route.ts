@@ -4,7 +4,7 @@ import { type NextRequest, NextResponse } from "next/server";
 import { nonEmpty, object, pipe, safeParse, string } from "valibot";
 
 const requestSchema = object({
-  hashId: pipe(string(), nonEmpty()),
+  tag: pipe(string(), nonEmpty()),
 });
 
 export const POST = async (request: NextRequest) => {
@@ -18,7 +18,7 @@ export const POST = async (request: NextRequest) => {
     );
   }
 
-  revalidateTag(`builds:${output.hashId}`);
+  revalidateTag(output.tag);
 
   return NextResponse.json(
     { status: "success", message: status[status.OK], data: {} },
