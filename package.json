@@ -11,7 +11,7 @@
     "lint": "next lint --no-cache",
     "start": "next start",
     "stylelint": "stylelint **/*.css",
-    "upgrade": "npm update --registry=https://registry.npmjs.org && npm run lint -- --fix && npm run stylelint -- --fix && npm run format:fix"
+    "upgrade": "npm update && npm run lint -- --fix && npm run stylelint -- --fix && npm run format:fix"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.0.1",
@@ -48,7 +48,6 @@
     "@types/react": "^19.1.2",
     "@types/react-dom": "^19.1.2",
     "autoprefixer": "^10.4.21",
-    "babel-plugin-react-compiler": "^19.1.0-rc.1",
     "drizzle-kit": "^0.31.0",
     "eslint": "^9.25.1",
     "eslint-config-prettier": "^10.1.2",
@@ -56,8 +55,7 @@
     "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-jsx-a11y": "^6.10.2",
     "eslint-plugin-react": "^7.37.5",
-    "eslint-plugin-react-compiler": "^19.1.0-rc.1",
-    "eslint-plugin-react-hooks": "^5.2.0",
+    "eslint-plugin-react-hooks": "^6.0.0-rc.1",
     "eslint-plugin-unicorn": "^58.0.0",
     "postcss": "^8.5.3",
     "postcss-custom-media": "^11.0.5",

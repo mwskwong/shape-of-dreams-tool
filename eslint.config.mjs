@@ -7,7 +7,6 @@ import prettierConfig from "eslint-config-prettier";
 import * as importPlugin from "eslint-plugin-import";
 import jsxA11yPlugin from "eslint-plugin-jsx-a11y";
 import reactPlugin from "eslint-plugin-react";
-import reactCompilerPlugin from "eslint-plugin-react-compiler";
 import reactHooksPlugin from "eslint-plugin-react-hooks";
 import unicornPlugin from "eslint-plugin-unicorn";
 import tseslint from "typescript-eslint";
@@ -33,14 +32,8 @@ const config = tseslint.config(
   jsxA11yPlugin.flatConfigs.strict,
   reactPlugin.configs.flat.recommended,
   reactPlugin.configs.flat["jsx-runtime"],
-  reactHooksPlugin.configs["recommended-latest"],
+  reactHooksPlugin.configs.recommended,
   compat.extends("plugin:@next/next/recommended"),
-  {
-    plugins: {
-      "react-compiler": reactCompilerPlugin,
-    },
-  },
-
   prettierConfig,
   {
     languageOptions: {
@@ -133,7 +126,7 @@ const config = tseslint.config(
           "newlines-between": "always",
         },
       ],
-      "react-compiler/react-compiler": "error",
+      "react-hooks/react-compiler": "error",
       "react/jsx-sort-props": [
         "warn",
         {
