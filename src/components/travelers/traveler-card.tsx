@@ -30,16 +30,13 @@ export const Root: FC<RootProps> = ({ name, image, children, ...props }) => (
   <Box asChild height="100%">
     <Card {...props}>
       <Flex align="center" direction="column" gap="3" {...props}>
-        <Card>
-          <Inset side="all">
-            <Image
-              alt={name}
-              height={128}
-              src={`/images/${image}`}
-              width={128}
-            />
-          </Inset>
-        </Card>
+        <Image
+          alt={name}
+          className={clsx("rt-AvatarRoot", "rt-r-size-6")}
+          height={128}
+          src={`/images/${image}`}
+          width={128}
+        />
         <Heading as="h2" data-accent-color="" size="6">
           {name}
         </Heading>
