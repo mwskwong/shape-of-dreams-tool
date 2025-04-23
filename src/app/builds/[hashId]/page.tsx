@@ -87,7 +87,7 @@ const BuildDetails: FC<BuildDetailsProps> = async ({ params }) => {
 
             <Flex align="center" direction="column" gap="3" width="100%">
               <Flex align="center" direction="column" gap="2">
-                <Card>
+                <Card size="5">
                   <Inset side="all">
                     {traveler ? (
                       <Image
@@ -213,7 +213,7 @@ const BuildDetails: FC<BuildDetailsProps> = async ({ params }) => {
                       >
                         <HoverCard.Root>
                           <HoverCard.Trigger>
-                            <Card>
+                            <Card size="3">
                               <Inset side="all">
                                 {memory ? (
                                   <Image

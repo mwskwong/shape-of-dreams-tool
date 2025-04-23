@@ -1,11 +1,10 @@
 "use client";
 
-import { Box } from "@radix-ui/themes/components/box";
 import { Card } from "@radix-ui/themes/components/card";
 import { Flex, type FlexProps } from "@radix-ui/themes/components/flex";
 import { Heading } from "@radix-ui/themes/components/heading";
-import { Inset } from "@radix-ui/themes/components/inset";
 import { Text } from "@radix-ui/themes/components/text";
+import { clsx } from "clsx";
 import Image from "next/image";
 import { type FC, useState } from "react";
 
@@ -60,18 +59,13 @@ export const MemoryCard: FC<MemoryCardProps> = ({
       <Card asChild className={styles.card} variant="ghost">
         <button onClick={() => setOpen(!open)}>
           <Flex align="start" gap="3">
-            <Box asChild flexShrink="0">
-              <Card>
-                <Inset side="all">
-                  <Image
-                    alt={name}
-                    height={46}
-                    src={`/images/${image}`}
-                    width={46}
-                  />
-                </Inset>
-              </Card>
-            </Box>
+            <Image
+              alt={name}
+              className={clsx("rt-AvatarRoot", "rt-r-size-4")}
+              height={48}
+              src={`/images/${image}`}
+              width={48}
+            />
 
             <div>
               <Heading as="h3" size="4">
