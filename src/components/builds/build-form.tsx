@@ -27,8 +27,7 @@ import { buildDetailsSchema } from "@/lib/schemas";
 import { routes, siteUrl } from "@/lib/site-config";
 
 import { EssenceSelect } from "./essence-select";
-import { FormBeforeUnload } from "./form-before-unload";
-// import { FormPersist } from "./form-persist";
+import { FormPersist } from "./form-persist";
 import { MemorySelect } from "./memory-select";
 import { StatsDataList } from "./stats-data-list";
 import { TravelerSelect } from "./traveler-select";
@@ -92,8 +91,7 @@ export const BuildForm: FC<BuildFormProps> = ({ defaultValues, ...props }) => {
 
   return (
     <>
-      <FormBeforeUnload control={control} />
-      {/* <FormPersist control={control} reset={reset} /> */}
+      <FormPersist control={control} reset={reset} />
 
       <Flex asChild direction="column" gap="3" {...props}>
         <form

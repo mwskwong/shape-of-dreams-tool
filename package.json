@@ -32,7 +32,7 @@
     "nuqs": "^2.4.3",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "react-hook-form": "^7.56.0",
+    "react-hook-form": "^7.56.1",
     "valibot": "^1.0.0"
   },
   "devDependencies": {
