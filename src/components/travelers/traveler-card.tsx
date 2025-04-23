@@ -271,15 +271,13 @@ export const Content: FC<ContentProps> = ({
               ) : (
                 constellations.map(({ name, description, image }) => (
                   <Flex key={name} gap="3">
-                    <Box asChild p="1">
-                      <Image
-                        alt={name}
-                        className={iconStyles.constellationIcon}
-                        height={48}
-                        src={`/images/${image}`}
-                        width={48}
-                      />
-                    </Box>
+                    <Image
+                      alt={name}
+                      className={iconStyles.constellationIcon}
+                      height={48}
+                      src={`/images/${image}`}
+                      width={48}
+                    />
                     <div>
                       <Heading as="h3" size="4">
                         {name}
