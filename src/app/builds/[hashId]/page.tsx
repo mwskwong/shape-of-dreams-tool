@@ -340,7 +340,7 @@ const BuildDetails: FC<BuildDetailsProps> = async ({ params }) => {
             <Box asChild height={{ md: "500px" }} mt="1">
               <ScrollArea scrollbars="vertical" type="scroll">
                 <Text as="p" className={styles.buildDescription}>
-                  {build.details.description}
+                  {build.details.description ?? "No description provided."}
                 </Text>
               </ScrollArea>
             </Box>
