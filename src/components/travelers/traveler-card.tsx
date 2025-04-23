@@ -32,7 +32,7 @@ export const Root: FC<RootProps> = ({ name, image, children, ...props }) => (
       <Flex align="center" direction="column" gap="3" {...props}>
         <Image
           alt={name}
-          className={clsx("rt-AvatarRoot", "rt-r-size-6")}
+          className={clsx("rt-AvatarRoot", "rt-r-size-8")}
           height={128}
           src={`/images/${image}`}
           width={128}
