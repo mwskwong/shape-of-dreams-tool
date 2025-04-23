@@ -274,7 +274,7 @@ const OpengraphImage = async ({ params }: { params: { hashId: string } }) => {
                       >
                         <div
                           style={{
-                            width: 16 * spriteMaxAspectRatio,
+                            width: Math.round(16 * spriteMaxAspectRatio),
                             display: "flex",
                             justifyContent: "center",
                           }}

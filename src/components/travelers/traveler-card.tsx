@@ -12,7 +12,7 @@ import { clsx } from "clsx";
 import Image from "next/image";
 import { type FC } from "react";
 
-import { spriteMaxAspectRatio, sprites } from "@/lib/constants";
+import { sprites } from "@/lib/constants";
 import { getTravelerClassIcon } from "@/lib/utils";
 import iconStyles from "@/styles/icons.module.css";
 
@@ -161,6 +161,8 @@ export const Content: FC<ContentProps> = ({
       value: criticalStrikeChance,
       statGrowth: statsGrowthPerLv.criticalStrikeChance,
       iconClassName: iconStyles.critIcon,
+      width: undefined,
+      height: undefined,
     },
     {
       image: "/images/texMovement.png",
@@ -168,6 +170,8 @@ export const Content: FC<ContentProps> = ({
       value: movementSpeed,
       statGrowth: statsGrowthPerLv.movementSpeed,
       iconClassName: iconStyles.movementSpeedIcon,
+      width: undefined,
+      height: undefined,
     },
   ];
 
@@ -200,17 +204,25 @@ export const Content: FC<ContentProps> = ({
               </Flex>
               <Grid columns="4" gap="3">
                 {stats.map(
-                  ({ image, name, value, statGrowth, iconClassName }) => (
+                  ({
+                    image,
+                    name,
+                    value,
+                    width = 1,
+                    height = 1,
+                    statGrowth,
+                    iconClassName,
+                  }) => (
                     <Tooltip key={name} content={name}>
                       <Box asChild minWidth="52px">
                         <Card className={styles.stat}>
                           <Flex align="center" direction="column" gap="2">
                             <Image
                               alt={name}
-                              className={clsx(iconStyles.sprite, iconClassName)}
+                              className={iconClassName}
                               height={20}
                               src={image}
-                              width={20 * spriteMaxAspectRatio}
+                              width={Math.round(20 * (width / height))}
                             />
                             <Text>{value}</Text>
                           </Flex>
