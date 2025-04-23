@@ -4,7 +4,6 @@ import * as DataList from "@radix-ui/themes/components/data-list";
 import { Flex } from "@radix-ui/themes/components/flex";
 import { Text } from "@radix-ui/themes/components/text";
 import { Tooltip } from "@radix-ui/themes/components/tooltip";
-import { clsx } from "clsx";
 import Image from "next/image";
 import { type FC } from "react";
 
@@ -74,50 +73,67 @@ export const StatsDataList: FC<StatsDataListProps> = ({
       value: traveler.movementSpeed,
       iconClassName: iconStyles.movementSpeedIcon,
       statGrowth: traveler.statsGrowthPerLv.movementSpeed,
+      width: undefined,
+      height: undefined,
     },
   ];
 
   return (
     <DataList.Root {...props}>
-      {stats?.map(({ name, image, value, iconClassName, statGrowth }) => (
-        <DataList.Item key={name}>
-          <DataList.Label minWidth="200px">
-            <Flex align="center" gap="2">
-              <Image
-                alt={name}
-                className={clsx(iconStyles.sprite, iconClassName)}
-                height={16}
-                src={image}
-                width={Math.round(16 * spriteMaxAspectRatio)}
-              />
-              {name}
-            </Flex>
-          </DataList.Label>
-          <DataList.Value>
-            {value}
-            {statGrowth && (
-              <Tooltip content="Stat grow / lv">
-                <Flex asChild align="center">
-                  <Text color="yellow" size="1">
-                    <Image
-                      alt={sprites.upgradableParameter.name}
-                      className={styles.upgradableParamIcon}
-                      height={14}
-                      src={`/images/${sprites.upgradableParameter.image}`}
-                      width={Math.round(
-                        14 *
-                          (sprites.upgradableParameter.width /
-                            sprites.upgradableParameter.height),
-                      )}
-                    />
-                    ({statGrowth})
-                  </Text>
+      {stats?.map(
+        ({
+          name,
+          image,
+          value,
+          iconClassName,
+          width = 1,
+          height = 1,
+          statGrowth,
+        }) => (
+          <DataList.Item key={name}>
+            <DataList.Label minWidth="200px">
+              <Flex align="center" gap="2">
+                <Flex
+                  justify="center"
+                  width={`${Math.round(16 * spriteMaxAspectRatio)}px`}
+                >
+                  <Image
+                    alt={name}
+                    className={iconClassName}
+                    height={16}
+                    src={image}
+                    width={Math.round(16 * (width / height))}
+                  />
                 </Flex>
-              </Tooltip>
-            )}
-          </DataList.Value>
-        </DataList.Item>
-      ))}
+                {name}
+              </Flex>
+            </DataList.Label>
+            <DataList.Value>
+              {value}
+              {statGrowth && (
+                <Tooltip content="Stat grow / lv">
+                  <Flex asChild align="center">
+                    <Text color="yellow" size="1">
+                      <Image
+                        alt={sprites.upgradableParameter.name}
+                        className={styles.upgradableParamIcon}
+                        height={14}
+                        src={`/images/${sprites.upgradableParameter.image}`}
+                        width={Math.round(
+                          14 *
+                            (sprites.upgradableParameter.width /
+                              sprites.upgradableParameter.height),
+                        )}
+                      />
+                      ({statGrowth})
+                    </Text>
+                  </Flex>
+                </Tooltip>
+              )}
+            </DataList.Value>
+          </DataList.Item>
+        ),
+      )}
     </DataList.Root>
   );
 };

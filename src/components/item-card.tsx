@@ -240,7 +240,6 @@ export const Description: FC<DescriptionProps> = ({
               >
                 <Image
                   alt={sprite.name}
-                  className={styles.sprite}
                   height={18}
                   src={`/images/${sprite.image}`}
                   width={Math.round(18 * (sprite.width / sprite.height))}
