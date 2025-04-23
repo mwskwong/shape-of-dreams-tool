@@ -56,7 +56,7 @@ const Builds: FC<BuildsProps> = async ({ searchParams }) => {
             <Card key={build.hashId} asChild>
               <Link href={`${routes.builds.pathname}/${build.hashId}`}>
                 <Flex align="center" direction="column" gap="3" height="100%">
-                  <Card>
+                  <Card size="3">
                     <Inset side="all">
                       {traveler ? (
                         <Image

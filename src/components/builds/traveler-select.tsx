@@ -35,7 +35,7 @@ export const TravelerSelect: FC<TravelerSelectProps> = ({
       <Dialog.Root>
         <Flex align="center" direction="column" gap="2">
           <Dialog.Trigger>
-            <Card asChild>
+            <Card asChild size="5">
               <button aria-label="select traveler" {...props}>
                 <Inset side="all">
                   {selectedTraveler ? (

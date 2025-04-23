@@ -95,7 +95,7 @@ export const MemorySelect: FC<MemorySelectProps> = ({
           <HoverCard.Root>
             <Dialog.Trigger {...props}>
               <HoverCard.Trigger>
-                <Card asChild>
+                <Card asChild size={size === "1" ? "1" : "3"}>
                   <button aria-label="select memory">
                     <Inset side="all">
                       {selectedMemory ? (
