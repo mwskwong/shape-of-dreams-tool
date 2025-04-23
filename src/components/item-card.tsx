@@ -5,9 +5,9 @@ import { Card, type CardProps } from "@radix-ui/themes/components/card";
 import { Em } from "@radix-ui/themes/components/em";
 import { Flex, type FlexProps } from "@radix-ui/themes/components/flex";
 import { Heading } from "@radix-ui/themes/components/heading";
-import { Inset } from "@radix-ui/themes/components/inset";
 import { Text, type TextProps } from "@radix-ui/themes/components/text";
 import { Tooltip } from "@radix-ui/themes/components/tooltip";
+import clsx from "clsx";
 import parse, {
   type DOMNode,
   Element,
@@ -58,27 +58,22 @@ export const Header: FC<HeaderProps> = ({
   traveler,
   image,
   size = "3",
-  insetImage,
   ...props
 }) => {
-  const imageWrapperSize = size === "3" ? 48 : 40;
-  const imageSize = insetImage
-    ? imageWrapperSize - 2
-    : imageWrapperSize - 8 * 2;
-  const imageElement = (
-    <Image
-      alt={name}
-      height={imageSize}
-      src={`/images/${image}`}
-      width={imageSize}
-    />
-  );
+  const imageSize = size === "3" ? 48 : 40;
 
   return (
     <Flex gap="3" {...props}>
-      <Card className={styles.imageCardWrapper}>
-        {insetImage ? <Inset side="all">{imageElement}</Inset> : imageElement}
-      </Card>
+      <Image
+        alt={name}
+        height={imageSize}
+        src={`/images/${image}`}
+        width={imageSize}
+        className={clsx("rt-AvatarRoot", {
+          "rt-r-size-3": size === "2",
+          "rt-r-size-4": size === "3",
+        })}
+      />
       <div>
         {size === "3" ? (
           <Heading as="h2" size="4">

@@ -1,7 +1,3 @@
-.imageCardWrapper {
-  --card-padding: var(--space-2);
-}
-
 .sprite {
   display: inline-block;
   width: auto;
