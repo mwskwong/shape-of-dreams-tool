@@ -49,7 +49,6 @@ export interface HeaderProps extends Omit<FlexProps, "children"> {
   traveler?: string;
   image: string;
   size?: "2" | "3";
-  insetImage?: boolean;
 }
 
 export const Header: FC<HeaderProps> = ({

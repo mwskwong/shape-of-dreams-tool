@@ -262,7 +262,6 @@ export const MemorySelect: FC<MemorySelectProps> = ({
                     >
                       <RadioCards.Item value={id}>
                         <ItemCard.Header
-                          insetImage
                           image={image}
                           name={name}
                           rarity={rarity}
