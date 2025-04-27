@@ -57,7 +57,7 @@
     "eslint-plugin-jsx-a11y": "^6.10.2",
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^6.0.0-rc.1",
-    "eslint-plugin-unicorn": "^58.0.0",
+    "eslint-plugin-unicorn": "^59.0.0",
     "postcss": "^8.5.3",
     "postcss-custom-media": "^11.0.5",
     "postcss-import": "^16.1.0",
