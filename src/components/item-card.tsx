@@ -7,7 +7,7 @@ import { Flex, type FlexProps } from "@radix-ui/themes/components/flex";
 import { Heading } from "@radix-ui/themes/components/heading";
 import { Text, type TextProps } from "@radix-ui/themes/components/text";
 import { Tooltip } from "@radix-ui/themes/components/tooltip";
-import clsx from "clsx";
+import { clsx } from "clsx";
 import parse, {
   type DOMNode,
   Element,
