@@ -8,7 +8,7 @@ import { Spinner } from "@radix-ui/themes/components/spinner";
 import * as TextField from "@radix-ui/themes/components/text-field";
 import { IconSearch } from "@tabler/icons-react";
 import { groupBy } from "lodash-es";
-import { useQueryState } from "nuqs";
+import { useQueryStates } from "nuqs";
 import { type FC, useTransition } from "react";
 
 import { allEssences, allMemories, allTravelers } from "@/lib/constants";
@@ -43,47 +43,14 @@ const sortOptions = [
 ];
 
 export const BuildsToolbar: FC<BuildsToolbarProps> = (props) => {
+  const [queryStates, setQueryStates] = useQueryStates(buildSearchParams);
+
   const [searchPending, searchStartTransition] = useTransition();
-  const [search, setSearch] = useQueryState(
-    "search",
-    buildSearchParams.search.withOptions({
-      startTransition: searchStartTransition,
-    }),
-  );
-
   const [travelersPending, travelersStartTransition] = useTransition();
-  const [travelers, setTravelers] = useQueryState(
-    "travelers",
-    buildSearchParams.travelers.withOptions({
-      startTransition: travelersStartTransition,
-    }),
-  );
-
   const [memoriesPending, memoriesStartTransition] = useTransition();
-  const [memories, setMemories] = useQueryState(
-    "memories",
-    buildSearchParams.memories.withOptions({
-      startTransition: memoriesStartTransition,
-    }),
-  );
-
   const [essencesPending, essencesStartTransition] = useTransition();
-  const [essences, setEssences] = useQueryState(
-    "essences",
-    buildSearchParams.essences.withOptions({
-      startTransition: essencesStartTransition,
-    }),
-  );
-
   const [sortPending, sortStartTransition] = useTransition();
-  const [sort, setSort] = useQueryState(
-    "sort",
-    buildSearchParams.sort.withOptions({
-      startTransition: sortStartTransition,
-    }),
-  );
-
-  const [, setPage] = useQueryState("page", buildSearchParams.page);
+  const [resetPending, resetStartTransition] = useTransition();
 
   return (
     <Flex align="center" gap="3" wrap="wrap" {...props}>
@@ -92,11 +59,17 @@ export const BuildsToolbar: FC<BuildsToolbarProps> = (props) => {
           className={styles.search}
           placeholder="Search..."
           type="search"
-          value={search}
-          onInput={(e) => {
-            void setSearch((e.target as HTMLInputElement).value);
-            void setPage(1);
-          }}
+          value={queryStates.search}
+          onInput={(e) =>
+            setQueryStates(
+              (prev) => ({
+                ...prev,
+                search: (e.target as HTMLInputElement).value,
+                page: 1,
+              }),
+              { startTransition: searchStartTransition },
+            )
+          }
         >
           <TextField.Slot>
             <IconSearch size={16} />
@@ -110,70 +83,112 @@ export const BuildsToolbar: FC<BuildsToolbarProps> = (props) => {
         multiple
         loading={travelersPending}
         name="Traveler"
-        value={travelers}
+        value={queryStates.travelers}
         options={[
           { items: allTravelers.map(({ id, name }) => ({ name, value: id })) },
         ]}
-        onReset={() => {
-          void setTravelers([]);
-          void setPage(1);
-        }}
-        onValueChange={(value) => {
-          void setTravelers(value);
-          void setPage(1);
-        }}
+        onReset={() =>
+          setQueryStates(
+            (prev) => ({
+              ...prev,
+              travelers: [],
+              page: 1,
+            }),
+            { startTransition: travelersStartTransition },
+          )
+        }
+        onValueChange={(travelers) =>
+          setQueryStates(
+            (prev) => ({
+              ...prev,
+              travelers,
+              page: 1,
+            }),
+            { startTransition: travelersStartTransition },
+          )
+        }
       />
       <Select
         multiple
         loading={memoriesPending}
         name="Memory"
         options={memoryOptions}
-        value={memories}
-        onReset={() => {
-          void setMemories([]);
-          void setPage(1);
-        }}
-        onValueChange={(value) => {
-          void setMemories(value);
-          void setPage(1);
-        }}
+        value={queryStates.memories}
+        onReset={() =>
+          setQueryStates(
+            (prev) => ({
+              ...prev,
+              memories: [],
+              page: 1,
+            }),
+            { startTransition: memoriesStartTransition },
+          )
+        }
+        onValueChange={(memories) =>
+          setQueryStates(
+            (prev) => ({
+              ...prev,
+              memories,
+              page: 1,
+            }),
+            { startTransition: memoriesStartTransition },
+          )
+        }
       />
       <Select
         multiple
         loading={essencesPending}
         name="Essence"
         options={essenceOptions}
-        value={essences}
-        onReset={() => {
-          void setEssences([]);
-          void setPage(1);
-        }}
-        onValueChange={(value) => {
-          void setEssences(value);
-          void setPage(1);
-        }}
+        value={queryStates.essences}
+        onReset={() =>
+          setQueryStates(
+            (prev) => ({
+              ...prev,
+              essences: [],
+              page: 1,
+            }),
+            { startTransition: essencesStartTransition },
+          )
+        }
+        onValueChange={(essences) =>
+          setQueryStates(
+            (prev) => ({
+              ...prev,
+              essences,
+              page: 1,
+            }),
+            { startTransition: essencesStartTransition },
+          )
+        }
       />
       <Select
         loading={sortPending}
         name="Sort"
         options={[{ items: sortOptions }]}
-        value={[sort]}
-        onValueChange={([value]) => setSort(value as typeof sort)}
+        value={[queryStates.sort]}
+        onValueChange={([sort]) =>
+          setQueryStates(
+            (prev) => ({
+              ...prev,
+              sort: sort as typeof queryStates.sort,
+              page: 1,
+            }),
+            { startTransition: sortStartTransition },
+          )
+        }
       />
       <Separator orientation="vertical" size="2" />
       <Button
         color="gray"
         variant="ghost"
-        onClick={() => {
-          void setSearch("");
-          void setTravelers([]);
-          void setMemories([]);
-          void setEssences([]);
-          void setSort("newest");
-          void setPage(1);
-        }}
+        onClick={() =>
+          // eslint-disable-next-line unicorn/no-null
+          setQueryStates(null, { startTransition: resetStartTransition })
+        }
       >
         Reset
+        <Spinner loading={resetPending} />
       </Button>
     </Flex>
   );

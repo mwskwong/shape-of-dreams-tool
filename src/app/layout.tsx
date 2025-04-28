@@ -89,7 +89,7 @@ const RootLayout: FC<PropsWithChildren> = ({ children }) => (
                   rel="noreferrer"
                   target="_blank"
                 >
-                  <IconBrandDiscord size={18} />
+                  <IconBrandDiscord size={16} />
                   Feedback
                 </a>
               </Button>

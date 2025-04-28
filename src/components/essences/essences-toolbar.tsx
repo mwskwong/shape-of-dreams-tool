@@ -7,7 +7,7 @@ import { Separator } from "@radix-ui/themes/components/separator";
 import { Spinner } from "@radix-ui/themes/components/spinner";
 import * as TextField from "@radix-ui/themes/components/text-field";
 import { IconSearch } from "@tabler/icons-react";
-import { useQueryState } from "nuqs";
+import { useQueryStates } from "nuqs";
 import { type FC, useTransition } from "react";
 
 import { allEssenceRarities } from "@/lib/constants";
@@ -18,21 +18,14 @@ import { Select } from "../select";
 export type EssencesToolbarProps = Omit<FlexProps, "children">;
 
 export const EssencesToolbar: FC<EssencesToolbarProps> = (props) => {
-  const [searchPending, searchStartTransition] = useTransition();
-  const [search, setSearch] = useQueryState(
-    "search",
-    itemSearchParams.search.withOptions({
-      startTransition: searchStartTransition,
-    }),
-  );
+  const [queryStates, setQueryStates] = useQueryStates({
+    search: itemSearchParams.search,
+    rarities: itemSearchParams.rarities,
+  });
 
+  const [searchPending, searchStartTransition] = useTransition();
   const [raritiesPending, raritiesStartTransition] = useTransition();
-  const [rarities, setRarities] = useQueryState(
-    "rarities",
-    itemSearchParams.rarities.withOptions({
-      startTransition: raritiesStartTransition,
-    }),
-  );
+  const [resetPending, resetStartTransition] = useTransition();
 
   return (
     <Flex align="center" gap="3" wrap="wrap" {...props}>
@@ -40,8 +33,16 @@ export const EssencesToolbar: FC<EssencesToolbarProps> = (props) => {
         <TextField.Root
           placeholder="Search..."
           type="search"
-          value={search}
-          onInput={(e) => setSearch((e.target as HTMLInputElement).value)}
+          value={queryStates.search}
+          onInput={(e) =>
+            setQueryStates(
+              (prev) => ({
+                ...prev,
+                search: (e.target as HTMLInputElement).value,
+              }),
+              { startTransition: searchStartTransition },
+            )
+          }
         >
           <TextField.Slot>
             <IconSearch size={16} />
@@ -55,23 +56,40 @@ export const EssencesToolbar: FC<EssencesToolbarProps> = (props) => {
         multiple
         loading={raritiesPending}
         name="Rarity"
-        value={rarities}
+        value={queryStates.rarities}
         options={[
           { items: allEssenceRarities.map((rarity) => ({ value: rarity })) },
         ]}
-        onReset={() => setRarities([])}
-        onValueChange={setRarities}
+        onReset={() =>
+          setQueryStates(
+            (prev) => ({
+              ...prev,
+              rarities: [],
+            }),
+            { startTransition: raritiesStartTransition },
+          )
+        }
+        onValueChange={(rarities) =>
+          setQueryStates(
+            (prev) => ({
+              ...prev,
+              rarities,
+            }),
+            { startTransition: raritiesStartTransition },
+          )
+        }
       />
       <Separator orientation="vertical" size="2" />
       <Button
         color="gray"
         variant="ghost"
-        onClick={() => {
-          void setSearch("");
-          void setRarities([]);
-        }}
+        onClick={() =>
+          // eslint-disable-next-line unicorn/no-null
+          setQueryStates(null, { startTransition: resetStartTransition })
+        }
       >
         Reset
+        <Spinner loading={resetPending} />
       </Button>
     </Flex>
   );
