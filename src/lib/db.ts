@@ -6,7 +6,9 @@ import {
   integer,
   jsonb,
   pgTable,
+  primaryKey,
   timestamp,
+  uuid,
 } from "drizzle-orm/pg-core";
 
 import { type BuildDetails } from "./schemas";
@@ -22,12 +24,10 @@ export const builds = pgTable(
   {
     id: integer().primaryKey().generatedAlwaysAsIdentity(),
     details: jsonb().$type<BuildDetails>().notNull(),
-    likes: integer().notNull().default(0),
     createdAt: timestamp().notNull().defaultNow(),
     hidden: boolean().notNull().default(false),
   },
-  ({ details, likes, createdAt, hidden }) => [
-    index().on(likes),
+  ({ details, createdAt, hidden }) => [
     index().on(createdAt),
     index("builds_name_and_description_search_index").using(
       "gin",
@@ -36,4 +36,16 @@ export const builds = pgTable(
     index().using("gin", details.op("jsonb_path_ops")),
     index().on(hidden),
   ],
+);
+
+export const buildLikes = pgTable(
+  "build_likes",
+  {
+    buildId: integer().references(() => builds.id, {
+      onDelete: "cascade",
+      onUpdate: "cascade",
+    }),
+    userId: uuid().notNull(),
+  },
+  ({ buildId, userId }) => [primaryKey({ columns: [buildId, userId] })],
 );

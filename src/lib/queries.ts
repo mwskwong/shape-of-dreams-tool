@@ -1,10 +1,18 @@
-import { and, desc, eq, inArray, sql } from "drizzle-orm";
+import {
+  and,
+  count,
+  desc,
+  eq,
+  getTableColumns,
+  inArray,
+  sql,
+} from "drizzle-orm";
 import {
   unstable_cacheLife as cacheLife,
   unstable_cacheTag as cacheTag,
 } from "next/cache";
 
-import { builds, db } from "./db";
+import { buildLikes, builds, db } from "./db";
 import { hashIds } from "./utils";
 
 export const getBuildsMetadata = async () => {
@@ -28,11 +36,13 @@ export const getBuildByHashId = async (hashId: string) => {
 
   if (!hashIds.isValidId(hashId)) return;
 
-  const id = hashIds.decode(hashId)[0];
+  const id = hashIds.decode(hashId)[0] as number;
   const build = await db
-    .select()
+    .select({ ...getTableColumns(builds), likes: count(buildLikes.userId) })
     .from(builds)
-    .where(eq(builds.id, id as number));
+    .leftJoin(buildLikes, eq(builds.id, buildLikes.buildId))
+    .where(eq(builds.id, id))
+    .groupBy(builds.id);
 
   return build[0];
 };
@@ -84,25 +94,27 @@ export const getBuilds = async ({
   }
 
   const condition = and(...conditions);
-  const [result, count] = await Promise.all([
+  const [result, total] = await Promise.all([
     db
-      .select()
+      .select({ ...getTableColumns(builds), likes: count(buildLikes.userId) })
       .from(builds)
+      .leftJoin(buildLikes, eq(builds.id, buildLikes.buildId))
       .where(condition)
-      .orderBy(
-        sort === "newest" ? desc(builds.createdAt) : desc(builds.likes),
-        builds.id,
-      )
+      .groupBy(builds.id)
+      .orderBy(({ id, createdAt, likes }) => [
+        sort === "newest" ? desc(createdAt) : desc(likes),
+        id,
+      ])
       .limit(limit)
       .offset(offset),
     db.$count(builds, condition),
   ]);
 
   return {
-    builds: result.map(({ id, ...build }) => ({
+    data: result.map(({ id, ...build }) => ({
       hashId: hashIds.encode(id),
       ...build,
     })),
-    count,
+    total,
   };
 };

@@ -9,7 +9,7 @@ import * as HoverCard from "@radix-ui/themes/components/hover-card";
 import { Inset } from "@radix-ui/themes/components/inset";
 import { ScrollArea } from "@radix-ui/themes/components/scroll-area";
 import { Text } from "@radix-ui/themes/components/text";
-import { IconCopy, IconThumbUp } from "@tabler/icons-react";
+import { IconCopy, IconHeart } from "@tabler/icons-react";
 import { type ResolvingMetadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
@@ -59,8 +59,8 @@ const BuildDetails: FC<BuildDetailsProps> = async ({ params }) => {
           <Flex gap="3" ml={{ sm: "auto" }}>
             <Box asChild flexGrow={{ initial: "1", sm: "0" }}>
               <Button disabled highContrast color="gray" variant="ghost">
-                <IconThumbUp size={18} />
-                Like (0)
+                <IconHeart size={18} />
+                Like ({build.likes})
               </Button>
             </Box>
             <Box asChild flexGrow={{ initial: "1", sm: "0" }}>
