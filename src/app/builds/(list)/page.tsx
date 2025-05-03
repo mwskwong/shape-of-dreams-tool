@@ -72,7 +72,7 @@ const Builds: FC<BuildsProps> = async ({ searchParams }) => {
                   </Card>
 
                   <Flex align="center" direction="column">
-                    <Heading as="h2" size="4">
+                    <Heading align="center" as="h2" size="4">
                       {build.details.name}
                     </Heading>
                     <Text
