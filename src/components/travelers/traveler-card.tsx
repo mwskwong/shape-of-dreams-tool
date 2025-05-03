@@ -246,16 +246,11 @@ export const Content: FC<ContentProps> = ({
                   ),
                 )}
               </Grid>
-              <Text as="p" className={styles.paragraph} wrap="pretty">
+              <Text as="p" className={styles.paragraph}>
                 {description}
               </Text>
               {achievementName && (
-                <Text
-                  as="p"
-                  className={styles.paragraph}
-                  color="gray"
-                  wrap="pretty"
-                >
+                <Text as="p" className={styles.paragraph} color="gray">
                   Unlock requirement -{" "}
                   <Text color="yellow">
                     <Em className={styles.em}>{achievementName}</Em>
@@ -277,7 +272,7 @@ export const Content: FC<ContentProps> = ({
           <Tabs.Content asChild value="constellations">
             <Flex direction="column" gap="3">
               {constellations.length === 0 ? (
-                <Text align="center" as="p" color="gray" my="9" wrap="pretty">
+                <Text align="center" as="p" color="gray" my="9">
                   Coming Soon
                 </Text>
               ) : (

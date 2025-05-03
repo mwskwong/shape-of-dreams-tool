@@ -246,6 +246,10 @@ input:where([type="button"], [type="reset"], [type="submit"]),
   padding-left: var(--space-4);
 }
 
+.rt-Heading {
+  text-wrap: pretty;
+}
+
 .rt-Link {
   &:where(:any-link, button) {
     &:where(:active:not(:focus-visible, [data-state="open"])) {
@@ -259,6 +263,8 @@ input:where([type="button"], [type="reset"], [type="submit"]),
 }
 
 .rt-Text {
+  text-wrap: pretty;
+
   &:where(label) {
     &:where(:active) {
       @media (pointer: coarse) {
