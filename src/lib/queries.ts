@@ -47,6 +47,23 @@ export const getBuildByHashId = async (hashId: string) => {
   return build[0];
 };
 
+export const getIsBuildLikedByUserId = async (
+  buildHashId: string,
+  userId: string,
+) => {
+  "use cache";
+  cacheLife("max");
+  cacheTag("builds", `builds:${buildHashId}:${userId}:likes`);
+
+  const buildId = hashIds.decode(buildHashId)[0] as number;
+  const result = await db
+    .select({ id: sql`1` })
+    .from(buildLikes)
+    .where(and(eq(buildLikes.buildId, buildId), eq(buildLikes.userId, userId)));
+
+  return result.length > 0;
+};
+
 export const getBuilds = async ({
   search,
   travelers,

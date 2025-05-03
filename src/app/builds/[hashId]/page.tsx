@@ -9,18 +9,20 @@ import * as HoverCard from "@radix-ui/themes/components/hover-card";
 import { Inset } from "@radix-ui/themes/components/inset";
 import { ScrollArea } from "@radix-ui/themes/components/scroll-area";
 import { Text } from "@radix-ui/themes/components/text";
-import { IconCopy, IconHeart } from "@tabler/icons-react";
+import { IconCopy } from "@tabler/icons-react";
 import { type ResolvingMetadata } from "next";
+import { cookies } from "next/headers";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { type FC } from "react";
 import { type BreadcrumbList, type WithContext } from "schema-dts";
 
+import { LikeButton } from "@/components/builds/like-button";
 import { StatsDataList } from "@/components/builds/stats-data-list";
 import * as ItemCard from "@/components/item-card";
 import { allEssences, allMemories, allTravelers } from "@/lib/constants";
-import { getBuildByHashId } from "@/lib/queries";
+import { getBuildByHashId, getIsBuildLikedByUserId } from "@/lib/queries";
 import { routes, siteUrl } from "@/lib/site-config";
 import {
   getMutuallyExclusiveMemories,
@@ -35,8 +37,12 @@ interface BuildDetailsProps {
 }
 
 const BuildDetails: FC<BuildDetailsProps> = async ({ params }) => {
-  const { hashId } = await params;
-  const build = await getBuildByHashId(hashId);
+  const [{ hashId }, cookieStore] = await Promise.all([params, cookies()]);
+  const userId = cookieStore.get("userId")?.value;
+  const [build, liked] = await Promise.all([
+    getBuildByHashId(hashId),
+    userId ? getIsBuildLikedByUserId(hashId, userId) : false,
+  ]);
 
   if (!build) notFound();
 
@@ -58,10 +64,13 @@ const BuildDetails: FC<BuildDetailsProps> = async ({ params }) => {
           </Heading>
           <Flex gap="3" ml={{ sm: "auto" }}>
             <Box asChild flexGrow={{ initial: "1", sm: "0" }}>
-              <Button disabled highContrast color="gray" variant="ghost">
-                <IconHeart size={18} />
-                Like ({build.likes})
-              </Button>
+              <LikeButton
+                highContrast
+                color="gray"
+                liked={liked}
+                likes={build.likes}
+                variant="ghost"
+              />
             </Box>
             <Box asChild flexGrow={{ initial: "1", sm: "0" }}>
               <Button asChild highContrast color="gray" variant="ghost">
@@ -373,10 +382,6 @@ const BuildDetails: FC<BuildDetailsProps> = async ({ params }) => {
     </>
   );
 };
-
-// allow builds to revalidate in runtime, but statically render all paths the first time they're visited
-// https://nextjs.org/docs/app/api-reference/functions/generate-static-params#all-paths-at-runtime
-export const generateStaticParams = () => [];
 
 const truncateDescription = (text: string, maxLength = 156) => {
   if (text.length <= maxLength) {

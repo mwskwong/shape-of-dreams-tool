@@ -2,6 +2,7 @@
 
 import { randomUUID } from "node:crypto";
 
+import { and, eq } from "drizzle-orm";
 import { revalidateTag } from "next/cache";
 import { cookies } from "next/headers";
 import { parse } from "valibot";
@@ -39,4 +40,21 @@ export const likeBuild = async (hashId: string) => {
 
   revalidateTag("builds:list");
   revalidateTag(`builds:${hashId}`);
+  revalidateTag(`builds:${hashId}:${userId}:likes`);
+};
+
+export const unlikeBuild = async (hashId: string) => {
+  const cookieStore = await cookies();
+  const userId = cookieStore.get("userId")?.value;
+
+  if (!userId) return;
+
+  const buildId = hashIds.decode(hashId)[0] as number;
+  await db
+    .delete(buildLikes)
+    .where(and(eq(buildLikes.buildId, buildId), eq(buildLikes.userId, userId)));
+
+  revalidateTag("builds:list");
+  revalidateTag(`builds:${hashId}`);
+  revalidateTag(`builds:${hashId}:${userId}:likes`);
 };
