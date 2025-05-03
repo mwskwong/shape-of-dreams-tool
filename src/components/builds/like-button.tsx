@@ -3,7 +3,6 @@
 import "@radix-ui/themes/tokens/colors/red.css";
 
 import { Button, type ButtonProps } from "@radix-ui/themes/components/button";
-import { Text } from "@radix-ui/themes/components/text";
 import { IconHeart, IconHeartFilled } from "@tabler/icons-react";
 import { useParams } from "next/navigation";
 import { type FC, startTransition, useOptimistic } from "react";
@@ -16,6 +15,8 @@ export interface LikeButtonProps extends Omit<ButtonProps, "children"> {
 }
 
 export const LikeButton: FC<LikeButtonProps> = ({
+  color,
+  highContrast,
   likes,
   liked = false,
   ...props
@@ -26,6 +27,8 @@ export const LikeButton: FC<LikeButtonProps> = ({
 
   return (
     <Button
+      color={optimisticState.liked ? "red" : color}
+      highContrast={optimisticState.liked ? false : highContrast}
       onClick={() => {
         const action = optimisticState.liked ? unlikeBuild : likeBuild;
         startTransition(async () => {
@@ -39,13 +42,11 @@ export const LikeButton: FC<LikeButtonProps> = ({
       }}
       {...props}
     >
-      <Text asChild color={optimisticState.liked ? "red" : undefined}>
-        {optimisticState.liked ? (
-          <IconHeartFilled size={18} />
-        ) : (
-          <IconHeart size={18} />
-        )}
-      </Text>
+      {optimisticState.liked ? (
+        <IconHeartFilled size={18} />
+      ) : (
+        <IconHeart size={18} />
+      )}
       Like ({optimisticState.likes})
     </Button>
   );
