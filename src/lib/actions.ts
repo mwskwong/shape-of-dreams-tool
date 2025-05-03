@@ -46,8 +46,14 @@ export const likeBuild = async (hashId: string) => {
 export const unlikeBuild = async (hashId: string) => {
   const cookieStore = await cookies();
   const userId = cookieStore.get("userId")?.value;
-
   if (!userId) return;
+
+  cookieStore.set("userId", userId, {
+    maxAge: 365 * 24 * 60 * 60, // 1 yr
+    secure: true,
+    httpOnly: true,
+    sameSite: "lax",
+  });
 
   const buildId = hashIds.decode(hashId)[0] as number;
   await db
