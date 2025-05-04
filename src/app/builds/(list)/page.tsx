@@ -9,7 +9,7 @@ import * as HoverCard from "@radix-ui/themes/components/hover-card";
 import { Inset } from "@radix-ui/themes/components/inset";
 import { Separator } from "@radix-ui/themes/components/separator";
 import { Text } from "@radix-ui/themes/components/text";
-import { IconThumbUp } from "@tabler/icons-react";
+import { IconHeart } from "@tabler/icons-react";
 import Image from "next/image";
 import Link from "next/link";
 import { type SearchParams } from "nuqs/server";
@@ -38,7 +38,7 @@ interface BuildsProps {
 const Builds: FC<BuildsProps> = async ({ searchParams }) => {
   const { page, ...parsedSearchParams } =
     await loadBuildSearchParams(searchParams);
-  const { builds, count } = await getBuilds({
+  const { data, total } = await getBuilds({
     ...parsedSearchParams,
     limit: pageSize,
     offset: (page - 1) * pageSize,
@@ -47,7 +47,7 @@ const Builds: FC<BuildsProps> = async ({ searchParams }) => {
   return (
     <Flex direction="column" gap="6">
       <Grid columns={{ initial: "1", sm: "2", md: "3", lg: "4" }} gap="3">
-        {builds.map((build) => {
+        {data.map((build) => {
           const traveler = allTravelers.find(
             ({ id }) => id === build.details.traveler.id,
           );
@@ -72,7 +72,7 @@ const Builds: FC<BuildsProps> = async ({ searchParams }) => {
                   </Card>
 
                   <Flex align="center" direction="column">
-                    <Heading as="h2" size="4">
+                    <Heading align="center" as="h2" size="4">
                       {build.details.name}
                     </Heading>
                     <Text
@@ -114,7 +114,6 @@ const Builds: FC<BuildsProps> = async ({ searchParams }) => {
                             <HoverCard.Content>
                               <Flex direction="column" gap="3">
                                 <ItemCard.Header
-                                  insetImage
                                   image={memory.image}
                                   name={memory.name}
                                   rarity={memory.rarity}
@@ -207,7 +206,7 @@ const Builds: FC<BuildsProps> = async ({ searchParams }) => {
                     <Separator orientation="vertical" />
                     <Flex asChild align="center" gap="1">
                       <Text color="gray" size="2">
-                        <IconThumbUp size={18} />
+                        <IconHeart size={18} />
                         <span>{build.likes} likes</span>
                       </Text>
                     </Flex>
@@ -218,7 +217,7 @@ const Builds: FC<BuildsProps> = async ({ searchParams }) => {
           );
         })}
       </Grid>
-      <Pagination ml="auto" pages={Math.max(Math.ceil(count / pageSize), 1)} />
+      <Pagination ml="auto" pages={Math.max(Math.ceil(total / pageSize), 1)} />
     </Flex>
   );
 };

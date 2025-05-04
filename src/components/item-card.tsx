@@ -7,7 +7,7 @@ import { Flex, type FlexProps } from "@radix-ui/themes/components/flex";
 import { Heading } from "@radix-ui/themes/components/heading";
 import { Text, type TextProps } from "@radix-ui/themes/components/text";
 import { Tooltip } from "@radix-ui/themes/components/tooltip";
-import clsx from "clsx";
+import { clsx } from "clsx";
 import parse, {
   type DOMNode,
   Element,
@@ -49,7 +49,6 @@ export interface HeaderProps extends Omit<FlexProps, "children"> {
   traveler?: string;
   image: string;
   size?: "2" | "3";
-  insetImage?: boolean;
 }
 
 export const Header: FC<HeaderProps> = ({
@@ -126,13 +125,13 @@ export const Content: FC<ContentProps> = ({
     )}
     {children}
     {achievementName && (
-      <Text as="p" color="gray" size={size} wrap="pretty">
+      <Text as="p" color="gray" size={size}>
         Unlock requirement - <Em className={styles.em}>{achievementName}</Em>:{" "}
         {achievementDescription}
       </Text>
     )}
     {mutuallyExclusive.length > 0 && (
-      <Text as="p" color="gray" size={size} wrap="pretty">
+      <Text as="p" color="gray" size={size}>
         Mutually exclusive:{" "}
         {mutuallyExclusive.map((memory, index) => (
           <Fragment key={memory}>
@@ -170,7 +169,7 @@ export const Description: FC<DescriptionProps> = ({
 }) => {
   if (typeof children !== "string") {
     return (
-      <Text as="p" wrap="pretty" {...props}>
+      <Text as="p" {...props}>
         {children}
       </Text>
     );
@@ -268,7 +267,7 @@ export const Description: FC<DescriptionProps> = ({
   } satisfies HTMLReactParserOptions;
 
   return children.split("\n\n").map((paragraph, index) => (
-    <Text key={index} as="p" wrap="pretty" {...props}>
+    <Text key={index} as="p" {...props}>
       {parse(
         paragraph
           .replaceAll(

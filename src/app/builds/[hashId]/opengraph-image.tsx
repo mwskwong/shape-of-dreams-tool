@@ -32,9 +32,19 @@ const colors = {
   slate1: "#111113",
   slate12: "#EDEEF0",
   slateA2: "#D8F4F609",
+  slateA5: "#d9edfe25",
   slateA7: "#D9EDFF40",
   slateA11: "#F1F7FEB5",
 };
+
+const radius = {
+  1: 3,
+  2: 4,
+  3: 6,
+  4: 8,
+  5: 12,
+  6: 16,
+} as const;
 
 const getTravelerColorHex = (travelerId: string) => {
   switch (getTravelerColor(travelerId)) {
@@ -169,8 +179,8 @@ const OpengraphImage = async ({ params }: { params: { hashId: string } }) => {
                 <div
                   style={{
                     display: "flex",
-                    borderRadius: 8,
-                    border: `1px solid ${colors.slateA7}`,
+                    borderRadius: radius[6],
+                    border: `1px solid ${colors.slateA5}`,
                     height: 128,
                     width: 128,
                     backgroundColor: colors.slateA2,
@@ -215,8 +225,8 @@ const OpengraphImage = async ({ params }: { params: { hashId: string } }) => {
                             display: "flex",
                             height: 64,
                             width: 64,
-                            borderRadius: 8,
-                            border: `1px solid ${colors.slateA7}`,
+                            borderRadius: radius[4],
+                            border: `1px solid ${colors.slateA5}`,
                             backgroundColor: colors.slateA2,
                             overflow: "hidden",
                           }}
@@ -355,8 +365,8 @@ const OpengraphImage = async ({ params }: { params: { hashId: string } }) => {
                             display: "flex",
                             height: 80,
                             width: 80,
-                            borderRadius: 8,
-                            border: `1px solid ${colors.slateA7}`,
+                            borderRadius: radius[5],
+                            border: `1px solid ${colors.slateA5}`,
                             backgroundColor: colors.slateA2,
                             overflow: "hidden",
                           }}
@@ -392,8 +402,8 @@ const OpengraphImage = async ({ params }: { params: { hashId: string } }) => {
                               height: 64,
                               width: 64,
                               padding: space * 3,
-                              borderRadius: 8,
-                              border: `1px solid ${colors.slateA7}`,
+                              borderRadius: radius[4],
+                              border: `1px solid ${colors.slateA5}`,
                               backgroundColor: colors.slateA2,
                               overflow: "hidden",
                             }}

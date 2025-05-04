@@ -53,7 +53,7 @@ const RootLayout: FC<PropsWithChildren> = ({ children }) => (
       <Theme appearance="dark">
         <Container>
           <Section>
-            <Heading mb="9" size="8" wrap="pretty">
+            <Heading mb="9" size="8">
               Shape of Dreams Tool
             </Heading>
             <Nav />
@@ -89,7 +89,7 @@ const RootLayout: FC<PropsWithChildren> = ({ children }) => (
                   rel="noreferrer"
                   target="_blank"
                 >
-                  <IconBrandDiscord size={18} />
+                  <IconBrandDiscord size={16} />
                   Feedback
                 </a>
               </Button>

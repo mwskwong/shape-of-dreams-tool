@@ -2,7 +2,7 @@
 
 import { Badge } from "@radix-ui/themes/components/badge";
 import { Box } from "@radix-ui/themes/components/box";
-import { Button } from "@radix-ui/themes/components/button";
+import { Button, type ButtonProps } from "@radix-ui/themes/components/button";
 import { Flex } from "@radix-ui/themes/components/flex";
 import { Inset } from "@radix-ui/themes/components/inset";
 import * as Popover from "@radix-ui/themes/components/popover";
@@ -13,17 +13,17 @@ import { Spinner } from "@radix-ui/themes/components/spinner";
 import { Text } from "@radix-ui/themes/components/text";
 import * as TextField from "@radix-ui/themes/components/text-field";
 import { IconCheck, IconChevronDown, IconSearch } from "@tabler/icons-react";
+import { clsx } from "clsx";
 import {
   type FC,
   type MouseEventHandler,
-  type PropsWithChildren,
   useDeferredValue,
   useState,
 } from "react";
 
 import styles from "./select.module.css";
 
-export interface SelectProps extends PropsWithChildren {
+export interface SelectProps extends ButtonProps {
   options?: { group?: string; items: { value: string; name?: string }[] }[];
   loading?: boolean;
   name?: string;
@@ -41,6 +41,8 @@ export const Select: FC<SelectProps> = ({
   onValueChange,
   onReset,
   multiple,
+  className,
+  ...props
 }) => {
   const [search, setSearch] = useState("");
   const deferredSearch = useDeferredValue(search);
@@ -68,7 +70,12 @@ export const Select: FC<SelectProps> = ({
   return (
     <Popover.Root>
       <Popover.Trigger>
-        <Button className="rt-SelectTrigger" color="gray" variant="surface">
+        <Button
+          className={clsx("rt-SelectTrigger", className)}
+          color="gray"
+          variant="surface"
+          {...props}
+        >
           {multiple ? (
             <>
               {name}

@@ -197,7 +197,7 @@ export const BuildForm: FC<BuildFormProps> = ({ defaultValues, ...props }) => {
 
                   {startingMemoriesError && (
                     <Box asChild maxWidth="292px">
-                      <Text as="p" color="red" size="2" wrap="pretty">
+                      <Text as="p" color="red" size="2">
                         {startingMemoriesError}
                       </Text>
                     </Box>
@@ -268,7 +268,7 @@ export const BuildForm: FC<BuildFormProps> = ({ defaultValues, ...props }) => {
                         </Flex>
 
                         {error && (
-                          <Text as="p" color="red" size="2" wrap="pretty">
+                          <Text as="p" color="red" size="2">
                             {error}
                           </Text>
                         )}
