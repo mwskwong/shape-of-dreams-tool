@@ -19,10 +19,24 @@ const Essences: FC<EssencesProps> = async ({ searchParams }) => {
     <Grid columns={{ initial: "1", sm: "2", md: "3" }} gap="3">
       {allEssences
         .filter(
-          ({ name, description, rarity }) =>
+          ({
+            name,
+            description,
+            achievementName,
+            achievementDescription,
+            rarity,
+          }) =>
             (search === "" ||
               name.toLowerCase().includes(search.toLowerCase()) ||
-              description.toLowerCase().includes(search.toLowerCase())) &&
+              description.toLowerCase().includes(search.toLowerCase()) ||
+              achievementName
+                .normalize("NFD") // cater for accented characters
+                .replaceAll(/[\u0300-\u036F]/g, "")
+                .toLowerCase()
+                .includes(search.toLowerCase()) ||
+              achievementDescription
+                .toLowerCase()
+                .includes(search.toLowerCase())) &&
             (rarities.length === 0 || rarities.includes(rarity)),
         )
         .map(
