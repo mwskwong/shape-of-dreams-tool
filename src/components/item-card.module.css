@@ -10,3 +10,7 @@
 
   color: var(--yellow-a11);
 }
+
+.nowrap {
+  text-wrap: nowrap;
+}
