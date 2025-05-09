@@ -211,7 +211,7 @@ export const Description: FC<DescriptionProps> = ({
 
         if (name === "span" && attribs["data-index"]) {
           return (
-            <Text wrap="nowrap" {...attribs}>
+            <Text className={styles.nowrap} wrap="nowrap" {...attribs}>
               {domToReact(children as DOMNode[], options)}
             </Text>
           );
