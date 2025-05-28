@@ -55,6 +55,9 @@ export interface BuildFormProps
 }
 
 export const BuildForm: FC<BuildFormProps> = ({ defaultValues, ...props }) => {
+  // eslint-disable-next-line react-hooks/react-compiler
+  "use no memo";
+
   const {
     control,
     handleSubmit,
