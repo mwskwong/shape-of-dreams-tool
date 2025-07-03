@@ -47,10 +47,10 @@ export const Pagination: FC<PaginationProps> = ({
 
   // Ref: https://github.com/mui/material-ui/blob/master/packages/mui-material/src/usePagination/usePagination.js
 
-  const startPages = range(1, Math.min(boundaryCount, pages));
+  const startPages = range(1, Math.min(boundaryCount, pages) + 1);
   const endPages = range(
     Math.max(pages - boundaryCount + 1, boundaryCount + 1),
-    pages,
+    pages + 1,
   );
   const siblingsStart = Math.max(
     Math.min(page - siblingCount, pages - boundaryCount - siblingCount * 2 - 1),
@@ -68,7 +68,7 @@ export const Pagination: FC<PaginationProps> = ({
       : boundaryCount + 1 < pages - boundaryCount
         ? [boundaryCount + 1]
         : []),
-    ...range(siblingsStart, siblingsEnd),
+    ...range(siblingsStart, siblingsEnd + 1),
     ...(siblingsEnd < pages - boundaryCount - 1
       ? (["end-ellipsis"] as const)
       : pages - boundaryCount > boundaryCount
