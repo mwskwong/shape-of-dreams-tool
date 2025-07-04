@@ -198,10 +198,11 @@ export const Description: FC<DescriptionProps> = ({
     if (leveling === "quality") value *= 50;
 
     const unit = rawDescVar?.rendered.includes("%") ? "%" : "";
+    const perLeveling = leveling === "level" ? "lv" : "50% quality";
 
     return rawDescVar?.scalingType === "basic"
-      ? `+${+value.toFixed(2)}${unit} / ${leveling === "level" ? "lv" : "50% quality"}`
-      : undefined;
+      ? `+${+value.toFixed(2)}${unit} / ${perLeveling}`
+      : `+??? / ${perLeveling}`;
   };
 
   const options = {
@@ -231,11 +232,7 @@ export const Description: FC<DescriptionProps> = ({
 
             return (
               <Tooltip
-                content={
-                  isUpgradableParam
-                    ? (getScaling(varIndex) ?? sprite.name)
-                    : sprite.name
-                }
+                content={isUpgradableParam ? getScaling(varIndex) : sprite.name}
               >
                 <Image
                   alt={sprite.name}
