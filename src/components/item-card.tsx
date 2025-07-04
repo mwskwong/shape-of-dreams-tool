@@ -233,7 +233,7 @@ export const Description: FC<DescriptionProps> = ({
               <Tooltip
                 content={
                   isUpgradableParam
-                    ? (getScaling(varIndex) ?? sprite.name)
+                    ? (getScaling(varIndex) ?? "???")
                     : sprite.name
                 }
               >
