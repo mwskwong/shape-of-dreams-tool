@@ -44,6 +44,8 @@ const Builds: FC<BuildsProps> = async ({ searchParams }) => {
     offset: (page - 1) * pageSize,
   });
 
+  console.log({ data });
+
   return (
     <Flex direction="column" gap="6">
       <Grid columns={{ initial: "1", sm: "2", md: "3", lg: "4" }} gap="3">
