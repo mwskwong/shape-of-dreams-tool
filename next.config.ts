@@ -61,6 +61,15 @@ const config = {
         },
       ],
     },
+    {
+      source: "/images/:path*",
+      headers: [
+        {
+          key: "Cache-Control",
+          value: "public, max-age=2678400",
+        },
+      ],
+    },
   ],
   // eslint-disable-next-line @typescript-eslint/require-await
   redirects: async () => [
