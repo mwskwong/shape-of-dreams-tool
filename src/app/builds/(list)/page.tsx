@@ -44,7 +44,7 @@ const Builds: FC<BuildsProps> = async ({ searchParams }) => {
     offset: (page - 1) * pageSize,
   });
 
-  console.log({ data });
+  console.log(JSON.stringify(data));
 
   return (
     <Flex direction="column" gap="6">
