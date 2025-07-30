@@ -11,7 +11,6 @@ import {
   IconDots,
 } from "@tabler/icons-react";
 import { clsx } from "clsx";
-import { range } from "lodash-es";
 import { useQueryState } from "nuqs";
 import { type FC, useEffect, useTransition } from "react";
 
@@ -27,6 +26,10 @@ export interface PaginationProps
 
 const boundaryCount = 1;
 const siblingCount = 1;
+const range = (start: number, end: number) => {
+  const length = end - start + 1;
+  return Array.from({ length }, (_, i) => start + i);
+};
 
 export const Pagination: FC<PaginationProps> = ({
   pages = 1,
@@ -47,11 +50,12 @@ export const Pagination: FC<PaginationProps> = ({
 
   // Ref: https://github.com/mui/material-ui/blob/master/packages/mui-material/src/usePagination/usePagination.js
 
-  const startPages = range(1, Math.min(boundaryCount, pages) + 1);
+  const startPages = range(1, Math.min(boundaryCount, pages));
   const endPages = range(
     Math.max(pages - boundaryCount + 1, boundaryCount + 1),
-    pages + 1,
+    pages,
   );
+
   const siblingsStart = Math.max(
     Math.min(page - siblingCount, pages - boundaryCount - siblingCount * 2 - 1),
     boundaryCount + 2,
@@ -68,7 +72,7 @@ export const Pagination: FC<PaginationProps> = ({
       : boundaryCount + 1 < pages - boundaryCount
         ? [boundaryCount + 1]
         : []),
-    ...range(siblingsStart, siblingsEnd + 1),
+    ...range(siblingsStart, siblingsEnd),
     ...(siblingsEnd < pages - boundaryCount - 1
       ? (["end-ellipsis"] as const)
       : pages - boundaryCount > boundaryCount
