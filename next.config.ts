@@ -9,6 +9,7 @@ const withBundleAnalyzer = NextBundleAnalyzer({
 const config = {
   images: {
     formats: ["image/avif", "image/webp"],
+    minimumCacheTTL: 2_678_400, // 31 days
   },
   // eslint-disable-next-line @typescript-eslint/require-await -- headers must return a promise
   headers: async () => [
@@ -49,7 +50,7 @@ const config = {
             default-src 'self';
             script-src 'self' 'unsafe-eval' 'unsafe-inline' va.vercel-scripts.com;
             style-src 'self' 'unsafe-inline';
-            img-src 'self' images.ctfassets.net blob: data:;
+            img-src 'self' blob: data:;
             font-src 'self';
             object-src 'none';
             base-uri 'self';
@@ -65,7 +66,7 @@ const config = {
       headers: [
         {
           key: "Cache-Control",
-          value: "public, max-age=86400, must-revalidate",
+          value: "public, max-age=2678400",
         },
       ],
     },
