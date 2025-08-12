@@ -16,15 +16,15 @@ import parse, {
 } from "html-react-parser";
 import Image from "next/image";
 import { type FC, Fragment, type PropsWithChildren } from "react";
+import { type SetOptional } from "type-fest";
 
-import { sprites } from "@/lib/constants";
+import { type Memory } from "@/lib/memories";
+import { getSpriteById } from "@/lib/sprites";
 import { getRarityColor } from "@/lib/utils";
 
 import styles from "./item-card.module.css";
 
-export interface RootProps extends CardProps {
-  tags?: string[];
-}
+export type RootProps = CardProps & Partial<Pick<Memory, "tags">>;
 
 export const Root: FC<RootProps> = ({ tags = [], children, ...props }) => (
   <Card {...props}>
@@ -43,13 +43,11 @@ export const Root: FC<RootProps> = ({ tags = [], children, ...props }) => (
   </Card>
 );
 
-export interface HeaderProps extends Omit<FlexProps, "children"> {
-  name: string;
-  rarity: string;
-  traveler?: string;
-  image: string;
-  size?: "2" | "3";
-}
+export type HeaderProps = Omit<FlexProps, "children"> &
+  SetOptional<
+    Pick<Memory, "name" | "rarity" | "traveler" | "image">,
+    "traveler"
+  > & { size?: "2" | "3" };
 
 export const Header: FC<HeaderProps> = ({
   name,
@@ -66,7 +64,7 @@ export const Header: FC<HeaderProps> = ({
       <Image
         alt={name}
         height={imageSize}
-        src={`/images/${image}`}
+        src={image}
         width={imageSize}
         className={clsx("rt-AvatarRoot", {
           "rt-r-size-3": size === "2",
@@ -92,17 +90,19 @@ export const Header: FC<HeaderProps> = ({
   );
 };
 
-export interface ContentProps extends PropsWithChildren {
-  cooldownTime?: number;
-  maxCharges?: number;
-  type?: string;
-  traveler?: string;
-  tags?: string[];
-  achievementName?: string;
-  achievementDescription?: string;
-  mutuallyExclusive?: string[];
-  size?: "2" | "3";
-}
+export type ContentProps = PropsWithChildren &
+  Partial<
+    Pick<
+      Memory,
+      | "cooldownTime"
+      | "maxCharges"
+      | "type"
+      | "traveler"
+      | "achievementName"
+      | "achievementDescription"
+      | "mutuallyExclusive"
+    > & { size?: "2" | "3" }
+  >;
 
 export const Content: FC<ContentProps> = ({
   cooldownTime,
@@ -146,21 +146,8 @@ export const Content: FC<ContentProps> = ({
   </>
 );
 
-export type DescriptionProps = TextProps & {
-  leveling?: "level" | "quality";
-  rawDescVars: {
-    rendered: string;
-    format: string;
-    scalingType: string;
-    data: {
-      basicConstant?: number;
-      basicAP?: number;
-      basicAD?: number;
-      basicLvl?: number;
-      basicAddedMultiplierPerLevel?: number;
-    };
-  }[];
-};
+export type DescriptionProps = TextProps &
+  Pick<Memory, "rawDescVars"> & { leveling?: "level" | "quality" };
 export const Description: FC<DescriptionProps> = ({
   leveling = "level",
   children,
@@ -179,14 +166,20 @@ export const Description: FC<DescriptionProps> = ({
     const rawDescVar =
       typeof varIndex === "number" ? rawDescVars[varIndex] : undefined;
     const {
+      // @ts-expect-error: TODO later
       basicAD = 0,
+      // @ts-expect-error: TODO later
       basicAP = 0,
+      // @ts-expect-error: TODO later
       basicAddedMultiplierPerLevel = 0,
+      // @ts-expect-error: TODO later
       basicConstant = 0,
+      // @ts-expect-error: TODO later
       basicLvl = 0,
     } = rawDescVar?.data ?? {};
 
     let value =
+      // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
       basicAddedMultiplierPerLevel * (basicConstant + basicAP + basicAD) +
       basicLvl * (1 + 2 * basicAddedMultiplierPerLevel);
     if (
@@ -219,9 +212,7 @@ export const Description: FC<DescriptionProps> = ({
         }
 
         if (name === "i" && attribs["data-sprite"]) {
-          const sprite = Object.values(sprites).find(
-            ({ image }) => image === `${attribs["data-sprite"]}.png`,
-          );
+          const sprite = getSpriteById(attribs["data-sprite"]);
 
           if (sprite) {
             const isUpgradableParam = attribs["data-sprite"] === "5";
@@ -238,8 +229,7 @@ export const Description: FC<DescriptionProps> = ({
                   alt={sprite.name}
                   className={styles.sprite}
                   height={18}
-                  src={`/images/${sprite.image}`}
-                  width={Math.round(18 * (sprite.width / sprite.height))}
+                  src={sprite.image}
                 />
               </Tooltip>
             );

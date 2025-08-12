@@ -4,9 +4,11 @@ import { type SearchParams } from "nuqs/server";
 import { type FC } from "react";
 
 import * as ItemCard from "@/components/item-card";
-import { allEssences } from "@/lib/constants";
+import { getEssences } from "@/lib/essences";
 import { routes } from "@/lib/site-config";
 import { loadItemSearchParams } from "@/lib/utils";
+
+const essences = getEssences();
 
 interface EssencesProps {
   searchParams: Promise<SearchParams>;
@@ -17,7 +19,7 @@ const Essences: FC<EssencesProps> = async ({ searchParams }) => {
 
   return (
     <Grid columns={{ initial: "1", sm: "2", md: "3" }} gap="3">
-      {allEssences
+      {essences
         .filter(
           ({
             name,

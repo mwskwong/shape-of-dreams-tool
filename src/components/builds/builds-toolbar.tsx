@@ -11,7 +11,9 @@ import { groupBy } from "lodash-es";
 import { useQueryStates } from "nuqs";
 import { type FC, useTransition } from "react";
 
-import { allEssences, allMemories, allTravelers } from "@/lib/constants";
+import { getEssences } from "@/lib/essences";
+import { getMemories } from "@/lib/memories";
+import { getTravelers } from "@/lib/travelers";
 import { buildSearchParams } from "@/lib/utils";
 
 import { Select } from "../select";
@@ -22,7 +24,7 @@ export type BuildsToolbarProps = Omit<FlexProps, "children">;
 
 const memoryOptions = Object.entries(
   groupBy(
-    allMemories.filter(({ id }) => id !== "St_C_Sneeze"),
+    getMemories().filter(({ id }) => id !== "St_C_Sneeze"),
     "rarity",
   ),
 ).map(([rarity, memories]) => ({
@@ -30,7 +32,7 @@ const memoryOptions = Object.entries(
   items: memories.map(({ id, name }) => ({ name, value: id })),
 }));
 
-const essenceOptions = Object.entries(groupBy(allEssences, "rarity")).map(
+const essenceOptions = Object.entries(groupBy(getEssences(), "rarity")).map(
   ([rarity, essences]) => ({
     group: rarity,
     items: essences.map(({ id, name }) => ({ name, value: id })),
@@ -41,6 +43,8 @@ const sortOptions = [
   { name: "Newest", value: "newest" },
   { name: "Most Liked", value: "mostLiked" },
 ];
+
+const travelers = getTravelers();
 
 export const BuildsToolbar: FC<BuildsToolbarProps> = (props) => {
   const [queryStates, setQueryStates] = useQueryStates(buildSearchParams);
@@ -85,7 +89,7 @@ export const BuildsToolbar: FC<BuildsToolbarProps> = (props) => {
         name="Traveler"
         value={queryStates.travelers}
         options={[
-          { items: allTravelers.map(({ id, name }) => ({ name, value: id })) },
+          { items: travelers.map(({ id, name }) => ({ name, value: id })) },
         ]}
         onReset={() =>
           setQueryStates(

@@ -10,13 +10,16 @@ import { IconSearch } from "@tabler/icons-react";
 import { useQueryStates } from "nuqs";
 import { type FC, useTransition } from "react";
 
-import { allEssenceRarities } from "@/lib/constants";
+import { getEssenceRarities } from "@/lib/essences";
 import { itemSearchParams } from "@/lib/utils";
 
 import { Select } from "../select";
 
-export type EssencesToolbarProps = Omit<FlexProps, "children">;
+const essenceRarityOptions = [
+  { items: getEssenceRarities().map((rarity) => ({ value: rarity })) },
+];
 
+export type EssencesToolbarProps = Omit<FlexProps, "children">;
 export const EssencesToolbar: FC<EssencesToolbarProps> = (props) => {
   const [queryStates, setQueryStates] = useQueryStates({
     search: itemSearchParams.search,
@@ -56,10 +59,8 @@ export const EssencesToolbar: FC<EssencesToolbarProps> = (props) => {
         multiple
         loading={raritiesPending}
         name="Rarity"
+        options={essenceRarityOptions}
         value={queryStates.rarities}
-        options={[
-          { items: allEssenceRarities.map((rarity) => ({ value: rarity })) },
-        ]}
         onReset={() =>
           setQueryStates(
             (prev) => ({

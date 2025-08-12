@@ -17,14 +17,12 @@ import { type FC } from "react";
 
 import * as ItemCard from "@/components/item-card";
 import { Pagination } from "@/components/pagination";
-import { allEssences, allMemories, allTravelers } from "@/lib/constants";
+import { getEssenceById } from "@/lib/essences";
+import { getMemoryById } from "@/lib/memories";
 import { getBuilds } from "@/lib/queries";
 import { routes } from "@/lib/site-config";
-import {
-  getMutuallyExclusiveMemories,
-  getTravelerColor,
-  loadBuildSearchParams,
-} from "@/lib/utils";
+import { getTravelerById } from "@/lib/travelers";
+import { loadBuildSearchParams } from "@/lib/utils";
 
 import styles from "./page.module.css";
 
@@ -48,9 +46,7 @@ const Builds: FC<BuildsProps> = async ({ searchParams }) => {
     <Flex direction="column" gap="6">
       <Grid columns={{ initial: "1", sm: "2", md: "3", lg: "4" }} gap="3">
         {data.map((build) => {
-          const traveler = allTravelers.find(
-            ({ id }) => id === build.details.traveler.id,
-          );
+          const traveler = getTravelerById(build.details.traveler.id);
 
           return (
             <Card key={build.hashId} asChild>
@@ -62,7 +58,7 @@ const Builds: FC<BuildsProps> = async ({ searchParams }) => {
                         <Image
                           alt={traveler.name}
                           height={80}
-                          src={`/images/${traveler.image}`}
+                          src={traveler.image}
                           width={80}
                         />
                       ) : (
@@ -75,20 +71,13 @@ const Builds: FC<BuildsProps> = async ({ searchParams }) => {
                     <Heading align="center" as="h2" size="4">
                       {build.details.name}
                     </Heading>
-                    <Text
-                      as="p"
-                      color={
-                        getTravelerColor(build.details.traveler.id) ?? "gray"
-                      }
-                    >
+                    <Text as="p" color={traveler?.color}>
                       {traveler?.name ?? "Any Traveler"}
                     </Text>
                   </Flex>
 
                   {build.details.memories.map(({ id, essences }, index) => {
-                    const memory = allMemories.find(
-                      (memory) => memory.id === id,
-                    );
+                    const memory = getMemoryById(id);
 
                     return (
                       <Flex key={index} align="center" gap="3">
@@ -99,8 +88,7 @@ const Builds: FC<BuildsProps> = async ({ searchParams }) => {
                                 {memory ? (
                                   <Image
                                     alt={memory.name}
-                                    height={64}
-                                    src={`/images/${memory.image}`}
+                                    src={memory.image}
                                     width={64}
                                   />
                                 ) : (
@@ -123,14 +111,12 @@ const Builds: FC<BuildsProps> = async ({ searchParams }) => {
                                   achievementName={memory.achievementName}
                                   cooldownTime={memory.cooldownTime}
                                   maxCharges={memory.maxCharges}
+                                  mutuallyExclusive={memory.mutuallyExclusive}
                                   size="2"
                                   type={memory.type}
                                   achievementDescription={
                                     memory.achievementDescription
                                   }
-                                  mutuallyExclusive={getMutuallyExclusiveMemories(
-                                    memory,
-                                  )}
                                 >
                                   <ItemCard.Description
                                     rawDescVars={memory.rawDescVars}
@@ -144,9 +130,7 @@ const Builds: FC<BuildsProps> = async ({ searchParams }) => {
                           )}
                         </HoverCard.Root>
                         {essences.map((id, index) => {
-                          const essence = allEssences.find(
-                            (essence) => essence.id === id,
-                          );
+                          const essence = getEssenceById(id);
 
                           return (
                             <HoverCard.Root key={index}>
@@ -156,7 +140,7 @@ const Builds: FC<BuildsProps> = async ({ searchParams }) => {
                                     <Image
                                       alt={essence.name}
                                       height={32}
-                                      src={`/images/${essence.image}`}
+                                      src={essence.image}
                                       width={32}
                                     />
                                   ) : (

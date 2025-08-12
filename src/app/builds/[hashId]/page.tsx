@@ -21,14 +21,12 @@ import { type BreadcrumbList, type WithContext } from "schema-dts";
 import { LikeButton } from "@/components/builds/like-button";
 import { StatsDataList } from "@/components/builds/stats-data-list";
 import * as ItemCard from "@/components/item-card";
-import { allEssences, allMemories, allTravelers } from "@/lib/constants";
+import { getEssenceById } from "@/lib/essences";
+import { getMemoryById } from "@/lib/memories";
 import { getBuildByHashId, getIsBuildLikedByUserId } from "@/lib/queries";
 import { routes, siteUrl } from "@/lib/site-config";
-import {
-  getMutuallyExclusiveMemories,
-  getRarityColor,
-  getTravelerColor,
-} from "@/lib/utils";
+import { getTravelerById } from "@/lib/travelers";
+import { getRarityColor } from "@/lib/utils";
 
 import styles from "./page.module.css";
 
@@ -46,9 +44,7 @@ const BuildDetails: FC<BuildDetailsProps> = async ({ params }) => {
 
   if (!build) notFound();
 
-  const traveler = allTravelers.find(
-    ({ id }) => id === build.details.traveler.id,
-  );
+  const traveler = getTravelerById(build.details.traveler.id);
 
   return (
     <>
@@ -102,7 +98,7 @@ const BuildDetails: FC<BuildDetailsProps> = async ({ params }) => {
                       <Image
                         alt={traveler.name}
                         height={128}
-                        src={`/images/${traveler.image}`}
+                        src={traveler.image}
                         width={128}
                       />
                     ) : (
@@ -110,10 +106,7 @@ const BuildDetails: FC<BuildDetailsProps> = async ({ params }) => {
                     )}
                   </Inset>
                 </Card>
-                <Text
-                  as="p"
-                  color={getTravelerColor(build.details.traveler.id)}
-                >
+                <Text as="p" color={traveler?.color}>
                   {traveler?.name ?? "Any"}
                 </Text>
               </Flex>
@@ -121,7 +114,7 @@ const BuildDetails: FC<BuildDetailsProps> = async ({ params }) => {
               <Flex gap="3">
                 {Object.entries(build.details.traveler.startingMemories).map(
                   ([key, value]) => {
-                    const memory = allMemories.find(({ id }) => id === value);
+                    const memory = getMemoryById(value);
 
                     return (
                       <Flex
@@ -139,7 +132,7 @@ const BuildDetails: FC<BuildDetailsProps> = async ({ params }) => {
                                   <Image
                                     alt={memory.name}
                                     height={62}
-                                    src={`/images/${memory.image}`}
+                                    src={memory.image}
                                     width={62}
                                   />
                                 ) : (
@@ -162,14 +155,12 @@ const BuildDetails: FC<BuildDetailsProps> = async ({ params }) => {
                                   achievementName={memory.achievementName}
                                   cooldownTime={memory.cooldownTime}
                                   maxCharges={memory.maxCharges}
+                                  mutuallyExclusive={memory.mutuallyExclusive}
                                   size="2"
                                   type={memory.type}
                                   achievementDescription={
                                     memory.achievementDescription
                                   }
-                                  mutuallyExclusive={getMutuallyExclusiveMemories(
-                                    memory,
-                                  )}
                                 >
                                   <ItemCard.Description
                                     rawDescVars={memory.rawDescVars}
@@ -207,10 +198,8 @@ const BuildDetails: FC<BuildDetailsProps> = async ({ params }) => {
             >
               {build.details.memories.map(
                 ({ id, essences: essenceIds }, index) => {
-                  const memory = allMemories.find((memory) => memory.id === id);
-                  const essences = essenceIds.map((id) =>
-                    allEssences.find((essence) => essence.id === id),
-                  );
+                  const memory = getMemoryById(id);
+                  const essences = essenceIds.map((id) => getEssenceById(id));
 
                   return (
                     <Flex key={index} gap="3">
@@ -228,7 +217,7 @@ const BuildDetails: FC<BuildDetailsProps> = async ({ params }) => {
                                   <Image
                                     alt={memory.name}
                                     height={78}
-                                    src={`/images/${memory.image}`}
+                                    src={memory.image}
                                     width={78}
                                   />
                                 ) : (
@@ -251,14 +240,12 @@ const BuildDetails: FC<BuildDetailsProps> = async ({ params }) => {
                                   achievementName={memory.achievementName}
                                   cooldownTime={memory.cooldownTime}
                                   maxCharges={memory.maxCharges}
+                                  mutuallyExclusive={memory.mutuallyExclusive}
                                   size="2"
                                   type={memory.type}
                                   achievementDescription={
                                     memory.achievementDescription
                                   }
-                                  mutuallyExclusive={getMutuallyExclusiveMemories(
-                                    memory,
-                                  )}
                                 >
                                   <ItemCard.Description
                                     rawDescVars={memory.rawDescVars}
@@ -292,7 +279,7 @@ const BuildDetails: FC<BuildDetailsProps> = async ({ params }) => {
                                   <Image
                                     alt={essence.name}
                                     height={40}
-                                    src={`/images/${essence.image}`}
+                                    src={essence.image}
                                     width={40}
                                   />
                                 ) : (

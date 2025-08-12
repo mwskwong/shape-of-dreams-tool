@@ -4,12 +4,11 @@ import { type SearchParams } from "nuqs/server";
 import { type FC } from "react";
 
 import * as ItemCard from "@/components/item-card";
-import { allMemories } from "@/lib/constants";
+import { getMemories } from "@/lib/memories";
 import { routes } from "@/lib/site-config";
-import {
-  getMutuallyExclusiveMemories,
-  loadItemSearchParams,
-} from "@/lib/utils";
+import { loadItemSearchParams } from "@/lib/utils";
+
+const memories = getMemories();
 
 interface MemoriesProps {
   searchParams: Promise<SearchParams>;
@@ -21,7 +20,7 @@ const Memories: FC<MemoriesProps> = async ({ searchParams }) => {
 
   return (
     <Grid columns={{ initial: "1", sm: "2", md: "3" }} gap="3">
-      {allMemories
+      {memories
         .filter(
           ({
             name,
@@ -66,7 +65,7 @@ const Memories: FC<MemoriesProps> = async ({ searchParams }) => {
             achievementName,
             rawDesc,
             rawDescVars,
-            travelerMemoryLocation,
+            mutuallyExclusive,
           }) => (
             <ItemCard.Root key={id} tags={tags}>
               <ItemCard.Header
@@ -80,13 +79,8 @@ const Memories: FC<MemoriesProps> = async ({ searchParams }) => {
                 achievementName={achievementName}
                 cooldownTime={cooldownTime}
                 maxCharges={maxCharges}
+                mutuallyExclusive={mutuallyExclusive}
                 type={type}
-                mutuallyExclusive={getMutuallyExclusiveMemories({
-                  name,
-                  rarity,
-                  traveler,
-                  travelerMemoryLocation,
-                })}
               >
                 <ItemCard.Description rawDescVars={rawDescVars}>
                   {rawDesc}

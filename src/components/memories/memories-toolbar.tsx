@@ -11,14 +11,30 @@ import { useQueryStates } from "nuqs";
 import { type FC, useTransition } from "react";
 
 import {
-  allMemoryRarities,
-  allMemoryTags,
-  allMemoryTypes,
-  allTravelers,
-} from "@/lib/constants";
+  getMemoryRarities,
+  getMemoryTags,
+  getMemoryTypes,
+} from "@/lib/memories";
+import { getTravelers } from "@/lib/travelers";
 import { itemSearchParams } from "@/lib/utils";
 
 import { Select } from "../select";
+
+const memoryRarityOptions = [
+  { items: getMemoryRarities().map((rarity) => ({ value: rarity })) },
+];
+
+const memoryTypeOptions = [
+  { items: getMemoryTypes().map((type) => ({ value: type })) },
+];
+
+const travelerOptions = [
+  { items: getTravelers().map(({ id, name }) => ({ name, value: id })) },
+];
+
+const memoryTagOptions = [
+  { items: getMemoryTags().map((tag) => ({ value: tag })) },
+];
 
 export type MemoriesToolbarProps = Omit<FlexProps, "children">;
 export const MemoriesToolbar: FC<MemoriesToolbarProps> = (props) => {
@@ -60,10 +76,8 @@ export const MemoriesToolbar: FC<MemoriesToolbarProps> = (props) => {
         multiple
         loading={raritiesPending}
         name="Rarity"
+        options={memoryRarityOptions}
         value={queryStates.rarities}
-        options={[
-          { items: allMemoryRarities.map((rarity) => ({ value: rarity })) },
-        ]}
         onReset={() =>
           setQueryStates(
             (prev) => ({
@@ -87,7 +101,7 @@ export const MemoriesToolbar: FC<MemoriesToolbarProps> = (props) => {
         multiple
         loading={typesPending}
         name="Type"
-        options={[{ items: allMemoryTypes.map((type) => ({ value: type })) }]}
+        options={memoryTypeOptions}
         value={queryStates.types}
         onReset={() =>
           setQueryStates(
@@ -112,10 +126,8 @@ export const MemoriesToolbar: FC<MemoriesToolbarProps> = (props) => {
         multiple
         loading={travelersPending}
         name="Traveler"
+        options={travelerOptions}
         value={queryStates.travelers}
-        options={[
-          { items: allTravelers.map(({ id, name }) => ({ name, value: id })) },
-        ]}
         onReset={() =>
           setQueryStates(
             (prev) => ({
@@ -139,7 +151,7 @@ export const MemoriesToolbar: FC<MemoriesToolbarProps> = (props) => {
         multiple
         loading={tagsPending}
         name="Tag"
-        options={[{ items: allMemoryTags.map((tag) => ({ value: tag })) }]}
+        options={memoryTagOptions}
         value={queryStates.tags}
         onReset={() =>
           setQueryStates(
