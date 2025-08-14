@@ -105,6 +105,7 @@ const Builds: FC<BuildsProps> = async ({ searchParams }) => {
                                   image={memory.image}
                                   name={memory.name}
                                   rarity={memory.rarity}
+                                  rarityColor={memory.rarityColor}
                                   size="2"
                                 />
                                 <ItemCard.Content
@@ -156,6 +157,7 @@ const Builds: FC<BuildsProps> = async ({ searchParams }) => {
                                       image={essence.image}
                                       name={essence.name}
                                       rarity={essence.rarity}
+                                      rarityColor={essence.rarityColor}
                                       size="2"
                                     />
                                     <ItemCard.Content

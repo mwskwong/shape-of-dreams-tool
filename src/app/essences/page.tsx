@@ -46,6 +46,7 @@ const Essences: FC<EssencesProps> = async ({ searchParams }) => {
             id,
             name,
             rarity,
+            rarityColor,
             image,
             achievementName,
             achievementDescription,
@@ -53,7 +54,12 @@ const Essences: FC<EssencesProps> = async ({ searchParams }) => {
             rawDescVars,
           }) => (
             <ItemCard.Root key={id}>
-              <ItemCard.Header image={image} name={name} rarity={rarity} />
+              <ItemCard.Header
+                image={image}
+                name={name}
+                rarity={rarity}
+                rarityColor={rarityColor}
+              />
               <ItemCard.Content
                 achievementDescription={achievementDescription}
                 achievementName={achievementName}

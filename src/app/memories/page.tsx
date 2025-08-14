@@ -48,13 +48,14 @@ const Memories: FC<MemoriesProps> = async ({ searchParams }) => {
             (rarities.length === 0 || rarities.includes(rarity)) &&
             (types.length === 0 || types.includes(type)) &&
             (travelers.length === 0 || travelers.includes(traveler)) &&
-            tags.every((tag) => (_tags as string[]).includes(tag)),
+            tags.every((tag) => _tags.includes(tag)),
         )
         .map(
           ({
             id,
             name,
             rarity,
+            rarityColor,
             traveler,
             tags,
             image,
@@ -72,6 +73,7 @@ const Memories: FC<MemoriesProps> = async ({ searchParams }) => {
                 image={image}
                 name={name}
                 rarity={rarity}
+                rarityColor={rarityColor}
                 traveler={traveler}
               />
               <ItemCard.Content
