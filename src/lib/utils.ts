@@ -8,6 +8,26 @@ import {
   parseAsStringLiteral,
 } from "nuqs/server";
 
+export const getRarityColor = (rarity: string) => {
+  switch (rarity) {
+    case "Common": {
+      return "gray" satisfies ThemeProps["accentColor"];
+    }
+    case "Rare": {
+      return "sky" satisfies ThemeProps["accentColor"];
+    }
+    case "Epic": {
+      return "purple" satisfies ThemeProps["accentColor"];
+    }
+    case "Legendary": {
+      return "red" satisfies ThemeProps["accentColor"];
+    }
+    default: {
+      return "amber" satisfies ThemeProps["accentColor"];
+    }
+  }
+};
+
 const rarityOrders = [
   "Common",
   "Rare",
@@ -61,25 +81,5 @@ export const buildSearchParams = {
 };
 
 export const loadBuildSearchParams = createLoader(buildSearchParams);
-
-export const getRarityColor = (rarity: string): ThemeProps["accentColor"] => {
-  switch (rarity) {
-    case "Common": {
-      return "gray";
-    }
-    case "Rare": {
-      return "sky";
-    }
-    case "Epic": {
-      return "purple";
-    }
-    case "Legendary": {
-      return "red";
-    }
-    default: {
-      return "amber";
-    }
-  }
-};
 
 export const hashIds = new Hashids(process.env.HASH_IDS_SALT, 6);

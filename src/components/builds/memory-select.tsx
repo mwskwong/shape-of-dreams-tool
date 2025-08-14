@@ -24,7 +24,6 @@ import {
   getMemoryRarities,
   getMemoryTypes,
 } from "@/lib/memories";
-import { getRarityColor } from "@/lib/utils";
 
 import * as ItemCard from "../item-card";
 import { Select } from "../select";
@@ -107,7 +106,7 @@ export const MemorySelect: FC<MemorySelectProps> = ({
             {selectedMemory && (
               <HoverCard.Content>
                 <Flex direction="column" gap="3">
-                  <Text color={getRarityColor(selectedMemory.rarity)} size="2">
+                  <Text color={selectedMemory.rarityColor} size="2">
                     {selectedMemory.rarity}
                   </Text>
                   <ItemCard.Content
@@ -218,6 +217,7 @@ export const MemorySelect: FC<MemorySelectProps> = ({
                   id,
                   name,
                   rarity,
+                  rarityColor,
                   traveler,
                   image,
                   cooldownTime,
@@ -239,6 +239,7 @@ export const MemorySelect: FC<MemorySelectProps> = ({
                           image={image}
                           name={name}
                           rarity={rarity}
+                          rarityColor={rarityColor}
                           size="2"
                           traveler={traveler}
                         />

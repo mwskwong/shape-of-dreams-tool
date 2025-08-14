@@ -53,7 +53,7 @@ import Gem_R_Spiral from "@/images/Gem_R_Spiral.png";
 import Gem_R_Wealth from "@/images/Gem_R_Wealth.png";
 import Gem_R_Wound from "@/images/Gem_R_Wound.png";
 
-import { compareRarities } from "./utils";
+import { compareRarities, getRarityColor } from "./utils";
 
 const essences = {
   Gem_C_Charcoal: {
@@ -2427,23 +2427,23 @@ const essences = {
 export type Essence = NonNullable<ReturnType<typeof getEssenceById>>;
 
 export const getEssences = () =>
-  Object.entries(essences)
-    .map(([id, essence]) => ({
-      id: id as keyof typeof essences,
-      ...essence,
-    }))
+  Object.keys(essences)
+    .map((id) => getEssenceById(id))
+    .filter(Boolean)
     .toSorted(
-      (a: Essence, b: Essence) =>
+      (a, b) =>
         compareRarities(a.rarity, b.rarity) || a.name.localeCompare(b.name),
     );
 
 export const getEssenceById = (id: string) => {
   if (id in essences) {
     const essenceId = id as keyof typeof essences;
+    const essence = essences[essenceId];
     return {
       id: essenceId,
-      ...essences[essenceId],
-    };
+      rarityColor: getRarityColor(essence.rarity),
+      ...essence,
+    } as const;
   }
 };
 

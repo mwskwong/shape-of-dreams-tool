@@ -20,7 +20,6 @@ import {
   getEssenceRarities,
   getEssences,
 } from "@/lib/essences";
-import { getRarityColor } from "@/lib/utils";
 
 import * as ItemCard from "../item-card";
 import { Select } from "../select";
@@ -83,7 +82,7 @@ export const EssenceSelect: FC<EssenceSelectProps> = ({
             {selectedEssence && (
               <HoverCard.Content>
                 <Flex direction="column" gap="3">
-                  <Text color={getRarityColor(selectedEssence.rarity)} size="2">
+                  <Text color={selectedEssence.rarityColor} size="2">
                     {selectedEssence.rarity}
                   </Text>
                   <ItemCard.Content
@@ -172,32 +171,43 @@ export const EssenceSelect: FC<EssenceSelectProps> = ({
                   (deferredRarities.length === 0 ||
                     deferredRarities.includes(rarity)),
               )
-              .map(({ id, name, rarity, image, rawDesc, rawDescVars }) => (
-                <Dialog.Close key={id}>
-                  <Flex
-                    asChild
-                    align="stretch"
-                    direction="column"
-                    justify="start"
-                  >
-                    <RadioCards.Item value={id}>
-                      <ItemCard.Header
-                        image={image}
-                        name={name}
-                        rarity={rarity}
-                        size="2"
-                      />
-                      <ItemCard.Description
-                        leveling="quality"
-                        rawDescVars={rawDescVars}
-                        size="2"
-                      >
-                        {rawDesc}
-                      </ItemCard.Description>
-                    </RadioCards.Item>
-                  </Flex>
-                </Dialog.Close>
-              ))}
+              .map(
+                ({
+                  id,
+                  name,
+                  rarity,
+                  rarityColor,
+                  image,
+                  rawDesc,
+                  rawDescVars,
+                }) => (
+                  <Dialog.Close key={id}>
+                    <Flex
+                      asChild
+                      align="stretch"
+                      direction="column"
+                      justify="start"
+                    >
+                      <RadioCards.Item value={id}>
+                        <ItemCard.Header
+                          image={image}
+                          name={name}
+                          rarity={rarity}
+                          rarityColor={rarityColor}
+                          size="2"
+                        />
+                        <ItemCard.Description
+                          leveling="quality"
+                          rawDescVars={rawDescVars}
+                          size="2"
+                        >
+                          {rawDesc}
+                        </ItemCard.Description>
+                      </RadioCards.Item>
+                    </Flex>
+                  </Dialog.Close>
+                ),
+              )}
           </RadioCards.Root>
 
           <Flex justify="end" mt="4">

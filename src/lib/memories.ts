@@ -69,7 +69,7 @@ import St_R_Smite from "@/images/St_R_Smite.png";
 import St_R_Tranquility from "@/images/St_R_Tranquility.png";
 import St_R_UnbreakableDetermination from "@/images/St_R_UnbreakableDetermination.png";
 
-import { compareRarities } from "./utils";
+import { compareRarities, getRarityColor } from "./utils";
 
 const memories = {
   St_D_DoubleTap: {
@@ -4177,14 +4177,11 @@ const getMutuallyExclusiveMemories = ({
     .map(([, { name }]) => name);
 
 export const getMemories = () =>
-  Object.entries(memories)
-    .map(([id, memory]) => ({
-      id: id as keyof typeof memories,
-      mutuallyExclusive: getMutuallyExclusiveMemories(memory),
-      ...memory,
-    }))
+  Object.keys(memories)
+    .map((id) => getMemoryById(id))
+    .filter(Boolean)
     .toSorted(
-      (a: Memory, b: Memory) =>
+      (a, b) =>
         compareRarities(a.rarity, b.rarity) ||
         a.traveler.localeCompare(b.traveler) ||
         a.name.localeCompare(b.name),
@@ -4196,9 +4193,10 @@ export const getMemoryById = (id: string) => {
     const memory = memories[memoryId];
     return {
       id: memoryId,
+      rarityColor: getRarityColor(memory.rarity),
       mutuallyExclusive: getMutuallyExclusiveMemories(memory),
       ...memory,
-    };
+    } as const;
   }
 };
 

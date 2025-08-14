@@ -20,7 +20,7 @@ import { type SetOptional } from "type-fest";
 
 import { type Memory } from "@/lib/memories";
 import { getSpriteById } from "@/lib/sprites";
-import { getRarityColor } from "@/lib/utils";
+import { getTravelerById } from "@/lib/travelers";
 
 import styles from "./item-card.module.css";
 
@@ -45,19 +45,21 @@ export const Root: FC<RootProps> = ({ tags = [], children, ...props }) => (
 
 export type HeaderProps = Omit<FlexProps, "children"> &
   SetOptional<
-    Pick<Memory, "name" | "rarity" | "traveler" | "image">,
+    Pick<Memory, "name" | "rarity" | "rarityColor" | "traveler" | "image">,
     "traveler"
   > & { size?: "2" | "3" };
 
 export const Header: FC<HeaderProps> = ({
   name,
   rarity,
-  traveler,
+  rarityColor,
+  traveler: travelerId,
   image,
   size = "3",
   ...props
 }) => {
   const imageSize = size === "3" ? 48 : 40;
+  const traveler = travelerId ? getTravelerById(travelerId) : undefined;
 
   return (
     <Flex gap="3" {...props}>
@@ -81,9 +83,9 @@ export const Header: FC<HeaderProps> = ({
             {name}
           </Text>
         )}
-        <Text as="p" color={getRarityColor(rarity)} size={size}>
+        <Text as="p" color={rarityColor} size={size}>
           {rarity}
-          {traveler ? ` · ${traveler.replace("Hero_", "")}` : undefined}
+          {traveler ? ` · ${traveler.name.replace("Hero_", "")}` : undefined}
         </Text>
       </div>
     </Flex>

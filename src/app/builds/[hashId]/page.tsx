@@ -26,7 +26,6 @@ import { getMemoryById } from "@/lib/memories";
 import { getBuildByHashId, getIsBuildLikedByUserId } from "@/lib/queries";
 import { routes, siteUrl } from "@/lib/site-config";
 import { getTravelerById } from "@/lib/travelers";
-import { getRarityColor } from "@/lib/utils";
 
 import styles from "./page.module.css";
 
@@ -145,10 +144,7 @@ const BuildDetails: FC<BuildDetailsProps> = async ({ params }) => {
                           {memory && (
                             <HoverCard.Content>
                               <Flex direction="column" gap="3">
-                                <Text
-                                  color={getRarityColor(memory.rarity)}
-                                  size="2"
-                                >
+                                <Text color={memory.rarityColor} size="2">
                                   {memory.rarity}
                                 </Text>
                                 <ItemCard.Content
@@ -230,10 +226,7 @@ const BuildDetails: FC<BuildDetailsProps> = async ({ params }) => {
                           {memory && (
                             <HoverCard.Content>
                               <Flex direction="column" gap="3">
-                                <Text
-                                  color={getRarityColor(memory.rarity)}
-                                  size="2"
-                                >
+                                <Text color={memory.rarityColor} size="2">
                                   {memory.rarity}
                                 </Text>
                                 <ItemCard.Content
@@ -291,10 +284,7 @@ const BuildDetails: FC<BuildDetailsProps> = async ({ params }) => {
                             {essence && (
                               <HoverCard.Content>
                                 <Flex direction="column" gap="3">
-                                  <Text
-                                    color={getRarityColor(essence.rarity)}
-                                    size="2"
-                                  >
+                                  <Text color={memory?.rarityColor} size="2">
                                     {essence.rarity}
                                   </Text>
                                   <ItemCard.Content
