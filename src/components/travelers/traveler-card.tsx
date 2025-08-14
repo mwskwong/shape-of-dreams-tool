@@ -29,7 +29,6 @@ export const Root: FC<RootProps> = ({ name, image, children, ...props }) => (
         <Image
           alt={name}
           className={clsx("rt-AvatarRoot", "rt-r-size-8")}
-          height={128}
           src={image}
           width={128}
         />
@@ -93,12 +92,7 @@ export const Content: FC<ContentProps> = ({
               <Flex asChild align="center" gap="2" justify="center">
                 <Text as="div">
                   {classIcon && (
-                    <Image
-                      alt={travelerClass}
-                      height={18}
-                      src={classIcon}
-                      width={18}
-                    />
+                    <Image alt={travelerClass} src={classIcon} width={18} />
                   )}
                   {travelerClass}
                 </Text>
@@ -173,7 +167,6 @@ export const Content: FC<ContentProps> = ({
                     <Image
                       alt={name}
                       className={iconStyles.constellationIcon}
-                      height={48}
                       src={image}
                       width={48}
                     />

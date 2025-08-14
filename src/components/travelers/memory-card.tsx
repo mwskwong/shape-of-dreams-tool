@@ -40,7 +40,6 @@ export const MemoryCard: FC<MemoryCardProps> = ({
             <Image
               alt={name}
               className={clsx("rt-AvatarRoot", "rt-r-size-4")}
-              height={48}
               src={image}
               width={48}
             />

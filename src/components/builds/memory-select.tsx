@@ -87,7 +87,6 @@ export const MemorySelect: FC<MemorySelectProps> = ({
                       {selectedMemory ? (
                         <Image
                           alt={selectedMemory.name}
-                          height={size === "1" ? 62 : 78}
                           src={selectedMemory.image}
                           width={size === "1" ? 62 : 78}
                         />

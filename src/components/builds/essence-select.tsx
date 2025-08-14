@@ -67,7 +67,6 @@ export const EssenceSelect: FC<EssenceSelectProps> = ({
                     {selectedEssence ? (
                       <Image
                         alt={selectedEssence.name}
-                        height={40}
                         src={selectedEssence.image}
                         width={40}
                       />

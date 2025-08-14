@@ -42,7 +42,6 @@ export const TravelerSelect: FC<TravelerSelectProps> = ({
                   {selectedTraveler ? (
                     <Image
                       alt={selectedTraveler.name}
-                      height={128}
                       src={selectedTraveler.image}
                       width={128}
                     />
@@ -77,7 +76,6 @@ export const TravelerSelect: FC<TravelerSelectProps> = ({
                       <Image
                         alt={name}
                         className="rt-AvatarRoot rt-r-size-3"
-                        height={40}
                         src={image}
                         width={40}
                       />
@@ -90,7 +88,6 @@ export const TravelerSelect: FC<TravelerSelectProps> = ({
                             {classIcon && (
                               <Image
                                 alt={travelerClass}
-                                height={16}
                                 src={classIcon}
                                 width={16}
                               />

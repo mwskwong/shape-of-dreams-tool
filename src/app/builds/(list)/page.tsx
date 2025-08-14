@@ -57,7 +57,6 @@ const Builds: FC<BuildsProps> = async ({ searchParams }) => {
                       {traveler ? (
                         <Image
                           alt={traveler.name}
-                          height={80}
                           src={traveler.image}
                           width={80}
                         />
@@ -140,7 +139,6 @@ const Builds: FC<BuildsProps> = async ({ searchParams }) => {
                                   {essence ? (
                                     <Image
                                       alt={essence.name}
-                                      height={32}
                                       src={essence.image}
                                       width={32}
                                     />

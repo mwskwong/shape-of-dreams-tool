@@ -96,7 +96,6 @@ const BuildDetails: FC<BuildDetailsProps> = async ({ params }) => {
                     {traveler ? (
                       <Image
                         alt={traveler.name}
-                        height={128}
                         src={traveler.image}
                         width={128}
                       />
@@ -130,7 +129,6 @@ const BuildDetails: FC<BuildDetailsProps> = async ({ params }) => {
                                 {memory ? (
                                   <Image
                                     alt={memory.name}
-                                    height={62}
                                     src={memory.image}
                                     width={62}
                                   />
@@ -212,7 +210,6 @@ const BuildDetails: FC<BuildDetailsProps> = async ({ params }) => {
                                 {memory ? (
                                   <Image
                                     alt={memory.name}
-                                    height={78}
                                     src={memory.image}
                                     width={78}
                                   />
@@ -271,7 +268,6 @@ const BuildDetails: FC<BuildDetailsProps> = async ({ params }) => {
                                 {essence ? (
                                   <Image
                                     alt={essence.name}
-                                    height={40}
                                     src={essence.image}
                                     width={40}
                                   />
