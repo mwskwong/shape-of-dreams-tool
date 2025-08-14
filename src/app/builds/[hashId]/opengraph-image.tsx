@@ -160,11 +160,7 @@ const OpengraphImage = async ({ params }: { params: { hashId: string } }) => {
                   }}
                 >
                   {traveler && (
-                    <img
-                      height="100%"
-                      src={`${siteUrl}${traveler.image.src}`}
-                      width="100%"
-                    />
+                    <img src={`${siteUrl}${traveler.image.src}`} width="100%" />
                   )}
                 </div>
                 <div
@@ -205,7 +201,6 @@ const OpengraphImage = async ({ params }: { params: { hashId: string } }) => {
                         >
                           {memory && (
                             <img
-                              height="100%"
                               src={`${siteUrl}${memory.image.src}`}
                               width="100%"
                             />
@@ -329,7 +324,6 @@ const OpengraphImage = async ({ params }: { params: { hashId: string } }) => {
                         >
                           {memory && (
                             <img
-                              height="100%"
                               src={`${siteUrl}${memory.image.src}`}
                               width="100%"
                             />
@@ -366,7 +360,6 @@ const OpengraphImage = async ({ params }: { params: { hashId: string } }) => {
                           >
                             {essence && (
                               <img
-                                height="100%"
                                 src={`${siteUrl}${essence.image.src}`}
                                 width="100%"
                               />
