@@ -14,7 +14,21 @@ import * as ItemCard from "../item-card";
 
 import styles from "./memory-card.module.css";
 
-export type MemoryCardProps = Omit<FlexProps, "children"> & Memory;
+export type MemoryCardProps = Omit<FlexProps, "children"> &
+  Pick<
+    Memory,
+    | "name"
+    | "cooldownTime"
+    | "maxCharges"
+    | "rawDesc"
+    | "rawDescVars"
+    | "shortDescription"
+    | "type"
+    | "image"
+    | "achievementName"
+    | "achievementDescription"
+    | "mutuallyExclusive"
+  >;
 
 export const MemoryCard: FC<MemoryCardProps> = ({
   name,
@@ -27,7 +41,7 @@ export const MemoryCard: FC<MemoryCardProps> = ({
   image,
   achievementName,
   achievementDescription,
-  mutuallyExclusive = [],
+  mutuallyExclusive,
   ...props
 }) => {
   const [open, setOpen] = useState(false);

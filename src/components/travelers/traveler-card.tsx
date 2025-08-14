@@ -149,9 +149,36 @@ export const Content: FC<ContentProps> = ({
 
           <Tabs.Content asChild value="memories">
             <Flex direction="column" gap="3">
-              {memories.map((memory) => (
-                <MemoryCard key={memory.name} {...memory} />
-              ))}
+              {memories.map(
+                ({
+                  name,
+                  cooldownTime,
+                  maxCharges,
+                  rawDesc,
+                  rawDescVars,
+                  shortDescription,
+                  type,
+                  image,
+                  achievementName,
+                  achievementDescription,
+                  mutuallyExclusive,
+                }) => (
+                  <MemoryCard
+                    key={name}
+                    achievementDescription={achievementDescription}
+                    achievementName={achievementName}
+                    cooldownTime={cooldownTime}
+                    image={image}
+                    maxCharges={maxCharges}
+                    mutuallyExclusive={mutuallyExclusive}
+                    name={name}
+                    rawDesc={rawDesc}
+                    rawDescVars={rawDescVars}
+                    shortDescription={shortDescription}
+                    type={type}
+                  />
+                ),
+              )}
             </Flex>
           </Tabs.Content>
 
