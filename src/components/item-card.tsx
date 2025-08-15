@@ -18,14 +18,28 @@ import Image from "next/image";
 import { type FC, Fragment, type PropsWithChildren } from "react";
 import { type SetOptional } from "type-fest";
 
+import { type Essence } from "@/lib/essences";
 import { type Memory } from "@/lib/memories";
 import { getSpriteById } from "@/lib/sprites";
 import { getTravelerById } from "@/lib/travelers";
 
 import styles from "./item-card.module.css";
 
-export type RootProps = CardProps & Partial<Pick<Memory, "tags">>;
+type Item = SetOptional<
+  {
+    [K in keyof Memory]: K extends keyof Essence
+      ? Memory[K] | Essence[K]
+      : Memory[K];
+  } & {
+    [K in keyof Essence as Exclude<K, keyof Memory>]: Essence[K];
+  },
+  // eslint-disable-next-line @typescript-eslint/no-redundant-type-constituents -- Essence may have fields that are not in Memory in the future
+  Exclude<keyof Memory, keyof Essence> | Exclude<keyof Essence, keyof Memory>
+>;
 
+type Size = "2" | "3";
+
+export type RootProps = CardProps & Pick<Item, "tags">;
 export const Root: FC<RootProps> = ({ tags = [], children, ...props }) => (
   <Card {...props}>
     <Flex direction="column" gap="3" height="100%">
@@ -44,10 +58,9 @@ export const Root: FC<RootProps> = ({ tags = [], children, ...props }) => (
 );
 
 export type HeaderProps = Omit<FlexProps, "children"> &
-  SetOptional<
-    Pick<Memory, "name" | "rarity" | "rarityColor" | "traveler" | "image">,
-    "traveler"
-  > & { size?: "2" | "3" };
+  Pick<Item, "name" | "rarity" | "rarityColor" | "traveler" | "image"> & {
+    size?: Size;
+  };
 
 export const Header: FC<HeaderProps> = ({
   name,
@@ -92,18 +105,16 @@ export const Header: FC<HeaderProps> = ({
 };
 
 export type ContentProps = PropsWithChildren &
-  Partial<
-    Pick<
-      Memory,
-      | "cooldownTime"
-      | "maxCharges"
-      | "type"
-      | "traveler"
-      | "achievementName"
-      | "achievementDescription"
-      | "mutuallyExclusive"
-    > & { size?: "2" | "3" }
-  >;
+  Pick<
+    Item,
+    | "cooldownTime"
+    | "maxCharges"
+    | "type"
+    | "traveler"
+    | "achievementName"
+    | "achievementDescription"
+    | "mutuallyExclusive"
+  > & { size?: Size };
 
 export const Content: FC<ContentProps> = ({
   cooldownTime,
@@ -148,11 +159,11 @@ export const Content: FC<ContentProps> = ({
 );
 
 export type DescriptionProps = TextProps &
-  Pick<Memory, "rawDescVars"> & { leveling?: "level" | "quality" };
+  Pick<Item, "rawDescVars"> & { leveling?: "level" | "quality" };
 export const Description: FC<DescriptionProps> = ({
   leveling = "level",
   children,
-  rawDescVars = [],
+  rawDescVars,
   ...props
 }) => {
   if (typeof children !== "string") {
@@ -167,20 +178,14 @@ export const Description: FC<DescriptionProps> = ({
     const rawDescVar =
       typeof varIndex === "number" ? rawDescVars[varIndex] : undefined;
     const {
-      // @ts-expect-error: TODO later
       basicAD = 0,
-      // @ts-expect-error: TODO later
       basicAP = 0,
-      // @ts-expect-error: TODO later
       basicAddedMultiplierPerLevel = 0,
-      // @ts-expect-error: TODO later
       basicConstant = 0,
-      // @ts-expect-error: TODO later
       basicLvl = 0,
     } = rawDescVar?.data ?? {};
 
     let value =
-      // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
       basicAddedMultiplierPerLevel * (basicConstant + basicAP + basicAD) +
       basicLvl * (1 + 2 * basicAddedMultiplierPerLevel);
     if (
