@@ -79,7 +79,11 @@ const Builds: FC<BuildsProps> = async ({ searchParams }) => {
                     const memory = getMemoryById(id);
 
                     return (
-                      <Flex key={index} align="center" gap="3">
+                      <Flex
+                        key={`${id}-${index}`} // each build can have duplicate memories
+                        align="center"
+                        gap="3"
+                      >
                         <HoverCard.Root>
                           <HoverCard.Trigger>
                             <Card>
@@ -129,11 +133,11 @@ const Builds: FC<BuildsProps> = async ({ searchParams }) => {
                             </HoverCard.Content>
                           )}
                         </HoverCard.Root>
-                        {essences.map((id, index) => {
+                        {essences.map((id) => {
                           const essence = getEssenceById(id);
 
                           return (
-                            <HoverCard.Root key={index}>
+                            <HoverCard.Root key={id}>
                               <HoverCard.Trigger>
                                 <Card className={styles.essenceCardWrapper}>
                                   {essence ? (

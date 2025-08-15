@@ -17,7 +17,7 @@ import { hashIds } from "./utils";
 
 export const getBuildsMetadata = async () => {
   "use cache";
-  cacheLife("weeks");
+  cacheLife("max");
   cacheTag("builds", "builds:list");
 
   const result = await db
@@ -31,7 +31,7 @@ export const getBuildsMetadata = async () => {
 
 export const getBuildByHashId = async (hashId: string) => {
   "use cache";
-  cacheLife("weeks");
+  cacheLife("max");
   cacheTag("builds", `builds:${hashId}`);
 
   if (!hashIds.isValidId(hashId)) return;
@@ -52,7 +52,7 @@ export const getIsBuildLikedByUserId = async (
   userId: string,
 ) => {
   "use cache";
-  cacheLife("weeks");
+  cacheLife("max");
   cacheTag("builds", `builds:${buildHashId}:${userId}:likes`);
 
   const buildId = hashIds.decode(buildHashId)[0] as number;
@@ -82,7 +82,7 @@ export const getBuilds = async ({
   offset: number;
 }) => {
   "use cache";
-  cacheLife("weeks");
+  cacheLife("max");
   cacheTag("builds", "builds:list");
 
   const conditions = [eq(builds.hidden, false)];

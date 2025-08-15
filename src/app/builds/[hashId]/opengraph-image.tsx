@@ -292,52 +292,53 @@ const OpengraphImage = async ({ params }: { params: { hashId: string } }) => {
                 gap: space * 3,
               }}
             >
-              {build.details.memories.map(
-                ({ id, essences: essenceIds }, index) => {
-                  const memory = getMemoryById(id);
-                  const essences = essenceIds.map((id) => getEssenceById(id));
+              {build.details.memories.map(({ id, essences }, index) => {
+                const memory = getMemoryById(id);
 
-                  return (
+                return (
+                  <div
+                    key={`${id}-${index}`} // each build can have duplicate memories
+                    style={{ display: "flex", gap: space * 3 }}
+                  >
                     <div
-                      key={index}
-                      style={{ display: "flex", gap: space * 3 }}
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        gap: space * 2,
+                        maxWidth: 80,
+                      }}
                     >
                       <div
                         style={{
                           display: "flex",
-                          flexDirection: "column",
-                          alignItems: "center",
-                          gap: space * 2,
-                          maxWidth: 80,
+                          height: 80,
+                          width: 80,
+                          borderRadius: radius[5],
+                          border: `1px solid ${colors.slateA5}`,
+                          backgroundColor: colors.slateA2,
+                          overflow: "hidden",
                         }}
                       >
-                        <div
-                          style={{
-                            display: "flex",
-                            height: 80,
-                            width: 80,
-                            borderRadius: radius[5],
-                            border: `1px solid ${colors.slateA5}`,
-                            backgroundColor: colors.slateA2,
-                            overflow: "hidden",
-                          }}
-                        >
-                          {memory && (
-                            <img
-                              src={`${siteUrl}${memory.image.src}`}
-                              width="100%"
-                            />
-                          )}
-                        </div>
-
-                        <div style={{ fontSize: 14, textAlign: "center" }}>
-                          {memory?.name ?? "Any"}
-                        </div>
+                        {memory && (
+                          <img
+                            src={`${siteUrl}${memory.image.src}`}
+                            width="100%"
+                          />
+                        )}
                       </div>
 
-                      {essences.map((essence, index) => (
+                      <div style={{ fontSize: 14, textAlign: "center" }}>
+                        {memory?.name ?? "Any"}
+                      </div>
+                    </div>
+
+                    {essences.map((id) => {
+                      const essence = getEssenceById(id);
+
+                      return (
                         <div
-                          key={index}
+                          key={id}
                           style={{
                             display: "flex",
                             flexDirection: "column",
@@ -369,11 +370,11 @@ const OpengraphImage = async ({ params }: { params: { hashId: string } }) => {
                             {essence?.name ?? "Any"}
                           </div>
                         </div>
-                      ))}
-                    </div>
-                  );
-                },
-              )}
+                      );
+                    })}
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>
