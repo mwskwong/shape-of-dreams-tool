@@ -105,15 +105,18 @@ export const Header: FC<HeaderProps> = ({
 };
 
 export type ContentProps = PropsWithChildren &
-  Pick<
-    Item,
-    | "cooldownTime"
-    | "maxCharges"
-    | "type"
-    | "traveler"
-    | "achievementName"
-    | "achievementDescription"
-    | "mutuallyExclusive"
+  SetOptional<
+    Pick<
+      Item,
+      | "cooldownTime"
+      | "maxCharges"
+      | "type"
+      | "traveler"
+      | "achievementName"
+      | "achievementDescription"
+      | "mutuallyExclusive"
+    >,
+    "achievementName" | "achievementDescription"
   > & { size?: Size };
 
 export const Content: FC<ContentProps> = ({
