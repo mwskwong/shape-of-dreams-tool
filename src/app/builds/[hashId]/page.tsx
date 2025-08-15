@@ -191,73 +191,75 @@ const BuildDetails: FC<BuildDetailsProps> = async ({ params }) => {
               direction="column"
               gap="3"
             >
-              {build.details.memories.map(
-                ({ id, essences: essenceIds }, index) => {
-                  const memory = getMemoryById(id);
-                  const essences = essenceIds.map((id) => getEssenceById(id));
+              {build.details.memories.map(({ id, essences }, index) => {
+                const memory = getMemoryById(id);
 
-                  return (
-                    <Flex key={index} gap="3">
-                      <Flex
-                        align="center"
-                        direction="column"
-                        gap="2"
-                        maxWidth="80px"
-                      >
-                        <HoverCard.Root>
-                          <HoverCard.Trigger>
-                            <Card size="3">
-                              <Inset side="all">
-                                {memory ? (
-                                  <Image
-                                    alt={memory.name}
-                                    src={memory.image}
-                                    width={78}
-                                  />
-                                ) : (
-                                  <Box height="78px" width="78px" />
-                                )}
-                              </Inset>
-                            </Card>
-                          </HoverCard.Trigger>
+                return (
+                  // each build can have duplicate memories
+                  <Flex key={`${id}-${index}`} gap="3">
+                    <Flex
+                      align="center"
+                      direction="column"
+                      gap="2"
+                      maxWidth="80px"
+                    >
+                      <HoverCard.Root>
+                        <HoverCard.Trigger>
+                          <Card size="3">
+                            <Inset side="all">
+                              {memory ? (
+                                <Image
+                                  alt={memory.name}
+                                  src={memory.image}
+                                  width={78}
+                                />
+                              ) : (
+                                <Box height="78px" width="78px" />
+                              )}
+                            </Inset>
+                          </Card>
+                        </HoverCard.Trigger>
 
-                          {memory && (
-                            <HoverCard.Content>
-                              <Flex direction="column" gap="3">
-                                <Text color={memory.rarityColor} size="2">
-                                  {memory.rarity}
-                                </Text>
-                                <ItemCard.Content
-                                  achievementName={memory.achievementName}
-                                  cooldownTime={memory.cooldownTime}
-                                  maxCharges={memory.maxCharges}
-                                  mutuallyExclusive={memory.mutuallyExclusive}
+                        {memory && (
+                          <HoverCard.Content>
+                            <Flex direction="column" gap="3">
+                              <Text color={memory.rarityColor} size="2">
+                                {memory.rarity}
+                              </Text>
+                              <ItemCard.Content
+                                achievementName={memory.achievementName}
+                                cooldownTime={memory.cooldownTime}
+                                maxCharges={memory.maxCharges}
+                                mutuallyExclusive={memory.mutuallyExclusive}
+                                size="2"
+                                type={memory.type}
+                                achievementDescription={
+                                  memory.achievementDescription
+                                }
+                              >
+                                <ItemCard.Description
+                                  rawDescVars={memory.rawDescVars}
                                   size="2"
-                                  type={memory.type}
-                                  achievementDescription={
-                                    memory.achievementDescription
-                                  }
                                 >
-                                  <ItemCard.Description
-                                    rawDescVars={memory.rawDescVars}
-                                    size="2"
-                                  >
-                                    {memory.rawDesc}
-                                  </ItemCard.Description>
-                                </ItemCard.Content>
-                              </Flex>
-                            </HoverCard.Content>
-                          )}
-                        </HoverCard.Root>
+                                  {memory.rawDesc}
+                                </ItemCard.Description>
+                              </ItemCard.Content>
+                            </Flex>
+                          </HoverCard.Content>
+                        )}
+                      </HoverCard.Root>
 
-                        <Text align="center" as="div" size="2">
-                          {memory?.name ?? "Any"}
-                        </Text>
-                      </Flex>
+                      <Text align="center" as="div" size="2">
+                        {memory?.name ?? "Any"}
+                      </Text>
+                    </Flex>
 
-                      {essences.map((essence, index) => (
+                    {essences.map((id) => {
+                      const essence = getEssenceById(id);
+
+                      return (
                         <Flex
-                          key={index}
+                          key={id}
                           align="center"
                           direction="column"
                           gap="2"
@@ -308,11 +310,11 @@ const BuildDetails: FC<BuildDetailsProps> = async ({ params }) => {
                             {essence?.name ?? "Any"}
                           </Text>
                         </Flex>
-                      ))}
-                    </Flex>
-                  );
-                },
-              )}
+                      );
+                    })}
+                  </Flex>
+                );
+              })}
             </Flex>
           </Flex>
 
