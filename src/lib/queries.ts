@@ -30,9 +30,9 @@ export const getBuildsMetadata = async () => {
 };
 
 export const getBuildByHashId = async (hashId: string) => {
-  "use cache";
-  cacheLife("weeks");
-  cacheTag("builds", `builds:${hashId}`);
+  // "use cache";
+  // cacheLife("weeks");
+  // cacheTag("builds", `builds:${hashId}`);
 
   if (!hashIds.isValidId(hashId)) return;
 
@@ -81,9 +81,9 @@ export const getBuilds = async ({
   limit: number;
   offset: number;
 }) => {
-  "use cache";
-  cacheLife("weeks");
-  cacheTag("builds", "builds:list");
+  // "use cache";
+  // cacheLife("weeks");
+  // cacheTag("builds", "builds:list");
 
   const conditions = [eq(builds.hidden, false)];
   if (search) {
