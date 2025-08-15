@@ -220,11 +220,6 @@ input:where([type="button"], [type="reset"], [type="submit"]),
   }
 }
 
-/* default font size, suggested by lighthouse */
-h1 {
-  font-size: var(--font-size-8);
-}
-
 /* stylelint-disable selector-class-pattern */
 
 .radix-themes {
