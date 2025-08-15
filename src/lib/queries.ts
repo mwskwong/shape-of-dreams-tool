@@ -17,7 +17,7 @@ import { hashIds } from "./utils";
 
 export const getBuildsMetadata = async () => {
   "use cache";
-  cacheLife("weeks");
+  cacheLife("max");
   cacheTag("builds", "builds:list");
 
   const result = await db

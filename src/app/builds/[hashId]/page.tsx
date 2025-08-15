@@ -1,3 +1,4 @@
+import "@/styles/item-colors.css";
 import "@/styles/traveler-colors.css";
 
 import { Box } from "@radix-ui/themes/components/box";
@@ -280,7 +281,7 @@ const BuildDetails: FC<BuildDetailsProps> = async ({ params }) => {
                             {essence && (
                               <HoverCard.Content>
                                 <Flex direction="column" gap="3">
-                                  <Text color={memory?.rarityColor} size="2">
+                                  <Text color={essence.rarityColor} size="2">
                                     {essence.rarity}
                                   </Text>
                                   <ItemCard.Content
