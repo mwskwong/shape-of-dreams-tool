@@ -19,44 +19,30 @@ import Image from "next/image";
 import { type FC, useDeferredValue, useState } from "react";
 
 import {
-  allMemories,
-  allMemoryRarities,
-  allMemoryTypes,
-} from "@/lib/constants";
-import { getMutuallyExclusiveMemories, getRarityColor } from "@/lib/utils";
+  type Memory,
+  getMemoryById,
+  getMemoryRarities,
+  getMemoryTypes,
+} from "@/lib/memories";
 
 import * as ItemCard from "../item-card";
 import { Select } from "../select";
 
+const memoryRaritiesOptions = [
+  {
+    items: getMemoryRarities()
+      .filter((rarity) => !["Identity", "Evasion"].includes(rarity))
+      .map((rarity) => ({ value: rarity })),
+  },
+];
+
+const memoryTypeOptions = [
+  { items: getMemoryTypes().map((type) => ({ value: type })) },
+];
+
 export interface MemorySelectProps
   extends Omit<Dialog.TriggerProps, "children" | "onChange"> {
-  options?: {
-    id: string;
-    name: string;
-    rarity: string;
-    traveler?: string;
-    tags?: string[];
-    image: string;
-    cooldownTime?: number;
-    maxCharges?: number;
-    type?: string;
-    achievement?: { name: string; description: string } | null;
-    mutuallyExclusive?: string[];
-    description: string;
-    rawDesc: string;
-    rawDescVars: {
-      rendered: string;
-      format: string;
-      scalingType: string;
-      data: {
-        basicConstant?: number;
-        basicAP?: number;
-        basicAD?: number;
-        basicLvl?: number;
-        basicAddedMultiplierPerLevel?: number;
-      };
-    }[];
-  }[];
+  options?: Memory[];
   size?: "1" | "2";
   name?: string;
   value?: string;
@@ -72,7 +58,7 @@ export const MemorySelect: FC<MemorySelectProps> = ({
   onChange,
   ...props
 }) => {
-  const selectedMemory = allMemories.find(({ id }) => id === value);
+  const selectedMemory = value ? getMemoryById(value) : undefined;
 
   const [search, setSearch] = useState("");
   const deferredSearch = useDeferredValue(search);
@@ -101,8 +87,7 @@ export const MemorySelect: FC<MemorySelectProps> = ({
                       {selectedMemory ? (
                         <Image
                           alt={selectedMemory.name}
-                          height={size === "1" ? 62 : 78}
-                          src={`/images/${selectedMemory.image}`}
+                          src={selectedMemory.image}
                           width={size === "1" ? 62 : 78}
                         />
                       ) : (
@@ -120,21 +105,19 @@ export const MemorySelect: FC<MemorySelectProps> = ({
             {selectedMemory && (
               <HoverCard.Content>
                 <Flex direction="column" gap="3">
-                  <Text color={getRarityColor(selectedMemory.rarity)} size="2">
+                  <Text color={selectedMemory.rarityColor} size="2">
                     {selectedMemory.rarity}
                   </Text>
                   <ItemCard.Content
                     achievementName={selectedMemory.achievementName}
                     cooldownTime={selectedMemory.cooldownTime}
                     maxCharges={selectedMemory.maxCharges}
+                    mutuallyExclusive={selectedMemory.mutuallyExclusive}
                     size="2"
                     type={selectedMemory.type}
                     achievementDescription={
                       selectedMemory.achievementDescription
                     }
-                    mutuallyExclusive={getMutuallyExclusiveMemories(
-                      selectedMemory,
-                    )}
                   >
                     <ItemCard.Description
                       rawDescVars={selectedMemory.rawDescVars}
@@ -175,26 +158,16 @@ export const MemorySelect: FC<MemorySelectProps> = ({
               <Select
                 multiple
                 name="Rarity"
+                options={memoryRaritiesOptions}
                 value={rarities}
-                options={[
-                  {
-                    items: allMemoryRarities
-                      .filter(
-                        (rarity) => !["Identity", "Evasion"].includes(rarity),
-                      )
-                      .map((rarity) => ({ value: rarity })),
-                  },
-                ]}
                 onReset={() => setRarities([])}
                 onValueChange={setRarities}
               />
               <Select
                 multiple
                 name="Type"
+                options={memoryTypeOptions}
                 value={types}
-                options={[
-                  { items: allMemoryTypes.map((type) => ({ value: type })) },
-                ]}
                 onReset={() => setTypes([])}
                 onValueChange={setTypes}
               />
@@ -236,14 +209,14 @@ export const MemorySelect: FC<MemorySelectProps> = ({
                       .includes(deferredSearch.toLowerCase())) &&
                   (deferredRarities.length === 0 ||
                     deferredRarities.includes(rarity)) &&
-                  (deferredTypes.length === 0 ||
-                    deferredTypes.includes(type ?? "")),
+                  (deferredTypes.length === 0 || deferredTypes.includes(type)),
               )
               .map(
                 ({
                   id,
                   name,
                   rarity,
+                  rarityColor,
                   traveler,
                   image,
                   cooldownTime,
@@ -265,6 +238,7 @@ export const MemorySelect: FC<MemorySelectProps> = ({
                           image={image}
                           name={name}
                           rarity={rarity}
+                          rarityColor={rarityColor}
                           size="2"
                           traveler={traveler}
                         />

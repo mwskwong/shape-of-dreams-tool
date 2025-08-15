@@ -220,6 +220,11 @@ input:where([type="button"], [type="reset"], [type="submit"]),
   }
 }
 
+/* default font size, suggested by lighthouse */
+h1 {
+  font-size: 36px;
+}
+
 /* stylelint-disable selector-class-pattern */
 
 .radix-themes {

@@ -6,16 +6,16 @@ import path from "node:path";
 
 import { ImageResponse } from "next/og";
 
-import {
-  allEssences,
-  allMemories,
-  allTravelers,
-  spriteMaxAspectRatio,
-  sprites,
-} from "@/lib/constants";
+import { getEssenceById } from "@/lib/essences";
+import { getMemoryById } from "@/lib/memories";
 import { getBuildByHashId } from "@/lib/queries";
 import { siteUrl } from "@/lib/site-config";
-import { getTravelerColor } from "@/lib/utils";
+import { spriteMaxAspectRatio, sprites } from "@/lib/sprites";
+import {
+  type Traveler,
+  generateTravelerStats,
+  getTravelerById,
+} from "@/lib/travelers";
 
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
@@ -46,8 +46,8 @@ const radius = {
   6: 16,
 } as const;
 
-const getTravelerColorHex = (travelerId: string) => {
-  switch (getTravelerColor(travelerId)) {
+const getTravelerColorHex = (traveler: Traveler) => {
+  switch (traveler.color) {
     case "orange": {
       return colors.orangeA11;
     }
@@ -71,53 +71,25 @@ const OpengraphImage = async ({ params }: { params: { hashId: string } }) => {
   const build = await getBuildByHashId(hashId);
 
   if (!build) return;
-  const traveler = allTravelers.find(
-    ({ id }) => id === build.details.traveler.id,
-  );
-  const stats = traveler && [
-    {
-      ...sprites.health,
-      image: `${siteUrl}/images/${sprites.health.image}`,
-      value: traveler.health,
-      statGrowth: traveler.statsGrowthPerLv.health,
-    },
-    {
-      ...sprites.armor,
-      image: `${siteUrl}/images/${sprites.armor.image}`,
-      value: traveler.armor,
-      statGrowth: traveler.statsGrowthPerLv.armor,
-    },
-    {
-      ...sprites.attackDamage,
-      image: `${siteUrl}/images/${sprites.attackDamage.image}`,
-      value: traveler.attackDamage,
-      statGrowth: traveler.statsGrowthPerLv.attackDamage,
-    },
-    {
-      ...sprites.abilityPower,
-      image: `${siteUrl}/images/${sprites.abilityPower.image}`,
-      value: traveler.abilityPower,
-      statGrowth: traveler.statsGrowthPerLv.abilityPower,
-    },
-    {
-      ...sprites.attackSpeed,
-      image: `${siteUrl}/images/${sprites.attackSpeed.image}`,
-      value: traveler.attackSpeed.toFixed(2),
-      statGrowth: traveler.statsGrowthPerLv.attackSpeed,
-    },
-    {
-      image: `${siteUrl}/images/texMovement.png`,
-      name: "Movement Speed",
-      value: traveler.movementSpeed,
-      iconStyles: {
-        filter:
-          "brightness(0) saturate(100%) invert(89%) sepia(3%) saturate(5616%) hue-rotate(178deg) brightness(116%) contrast(99%)",
+
+  const traveler = getTravelerById(build.details.traveler.id);
+  const stats =
+    traveler &&
+    generateTravelerStats(traveler, { hideSecondaryStats: true }).map(
+      ({ iconClassName, ...rest }) => {
+        if (rest.id === "movementSpeed") {
+          return {
+            ...rest,
+            iconStyles: {
+              filter:
+                "brightness(0) saturate(100%) invert(89%) sepia(3%) saturate(5616%) hue-rotate(178deg) brightness(116%) contrast(99%)",
+            },
+          };
+        }
+
+        return { ...rest, iconStyles: undefined };
       },
-      width: undefined,
-      height: undefined,
-      statGrowth: traveler.statsGrowthPerLv.movementSpeed,
-    },
-  ];
+    );
 
   const [geistRegular, geistBold] = await Promise.all([
     readFile(path.join(process.cwd(), geistSansFontPath, "Geist-Regular.ttf")),
@@ -188,16 +160,12 @@ const OpengraphImage = async ({ params }: { params: { hashId: string } }) => {
                   }}
                 >
                   {traveler && (
-                    <img
-                      height="100%"
-                      src={`${siteUrl}/images/${traveler.image}`}
-                      width="100%"
-                    />
+                    <img src={`${siteUrl}${traveler.image.src}`} width="100%" />
                   )}
                 </div>
                 <div
                   style={{
-                    color: getTravelerColorHex(build.details.traveler.id),
+                    color: traveler && getTravelerColorHex(traveler),
                   }}
                 >
                   {traveler?.name ?? "Any"}
@@ -207,7 +175,7 @@ const OpengraphImage = async ({ params }: { params: { hashId: string } }) => {
               <div style={{ display: "flex", gap: space * 3 }}>
                 {Object.entries(build.details.traveler.startingMemories).map(
                   ([key, value]) => {
-                    const memory = allMemories.find(({ id }) => id === value);
+                    const memory = getMemoryById(value);
 
                     return (
                       <div
@@ -233,8 +201,7 @@ const OpengraphImage = async ({ params }: { params: { hashId: string } }) => {
                         >
                           {memory && (
                             <img
-                              height="100%"
-                              src={`${siteUrl}/images/${memory.image}`}
+                              src={`${siteUrl}${memory.image.src}`}
                               width="100%"
                             />
                           )}
@@ -257,15 +224,7 @@ const OpengraphImage = async ({ params }: { params: { hashId: string } }) => {
                 }}
               >
                 {stats?.map(
-                  ({
-                    image,
-                    name,
-                    value,
-                    iconStyles,
-                    width = 1,
-                    height = 1,
-                    statGrowth,
-                  }) => (
+                  ({ image, name, value, statGrowth, iconStyles }) => (
                     <div
                       key={name}
                       style={{
@@ -291,9 +250,8 @@ const OpengraphImage = async ({ params }: { params: { hashId: string } }) => {
                         >
                           <img
                             height={16}
-                            src={image}
+                            src={`${siteUrl}${image.src}`}
                             style={iconStyles}
-                            width={Math.round(16 * (width / height))}
                           />
                         </div>
                         <div style={{ color: colors.slateA11 }}>{name}</div>
@@ -311,16 +269,11 @@ const OpengraphImage = async ({ params }: { params: { hashId: string } }) => {
                           >
                             <img
                               height={14}
-                              src={`${siteUrl}/images/${sprites.upgradableParameter.image}`}
+                              src={`${siteUrl}${sprites.upgradableParameter.image.src}`}
                               style={{
                                 marginLeft: space * 0.4,
                                 marginRight: space * 0.4,
                               }}
-                              width={Math.round(
-                                14 *
-                                  (sprites.upgradableParameter.width /
-                                    sprites.upgradableParameter.height),
-                              )}
                             />
                             ({statGrowth})
                           </span>
@@ -341,10 +294,8 @@ const OpengraphImage = async ({ params }: { params: { hashId: string } }) => {
             >
               {build.details.memories.map(
                 ({ id, essences: essenceIds }, index) => {
-                  const memory = allMemories.find((memory) => memory.id === id);
-                  const essences = essenceIds.map((id) =>
-                    allEssences.find((essence) => essence.id === id),
-                  );
+                  const memory = getMemoryById(id);
+                  const essences = essenceIds.map((id) => getEssenceById(id));
 
                   return (
                     <div
@@ -373,8 +324,7 @@ const OpengraphImage = async ({ params }: { params: { hashId: string } }) => {
                         >
                           {memory && (
                             <img
-                              height="100%"
-                              src={`${siteUrl}/images/${memory.image}`}
+                              src={`${siteUrl}${memory.image.src}`}
                               width="100%"
                             />
                           )}
@@ -410,8 +360,7 @@ const OpengraphImage = async ({ params }: { params: { hashId: string } }) => {
                           >
                             {essence && (
                               <img
-                                height="100%"
-                                src={`${siteUrl}/images/${essence.image}`}
+                                src={`${siteUrl}${essence.image.src}`}
                                 width="100%"
                               />
                             )}

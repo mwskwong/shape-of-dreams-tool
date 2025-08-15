@@ -12,8 +12,8 @@ import { clsx } from "clsx";
 import Image from "next/image";
 import { type FC } from "react";
 
-import { sprites } from "@/lib/constants";
-import { getTravelerClassIcon } from "@/lib/utils";
+import { type Memory } from "@/lib/memories";
+import { type Traveler, generateTravelerStats } from "@/lib/travelers";
 import iconStyles from "@/styles/icons.module.css";
 
 import * as ItemCard from "../item-card";
@@ -21,11 +21,7 @@ import * as ItemCard from "../item-card";
 import { MemoryCard } from "./memory-card";
 import styles from "./traveler-card.module.css";
 
-export interface RootProps extends CardProps {
-  name: string;
-  image: string;
-}
-
+export type RootProps = CardProps & Pick<Traveler, "name" | "image">;
 export const Root: FC<RootProps> = ({ name, image, children, ...props }) => (
   <Box asChild height="100%">
     <Card {...props}>
@@ -33,8 +29,7 @@ export const Root: FC<RootProps> = ({ name, image, children, ...props }) => (
         <Image
           alt={name}
           className={clsx("rt-AvatarRoot", "rt-r-size-8")}
-          height={128}
-          src={`/images/${image}`}
+          src={image}
           width={128}
         />
         <Heading as="h2" data-accent-color="" size="6">
@@ -46,62 +41,14 @@ export const Root: FC<RootProps> = ({ name, image, children, ...props }) => (
   </Box>
 );
 
-export interface ContentProps extends Omit<Tabs.RootProps, "children"> {
-  class: string;
-  health: number;
-  armor: number;
-  attackDamage: number;
-  abilityPower: number;
-  attackSpeed: number;
-  memoryHaste: number;
-  criticalStrikeChance: number;
-  movementSpeed: number;
-  statsGrowthPerLv: {
-    health?: string | null;
-    armor?: string | null;
-    attackDamage?: string | null;
-    attackSpeed?: string | null;
-    abilityPower?: string | null;
-    memoryHaste?: string | null;
-    criticalStrikeChance?: string | null;
-    movementSpeed?: string | null;
+export type ContentProps = Omit<Tabs.RootProps, "children"> &
+  Omit<Traveler, "name" | "image" | "difficulty" | "color" | "id"> & {
+    memories?: Memory[];
   };
-  description: string;
-  achievementName: string;
-  achievementDescription: string;
-  memories?: {
-    name: string;
-    cooldownTime?: number;
-    maxCharges?: number;
-    rawDesc: string;
-    rawDescVars: {
-      rendered: string;
-      format: string;
-      scalingType: string;
-      data: {
-        basicConstant?: number;
-        basicAP?: number;
-        basicAD?: number;
-        basicLvl?: number;
-        basicAddedMultiplierPerLevel?: number;
-      };
-    }[];
-    shortDescription?: string | null;
-    type?: string;
-    image: string;
-    mutuallyExclusive?: string[];
-    achievementName: string;
-    achievementDescription: string;
-  }[];
-  constellations?: {
-    name: string;
-    description: string;
-    image: string;
-  }[];
-}
 
 export const Content: FC<ContentProps> = ({
   class: travelerClass,
+  classIcon,
   health,
   armor,
   attackDamage,
@@ -118,64 +65,17 @@ export const Content: FC<ContentProps> = ({
   constellations = [],
   ...props
 }) => {
-  const stats = [
-    {
-      ...sprites.health,
-      image: `/images/${sprites.health.image}`,
-      value: health,
-      statGrowth: statsGrowthPerLv.health,
-    },
-    {
-      ...sprites.armor,
-      image: `/images/${sprites.armor.image}`,
-      value: armor,
-      statGrowth: statsGrowthPerLv.armor,
-    },
-    {
-      ...sprites.attackDamage,
-      image: `/images/${sprites.attackDamage.image}`,
-      value: attackDamage,
-      statGrowth: statsGrowthPerLv.attackDamage,
-    },
-    {
-      ...sprites.abilityPower,
-      image: `/images/${sprites.abilityPower.image}`,
-      value: abilityPower,
-      statGrowth: statsGrowthPerLv.abilityPower,
-    },
-    {
-      ...sprites.attackSpeed,
-      image: `/images/${sprites.attackSpeed.image}`,
-      value: attackSpeed.toFixed(2),
-      statGrowth: statsGrowthPerLv.attackSpeed,
-    },
-    {
-      ...sprites.memoryHaste,
-      image: `/images/${sprites.memoryHaste.image}`,
-      value: memoryHaste,
-      statGrowth: statsGrowthPerLv.memoryHaste,
-    },
-    {
-      image: "/images/texCrit.png",
-      name: "Critical Strike Chance",
-      value: criticalStrikeChance,
-      statGrowth: statsGrowthPerLv.criticalStrikeChance,
-      iconClassName: iconStyles.critIcon,
-      width: undefined,
-      height: undefined,
-    },
-    {
-      image: "/images/texMovement.png",
-      name: "Movement Speed",
-      value: movementSpeed,
-      statGrowth: statsGrowthPerLv.movementSpeed,
-      iconClassName: iconStyles.movementSpeedIcon,
-      width: undefined,
-      height: undefined,
-    },
-  ];
-
-  const classIcon = getTravelerClassIcon(travelerClass);
+  const stats = generateTravelerStats({
+    health,
+    armor,
+    attackDamage,
+    abilityPower,
+    attackSpeed,
+    memoryHaste,
+    criticalStrikeChance,
+    movementSpeed,
+    statsGrowthPerLv,
+  });
 
   return (
     <Box asChild width="100%">
@@ -192,27 +92,14 @@ export const Content: FC<ContentProps> = ({
               <Flex asChild align="center" gap="2" justify="center">
                 <Text as="div">
                   {classIcon && (
-                    <Image
-                      alt={travelerClass}
-                      height={18}
-                      src={classIcon}
-                      width={18}
-                    />
+                    <Image alt={travelerClass} src={classIcon} width={18} />
                   )}
                   {travelerClass}
                 </Text>
               </Flex>
               <Grid columns="4" gap="3">
                 {stats.map(
-                  ({
-                    image,
-                    name,
-                    value,
-                    width = 1,
-                    height = 1,
-                    statGrowth,
-                    iconClassName,
-                  }) => (
+                  ({ image, name, value, statGrowth, iconClassName }) => (
                     <Tooltip key={name} content={name}>
                       <Box asChild minWidth="52px">
                         <Card className={styles.stat}>
@@ -222,7 +109,6 @@ export const Content: FC<ContentProps> = ({
                               className={iconClassName}
                               height={20}
                               src={image}
-                              width={Math.round(20 * (width / height))}
                             />
                             <Text>{value}</Text>
                           </Flex>
@@ -263,9 +149,36 @@ export const Content: FC<ContentProps> = ({
 
           <Tabs.Content asChild value="memories">
             <Flex direction="column" gap="3">
-              {memories.map((memory) => (
-                <MemoryCard key={memory.name} {...memory} />
-              ))}
+              {memories.map(
+                ({
+                  name,
+                  cooldownTime,
+                  maxCharges,
+                  rawDesc,
+                  rawDescVars,
+                  shortDescription,
+                  type,
+                  image,
+                  achievementName,
+                  achievementDescription,
+                  mutuallyExclusive,
+                }) => (
+                  <MemoryCard
+                    key={name}
+                    achievementDescription={achievementDescription}
+                    achievementName={achievementName}
+                    cooldownTime={cooldownTime}
+                    image={image}
+                    maxCharges={maxCharges}
+                    mutuallyExclusive={mutuallyExclusive}
+                    name={name}
+                    rawDesc={rawDesc}
+                    rawDescVars={rawDescVars}
+                    shortDescription={shortDescription}
+                    type={type}
+                  />
+                ),
+              )}
             </Flex>
           </Tabs.Content>
 
@@ -281,8 +194,7 @@ export const Content: FC<ContentProps> = ({
                     <Image
                       alt={name}
                       className={iconStyles.constellationIcon}
-                      height={48}
-                      src={`/images/${image}`}
+                      src={image}
                       width={48}
                     />
                     <div>

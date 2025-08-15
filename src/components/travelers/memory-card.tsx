@@ -8,35 +8,27 @@ import { clsx } from "clsx";
 import Image from "next/image";
 import { type FC, useState } from "react";
 
+import { type Memory } from "@/lib/memories";
+
 import * as ItemCard from "../item-card";
 
 import styles from "./memory-card.module.css";
 
-export interface MemoryCardProps extends Omit<FlexProps, "children"> {
-  name: string;
-  cooldownTime?: number;
-  maxCharges?: number;
-  rawDesc: string;
-  rawDescVars: {
-    rendered: string;
-    format: string;
-    scalingType: string;
-    data: {
-      basicConstant?: number;
-      basicAP?: number;
-      basicAD?: number;
-      basicLvl?: number;
-      basicAddedMultiplierPerLevel?: number;
-    };
-  }[];
-  shortDescription?: string | null;
-  type?: string;
-  tags?: string[];
-  image: string;
-  achievementName: string;
-  achievementDescription: string;
-  mutuallyExclusive?: string[];
-}
+export type MemoryCardProps = Omit<FlexProps, "children"> &
+  Pick<
+    Memory,
+    | "name"
+    | "cooldownTime"
+    | "maxCharges"
+    | "rawDesc"
+    | "rawDescVars"
+    | "shortDescription"
+    | "type"
+    | "image"
+    | "achievementName"
+    | "achievementDescription"
+    | "mutuallyExclusive"
+  >;
 
 export const MemoryCard: FC<MemoryCardProps> = ({
   name,
@@ -49,7 +41,7 @@ export const MemoryCard: FC<MemoryCardProps> = ({
   image,
   achievementName,
   achievementDescription,
-  mutuallyExclusive = [],
+  mutuallyExclusive,
   ...props
 }) => {
   const [open, setOpen] = useState(false);
@@ -62,8 +54,7 @@ export const MemoryCard: FC<MemoryCardProps> = ({
             <Image
               alt={name}
               className={clsx("rt-AvatarRoot", "rt-r-size-4")}
-              height={48}
-              src={`/images/${image}`}
+              src={image}
               width={48}
             />
 

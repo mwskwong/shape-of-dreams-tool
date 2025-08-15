@@ -11,54 +11,22 @@ import {
 } from "schema-dts";
 
 import * as TravelerCard from "@/components/travelers/traveler-card";
-import { allMemories, allTravelers } from "@/lib/constants";
+import { getMemories } from "@/lib/memories";
 import { routes, siteName, siteUrl } from "@/lib/site-config";
-import { getMutuallyExclusiveMemories, getTravelerColor } from "@/lib/utils";
+import { getTravelers } from "@/lib/travelers";
+
+const travelers = getTravelers();
+const memories = getMemories();
 
 const Travelers: FC = () => (
   <>
     <Grid columns={{ initial: "1", sm: "2", md: "3" }} gap="3" pt="3">
-      {allTravelers.map(({ id, name, image, ...traveler }) => (
-        <Theme key={id} accentColor={getTravelerColor(id)}>
+      {travelers.map(({ id, name, image, color, ...traveler }) => (
+        <Theme key={id} accentColor={color}>
           <TravelerCard.Root image={image} name={name}>
             <TravelerCard.Content
               {...traveler}
-              memories={allMemories
-                .filter(({ traveler }) => traveler === id)
-                .map(
-                  ({
-                    name,
-                    rarity,
-                    cooldownTime,
-                    maxCharges,
-                    rawDesc,
-                    rawDescVars,
-                    shortDescription,
-                    type,
-                    image,
-                    achievementDescription,
-                    achievementName,
-                    traveler,
-                    travelerMemoryLocation,
-                  }) => ({
-                    name,
-                    cooldownTime,
-                    maxCharges,
-                    rawDesc,
-                    rawDescVars,
-                    shortDescription,
-                    type,
-                    image,
-                    achievementDescription,
-                    achievementName,
-                    mutuallyExclusive: getMutuallyExclusiveMemories({
-                      name,
-                      rarity,
-                      traveler,
-                      travelerMemoryLocation,
-                    }),
-                  }),
-                )}
+              memories={memories.filter(({ traveler }) => traveler === id)}
             />
           </TravelerCard.Root>
         </Theme>

@@ -16,16 +16,30 @@ import parse, {
 } from "html-react-parser";
 import Image from "next/image";
 import { type FC, Fragment, type PropsWithChildren } from "react";
+import { type SetOptional } from "type-fest";
 
-import { sprites } from "@/lib/constants";
-import { getRarityColor } from "@/lib/utils";
+import { type Essence } from "@/lib/essences";
+import { type Memory } from "@/lib/memories";
+import { getSpriteById } from "@/lib/sprites";
+import { getTravelerById } from "@/lib/travelers";
 
 import styles from "./item-card.module.css";
 
-export interface RootProps extends CardProps {
-  tags?: string[];
-}
+type Item = SetOptional<
+  {
+    [K in keyof Memory]: K extends keyof Essence
+      ? Memory[K] | Essence[K]
+      : Memory[K];
+  } & {
+    [K in keyof Essence as Exclude<K, keyof Memory>]: Essence[K];
+  },
+  // eslint-disable-next-line @typescript-eslint/no-redundant-type-constituents -- Essence may have fields that are not in Memory in the future
+  Exclude<keyof Memory, keyof Essence> | Exclude<keyof Essence, keyof Memory>
+>;
 
+type Size = "2" | "3";
+
+export type RootProps = CardProps & Pick<Item, "tags">;
 export const Root: FC<RootProps> = ({ tags = [], children, ...props }) => (
   <Card {...props}>
     <Flex direction="column" gap="3" height="100%">
@@ -43,30 +57,28 @@ export const Root: FC<RootProps> = ({ tags = [], children, ...props }) => (
   </Card>
 );
 
-export interface HeaderProps extends Omit<FlexProps, "children"> {
-  name: string;
-  rarity: string;
-  traveler?: string;
-  image: string;
-  size?: "2" | "3";
-}
+export type HeaderProps = Omit<FlexProps, "children"> &
+  Pick<Item, "name" | "rarity" | "rarityColor" | "traveler" | "image"> & {
+    size?: Size;
+  };
 
 export const Header: FC<HeaderProps> = ({
   name,
   rarity,
-  traveler,
+  rarityColor,
+  traveler: travelerId,
   image,
   size = "3",
   ...props
 }) => {
   const imageSize = size === "3" ? 48 : 40;
+  const traveler = travelerId ? getTravelerById(travelerId) : undefined;
 
   return (
     <Flex gap="3" {...props}>
       <Image
         alt={name}
-        height={imageSize}
-        src={`/images/${image}`}
+        src={image}
         width={imageSize}
         className={clsx("rt-AvatarRoot", {
           "rt-r-size-3": size === "2",
@@ -83,26 +95,29 @@ export const Header: FC<HeaderProps> = ({
             {name}
           </Text>
         )}
-        <Text as="p" color={getRarityColor(rarity)} size={size}>
+        <Text as="p" color={rarityColor} size={size}>
           {rarity}
-          {traveler ? ` · ${traveler.replace("Hero_", "")}` : undefined}
+          {traveler ? ` · ${traveler.name.replace("Hero_", "")}` : undefined}
         </Text>
       </div>
     </Flex>
   );
 };
 
-export interface ContentProps extends PropsWithChildren {
-  cooldownTime?: number;
-  maxCharges?: number;
-  type?: string;
-  traveler?: string;
-  tags?: string[];
-  achievementName?: string;
-  achievementDescription?: string;
-  mutuallyExclusive?: string[];
-  size?: "2" | "3";
-}
+export type ContentProps = PropsWithChildren &
+  SetOptional<
+    Pick<
+      Item,
+      | "cooldownTime"
+      | "maxCharges"
+      | "type"
+      | "traveler"
+      | "achievementName"
+      | "achievementDescription"
+      | "mutuallyExclusive"
+    >,
+    "achievementName" | "achievementDescription"
+  > & { size?: Size };
 
 export const Content: FC<ContentProps> = ({
   cooldownTime,
@@ -146,25 +161,12 @@ export const Content: FC<ContentProps> = ({
   </>
 );
 
-export type DescriptionProps = TextProps & {
-  leveling?: "level" | "quality";
-  rawDescVars: {
-    rendered: string;
-    format: string;
-    scalingType: string;
-    data: {
-      basicConstant?: number;
-      basicAP?: number;
-      basicAD?: number;
-      basicLvl?: number;
-      basicAddedMultiplierPerLevel?: number;
-    };
-  }[];
-};
+export type DescriptionProps = TextProps &
+  Pick<Item, "rawDescVars"> & { leveling?: "level" | "quality" };
 export const Description: FC<DescriptionProps> = ({
   leveling = "level",
   children,
-  rawDescVars = [],
+  rawDescVars,
   ...props
 }) => {
   if (typeof children !== "string") {
@@ -219,9 +221,7 @@ export const Description: FC<DescriptionProps> = ({
         }
 
         if (name === "i" && attribs["data-sprite"]) {
-          const sprite = Object.values(sprites).find(
-            ({ image }) => image === `${attribs["data-sprite"]}.png`,
-          );
+          const sprite = getSpriteById(attribs["data-sprite"]);
 
           if (sprite) {
             const isUpgradableParam = attribs["data-sprite"] === "5";
@@ -238,8 +238,7 @@ export const Description: FC<DescriptionProps> = ({
                   alt={sprite.name}
                   className={styles.sprite}
                   height={18}
-                  src={`/images/${sprite.image}`}
-                  width={Math.round(18 * (sprite.width / sprite.height))}
+                  src={sprite.image}
                 />
               </Tooltip>
             );

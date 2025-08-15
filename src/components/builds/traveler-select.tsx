@@ -12,8 +12,9 @@ import { VisuallyHidden } from "@radix-ui/themes/components/visually-hidden";
 import Image from "next/image";
 import { type FC } from "react";
 
-import { allTravelers } from "@/lib/constants";
-import { getTravelerClassIcon, getTravelerColor } from "@/lib/utils";
+import { getTravelerById, getTravelers } from "@/lib/travelers";
+
+const travelers = getTravelers();
 
 export interface TravelerSelectProps
   extends Omit<Dialog.TriggerProps, "children" | "onChange"> {
@@ -28,7 +29,7 @@ export const TravelerSelect: FC<TravelerSelectProps> = ({
   onChange,
   ...props
 }) => {
-  const selectedTraveler = allTravelers.find(({ id }) => id === value);
+  const selectedTraveler = value ? getTravelerById(value) : undefined;
 
   return (
     <>
@@ -41,8 +42,7 @@ export const TravelerSelect: FC<TravelerSelectProps> = ({
                   {selectedTraveler ? (
                     <Image
                       alt={selectedTraveler.name}
-                      height={128}
-                      src={`/images/${selectedTraveler.image}`}
+                      src={selectedTraveler.image}
                       width={128}
                     />
                   ) : (
@@ -52,7 +52,7 @@ export const TravelerSelect: FC<TravelerSelectProps> = ({
               </button>
             </Card>
           </Dialog.Trigger>
-          <Text as="div" color={value ? getTravelerColor(value) : undefined}>
+          <Text as="div" color={selectedTraveler?.color}>
             {selectedTraveler?.name ?? "Any"}
           </Text>
         </Flex>
@@ -68,19 +68,15 @@ export const TravelerSelect: FC<TravelerSelectProps> = ({
               </RadioCards.Item>
             </Dialog.Close>
 
-            {allTravelers.map(({ id, class: travelerClass, name, image }) => {
-              const color = getTravelerColor(id);
-              const classIcon = getTravelerClassIcon(travelerClass);
-
-              return (
+            {travelers.map(
+              ({ id, class: travelerClass, classIcon, color, name, image }) => (
                 <Dialog.Close key={id}>
                   <Flex asChild justify="start">
                     <RadioCards.Item value={id}>
                       <Image
                         alt={name}
                         className="rt-AvatarRoot rt-r-size-3"
-                        height={40}
-                        src={`/images/${image}`}
+                        src={image}
                         width={40}
                       />
                       <div>
@@ -92,7 +88,6 @@ export const TravelerSelect: FC<TravelerSelectProps> = ({
                             {classIcon && (
                               <Image
                                 alt={travelerClass}
-                                height={16}
                                 src={classIcon}
                                 width={16}
                               />
@@ -104,8 +99,8 @@ export const TravelerSelect: FC<TravelerSelectProps> = ({
                     </RadioCards.Item>
                   </Flex>
                 </Dialog.Close>
-              );
-            })}
+              ),
+            )}
           </RadioCards.Root>
 
           <Flex justify="end" mt="4">

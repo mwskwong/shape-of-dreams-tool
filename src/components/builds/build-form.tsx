@@ -16,7 +16,7 @@ import { type FC, useEffect, useId, useRef, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 
 import { submitBuild } from "@/lib/actions";
-import { allMemories, allTravelers } from "@/lib/constants";
+import { getMemories } from "@/lib/memories";
 import {
   type BuildDetails,
   defaultBuildDetails,
@@ -25,6 +25,7 @@ import {
 } from "@/lib/schemas";
 import { buildDetailsSchema } from "@/lib/schemas";
 import { routes, siteUrl } from "@/lib/site-config";
+import { getTravelerById } from "@/lib/travelers";
 
 import { EssenceSelect } from "./essence-select";
 import { FormPersist } from "./form-persist";
@@ -33,7 +34,7 @@ import { StatsDataList } from "./stats-data-list";
 import { TravelerSelect } from "./traveler-select";
 
 const startingMemoryLocations = ["q", "r", "identity", "movement"] as const;
-
+const memories = getMemories();
 const getStartingMemory = (
   traveler: string,
   travelerMemoryLocation: string,
@@ -41,7 +42,7 @@ const getStartingMemory = (
   if (!traveler) return "";
 
   return (
-    allMemories.find(
+    memories.find(
       (memory) =>
         memory.traveler === traveler &&
         memory.travelerMemoryLocation === travelerMemoryLocation,
@@ -176,7 +177,7 @@ export const BuildForm: FC<BuildFormProps> = ({ defaultValues, ...props }) => {
                         name={`traveler.startingMemories.${location}`}
                         render={({ field: { disabled, ...field } }) => {
                           const options = travelerId
-                            ? allMemories.filter(
+                            ? memories.filter(
                                 ({ traveler, travelerMemoryLocation }) =>
                                   traveler === travelerId &&
                                   travelerMemoryLocation ===
@@ -207,9 +208,7 @@ export const BuildForm: FC<BuildFormProps> = ({ defaultValues, ...props }) => {
                   )}
                 </Flex>
 
-                <StatsDataList
-                  traveler={allTravelers.find(({ id }) => id === travelerId)}
-                />
+                <StatsDataList traveler={getTravelerById(travelerId)} />
               </Flex>
             </Flex>
 
@@ -240,7 +239,7 @@ export const BuildForm: FC<BuildFormProps> = ({ defaultValues, ...props }) => {
                             render={({ field: { onChange, ...field } }) => (
                               <MemorySelect
                                 {...field}
-                                options={allMemories.filter(
+                                options={memories.filter(
                                   ({ id, traveler }) =>
                                     id !== "St_C_Sneeze" &&
                                     (!traveler ||
