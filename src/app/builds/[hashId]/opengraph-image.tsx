@@ -224,9 +224,9 @@ const OpengraphImage = async ({ params }: { params: { hashId: string } }) => {
                 }}
               >
                 {stats?.map(
-                  ({ image, name, value, statGrowth, iconStyles }) => (
+                  ({ id, image, name, value, statGrowth, iconStyles }) => (
                     <div
-                      key={name}
+                      key={id}
                       style={{
                         display: "flex",
                         alignItems: "center",
