@@ -60,24 +60,27 @@ const BuildDetails: FC<BuildDetailsProps> = async ({ params }) => {
             {build.details.name}
           </Heading>
           <Flex gap="3" ml={{ sm: "auto" }}>
-            <Views flexGrow={{ initial: "1", sm: "0" }} views={build.views} />
-            <Box asChild flexGrow={{ initial: "1", sm: "0" }}>
-              <LikeButton
-                highContrast
-                color="gray"
-                liked={liked}
-                likes={build.likes}
-                variant="ghost"
-              />
-            </Box>
-            <Box asChild flexGrow={{ initial: "1", sm: "0" }}>
-              <Button asChild highContrast color="gray" variant="ghost">
-                <Link href={`${routes.cloneBuild.pathname}/${hashId}`}>
-                  <IconCopy size={18} />
-                  Clone
-                </Link>
-              </Button>
-            </Box>
+            <Views className={styles.action} views={build.views} />
+            <LikeButton
+              highContrast
+              className={styles.action}
+              color="gray"
+              liked={liked}
+              likes={build.likes}
+              variant="ghost"
+            />
+            <Button
+              asChild
+              highContrast
+              className={styles.action}
+              color="gray"
+              variant="ghost"
+            >
+              <Link href={`${routes.cloneBuild.pathname}/${hashId}`}>
+                <IconCopy size={18} />
+                Clone
+              </Link>
+            </Button>
           </Flex>
         </Flex>
 
