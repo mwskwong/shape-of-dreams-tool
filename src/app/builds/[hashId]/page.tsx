@@ -388,7 +388,7 @@ export const generateMetadata = async (
       : description,
     openGraph: {
       ...openGraphWithoutImages,
-      publishedTime: build.createdAt.toISOString(),
+      publishedTime: build.createdAt,
       url: `${routes.builds.pathname}/${hashId}`,
     },
   };

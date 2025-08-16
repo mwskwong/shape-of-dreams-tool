@@ -193,7 +193,7 @@ const Builds: FC<BuildsProps> = async ({ searchParams }) => {
 
                   <Flex align="center" gap="3" mr="auto" mt="auto">
                     <Text color="gray" size="2">
-                      {dateFormatter.format(build.createdAt)}
+                      {dateFormatter.format(new Date(build.createdAt))}
                     </Text>
                     <Separator orientation="vertical" />
                     <Flex asChild align="center" gap="1">
