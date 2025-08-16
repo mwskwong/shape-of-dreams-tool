@@ -41,6 +41,8 @@ export const getBuildByHashId = memoize(
       .where(eq(builds.id, id))
       .groupBy(builds.id);
 
+    if (result.length === 0) return;
+
     const build = result[0];
     return {
       ...build,
