@@ -9,7 +9,7 @@ import * as HoverCard from "@radix-ui/themes/components/hover-card";
 import { Inset } from "@radix-ui/themes/components/inset";
 import { Separator } from "@radix-ui/themes/components/separator";
 import { Text } from "@radix-ui/themes/components/text";
-import { IconHeart } from "@tabler/icons-react";
+import { IconEye, IconHeart } from "@tabler/icons-react";
 import Image from "next/image";
 import Link from "next/link";
 import { type SearchParams } from "nuqs/server";
@@ -22,11 +22,14 @@ import { getMemoryById } from "@/lib/memories";
 import { getBuilds } from "@/lib/queries";
 import { routes } from "@/lib/site-config";
 import { getTravelerById } from "@/lib/travelers";
-import { loadBuildSearchParams } from "@/lib/utils";
+import {
+  dateFormatter,
+  loadBuildSearchParams,
+  statsFormatter,
+} from "@/lib/utils";
 
 import styles from "./page.module.css";
 
-const dateFormatter = new Intl.DateTimeFormat("en", { dateStyle: "medium" });
 const pageSize = 12;
 
 interface BuildsProps {
@@ -133,11 +136,12 @@ const Builds: FC<BuildsProps> = async ({ searchParams }) => {
                             </HoverCard.Content>
                           )}
                         </HoverCard.Root>
-                        {essences.map((id) => {
+                        {essences.map((id, index) => {
                           const essence = getEssenceById(id);
 
                           return (
-                            <HoverCard.Root key={id}>
+                            // essence can be empty
+                            <HoverCard.Root key={`${id}-${index}`}>
                               <HoverCard.Trigger>
                                 <Card className={styles.essenceCardWrapper}>
                                   {essence ? (
@@ -189,13 +193,20 @@ const Builds: FC<BuildsProps> = async ({ searchParams }) => {
 
                   <Flex align="center" gap="3" mr="auto" mt="auto">
                     <Text color="gray" size="2">
-                      {dateFormatter.format(build.createdAt)}
+                      {dateFormatter.format(new Date(build.createdAt))}
                     </Text>
                     <Separator orientation="vertical" />
                     <Flex asChild align="center" gap="1">
                       <Text color="gray" size="2">
+                        <IconEye size={18} />
+                        {statsFormatter.format(build.views)}
+                      </Text>
+                    </Flex>
+                    <Separator orientation="vertical" />
+                    <Flex asChild align="center" gap="1">
+                      <Text color="gray" size="2">
                         <IconHeart size={18} />
-                        <span>{build.likes} likes</span>
+                        {statsFormatter.format(build.likes)}
                       </Text>
                     </Flex>
                   </Flex>

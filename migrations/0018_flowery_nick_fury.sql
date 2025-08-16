@@ -1,0 +1,1 @@
+ALTER TABLE "builds" ADD COLUMN "views" integer DEFAULT 0 NOT NULL;
