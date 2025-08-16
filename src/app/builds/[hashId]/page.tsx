@@ -21,6 +21,7 @@ import { type BreadcrumbList, type WithContext } from "schema-dts";
 
 import { LikeButton } from "@/components/builds/like-button";
 import { StatsDataList } from "@/components/builds/stats-data-list";
+import { Views } from "@/components/builds/views";
 import * as ItemCard from "@/components/item-card";
 import { getEssenceById } from "@/lib/essences";
 import { getMemoryById } from "@/lib/memories";
@@ -59,6 +60,7 @@ const BuildDetails: FC<BuildDetailsProps> = async ({ params }) => {
             {build.details.name}
           </Heading>
           <Flex gap="3" ml={{ sm: "auto" }}>
+            <Views flexGrow={{ initial: "1", sm: "0" }} views={build.views} />
             <Box asChild flexGrow={{ initial: "1", sm: "0" }}>
               <LikeButton
                 highContrast
@@ -254,12 +256,12 @@ const BuildDetails: FC<BuildDetailsProps> = async ({ params }) => {
                       </Text>
                     </Flex>
 
-                    {essences.map((id) => {
+                    {essences.map((id, index) => {
                       const essence = getEssenceById(id);
 
                       return (
                         <Flex
-                          key={id}
+                          key={`${id}-${index}`} // essence can be empty
                           align="center"
                           direction="column"
                           gap="2"

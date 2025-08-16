@@ -7,7 +7,8 @@ import { IconHeart, IconHeartFilled } from "@tabler/icons-react";
 import { useParams } from "next/navigation";
 import { type FC, startTransition, useOptimistic } from "react";
 
-import { likeBuild, unlikeBuild } from "@/lib/actions";
+import { likeBuildByHashId, unlikeBuildByHashId } from "@/lib/actions";
+import { statsFormatter } from "@/lib/utils";
 
 export interface LikeButtonProps extends Omit<ButtonProps, "children"> {
   liked?: boolean;
@@ -30,7 +31,9 @@ export const LikeButton: FC<LikeButtonProps> = ({
       color={optimisticState.liked ? "red" : color}
       highContrast={optimisticState.liked ? false : highContrast}
       onClick={() => {
-        const action = optimisticState.liked ? unlikeBuild : likeBuild;
+        const action = optimisticState.liked
+          ? unlikeBuildByHashId
+          : likeBuildByHashId;
         startTransition(async () => {
           setOptimisticState((prev) => ({
             liked: !prev.liked,
@@ -47,7 +50,7 @@ export const LikeButton: FC<LikeButtonProps> = ({
       ) : (
         <IconHeart size={18} />
       )}
-      Like ({optimisticState.likes})
+      {statsFormatter.format(optimisticState.likes)}
     </Button>
   );
 };

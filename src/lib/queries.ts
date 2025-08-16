@@ -31,7 +31,7 @@ export const getBuildsMetadata = async () => {
 
 export const getBuildByHashId = async (hashId: string) => {
   "use cache";
-  cacheLife("max");
+  cacheLife("weeks");
   cacheTag("builds", `builds:${hashId}`);
 
   if (!hashIds.isValidId(hashId)) return;
@@ -77,12 +77,12 @@ export const getBuilds = async ({
   travelers: string[];
   memories: string[];
   essences: string[];
-  sort: "newest" | "mostLiked";
+  sort: "newest" | "mostViewed" | "mostLiked";
   limit: number;
   offset: number;
 }) => {
   "use cache";
-  cacheLife("max");
+  cacheLife("weeks");
   cacheTag("builds", "builds:list");
 
   const conditions = [eq(builds.hidden, false)];
@@ -118,10 +118,25 @@ export const getBuilds = async ({
       .leftJoin(buildLikes, eq(builds.id, buildLikes.buildId))
       .where(condition)
       .groupBy(builds.id)
-      .orderBy(({ id, createdAt, likes }) => [
-        sort === "newest" ? desc(createdAt) : desc(likes),
-        id,
-      ])
+      .orderBy(({ id, createdAt, views, likes }) => {
+        const orders = [];
+        switch (sort) {
+          case "mostViewed": {
+            orders.push(desc(views));
+            break;
+          }
+          case "mostLiked": {
+            orders.push(desc(likes));
+            break;
+          }
+          default: {
+            orders.push(desc(createdAt));
+          }
+        }
+        orders.push(id);
+
+        return orders;
+      })
       .limit(limit)
       .offset(offset),
     db.$count(builds, condition),

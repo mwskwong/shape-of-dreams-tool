@@ -74,7 +74,7 @@ export const buildSearchParams = {
   essences: parseAsArrayOf(parseAsString)
     .withDefault([])
     .withOptions({ shallow: false }),
-  sort: parseAsStringLiteral(["newest", "mostLiked"])
+  sort: parseAsStringLiteral(["newest", "mostViewed", "mostLiked"])
     .withDefault("newest")
     .withOptions({ shallow: false }),
   page: parseAsInteger.withDefault(1).withOptions({ shallow: false }),
@@ -83,3 +83,10 @@ export const buildSearchParams = {
 export const loadBuildSearchParams = createLoader(buildSearchParams);
 
 export const hashIds = new Hashids(process.env.HASH_IDS_SALT, 6);
+
+export const dateFormatter = new Intl.DateTimeFormat("en", {
+  dateStyle: "medium",
+});
+export const statsFormatter = new Intl.NumberFormat("en", {
+  notation: "compact",
+});

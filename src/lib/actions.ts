@@ -2,7 +2,7 @@
 
 import { randomUUID } from "node:crypto";
 
-import { and, eq } from "drizzle-orm";
+import { and, eq, sql } from "drizzle-orm";
 import { revalidateTag } from "next/cache";
 import { cookies } from "next/headers";
 import { parse } from "valibot";
@@ -25,7 +25,7 @@ export const submitBuild = async (data: unknown) => {
   return { hashId };
 };
 
-export const likeBuild = async (hashId: string) => {
+export const likeBuildByHashId = async (hashId: string) => {
   const cookieStore = await cookies();
   const userId = cookieStore.get("userId")?.value ?? randomUUID();
   cookieStore.set("userId", userId, {
@@ -43,7 +43,7 @@ export const likeBuild = async (hashId: string) => {
   revalidateTag(`builds:${hashId}:${userId}:likes`);
 };
 
-export const unlikeBuild = async (hashId: string) => {
+export const unlikeBuildByHashId = async (hashId: string) => {
   const cookieStore = await cookies();
   const userId = cookieStore.get("userId")?.value;
   if (!userId) return;
@@ -63,4 +63,12 @@ export const unlikeBuild = async (hashId: string) => {
   revalidateTag("builds:list");
   revalidateTag(`builds:${hashId}`);
   revalidateTag(`builds:${hashId}:${userId}:likes`);
+};
+
+export const viewBuildByHashId = async (hashId: string) => {
+  const id = hashIds.decode(hashId)[0] as number;
+  await db
+    .update(builds)
+    .set({ views: sql`${builds.views} + 1` })
+    .where(eq(builds.id, id));
 };

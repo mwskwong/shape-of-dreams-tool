@@ -41,6 +41,7 @@ const essenceOptions = Object.entries(groupBy(getEssences(), "rarity")).map(
 
 const sortOptions = [
   { name: "Newest", value: "newest" },
+  { name: "Most Viewed", value: "mostViewed" },
   { name: "Most Liked", value: "mostLiked" },
 ];
 

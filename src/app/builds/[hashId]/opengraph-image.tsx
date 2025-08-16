@@ -333,12 +333,12 @@ const OpengraphImage = async ({ params }: { params: { hashId: string } }) => {
                       </div>
                     </div>
 
-                    {essences.map((id) => {
+                    {essences.map((id, index) => {
                       const essence = getEssenceById(id);
 
                       return (
                         <div
-                          key={id}
+                          key={`${id}-${index}`} // essence can be empty
                           style={{
                             display: "flex",
                             flexDirection: "column",
