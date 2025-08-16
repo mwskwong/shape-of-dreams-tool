@@ -127,6 +127,13 @@
       "when": 1745820557960,
       "tag": "0017_round_clint_barton",
       "breakpoints": true
+    },
+    {
+      "idx": 18,
+      "version": "7",
+      "when": 1755349519591,
+      "tag": "0018_flowery_nick_fury",
+      "breakpoints": true
     }
   ]
 }

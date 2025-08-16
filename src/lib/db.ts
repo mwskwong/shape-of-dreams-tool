@@ -26,6 +26,7 @@ export const builds = pgTable(
     details: jsonb().$type<BuildDetails>().notNull(),
     createdAt: timestamp().notNull().defaultNow(),
     hidden: boolean().notNull().default(false),
+    views: integer().notNull().default(0),
   },
   ({ details, createdAt, hidden }) => [
     index().on(createdAt),
