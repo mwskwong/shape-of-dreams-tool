@@ -99,8 +99,8 @@ export const Content: FC<ContentProps> = ({
               </Flex>
               <Grid columns="4" gap="3">
                 {stats.map(
-                  ({ image, name, value, statGrowth, iconClassName }) => (
-                    <Tooltip key={name} content={name}>
+                  ({ id, image, name, value, statGrowth, iconClassName }) => (
+                    <Tooltip key={id} content={name}>
                       <Box asChild minWidth="52px">
                         <Card className={styles.stat}>
                           <Flex align="center" direction="column" gap="2">
@@ -151,6 +151,7 @@ export const Content: FC<ContentProps> = ({
             <Flex direction="column" gap="3">
               {memories.map(
                 ({
+                  id,
                   name,
                   cooldownTime,
                   maxCharges,
@@ -164,7 +165,7 @@ export const Content: FC<ContentProps> = ({
                   mutuallyExclusive,
                 }) => (
                   <MemoryCard
-                    key={name}
+                    key={id}
                     achievementDescription={achievementDescription}
                     achievementName={achievementName}
                     cooldownTime={cooldownTime}

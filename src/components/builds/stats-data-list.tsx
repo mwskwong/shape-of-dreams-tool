@@ -26,8 +26,8 @@ export const StatsDataList: FC<StatsDataListProps> = ({
 
   return (
     <DataList.Root {...props}>
-      {stats?.map(({ name, image, value, iconClassName, statGrowth }) => (
-        <DataList.Item key={name}>
+      {stats?.map(({ id, name, image, value, iconClassName, statGrowth }) => (
+        <DataList.Item key={id}>
           <DataList.Label minWidth="200px">
             <Flex align="center" gap="2">
               <Flex
