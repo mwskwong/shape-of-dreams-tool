@@ -270,7 +270,8 @@ const BuildDetails: FC<BuildDetailsProps> = async ({ params }) => {
                           gap="2"
                           maxWidth="64px"
                         >
-                          <HoverCard.Root>
+                          {/* FIXME: for some reasons, some times, the hover card will not get rendered without explicitly specifying a key */}
+                          <HoverCard.Root key={`${id}-${index}`}>
                             <HoverCard.Trigger>
                               <Card>
                                 {essence ? (
