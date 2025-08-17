@@ -47,6 +47,7 @@ export const getBuildByHashId = memoize(
 
     const build = result[0];
     return {
+      hashId,
       ...build,
       createdAt: build.createdAt.toISOString(), // Next.js cache only accepts primitives
     };
