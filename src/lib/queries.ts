@@ -8,8 +8,10 @@ import {
   sql,
 } from "drizzle-orm";
 import { memoize } from "nextjs-better-unstable-cache";
+import { type PickDeep } from "type-fest";
 
 import { buildLikes, builds, db } from "./db";
+import { type BuildDetails } from "./schemas";
 import { hashIds } from "./utils";
 
 export const getBuildsMetadata = memoize(
@@ -123,7 +125,19 @@ export const getBuilds = memoize(
     const condition = and(...conditions);
     const [result, total] = await Promise.all([
       db
-        .select({ ...getTableColumns(builds), likes: count(buildLikes.userId) })
+        .select({
+          id: builds.id,
+          details: sql<
+            PickDeep<BuildDetails, "name" | "traveler.id" | "memories">
+          >`json_build_object(
+            'name', ${builds.details} ->> 'name',
+            'traveler', json_build_object('id', ${builds.details} -> 'traveler' ->> 'id'),
+            'memories', ${builds.details} -> 'memories'
+          )`,
+          createdAt: builds.createdAt,
+          views: builds.views,
+          likes: count(buildLikes.userId),
+        })
         .from(builds)
         .leftJoin(buildLikes, eq(builds.id, buildLikes.buildId))
         .where(condition)
