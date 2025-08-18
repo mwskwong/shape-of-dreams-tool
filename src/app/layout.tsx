@@ -13,6 +13,7 @@ import { Analytics } from "@vercel/analytics/next";
 import { clsx } from "clsx";
 import { type Metadata } from "next";
 import { Geist, Geist_Mono, IBM_Plex_Serif } from "next/font/google";
+import Script from "next/script";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
 import { type FC, type PropsWithChildren } from "react";
 
@@ -101,6 +102,10 @@ const RootLayout: FC<PropsWithChildren> = ({ children }) => (
         mode={
           process.env.VERCEL_ENV === "production" ? "production" : "development"
         }
+      />
+      <Script
+        crossOrigin="anonymous"
+        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4359361226572500"
       />
     </body>
   </html>
