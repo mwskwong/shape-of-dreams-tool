@@ -106,6 +106,7 @@ const RootLayout: FC<PropsWithChildren> = ({ children }) => (
       <Script
         crossOrigin="anonymous"
         src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4359361226572500"
+        strategy="lazyOnload"
       />
     </body>
   </html>
