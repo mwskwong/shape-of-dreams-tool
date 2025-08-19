@@ -57,7 +57,7 @@ const config = {
             form-action 'self';
             frame-ancestors 'none';
             upgrade-insecure-requests;
-        `.replaceAll("\n", ""),
+          `.replaceAll("\n", ""),
         },
       ],
     },
