@@ -1,4 +1,5 @@
 import NextBundleAnalyzer from "@next/bundle-analyzer";
+import dedent from "dedent";
 import { type NextConfig } from "next";
 
 const withBundleAnalyzer = NextBundleAnalyzer({
@@ -33,7 +34,7 @@ const config = {
         },
         {
           key: "Permissions-Policy",
-          value: "camera=(), microphone=(), geolocation=()",
+          value: "camera=(), microphone=(), geolocation=(), browsing-topics=()",
         },
         {
           key: "X-Content-Type-Options",
@@ -42,6 +43,21 @@ const config = {
         {
           key: "Referrer-Policy",
           value: "strict-origin-when-cross-origin",
+        },
+        {
+          key: "Content-Security-Policy",
+          value: dedent`
+            default-src 'self';
+            script-src 'self' 'unsafe-eval' 'unsafe-inline' va.vercel-scripts.com;
+            style-src 'self' 'unsafe-inline';
+            img-src 'self' blob: data:;
+            font-src 'self';
+            object-src 'none';
+            base-uri 'self';
+            form-action 'self';
+            frame-ancestors 'none';
+            upgrade-insecure-requests;
+        `.replaceAll("\n", ""),
         },
       ],
     },
