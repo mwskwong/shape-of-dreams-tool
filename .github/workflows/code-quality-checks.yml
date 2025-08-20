@@ -4,7 +4,7 @@ permissions:
   contents: read
 
 jobs:
-  lint:
+  code-quality-checks:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
