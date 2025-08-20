@@ -24,7 +24,7 @@ export type RootProps = CardProps & Pick<Traveler, "name" | "image">;
 export const Root: FC<RootProps> = ({ name, image, children, ...props }) => (
   <Box asChild height="100%">
     <Card {...props}>
-      <Flex align="center" direction="column" gap="3" {...props}>
+      <Flex align="center" direction="column" gap="3">
         <Card size="5">
           <Inset side="all">
             <Image alt={name} src={image} width={128} />
