@@ -1,9 +1,11 @@
 // @ts-check
 
+import { URL, fileURLToPath } from "node:url";
+
+import { includeIgnoreFile } from "@eslint/compat";
 import { FlatCompat } from "@eslint/eslintrc";
 import eslint from "@eslint/js";
 import commentsPlugin from "@eslint-community/eslint-plugin-eslint-comments/configs";
-import { globalIgnores } from "eslint/config";
 import prettierConfig from "eslint-config-prettier/flat";
 import * as importPlugin from "eslint-plugin-import";
 import jsxA11yPlugin from "eslint-plugin-jsx-a11y";
@@ -17,7 +19,7 @@ const compat = new FlatCompat({
 });
 
 const config = tseslint.config(
-  globalIgnores([".next", "next-env.d.ts"]),
+  includeIgnoreFile(fileURLToPath(new URL(".gitignore", import.meta.url))),
   eslint.configs.recommended,
   tseslint.configs.strictTypeChecked,
   tseslint.configs.stylisticTypeChecked,
