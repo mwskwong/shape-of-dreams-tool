@@ -17,7 +17,7 @@ const compat = new FlatCompat({
 });
 
 const config = tseslint.config(
-  globalIgnores(["**/.next/", "next-env.d.ts"]),
+  globalIgnores([".next", "next-env.d.ts"]),
   eslint.configs.recommended,
   tseslint.configs.strictTypeChecked,
   tseslint.configs.stylisticTypeChecked,
