@@ -1,5 +1,4 @@
 import NextBundleAnalyzer from "@next/bundle-analyzer";
-import dedent from "dedent";
 import { type NextConfig } from "next";
 
 const withBundleAnalyzer = NextBundleAnalyzer({
@@ -30,7 +29,7 @@ const config = {
         },
         {
           key: "X-Frame-Options",
-          value: "SAMEORIGIN",
+          value: "DENY",
         },
         {
           key: "Permissions-Policy",
@@ -46,9 +45,10 @@ const config = {
         },
         {
           key: "Content-Security-Policy",
-          value: dedent`
+          // ref: https://nextjs.org/docs/app/guides/content-security-policy#without-nonces
+          value: `
             default-src 'self';
-            script-src 'self' 'unsafe-eval' 'unsafe-inline' va.vercel-scripts.com;
+            script-src 'self' ${process.env.NODE_ENV === "development" ? "'unsafe-eval'" : ""} 'unsafe-inline' va.vercel-scripts.com;
             style-src 'self' 'unsafe-inline';
             img-src 'self' blob: data:;
             font-src 'self';
@@ -57,7 +57,9 @@ const config = {
             form-action 'self';
             frame-ancestors 'none';
             upgrade-insecure-requests;
-          `.replaceAll("\n", ""),
+          `
+            .replaceAll(/\s+/g, " ")
+            .trim(),
         },
       ],
     },
