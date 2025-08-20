@@ -12,9 +12,8 @@ const Nav: FC<NavProps> = (props) => {
   const pathname = usePathname();
   return (
     <TabNav.Root {...props}>
-      {[routes.travelers, routes.memories, routes.essences, routes.builds]
-        .filter(({ name }) => name)
-        .map((route) => (
+      {[routes.travelers, routes.memories, routes.essences, routes.builds].map(
+        (route) => (
           <TabNav.Link
             key={route.pathname}
             asChild
@@ -22,7 +21,8 @@ const Nav: FC<NavProps> = (props) => {
           >
             <Link href={route.pathname}>{route.name}</Link>
           </TabNav.Link>
-        ))}
+        ),
+      )}
     </TabNav.Root>
   );
 };
