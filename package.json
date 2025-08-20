@@ -12,7 +12,7 @@
     "lint:fix": "eslint --fix",
     "start": "next start",
     "stylelint": "stylelint **/*.css",
-    "stylelint:fix": "stylelint **/*.css -- fix",
+    "stylelint:fix": "stylelint **/*.css --fix",
     "typecheck": "tsc --noEmit",
     "typegen": "next typegen",
     "upgrade": "npm update && npm run typegen && npm run typecheck && npm run lint:fix && npm run stylelint:fix && npm run format:fix"
