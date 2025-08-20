@@ -8,7 +8,6 @@ import { Inset } from "@radix-ui/themes/components/inset";
 import * as Tabs from "@radix-ui/themes/components/tabs";
 import { Text } from "@radix-ui/themes/components/text";
 import { Tooltip } from "@radix-ui/themes/components/tooltip";
-import { clsx } from "clsx";
 import Image from "next/image";
 import { type FC } from "react";
 
@@ -26,12 +25,11 @@ export const Root: FC<RootProps> = ({ name, image, children, ...props }) => (
   <Box asChild height="100%">
     <Card {...props}>
       <Flex align="center" direction="column" gap="3" {...props}>
-        <Image
-          alt={name}
-          className={clsx("rt-AvatarRoot", "rt-r-size-8")}
-          src={image}
-          width={128}
-        />
+        <Card size="5">
+          <Inset side="all">
+            <Image alt={name} src={image} width={128} />
+          </Inset>
+        </Card>
         <Heading as="h2" data-accent-color="" size="6">
           {name}
         </Heading>
