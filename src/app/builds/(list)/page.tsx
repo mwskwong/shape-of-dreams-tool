@@ -12,7 +12,6 @@ import { Text } from "@radix-ui/themes/components/text";
 import { IconEye, IconHeart } from "@tabler/icons-react";
 import Image from "next/image";
 import Link from "next/link";
-import { type SearchParams } from "nuqs/server";
 import { type FC } from "react";
 
 import * as ItemCard from "@/components/item-card";
@@ -32,11 +31,7 @@ import styles from "./page.module.css";
 
 const pageSize = 12;
 
-interface BuildsProps {
-  searchParams: Promise<SearchParams>;
-}
-
-const Builds: FC<BuildsProps> = async ({ searchParams }) => {
+const Builds: FC<PageProps<"/builds">> = async ({ searchParams }) => {
   const { page, ...parsedSearchParams } =
     await loadBuildSearchParams(searchParams);
   const { data, total } = await getBuilds({

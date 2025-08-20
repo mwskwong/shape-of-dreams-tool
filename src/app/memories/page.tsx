@@ -1,6 +1,5 @@
 import { Grid } from "@radix-ui/themes/components/grid";
 import { type ResolvingMetadata } from "next";
-import { type SearchParams } from "nuqs/server";
 import { type FC } from "react";
 
 import * as ItemCard from "@/components/item-card";
@@ -10,11 +9,7 @@ import { loadItemSearchParams } from "@/lib/utils";
 
 const memories = getMemories();
 
-interface MemoriesProps {
-  searchParams: Promise<SearchParams>;
-}
-
-const Memories: FC<MemoriesProps> = async ({ searchParams }) => {
+const Memories: FC<PageProps<"/memories">> = async ({ searchParams }) => {
   const { search, rarities, types, travelers, tags } =
     await loadItemSearchParams(searchParams);
 

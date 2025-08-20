@@ -31,11 +31,7 @@ import { getTravelerById } from "@/lib/travelers";
 
 import styles from "./page.module.css";
 
-interface BuildDetailsProps {
-  params: Promise<{ hashId: string }>;
-}
-
-const BuildDetails: FC<BuildDetailsProps> = async ({ params }) => {
+const BuildDetails: FC<PageProps<"/builds/[hashId]">> = async ({ params }) => {
   const [{ hashId }, cookieStore] = await Promise.all([params, cookies()]);
   const userId = cookieStore.get("userId")?.value;
   const [build, liked] = await Promise.all([
@@ -375,7 +371,7 @@ const truncateDescription = (text: string, maxLength = 156) => {
 };
 
 export const generateMetadata = async (
-  { params }: BuildDetailsProps,
+  { params }: PageProps<"/builds/[hashId]">,
   parent: ResolvingMetadata,
 ) => {
   const { hashId } = await params;

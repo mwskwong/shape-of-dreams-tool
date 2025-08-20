@@ -26,4 +26,4 @@ export const routes = {
   builds: { name: "Builds", pathname: "/builds" },
   newBuild: { name: "New Build", pathname: "/builds/new" },
   cloneBuild: { name: undefined, pathname: "/builds/clone" },
-};
+} as const;

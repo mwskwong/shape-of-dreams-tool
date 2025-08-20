@@ -2,13 +2,13 @@ import { Button } from "@radix-ui/themes/components/button";
 import { Flex } from "@radix-ui/themes/components/flex";
 import { type ResolvingMetadata } from "next";
 import Link from "next/link";
-import { type FC, type PropsWithChildren, Suspense } from "react";
+import { type FC, Suspense } from "react";
 import { type BreadcrumbList, type WithContext } from "schema-dts";
 
 import { BuildsToolbar } from "@/components/builds/builds-toolbar";
 import { routes } from "@/lib/site-config";
 
-const BuildsLayout: FC<PropsWithChildren> = ({ children }) => (
+const BuildsLayout: FC<LayoutProps<"/builds">> = ({ children }) => (
   <>
     <Flex direction="column" gap="3" pt="3">
       <Flex

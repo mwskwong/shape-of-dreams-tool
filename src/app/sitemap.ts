@@ -25,6 +25,4 @@ const sitemap = async () => {
   ] satisfies MetadataRoute.Sitemap;
 };
 
-export const dynamic = "force-dynamic";
-
 export default sitemap;

@@ -14,7 +14,7 @@ import { clsx } from "clsx";
 import { type Metadata } from "next";
 import { Geist, Geist_Mono, IBM_Plex_Serif } from "next/font/google";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
-import { type FC, type PropsWithChildren } from "react";
+import { type FC } from "react";
 
 import Nav from "@/components/nav";
 import { siteName, siteUrl } from "@/lib/site-config";
@@ -41,7 +41,7 @@ const ibmPlexSerif = IBM_Plex_Serif({
   preload: false,
 });
 
-const RootLayout: FC<PropsWithChildren> = ({ children }) => (
+const RootLayout: FC<LayoutProps<"/">> = ({ children }) => (
   <html lang="en">
     <body
       className={clsx(

@@ -7,11 +7,9 @@ import { BuildForm } from "@/components/builds/build-form";
 import { getBuildByHashId } from "@/lib/queries";
 import { routes, siteUrl } from "@/lib/site-config";
 
-interface CloneBuildProps {
-  params: Promise<{ hashId: string }>;
-}
-
-const CloneBuild: FC<CloneBuildProps> = async ({ params }) => {
+const CloneBuild: FC<PageProps<"/builds/clone/[hashId]">> = async ({
+  params,
+}) => {
   const { hashId } = await params;
   const build = await getBuildByHashId(hashId);
 
@@ -47,7 +45,7 @@ const CloneBuild: FC<CloneBuildProps> = async ({ params }) => {
 };
 
 export const generateMetadata = async (
-  { params }: CloneBuildProps,
+  { params }: PageProps<"/builds/clone/[hashId]">,
   parent: ResolvingMetadata,
 ) => {
   const { hashId } = await params;
