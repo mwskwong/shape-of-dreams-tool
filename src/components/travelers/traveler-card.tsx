@@ -89,9 +89,7 @@ export const Content: FC<ContentProps> = ({
             <Flex direction="column" gap="3">
               <Flex asChild align="center" gap="2" justify="center">
                 <Text as="div">
-                  {classIcon && (
-                    <Image alt={travelerClass} src={classIcon} width={18} />
-                  )}
+                  {classIcon && <Image alt="" src={classIcon} width={18} />}
                   {travelerClass}
                 </Text>
               </Flex>
@@ -191,7 +189,7 @@ export const Content: FC<ContentProps> = ({
                 constellations.map(({ name, description, image }) => (
                   <Flex key={name} gap="3">
                     <Image
-                      alt={name}
+                      alt=""
                       className={iconStyles.constellationIcon}
                       src={image}
                       width={48}
