@@ -1,9 +1,0 @@
-.root {
-  & > * {
-    margin: 0;
-  }
-}
-
-.ellipsisContainer {
-  padding: 6px;
-}

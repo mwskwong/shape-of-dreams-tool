@@ -19,7 +19,6 @@ const compat = new FlatCompat({
 });
 
 const config = tseslint.config(
-  includeIgnoreFile(fileURLToPath(new URL(".gitignore", import.meta.url))),
   eslint.configs.recommended,
   tseslint.configs.strictTypeChecked,
   tseslint.configs.stylisticTypeChecked,
@@ -148,6 +147,7 @@ const config = tseslint.config(
     files: ["**/*.*js"],
     extends: [tseslint.configs.disableTypeChecked],
   },
+  includeIgnoreFile(fileURLToPath(new URL(".gitignore", import.meta.url))),
 );
 
 export default config;

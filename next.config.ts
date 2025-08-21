@@ -62,14 +62,6 @@ const config = {
       ],
     },
   ],
-  // eslint-disable-next-line @typescript-eslint/require-await
-  redirects: async () => [
-    {
-      source: "/",
-      destination: "/travelers",
-      permanent: false,
-    },
-  ],
   logging: { fetches: { fullUrl: true } },
   outputFileTracingIncludes: {
     "/builds/\\[hashId\\]/opengraph-image": [

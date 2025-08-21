@@ -30,7 +30,7 @@ SOFTWARE.
 
 ## Resources License
 
-The images located in the `src/images` directory and the data located in `lib/essences.ts`, `lib/memories.ts`, and `lib/travelers.ts` are provided by Lizard Smoothie Co., Ltd., the developer of Shape of Dreams, and are subject to the following terms:
+The images located in the `src/images` directory and the data located in `src/lib/essences.ts`, `src/lib/memories.ts`, and `src/lib/travelers.ts` are provided by Lizard Smoothie Co., Ltd., the developer of Shape of Dreams, and are subject to the following terms:
 
 === Raw Data Usage Rights and Disclaimer ===
 

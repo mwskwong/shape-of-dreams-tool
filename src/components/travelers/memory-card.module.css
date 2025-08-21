@@ -1,5 +1,0 @@
-.card {
-  width: calc(
-    100% + -1 * (var(--margin-right-override) + var(--margin-left-override))
-  );
-}
