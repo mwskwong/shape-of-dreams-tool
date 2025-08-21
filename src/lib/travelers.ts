@@ -1,7 +1,5 @@
 /* eslint-disable unicorn/no-null */
 
-import { type ThemeProps } from "@radix-ui/themes/components/theme";
-
 import Hero_Aurena from "@/images/Hero_Aurena.png";
 import Hero_Lacerta from "@/images/Hero_Lacerta.png";
 import Hero_Mist from "@/images/Hero_Mist.png";
@@ -34,9 +32,10 @@ import iconSupporter from "@/images/iconSupporter.png";
 import iconTank from "@/images/iconTank.png";
 import texCrit from "@/images/texCrit.png";
 import texMovement from "@/images/texMovement.png";
-import iconStyles from "@/styles/icons.module.css";
 
 import { sprites } from "./sprites";
+
+import iconStyles from "@/styles/icons.module.css";
 
 const getTravelerClassIcon = (travelerClass: string) => {
   if (travelerClass.toLowerCase().includes("attacker")) return iconAttacker;
@@ -53,7 +52,7 @@ const travelers = {
     get classIcon() {
       return getTravelerClassIcon(this.class);
     },
-    color: "orange" as const satisfies ThemeProps["accentColor"],
+    color: "orange", // TODO: type the returned color
     health: 220,
     armor: 0,
     attackDamage: 43,
@@ -129,7 +128,7 @@ const travelers = {
     get classIcon() {
       return getTravelerClassIcon(this.class);
     },
-    color: "mint" as const satisfies ThemeProps["accentColor"],
+    color: "mint", // TODO: type the returned color
     health: 250,
     armor: 5,
     attackDamage: 51,
@@ -205,7 +204,7 @@ const travelers = {
     get classIcon() {
       return getTravelerClassIcon(this.class);
     },
-    color: "ruby" as const satisfies ThemeProps["accentColor"],
+    color: "ruby", // TODO: type the returned color
     health: 180,
     armor: 0,
     attackDamage: 32,
@@ -281,7 +280,7 @@ const travelers = {
     get classIcon() {
       return getTravelerClassIcon(this.class);
     },
-    color: "amber" as const satisfies ThemeProps["accentColor"],
+    color: "amber", // TODO: type the returned color
     health: 280,
     armor: 5,
     attackDamage: 54,
@@ -315,7 +314,7 @@ const travelers = {
     get classIcon() {
       return getTravelerClassIcon(this.class);
     },
-    color: "yellow" as const satisfies ThemeProps["accentColor"],
+    color: "yellow", // TODO: type the returned color
     health: 250,
     armor: 5,
     attackDamage: 28,

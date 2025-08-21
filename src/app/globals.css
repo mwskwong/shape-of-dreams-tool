@@ -1,4 +1,10 @@
 @import "tailwindcss";
+
+@theme inline {
+  --font-sans: var(--font-raleway);
+  --font-serif: var(--font-playfair-display);
+}
+
 @plugin "daisyui" {
   themes: night --default;
 }

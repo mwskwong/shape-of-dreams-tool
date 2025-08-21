@@ -63,15 +63,9 @@ const config = {
     },
   ],
   logging: { fetches: { fullUrl: true } },
-  outputFileTracingIncludes: {
-    "/builds/\\[hashId\\]/opengraph-image": [
-      "./node_modules/geist/dist/fonts/**/*",
-    ],
-  },
   experimental: {
     typedEnv: true,
     reactCompiler: true,
-    optimizePackageImports: ["@radix-ui/themes", "radix-ui"],
   },
 } satisfies NextConfig;
 

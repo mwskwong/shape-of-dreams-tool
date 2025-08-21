@@ -1,4 +1,4 @@
-import { type ThemeProps } from "@radix-ui/themes/components/theme";
+import { type ClassValue, clsx } from "clsx";
 import Hashids from "hashids";
 import {
   createLoader,
@@ -7,23 +7,25 @@ import {
   parseAsString,
   parseAsStringLiteral,
 } from "nuqs/server";
+import { twMerge } from "tailwind-merge";
 
+// TODO: type the returned color
 export const getRarityColor = (rarity: string) => {
   switch (rarity) {
     case "Common": {
-      return "gray" satisfies ThemeProps["accentColor"];
+      return "gray";
     }
     case "Rare": {
-      return "sky" satisfies ThemeProps["accentColor"];
+      return "sky";
     }
     case "Epic": {
-      return "purple" satisfies ThemeProps["accentColor"];
+      return "purple";
     }
     case "Legendary": {
-      return "red" satisfies ThemeProps["accentColor"];
+      return "red";
     }
     default: {
-      return "amber" satisfies ThemeProps["accentColor"];
+      return "amber";
     }
   }
 };
@@ -90,3 +92,5 @@ export const dateFormatter = new Intl.DateTimeFormat("en", {
 export const statsFormatter = new Intl.NumberFormat("en", {
   notation: "compact",
 });
+
+export const cn = (...inputs: ClassValue[]) => twMerge(clsx(inputs));
