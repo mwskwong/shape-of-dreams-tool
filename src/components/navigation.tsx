@@ -60,7 +60,7 @@ export const Navigation = ({
       <div className="drawer-side p-4">
         <label
           aria-label="close sidebar"
-          className="drawer-overlay -m-4"
+          className="drawer-overlay -m-4 backdrop-blur-sm"
           htmlFor={drawerToggleId}
         />
 
