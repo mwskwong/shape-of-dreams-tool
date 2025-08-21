@@ -18,12 +18,3 @@ const getSiteUrl = () => {
 
 export const siteUrl = getSiteUrl();
 export const siteName = "Shape of Dreams Tool";
-
-export const routes = {
-  travelers: { name: "Travelers", pathname: "/travelers" },
-  memories: { name: "Memories", pathname: "/memories" },
-  essences: { name: "Essences", pathname: "/essences" },
-  builds: { name: "Builds", pathname: "/builds" },
-  newBuild: { name: "New Build", pathname: "/builds/new" },
-  cloneBuild: { name: undefined, pathname: "/builds/clone" },
-} as const;

@@ -4,7 +4,7 @@ import { type Metadata } from "next";
 import { Playfair_Display, Raleway } from "next/font/google";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
 
-import { cn } from "@/lib/utils";
+import { Navbar } from "@/components/navbar";
 
 const raleway = Raleway({
   subsets: ["latin"],
@@ -20,9 +20,12 @@ const playfairDisplay = Playfair_Display({
 const RootLayout = ({ children }: LayoutProps<"/">) => (
   <html lang="en">
     <body
-      className={cn(raleway.variable, playfairDisplay.variable, "antialiased")}
+      className={`${raleway.variable} ${playfairDisplay.variable} antialiased`}
     >
-      <NuqsAdapter>{children}</NuqsAdapter>
+      <Navbar />
+      <main>
+        <NuqsAdapter>{children}</NuqsAdapter>
+      </main>
       <Analytics
         mode={
           process.env.VERCEL_ENV === "production" ? "production" : "development"
