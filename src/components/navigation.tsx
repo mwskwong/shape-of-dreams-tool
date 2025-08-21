@@ -7,6 +7,8 @@ import { type SetRequired } from "type-fest";
 import icon from "@/images/icon.png";
 import { cn } from "@/lib/utils";
 
+import { DrawerLink } from "./drawer-link";
+
 const nav = [
   { label: "Travelers", href: "/travelers", Icon: Sword },
   { label: "Memories", href: "/memories", Icon: Wand },
@@ -36,7 +38,7 @@ export const Navigation = ({
             {nav.map(({ label, href, Icon }) => (
               <li key={label}>
                 <Link href={href}>
-                  <Icon size={20} />
+                  <Icon size="1.2rem" />
                   {label}
                 </Link>
               </li>
@@ -70,10 +72,10 @@ export const Navigation = ({
           <ul className="menu menu-lg w-full gap-4">
             {nav.map(({ label, href, Icon }) => (
               <li key={label}>
-                <Link href={href}>
+                <DrawerLink drawerToggleId={drawerToggleId} href={href}>
                   <Icon size="1.2rem" />
                   {label}
-                </Link>
+                </DrawerLink>
               </li>
             ))}
           </ul>
