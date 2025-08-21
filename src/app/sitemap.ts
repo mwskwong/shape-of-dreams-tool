@@ -1,24 +1,30 @@
 import { type MetadataRoute } from "next";
 
 import { getBuildsMetadata } from "@/lib/queries";
-import { routes, siteUrl } from "@/lib/site-config";
+import { siteUrl } from "@/lib/site-config";
+
+const routes = [
+  "/",
+  "/travelers",
+  "/memories",
+  "/essences",
+  "/builds",
+] as const;
 
 const sitemap = async () => {
   const buildsMetadata = await getBuildsMetadata();
   return [
-    ...Object.values(routes)
-      .filter(({ name }) => name)
-      .map(({ pathname }) => ({
-        url: `${siteUrl}${pathname}`,
-        lastModified: new Date(),
-      })),
+    ...routes.map((route) => ({
+      url: `${siteUrl}${route}`,
+      lastModified: new Date(),
+    })),
     ...buildsMetadata.flatMap(({ hashId, createdAt }) => [
       {
-        url: `${siteUrl}${routes.builds.pathname}/${hashId}`,
+        url: `${siteUrl}/builds/${hashId}`,
         lastModified: createdAt,
       },
       {
-        url: `${siteUrl}${routes.cloneBuild.pathname}/${hashId}`,
+        url: `${siteUrl}/builds/clone/${hashId}`,
         lastModified: createdAt,
       },
     ]),
