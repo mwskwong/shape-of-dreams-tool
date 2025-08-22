@@ -2,7 +2,6 @@ import { Gem, Hammer, Menu, Sword, Wand, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { type ComponentProps, useId } from "react";
-import { type SetRequired } from "type-fest";
 
 import icon from "@/images/icon.png";
 import { cn } from "@/lib/utils";
@@ -16,20 +15,20 @@ const nav = [
   { label: "Builds", href: "/builds", Icon: Hammer },
 ] as const;
 
-export type NavigationProps = SetRequired<ComponentProps<"div">, "children">;
-export const Navigation = ({
+export type PageShellProps = ComponentProps<"div">;
+export const PageShell = ({
   className,
   children,
   ...props
-}: NavigationProps) => {
+}: PageShellProps) => {
   const drawerToggleId = useId();
 
   return (
     <div className={cn("drawer drawer-end", className)} {...props}>
       <input className="drawer-toggle" id={drawerToggleId} type="checkbox" />
 
-      <main className="drawer-content">
-        <nav className="navbar bg-base-100/40 sticky top-0 w-full backdrop-blur-sm">
+      <div className="drawer-content">
+        <nav className="navbar bg-base-100/40 sticky top-0 container mx-auto w-full px-4 backdrop-blur-sm">
           <Link href="/">
             <Image alt="icon" src={icon} width={40} />
           </Link>
@@ -54,8 +53,43 @@ export const Navigation = ({
           </label>
         </nav>
 
-        {children}
-      </main>
+        <main className="container mx-auto p-4">{children}</main>
+
+        <footer className="footer footer-center bg-base-300 text-base-content p-4">
+          <aside>
+            <p>
+              Copyright © {new Date().getFullYear()}{" "}
+              <a
+                className="link"
+                href="https://mwskwong.com"
+                rel="noreferrer"
+                target="_blank"
+              >
+                KWONG, Matthew Wang Shun
+              </a>
+              . Images and data copyright{" "}
+              <a
+                className="link"
+                href="https://lizardsmoothie.com"
+                rel="noreferrer"
+                target="_blank"
+              >
+                Lizard Smoothie Co., Ltd.
+              </a>{" "}
+              Used under{" "}
+              <a
+                className="link"
+                href="https://github.com/mwskwong/shape-of-dreams-tool/blob/main/LICENSE"
+                rel="noreferrer"
+                target="_blank"
+              >
+                license
+              </a>
+              .
+            </p>
+          </aside>
+        </footer>
+      </div>
 
       <div className="drawer-side p-4">
         <label
