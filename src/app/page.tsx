@@ -18,7 +18,7 @@ const Home = () => (
             sizes="(width > 512px) 512px, 100vw"
             src={logo}
           />
-          <h1 className="text-pretty">Shape of Dreams Tool</h1>
+          <h1>Shape of Dreams Tool</h1>
           <p>
             A community-driven resource with travelers, memories, essences, and
             a versatile character builder to enhance your gameplay. This project

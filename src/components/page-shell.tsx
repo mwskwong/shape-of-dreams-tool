@@ -65,7 +65,7 @@ export const PageShell = ({
         <main className="container mx-auto px-4">{children}</main>
 
         <footer className="footer bg-base-200 text-base-content">
-          <div className="container mx-auto flex flex-col items-center justify-between gap-4 p-4 text-center md:flex-row">
+          <div className="container mx-auto flex flex-col items-center justify-between gap-4 p-4 text-center lg:flex-row">
             <aside>
               <p>
                 Copyright © {new Date().getFullYear()}{" "}

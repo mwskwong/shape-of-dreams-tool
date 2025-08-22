@@ -9,3 +9,7 @@
 @plugin "daisyui" {
   themes: night --default;
 }
+
+:root {
+  @apply text-pretty;
+}
