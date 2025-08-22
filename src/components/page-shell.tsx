@@ -1,3 +1,4 @@
+import { SiDiscord, SiGithub } from "@icons-pack/react-simple-icons";
 import { Gem, Hammer, Menu, Sword, Wand, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -15,6 +16,14 @@ const nav = [
   { label: "Builds", href: "/builds", Icon: Hammer },
 ] as const;
 
+const footerLinks = [
+  {
+    href: "https://discord.com/channels/1239197591191683206/1351984016500195398",
+    Icon: SiDiscord,
+  },
+  { href: "https://github.com/mwskwong/shape-of-dreams-tool", Icon: SiGithub },
+];
+
 export type PageShellProps = ComponentProps<"div">;
 export const PageShell = ({
   className,
@@ -28,7 +37,7 @@ export const PageShell = ({
       <input className="drawer-toggle" id={drawerToggleId} type="checkbox" />
 
       <div className="drawer-content">
-        <nav className="navbar bg-base-100/40 sticky top-0 container mx-auto w-full px-4 backdrop-blur-sm">
+        <nav className="navbar bg-base-100/40 sticky top-0 z-1 container mx-auto w-full px-4 backdrop-blur-sm">
           <Link href="/">
             <Image alt="icon" src={icon} width={40} />
           </Link>
@@ -37,7 +46,7 @@ export const PageShell = ({
             {nav.map(({ label, href, Icon }) => (
               <li key={label}>
                 <Link href={href}>
-                  <Icon size="1.2rem" />
+                  <Icon size="1.2em" />
                   {label}
                 </Link>
               </li>
@@ -53,41 +62,56 @@ export const PageShell = ({
           </label>
         </nav>
 
-        <main className="container mx-auto p-4">{children}</main>
+        <main className="container mx-auto px-4">{children}</main>
 
-        <footer className="footer footer-center bg-base-300 text-base-content p-4">
-          <aside>
-            <p>
-              Copyright © {new Date().getFullYear()}{" "}
-              <a
-                className="link"
-                href="https://mwskwong.com"
-                rel="noreferrer"
-                target="_blank"
-              >
-                KWONG, Matthew Wang Shun
-              </a>
-              . Images and data copyright{" "}
-              <a
-                className="link"
-                href="https://lizardsmoothie.com"
-                rel="noreferrer"
-                target="_blank"
-              >
-                Lizard Smoothie Co., Ltd.
-              </a>{" "}
-              Used under{" "}
-              <a
-                className="link"
-                href="https://github.com/mwskwong/shape-of-dreams-tool/blob/main/LICENSE"
-                rel="noreferrer"
-                target="_blank"
-              >
-                license
-              </a>
-              .
-            </p>
-          </aside>
+        <footer className="footer bg-base-200 text-base-content">
+          <div className="container mx-auto flex flex-col items-center justify-between gap-4 p-4 text-center md:flex-row">
+            <aside>
+              <p>
+                Copyright © {new Date().getFullYear()}{" "}
+                <a
+                  className="link"
+                  href="https://mwskwong.com"
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  KWONG, Matthew Wang Shun
+                </a>
+                . Images and data copyright{" "}
+                <a
+                  className="link"
+                  href="https://lizardsmoothie.com"
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  Lizard Smoothie Co., Ltd.
+                </a>{" "}
+                Used under{" "}
+                <a
+                  className="link"
+                  href="https://github.com/mwskwong/shape-of-dreams-tool/blob/main/LICENSE"
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  license
+                </a>
+                .
+              </p>
+            </aside>
+            <nav className="flex">
+              {footerLinks.map(({ href, Icon }) => (
+                <a
+                  key={href}
+                  className="btn btn-square btn-ghost"
+                  href={href}
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  <Icon size="1em" />
+                </a>
+              ))}
+            </nav>
+          </div>
         </footer>
       </div>
 
@@ -99,15 +123,19 @@ export const PageShell = ({
         />
 
         <div className="bg-base-200 rounded-box flex min-h-full w-64 flex-col items-end gap-4 p-4">
-          <label aria-label="close sidebar" htmlFor={drawerToggleId}>
-            <X size="1.2em" />
+          <label
+            aria-label="close sidebar"
+            className="btn btn-square btn-ghost"
+            htmlFor={drawerToggleId}
+          >
+            <X size="1.2rem" />
           </label>
 
           <ul className="menu menu-lg w-full gap-4">
             {nav.map(({ label, href, Icon }) => (
-              <li key={label}>
+              <li key={href}>
                 <DrawerLink drawerToggleId={drawerToggleId} href={href}>
-                  <Icon size="1.2rem" />
+                  <Icon size="1.2em" />
                   {label}
                 </DrawerLink>
               </li>
