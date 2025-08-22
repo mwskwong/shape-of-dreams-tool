@@ -37,7 +37,7 @@ export const PageShell = ({
       <input className="drawer-toggle" id={drawerToggleId} type="checkbox" />
 
       <div className="drawer-content">
-        <nav className="navbar bg-base-100/40 sticky top-0 z-1 container mx-auto w-full px-4 backdrop-blur-sm">
+        <nav className="navbar bg-base-100/40 sticky top-0 z-10 container mx-auto w-full px-4 backdrop-blur-sm">
           <Link href="/">
             <Image alt="icon" src={icon} width={40} />
           </Link>
