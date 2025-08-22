@@ -19,10 +19,11 @@ const playfairDisplay = Playfair_Display({
 });
 
 const RootLayout = ({ children }: LayoutProps<"/">) => (
-  <html lang="en">
-    <body
-      className={`${raleway.variable} ${playfairDisplay.variable} antialiased`}
-    >
+  <html
+    className={`${raleway.variable} ${playfairDisplay.variable} antialiased`}
+    lang="en"
+  >
+    <body>
       <PageShell>
         <NuqsAdapter>{children}</NuqsAdapter>
       </PageShell>
