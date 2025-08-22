@@ -58,7 +58,7 @@ export const PageShell = ({
             className="btn btn-square btn-ghost ml-auto md:hidden"
             htmlFor={drawerToggleId}
           >
-            <Menu size="1.2rem" />
+            <Menu size="1.2em" />
           </label>
         </nav>
 
@@ -128,7 +128,7 @@ export const PageShell = ({
             className="btn btn-square btn-ghost"
             htmlFor={drawerToggleId}
           >
-            <X size="1.2rem" />
+            <X size="1.2em" />
           </label>
 
           <ul className="menu menu-lg w-full gap-4">
