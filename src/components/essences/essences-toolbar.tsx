@@ -50,7 +50,7 @@ export const EssencesToolbar = ({
       </label>
 
       <div className="dropdown">
-        <div
+        <summary
           className="input w-full cursor-pointer select-none sm:w-auto"
           role="button"
           tabIndex={0}
@@ -66,7 +66,7 @@ export const EssencesToolbar = ({
           ) : (
             <ChevronDown className="nth-1:ml-auto" size="1.2em" />
           )}
-        </div>
+        </summary>
         <div
           className="dropdown-content bg-base-200 rounded-box z-1 mt-2 w-full p-2 shadow-sm md:w-48"
           // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex -- needed by daisyUI to prevent focus loss
