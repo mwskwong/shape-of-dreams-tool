@@ -20,7 +20,7 @@ const playfairDisplay = Playfair_Display({
 
 const RootLayout = ({ children }: LayoutProps<"/">) => (
   <html
-    className={`${raleway.variable} ${playfairDisplay.variable} antialiased`}
+    className={`${raleway.variable} ${playfairDisplay.variable} text-pretty antialiased`}
     lang="en"
   >
     <body>
