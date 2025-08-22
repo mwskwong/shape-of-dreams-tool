@@ -107,7 +107,7 @@ export const PageShell = ({
                   rel="noreferrer"
                   target="_blank"
                 >
-                  <Icon size="1em" />
+                  <Icon size="1.1em" />
                 </a>
               ))}
             </nav>
