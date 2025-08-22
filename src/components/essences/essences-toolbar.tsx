@@ -27,7 +27,7 @@ export const EssencesToolbar = ({
 
   return (
     <div
-      className={cn("flex flex-col gap-4 md:flex-row", className)}
+      className={cn("flex flex-col gap-4 sm:flex-row", className)}
       {...props}
     >
       <label className="input w-full sm:w-75">
