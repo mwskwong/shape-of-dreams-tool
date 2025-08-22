@@ -111,6 +111,9 @@ export const EssencesToolbar = ({
       </div>
       <button
         className="btn btn-soft"
+        disabled={
+          queryStates.search === "" && queryStates.rarities.length === 0
+        }
         onClick={() =>
           // eslint-disable-next-line unicorn/no-null
           setQueryStates(null, { startTransition: resetStartTransition })
