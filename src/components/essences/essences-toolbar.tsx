@@ -68,7 +68,7 @@ export const EssencesToolbar = ({
           )}
         </div>
         <div
-          className="dropdown-content bg-base-200 rounded-box z-10 w-full p-2 shadow-sm md:w-48"
+          className="dropdown-content bg-base-200 rounded-box z-1 mt-2 w-full p-2 shadow-sm md:w-48"
           // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex -- needed by daisyUI to prevent focus loss
           tabIndex={0}
         >
