@@ -116,12 +116,12 @@ export const EssencesToolbar = ({
           setQueryStates(null, { startTransition: resetStartTransition })
         }
       >
-        Reset
         {resetPending ? (
           <span className="loading loading-xs" />
         ) : (
           <RotateCcw size="1.2em" />
         )}
+        Reset
       </button>
     </div>
   );
