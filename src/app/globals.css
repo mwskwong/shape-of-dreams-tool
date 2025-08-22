@@ -9,3 +9,7 @@
 @plugin "daisyui" {
   themes: night --default;
 }
+
+@utility badge {
+  @apply lining-nums;
+}
