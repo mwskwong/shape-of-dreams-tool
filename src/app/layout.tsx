@@ -25,7 +25,7 @@ const RootLayout = ({ children }: LayoutProps<"/">) => (
   >
     <body>
       <PageShell>
-        <NuqsAdapter>{children}</NuqsAdapter>
+        <NuqsAdapter defaultOptions={{ shallow: true }}>{children}</NuqsAdapter>
       </PageShell>
       <Analytics
         mode={

@@ -1,10 +1,11 @@
 "use client";
 
 import { Check, ChevronDown, RotateCcw, Search } from "lucide-react";
-import { useQueryStates } from "nuqs";
+import { debounce, useQueryStates } from "nuqs";
 import { type ComponentProps, useTransition } from "react";
 
-import { cn, itemSearchParams } from "@/lib/utils";
+import { essencesSearchParams } from "@/lib/search-params";
+import { cn } from "@/lib/utils";
 
 export interface EssencesToolbarProps
   extends Omit<ComponentProps<"div">, "children"> {
@@ -16,17 +17,14 @@ export const EssencesToolbar = ({
   className,
   ...props
 }: EssencesToolbarProps) => {
-  const [queryStates, setQueryStates] = useQueryStates({
-    search: itemSearchParams.search,
-    rarities: itemSearchParams.rarities,
-  });
+  const [queryStates, setQueryStates] = useQueryStates(essencesSearchParams);
 
   const [searchPending, searchStartTransition] = useTransition();
   const [raritiesPending, raritiesStartTransition] = useTransition();
   const [resetPending, resetStartTransition] = useTransition();
 
   return (
-    <div
+    <header
       className={cn("flex flex-col gap-4 sm:flex-row", className)}
       {...props}
     >
@@ -42,9 +40,24 @@ export const EssencesToolbar = ({
                 ...prev,
                 search: e.currentTarget.value,
               }),
-              { startTransition: searchStartTransition },
+              {
+                startTransition: searchStartTransition,
+                limitUrlUpdates:
+                  e.currentTarget.value === "" ? undefined : debounce(500),
+              },
             )
           }
+          onKeyUp={(e) => {
+            if (e.key === "Enter") {
+              void setQueryStates(
+                (prev) => ({
+                  ...prev,
+                  search: e.currentTarget.value,
+                }),
+                { startTransition: searchStartTransition },
+              );
+            }
+          }}
         />
         {searchPending && <span className="loading loading-xs shrink-0" />}
       </label>
@@ -127,6 +140,6 @@ export const EssencesToolbar = ({
         )}
         Reset
       </button>
-    </div>
+    </header>
   );
 };
