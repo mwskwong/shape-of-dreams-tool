@@ -28,9 +28,10 @@ export const EssencesToolbar = ({
       className={cn("flex flex-col gap-4 sm:flex-row", className)}
       {...props}
     >
-      <label className="input w-full sm:w-75">
+      <label className="input w-full sm:w-72">
         <Search className="shrink-0" size="1.2em" />
         <input
+          aria-label="Search essences"
           placeholder="Search..."
           type="search"
           value={queryStates.search}
