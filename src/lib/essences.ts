@@ -53,7 +53,7 @@ import Gem_R_Spiral from "@/images/Gem_R_Spiral.png";
 import Gem_R_Wealth from "@/images/Gem_R_Wealth.png";
 import Gem_R_Wound from "@/images/Gem_R_Wound.png";
 
-import { compareRarities, getRarityColor } from "./utils";
+import { compareRarities } from "./utils";
 
 const essences = {
   Gem_C_Charcoal: {
@@ -2441,7 +2441,6 @@ export const getEssenceById = (id: string) => {
     const essence = essences[essenceId];
     return {
       id: essenceId,
-      rarityColor: getRarityColor(essence.rarity),
       ...essence,
     } as const;
   }

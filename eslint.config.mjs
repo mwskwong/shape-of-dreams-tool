@@ -144,7 +144,7 @@ const config = tseslint.config(
     },
   },
   {
-    files: ["**/*.*js"],
+    files: ["**/*.{js,cjs,mjs}"],
     extends: [tseslint.configs.disableTypeChecked],
   },
   includeIgnoreFile(fileURLToPath(new URL(".gitignore", import.meta.url))),

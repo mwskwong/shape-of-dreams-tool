@@ -2,27 +2,6 @@ import { type ClassValue, clsx } from "clsx";
 import Hashids from "hashids";
 import { twMerge } from "tailwind-merge";
 
-// TODO: type the returned color
-export const getRarityColor = (rarity: string) => {
-  switch (rarity) {
-    case "Common": {
-      return "gray";
-    }
-    case "Rare": {
-      return "sky";
-    }
-    case "Epic": {
-      return "purple";
-    }
-    case "Legendary": {
-      return "red";
-    }
-    default: {
-      return "amber";
-    }
-  }
-};
-
 const rarityOrders = [
   "Common",
   "Rare",

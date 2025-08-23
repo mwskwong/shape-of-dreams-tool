@@ -125,7 +125,7 @@ export const PageShell = ({
         <div className="card min-h-full w-72 items-end gap-4 shadow-2xl">
           <label
             aria-label="close sidebar"
-            className="btn btn-square btn-ghost mt-2 mr-2"
+            className="btn btn-square btn-ghost mt-4 mr-4"
             htmlFor={drawerToggleId}
           >
             <X size="1.2em" />

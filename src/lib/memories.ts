@@ -69,7 +69,7 @@ import St_R_Smite from "@/images/St_R_Smite.png";
 import St_R_Tranquility from "@/images/St_R_Tranquility.png";
 import St_R_UnbreakableDetermination from "@/images/St_R_UnbreakableDetermination.png";
 
-import { compareRarities, getRarityColor } from "./utils";
+import { compareRarities } from "./utils";
 
 const memories = {
   St_D_DoubleTap: {
@@ -4193,7 +4193,6 @@ export const getMemoryById = (id: string) => {
     const memory = memories[memoryId];
     return {
       id: memoryId,
-      rarityColor: getRarityColor(memory.rarity),
       mutuallyExclusive: getMutuallyExclusiveMemories(memory),
       ...memory,
     } as const;
