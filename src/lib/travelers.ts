@@ -35,8 +35,6 @@ import texMovement from "@/images/texMovement.png";
 
 import { sprites } from "./sprites";
 
-import iconStyles from "@/styles/icons.module.css";
-
 const getTravelerClassIcon = (travelerClass: string) => {
   if (travelerClass.toLowerCase().includes("attacker")) return iconAttacker;
   if (travelerClass.toLowerCase().includes("mage")) return iconSpellCaster;
@@ -104,7 +102,7 @@ const travelers = {
       {
         name: "Incendiary Rounds",
         description:
-          "Increases the number of shots fire by<color=yellow>Incendiary Rounds</color> by 1.",
+          "Increases the number of shots fire by <color=yellow>Incendiary Rounds</color> by 1.",
         image: Star_Lacerta_IncendiaryRounds,
       },
       {
@@ -417,7 +415,6 @@ export const generateTravelerStats = (
           image: texCrit,
           value: traveler.criticalStrikeChance,
           statGrowth: traveler.statsGrowthPerLv.criticalStrikeChance,
-          iconClassName: iconStyles.critIcon,
         },
       ]),
   {
@@ -426,6 +423,5 @@ export const generateTravelerStats = (
     image: texMovement,
     value: traveler.movementSpeed,
     statGrowth: traveler.statsGrowthPerLv.movementSpeed,
-    iconClassName: iconStyles.movementSpeedIcon,
   },
 ];
