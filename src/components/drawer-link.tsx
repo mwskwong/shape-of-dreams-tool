@@ -17,7 +17,7 @@ export const DrawerLink = <T,>({
 }: DrawerLinkProps<T>) => (
   <Link
     onClick={(event) => {
-      const toggle = document.querySelector(`#${drawerToggleId}`);
+      const toggle = document.querySelector(`#${CSS.escape(drawerToggleId)}`);
       if (toggle instanceof HTMLInputElement) {
         toggle.checked = !toggle.checked;
       }
