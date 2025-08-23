@@ -37,7 +37,7 @@ export const PageShell = ({
       <input className="drawer-toggle" id={drawerToggleId} type="checkbox" />
 
       <div className="drawer-content">
-        <nav className="navbar bg-base-100/40 sticky top-0 z-1 container mx-auto w-full px-4 backdrop-blur-sm">
+        <nav className="navbar bg-base-100/40 sticky top-0 z-1 container backdrop-blur-sm">
           <Link href="/">
             <Image alt="icon" src={icon} width={40} />
           </Link>
@@ -62,10 +62,10 @@ export const PageShell = ({
           </label>
         </nav>
 
-        <main className="container mx-auto px-4">{children}</main>
+        <main className="container">{children}</main>
 
         <footer className="footer bg-base-200 text-base-content">
-          <div className="container mx-auto flex flex-col items-center justify-between gap-4 p-4 text-center lg:flex-row">
+          <div className="container flex flex-col items-center justify-between gap-4 py-4 text-center lg:flex-row">
             <aside>
               <p>
                 Copyright © {new Date().getFullYear()}{" "}
@@ -122,7 +122,7 @@ export const PageShell = ({
           htmlFor={drawerToggleId}
         />
 
-        <div className="bg-base-200 rounded-box flex min-h-full w-64 flex-col items-end gap-4 p-4 shadow-sm">
+        <div className="card min-h-full w-72 items-end gap-4 shadow-2xl">
           <label
             aria-label="close sidebar"
             className="btn btn-square btn-ghost"

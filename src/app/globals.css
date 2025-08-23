@@ -8,8 +8,17 @@
 
 @plugin "daisyui" {
   themes: night --default;
+  exclude: rootscrollgutter;
 }
 
 @utility badge {
   @apply lining-nums;
+}
+
+@utility card {
+  @apply bg-base-200 text-base-content border border-white/5 shadow-sm outline-1 outline-black/5;
+}
+
+@utility container {
+  @apply mx-auto px-4;
 }

@@ -55,59 +55,60 @@ export const EssencesToolbar = ({
           role="button"
           tabIndex={0}
         >
-          Rarity
+          <span className="flex-1">Rarity</span>
           {queryStates.rarities.length > 0 && (
-            <div className="badge badge-sm badge-primary nth-1:ml-auto">
+            <div className="badge badge-sm badge-primary">
               {queryStates.rarities.length}
             </div>
           )}
           {raritiesPending ? (
-            <span className="loading loading-xs nth-1:ml-auto" />
+            <span className="loading loading-xs" />
           ) : (
-            <ChevronDown className="nth-1:ml-auto" size="1.2em" />
+            <ChevronDown size="1.2em" />
           )}
         </summary>
-        <div
-          className="dropdown-content bg-base-200 rounded-box z-1 mt-2 flex w-full flex-col shadow-sm md:w-48"
+        <ul
+          className="menu dropdown-content card z-1 mt-2 w-full shadow-2xl sm:min-w-48"
           // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex -- needed by daisyUI to prevent focus loss
           tabIndex={0}
         >
-          <ul className="menu w-full">
-            {rarities.map((rarity) => (
-              <li key={rarity}>
-                <button
-                  onClick={() =>
-                    setQueryStates(
-                      (prev) => ({
-                        ...prev,
-                        rarities: prev.rarities.includes(rarity)
-                          ? prev.rarities.filter((r) => r !== rarity)
-                          : [...prev.rarities, rarity],
-                      }),
-                      { startTransition: raritiesStartTransition },
-                    )
-                  }
-                >
-                  {rarity}
-                  {queryStates.rarities.includes(rarity) && (
-                    <Check className="ml-auto" size="1.2em" />
-                  )}
-                </button>
-              </li>
-            ))}
-          </ul>
-          <button
-            className="btn btn-ghost mx-2 mb-2"
-            disabled={queryStates.rarities.length === 0}
-            onClick={() =>
-              setQueryStates((prev) => ({ ...prev, rarities: [] }), {
-                startTransition: raritiesStartTransition,
-              })
-            }
-          >
-            Reset
-          </button>
-        </div>
+          {rarities.map((rarity) => (
+            <li key={rarity}>
+              <button
+                onClick={() =>
+                  setQueryStates(
+                    (prev) => ({
+                      ...prev,
+                      rarities: prev.rarities.includes(rarity)
+                        ? prev.rarities.filter((r) => r !== rarity)
+                        : [...prev.rarities, rarity],
+                    }),
+                    { startTransition: raritiesStartTransition },
+                  )
+                }
+              >
+                {rarity}
+                {queryStates.rarities.includes(rarity) && (
+                  <Check className="ml-auto" size="1.2em" />
+                )}
+              </button>
+            </li>
+          ))}
+          <li />
+          <li>
+            <button
+              className="btn btn-ghost"
+              disabled={queryStates.rarities.length === 0}
+              onClick={() =>
+                setQueryStates((prev) => ({ ...prev, rarities: [] }), {
+                  startTransition: raritiesStartTransition,
+                })
+              }
+            >
+              Reset
+            </button>
+          </li>
+        </ul>
       </div>
       <button
         className="btn btn-soft"
