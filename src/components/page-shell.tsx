@@ -122,7 +122,7 @@ export const PageShell = ({
           htmlFor={drawerToggleId}
         />
 
-        <div className="bg-base-200 rounded-box flex min-h-full w-64 flex-col items-end gap-4 p-4">
+        <div className="bg-base-200 rounded-box flex min-h-full w-64 flex-col items-end gap-4 p-4 shadow-sm">
           <label
             aria-label="close sidebar"
             className="btn btn-square btn-ghost"

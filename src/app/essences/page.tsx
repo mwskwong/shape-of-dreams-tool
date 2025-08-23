@@ -1,18 +1,10 @@
-import { Suspense } from "react";
+import { loadItemSearchParams } from "@/lib/utils";
 
-import { EssencesToolbar } from "@/components/essences/essences-toolbar";
-import { getEssenceRarities } from "@/lib/essences";
+const EssencesPage = async ({ searchParams }: PageProps<"/essences">) => {
+  const { search, rarities } = await loadItemSearchParams(searchParams);
+  console.log({ search, rarities });
 
-const essenceRarities = getEssenceRarities();
-
-const EssencesPage = () => {
-  return (
-    <div>
-      <Suspense>
-        <EssencesToolbar rarities={essenceRarities} />
-      </Suspense>
-    </div>
-  );
+  return <div>page</div>;
 };
 
 export default EssencesPage;
