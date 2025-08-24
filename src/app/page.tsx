@@ -8,7 +8,7 @@ import { siteName, siteUrl } from "@/lib/site-config";
 
 const Home = () => (
   <>
-    <div className="hero min-h-[calc(100svh-64px)]">
+    <div className="hero -mt-16 min-h-svh">
       <div className="hero-content prose md:prose-lg prose-headings:mb-0 text-center">
         <div className="flex flex-col items-center">
           <Image
