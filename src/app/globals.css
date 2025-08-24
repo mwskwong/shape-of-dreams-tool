@@ -3,7 +3,7 @@
 
 @theme inline {
   --font-sans: var(--font-raleway);
-  --font-serif: var(--font-playfair-display);
+  --font-serif: var(--font-spectral);
 }
 
 @plugin "daisyui" {
