@@ -11,12 +11,21 @@
   exclude: rootscrollgutter;
 }
 
+:root,
+[data-theme] {
+  --root-bg: var(--color-base-200);
+}
+
 @utility badge {
   @apply lining-nums;
 }
 
 @utility card {
-  @apply bg-base-200 text-base-content border border-white/5 shadow-sm outline-1 outline-black/5;
+  @apply bg-base-100 text-base-content;
+}
+
+@utility card-border {
+  @apply border-base-300;
 }
 
 @utility container {

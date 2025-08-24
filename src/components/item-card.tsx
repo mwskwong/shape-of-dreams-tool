@@ -19,7 +19,7 @@ type Item = SetOptional<
 
 type RootProps = ComponentProps<"div">;
 const Root = ({ className, children, ...props }: RootProps) => (
-  <div className={cn("card", className)} {...props}>
+  <div className={cn("card card-border", className)} {...props}>
     <div className="card-body">{children}</div>
   </div>
 );

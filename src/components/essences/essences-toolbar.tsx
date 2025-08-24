@@ -82,7 +82,7 @@ export const EssencesToolbar = ({
           )}
         </summary>
         <ul
-          className="menu dropdown-content card z-1 mt-2 w-full shadow-2xl sm:min-w-48"
+          className="menu dropdown-content card card-border z-1 mt-2 w-full shadow-2xl sm:min-w-48"
           // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex -- needed by daisyUI to prevent focus loss
           tabIndex={0}
         >
