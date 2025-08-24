@@ -37,7 +37,7 @@ export const PageShell = ({
       <input className="drawer-toggle" id={drawerToggleId} type="checkbox" />
 
       <div className="drawer-content">
-        <nav className="navbar bg-base-200/40 sticky top-0 z-1 container backdrop-blur-sm">
+        <nav className="navbar bg-base-200/40 sticky top-0 z-1000 container backdrop-blur-sm">
           <Link href="/">
             <Image alt="icon" src={icon} width={40} />
           </Link>
@@ -65,7 +65,7 @@ export const PageShell = ({
         {/* need overflow hidden here because tooltips may sometimes overflow the content in smaller screen */}
         <main className="container overflow-hidden">{children}</main>
 
-        <footer className="footer">
+        <footer className="footer bg-base-300 text-base-content">
           <div className="container flex flex-col items-center justify-between gap-4 py-4 text-center lg:flex-row">
             <aside>
               <p>

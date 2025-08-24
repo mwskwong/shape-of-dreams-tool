@@ -4,16 +4,14 @@ import { Check, ChevronDown, RotateCcw, Search } from "lucide-react";
 import { debounce, useQueryStates } from "nuqs";
 import { type ComponentProps, useTransition } from "react";
 
+import { getEssenceRarities } from "@/lib/essences";
 import { essencesSearchParams } from "@/lib/search-params";
 import { cn } from "@/lib/utils";
 
-export interface EssencesToolbarProps
-  extends Omit<ComponentProps<"div">, "children"> {
-  rarities?: string[];
-}
+const rarities = getEssenceRarities();
 
+export type EssencesToolbarProps = Omit<ComponentProps<"div">, "children">;
 export const EssencesToolbar = ({
-  rarities = [],
   className,
   ...props
 }: EssencesToolbarProps) => {
@@ -82,7 +80,7 @@ export const EssencesToolbar = ({
           )}
         </summary>
         <ul
-          className="menu dropdown-content card card-border z-1 mt-2 w-full shadow-2xl sm:min-w-48"
+          className="menu dropdown-content card card-border mt-2 w-full shadow-2xl sm:min-w-48"
           // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex -- needed by daisyUI to prevent focus loss
           tabIndex={0}
         >

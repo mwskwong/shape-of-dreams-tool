@@ -6,9 +6,13 @@ import {
   parseAsStringLiteral,
 } from "nuqs/server";
 
+import { getEssenceRarities } from "./essences";
+
 export const essencesSearchParams = {
   search: parseAsString.withDefault(""),
-  rarities: parseAsArrayOf(parseAsString).withDefault([]),
+  rarities: parseAsArrayOf(
+    parseAsStringLiteral(getEssenceRarities()),
+  ).withDefault([]),
 };
 
 export const loadEssencesSearchParams = createLoader(essencesSearchParams);

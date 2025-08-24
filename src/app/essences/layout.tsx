@@ -2,15 +2,12 @@ import { Suspense } from "react";
 import { type BreadcrumbList, type WithContext } from "schema-dts";
 
 import { EssencesToolbar } from "@/components/essences/essences-toolbar";
-import { getEssenceRarities } from "@/lib/essences";
-
-const essenceRarities = getEssenceRarities();
 
 const EssencesLayout = ({ children }: LayoutProps<"/essences">) => (
   <>
-    <div className="flex flex-col gap-4 pb-4">
+    <div className="flex flex-col gap-4 py-4">
       <Suspense>
-        <EssencesToolbar rarities={essenceRarities} />
+        <EssencesToolbar />
       </Suspense>
       {children}
     </div>

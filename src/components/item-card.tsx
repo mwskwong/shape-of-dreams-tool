@@ -59,7 +59,7 @@ export const ItemCardHeader = ({
   const { itemType } = use(ItemCardContext);
 
   return (
-    <header className="flex gap-2">
+    <header className="flex items-start gap-2">
       <Image
         alt=""
         className={cn("avatar rounded-sm", { "p-1": itemType === "essence" })}
