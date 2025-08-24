@@ -1,3 +1,5 @@
+"use client";
+
 import parse, {
   type DOMNode,
   Element,
@@ -5,7 +7,7 @@ import parse, {
   domToReact,
 } from "html-react-parser";
 import Image from "next/image";
-import { type ComponentProps, Fragment } from "react";
+import { type ComponentProps, Fragment, createContext, use } from "react";
 import { type SetOptional } from "type-fest";
 
 import { type Essence } from "@/lib/essences";
@@ -24,55 +26,65 @@ type Item = SetOptional<
   Exclude<keyof Memory, keyof Essence>
 >;
 
-interface RootProps extends ComponentProps<"article"> {
+const ItemCardContext = createContext<{ itemType?: "memory" | "essence" }>({});
+
+export interface ItemCardRootProps extends ComponentProps<"article"> {
   itemType?: "memory" | "essence";
 }
-const Root = ({
+
+export const ItemCardRoot = ({
   itemType = "memory",
   className,
   children,
   ...props
-}: RootProps) => (
-  <article
-    className={cn("card card-border group", className)}
-    data-item-type={itemType}
-    {...props}
-  >
-    <div className="card-body">{children}</div>
-  </article>
+}: ItemCardRootProps) => (
+  <ItemCardContext value={{ itemType }}>
+    <article className={cn("card card-border", className)} {...props}>
+      <div className="card-body">{children}</div>
+    </article>
+  </ItemCardContext>
 );
 
-type HeaderProps = Omit<ComponentProps<"header">, "children"> &
+export type ItemCardHeaderProps = Omit<ComponentProps<"header">, "children"> &
   Pick<Item, "name" | "rarity" | "traveler" | "image"> & {
     itemType?: "essence" | "memory";
   };
 
-const Header = ({ name, image, rarity, traveler }: HeaderProps) => (
-  <header className="flex gap-2">
-    <Image
-      alt=""
-      className={"avatar rounded-sm group-data-[item-type=essence]:p-1"}
-      src={image}
-      width={48}
-    />
-    <div>
-      <h2 className="card-title">{name}</h2>
-      <p
-        className={cn({
-          "text-zinc-400": rarity === "Common",
-          "text-blue-400": rarity === "Rare",
-          "text-purple-400": rarity === "Epic",
-          "text-red-400": rarity === "Legendary",
-          "text-amber-400": rarity === "Traveler",
-        })}
-      >
-        {rarity} {traveler ? ` · ${traveler}` : undefined}
-      </p>
-    </div>
-  </header>
-);
+export const ItemCardHeader = ({
+  name,
+  image,
+  rarity,
+  traveler,
+}: ItemCardHeaderProps) => {
+  const { itemType } = use(ItemCardContext);
 
-type BodyProps = ComponentProps<"div"> &
+  return (
+    <header className="flex gap-2">
+      <Image
+        alt=""
+        className={cn("avatar rounded-sm", { "p-1": itemType === "essence" })}
+        src={image}
+        width={48}
+      />
+      <div>
+        <h2 className="card-title">{name}</h2>
+        <p
+          className={cn({
+            "text-zinc-400": rarity === "Common",
+            "text-blue-400": rarity === "Rare",
+            "text-purple-400": rarity === "Epic",
+            "text-red-400": rarity === "Legendary",
+            "text-amber-400": rarity === "Traveler",
+          })}
+        >
+          {rarity} {traveler ? ` · ${traveler}` : undefined}
+        </p>
+      </div>
+    </header>
+  );
+};
+
+export type ItemCardBodyProps = ComponentProps<"div"> &
   SetOptional<
     Pick<
       Item,
@@ -85,9 +97,9 @@ type BodyProps = ComponentProps<"div"> &
       | "rawDescVars"
     >,
     "achievementName" | "achievementDescription"
-  > & { leveling?: "level" | "quality" };
+  >;
 
-const Body = ({
+export const ItemCardBody = ({
   cooldownTime,
   maxCharges,
   type,
@@ -95,11 +107,12 @@ const Body = ({
   achievementDescription,
   mutuallyExclusive = [],
   rawDescVars,
-  leveling = "level",
   children,
   className,
   ...props
-}: BodyProps) => {
+}: ItemCardBodyProps) => {
+  const { itemType } = use(ItemCardContext);
+
   const getScaling = (varIndex?: number) => {
     const rawDescVar =
       typeof varIndex === "number" ? rawDescVars[varIndex] : undefined;
@@ -120,10 +133,10 @@ const Body = ({
     ) {
       value *= 100;
     }
-    if (leveling === "quality") value *= 50;
+    if (itemType === "essence") value *= 50;
 
     const unit = rawDescVar?.rendered.includes("%") ? "%" : "";
-    const perLeveling = leveling === "level" ? "lv" : "50% qlty";
+    const perLeveling = itemType === "memory" ? "lv" : "50% qlty";
 
     return rawDescVar?.scalingType === "basic"
       ? `+${+value.toFixed(2)}${unit} / ${perLeveling}`
@@ -255,8 +268,12 @@ const Body = ({
   );
 };
 
-type FooterProps = ComponentProps<"footer"> & Pick<Item, "tags">;
-const Footer = ({ tags = [], className, ...props }: FooterProps) => (
+export type ItemCardFooterProps = ComponentProps<"footer"> & Pick<Item, "tags">;
+export const ItemCardFooter = ({
+  tags = [],
+  className,
+  ...props
+}: ItemCardFooterProps) => (
   <footer className={cn("flex gap-2")} {...props}>
     {tags.map((tag) => (
       <div key={tag} className="badge badge-sm badge-soft">
@@ -265,11 +282,3 @@ const Footer = ({ tags = [], className, ...props }: FooterProps) => (
     ))}
   </footer>
 );
-
-export const ItemCard = { Root, Header, Body, Footer };
-export interface ItemCard {
-  RootProps: RootProps;
-  HeaderProps: HeaderProps;
-  BodyProps: BodyProps;
-  FooterProps: FooterProps;
-}

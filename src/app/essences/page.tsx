@@ -1,4 +1,8 @@
-import { ItemCard } from "@/components/item-card";
+import {
+  ItemCardBody,
+  ItemCardHeader,
+  ItemCardRoot,
+} from "@/components/item-card";
 import { getEssences } from "@/lib/essences";
 import { loadEssencesSearchParams } from "@/lib/search-params";
 
@@ -21,17 +25,16 @@ const EssencesPage = async ({ searchParams }: PageProps<"/essences">) => {
           rawDescVars,
           rawDesc,
         }) => (
-          <ItemCard.Root key={id} itemType="essence">
-            <ItemCard.Header image={image} name={name} rarity={rarity} />
-            <ItemCard.Body
+          <ItemCardRoot key={id} itemType="essence">
+            <ItemCardHeader image={image} name={name} rarity={rarity} />
+            <ItemCardBody
               achievementDescription={achievementDescription}
               achievementName={achievementName}
-              leveling="quality" // TODO: can I some how receive the itemType prop without using context?
               rawDescVars={rawDescVars}
             >
               {rawDesc}
-            </ItemCard.Body>
-          </ItemCard.Root>
+            </ItemCardBody>
+          </ItemCardRoot>
         ),
       )}
     </div>
