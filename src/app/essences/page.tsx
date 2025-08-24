@@ -21,12 +21,12 @@ const EssencesPage = async ({ searchParams }: PageProps<"/essences">) => {
           rawDescVars,
           rawDesc,
         }) => (
-          <ItemCard.Root key={id}>
+          <ItemCard.Root key={id} itemType="essence">
             <ItemCard.Header image={image} name={name} rarity={rarity} />
             <ItemCard.Body
               achievementDescription={achievementDescription}
               achievementName={achievementName}
-              leveling="quality"
+              leveling="quality" // TODO: can I some how receive the itemType prop without using context?
               rawDescVars={rawDescVars}
             >
               {rawDesc}

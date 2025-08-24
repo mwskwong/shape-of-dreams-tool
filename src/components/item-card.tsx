@@ -24,19 +24,37 @@ type Item = SetOptional<
   Exclude<keyof Memory, keyof Essence>
 >;
 
-type RootProps = ComponentProps<"article">;
-const Root = ({ className, children, ...props }: RootProps) => (
-  <article className={cn("card card-border", className)} {...props}>
+interface RootProps extends ComponentProps<"article"> {
+  itemType?: "memory" | "essence";
+}
+const Root = ({
+  itemType = "memory",
+  className,
+  children,
+  ...props
+}: RootProps) => (
+  <article
+    className={cn("card card-border group", className)}
+    data-item-type={itemType}
+    {...props}
+  >
     <div className="card-body">{children}</div>
   </article>
 );
 
 type HeaderProps = Omit<ComponentProps<"header">, "children"> &
-  Pick<Item, "name" | "rarity" | "traveler" | "image">;
+  Pick<Item, "name" | "rarity" | "traveler" | "image"> & {
+    itemType?: "essence" | "memory";
+  };
 
 const Header = ({ name, image, rarity, traveler }: HeaderProps) => (
   <header className="flex gap-2">
-    <Image alt="" className="avatar rounded-sm" src={image} width={48} />
+    <Image
+      alt=""
+      className={"avatar rounded-sm group-data-[item-type=essence]:p-1"}
+      src={image}
+      width={48}
+    />
     <div>
       <h2 className="card-title">{name}</h2>
       <p
