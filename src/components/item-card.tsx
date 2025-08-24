@@ -153,12 +153,18 @@ const Body = ({
         }
 
         if (name === "em" && attribs["data-color"]) {
-          const color =
-            attribs["data-color"] === "yellow"
-              ? undefined
-              : attribs["data-color"];
           return (
-            <em className="font-serif text-yellow-300" style={{ color }}>
+            <em
+              className={cn("font-serif", {
+                "text-yellow-300": attribs["data-color"] === "yellow",
+              })}
+              style={{
+                color:
+                  attribs["data-color"] === "yellow"
+                    ? undefined
+                    : attribs["data-color"],
+              }}
+            >
               {domToReact(children as DOMNode[], options)}
             </em>
           );
@@ -231,7 +237,7 @@ type FooterProps = ComponentProps<"div"> & Pick<Item, "tags">;
 const Footer = ({ tags = [], className, ...props }: FooterProps) => (
   <div className={cn("flex gap-2")} {...props}>
     {tags.map((tag) => (
-      <div key={tag} className="badge badge-sm">
+      <div key={tag} className="badge badge-sm badge-soft">
         {tag}
       </div>
     ))}
