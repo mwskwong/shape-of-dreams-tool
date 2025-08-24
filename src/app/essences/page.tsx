@@ -1,44 +1,38 @@
 import { ItemCard } from "@/components/item-card";
-import { getMemoryById } from "@/lib/memories";
+import { getEssences } from "@/lib/essences";
 import { loadEssencesSearchParams } from "@/lib/search-params";
-import { getTravelerById } from "@/lib/travelers";
+
+const essences = getEssences();
 
 const EssencesPage = async ({ searchParams }: PageProps<"/essences">) => {
   const { search, rarities } = await loadEssencesSearchParams(searchParams);
   console.log({ search, rarities });
 
-  const iceShield = getMemoryById("St_C_IceBlock");
-  const staticDischarge = getMemoryById("St_R_StaticDischarge");
-  const umbralEdge = getMemoryById("St_E_UmbralEdge");
-  const shoutOfOblivion = getMemoryById("St_L_ShoutOfOblivion");
-  const parry = getMemoryById("St_R_Parry");
-
   return (
-    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-      {[iceShield, staticDischarge, umbralEdge, shoutOfOblivion, parry].map(
-        (memory) =>
-          memory && (
-            <ItemCard.Root key={memory.id}>
-              <ItemCard.Header
-                image={memory.image}
-                name={memory.name}
-                rarity={memory.rarity}
-                traveler={getTravelerById(memory.traveler)?.name}
-              />
-              <ItemCard.Body
-                achievementDescription={memory.achievementDescription}
-                achievementName={memory.achievementName}
-                cooldownTime={memory.cooldownTime}
-                maxCharges={memory.maxCharges}
-                mutuallyExclusive={memory.mutuallyExclusive}
-                rawDescVars={memory.rawDescVars}
-                type={memory.type}
-              >
-                {memory.rawDesc}
-              </ItemCard.Body>
-              <ItemCard.Footer tags={memory.tags} />
-            </ItemCard.Root>
-          ),
+    <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+      {essences.map(
+        ({
+          id,
+          name,
+          image,
+          rarity,
+          achievementName,
+          achievementDescription,
+          rawDescVars,
+          rawDesc,
+        }) => (
+          <ItemCard.Root key={id}>
+            <ItemCard.Header image={image} name={name} rarity={rarity} />
+            <ItemCard.Body
+              achievementDescription={achievementDescription}
+              achievementName={achievementName}
+              leveling="quality"
+              rawDescVars={rawDescVars}
+            >
+              {rawDesc}
+            </ItemCard.Body>
+          </ItemCard.Root>
+        ),
       )}
     </div>
   );
