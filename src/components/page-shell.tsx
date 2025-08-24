@@ -70,7 +70,7 @@ export const PageShell = ({
               <p>
                 Copyright © {new Date().getFullYear()}{" "}
                 <a
-                  className="link"
+                  className="link link-hover"
                   href="https://mwskwong.com"
                   rel="noreferrer"
                   target="_blank"
@@ -79,7 +79,7 @@ export const PageShell = ({
                 </a>
                 . Images and data copyright{" "}
                 <a
-                  className="link"
+                  className="link link-hover"
                   href="https://lizardsmoothie.com"
                   rel="noreferrer"
                   target="_blank"
@@ -88,7 +88,7 @@ export const PageShell = ({
                 </a>{" "}
                 Used under{" "}
                 <a
-                  className="link"
+                  className="link link-hover"
                   href="https://github.com/mwskwong/shape-of-dreams-tool/blob/main/LICENSE"
                   rel="noreferrer"
                   target="_blank"
