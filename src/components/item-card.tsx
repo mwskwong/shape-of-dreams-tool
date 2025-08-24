@@ -24,11 +24,11 @@ type Item = SetOptional<
   Exclude<keyof Memory, keyof Essence>
 >;
 
-type RootProps = ComponentProps<"div">;
+type RootProps = ComponentProps<"article">;
 const Root = ({ className, children, ...props }: RootProps) => (
-  <div className={cn("card card-border", className)} {...props}>
+  <article className={cn("card card-border", className)} {...props}>
     <div className="card-body">{children}</div>
-  </div>
+  </article>
 );
 
 type HeaderProps = Omit<ComponentProps<"header">, "children"> &
@@ -41,19 +41,17 @@ const rarityTextColors = {
   Legendary: "text-red-400",
 } as Record<string, string>;
 
-const Header = ({ name, image, rarity, traveler }: HeaderProps) => {
-  return (
-    <header className="flex gap-2">
-      <Image alt="" className="avatar rounded-sm" src={image} width={48} />
-      <div>
-        <h2 className="card-title">{name}</h2>
-        <p className={rarityTextColors[rarity] ?? "text-amber-400"}>
-          {rarity} {traveler ? ` · ${traveler}` : undefined}
-        </p>
-      </div>
-    </header>
-  );
-};
+const Header = ({ name, image, rarity, traveler }: HeaderProps) => (
+  <header className="flex gap-2">
+    <Image alt="" className="avatar rounded-sm" src={image} width={48} />
+    <div>
+      <h2 className="card-title">{name}</h2>
+      <p className={rarityTextColors[rarity] ?? "text-amber-400"}>
+        {rarity} {traveler ? ` · ${traveler}` : undefined}
+      </p>
+    </div>
+  </header>
+);
 
 type BodyProps = PropsWithChildren &
   SetOptional<
@@ -233,15 +231,15 @@ const Body = ({
   );
 };
 
-type FooterProps = ComponentProps<"div"> & Pick<Item, "tags">;
+type FooterProps = ComponentProps<"footer"> & Pick<Item, "tags">;
 const Footer = ({ tags = [], className, ...props }: FooterProps) => (
-  <div className={cn("flex gap-2")} {...props}>
+  <footer className={cn("flex gap-2")} {...props}>
     {tags.map((tag) => (
       <div key={tag} className="badge badge-sm badge-soft">
         {tag}
       </div>
     ))}
-  </div>
+  </footer>
 );
 
 export const ItemCard = { Root, Header, Body, Footer };
