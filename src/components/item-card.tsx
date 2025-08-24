@@ -34,19 +34,20 @@ const Root = ({ className, children, ...props }: RootProps) => (
 type HeaderProps = Omit<ComponentProps<"header">, "children"> &
   Pick<Item, "name" | "rarity" | "traveler" | "image">;
 
-const rarityTextColors = {
-  Common: "text-zinc-400",
-  Rare: "text-blue-400",
-  Epic: "text-purple-400",
-  Legendary: "text-red-400",
-} as Record<string, string>;
-
 const Header = ({ name, image, rarity, traveler }: HeaderProps) => (
   <header className="flex gap-2">
     <Image alt="" className="avatar rounded-sm" src={image} width={48} />
     <div>
       <h2 className="card-title">{name}</h2>
-      <p className={rarityTextColors[rarity] ?? "text-amber-400"}>
+      <p
+        className={cn({
+          "text-zinc-400": rarity === "Common",
+          "text-blue-400": rarity === "Rare",
+          "text-purple-400": rarity === "Epic",
+          "text-red-400": rarity === "Legendary",
+          "text-amber-400": rarity === "Traveler",
+        })}
+      >
         {rarity} {traveler ? ` · ${traveler}` : undefined}
       </p>
     </div>
