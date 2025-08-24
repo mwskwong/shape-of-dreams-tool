@@ -105,7 +105,7 @@ const Body = ({
     if (leveling === "quality") value *= 50;
 
     const unit = rawDescVar?.rendered.includes("%") ? "%" : "";
-    const perLeveling = leveling === "level" ? "lv" : "50% quality";
+    const perLeveling = leveling === "level" ? "lv" : "50% qlty";
 
     return rawDescVar?.scalingType === "basic"
       ? `+${+value.toFixed(2)}${unit} / ${perLeveling}`
