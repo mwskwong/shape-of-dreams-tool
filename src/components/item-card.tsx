@@ -5,7 +5,7 @@ import parse, {
   domToReact,
 } from "html-react-parser";
 import Image from "next/image";
-import { type ComponentProps, Fragment, type PropsWithChildren } from "react";
+import { type ComponentProps, Fragment } from "react";
 import { type SetOptional } from "type-fest";
 
 import { type Essence } from "@/lib/essences";
@@ -54,7 +54,7 @@ const Header = ({ name, image, rarity, traveler }: HeaderProps) => (
   </header>
 );
 
-type BodyProps = PropsWithChildren &
+type BodyProps = ComponentProps<"div"> &
   SetOptional<
     Pick<
       Item,
@@ -79,6 +79,8 @@ const Body = ({
   rawDescVars,
   leveling = "level",
   children,
+  className,
+  ...props
 }: BodyProps) => {
   const getScaling = (varIndex?: number) => {
     const rawDescVar =
@@ -175,7 +177,10 @@ const Body = ({
   } satisfies HTMLReactParserOptions;
 
   return (
-    <div className="flex grow flex-col gap-2 *:grow-0">
+    <div
+      className={cn("flex grow flex-col gap-[inherit] *:grow-0", className)}
+      {...props}
+    >
       {(cooldownTime !== undefined || maxCharges !== undefined || type) && (
         <p className="opacity-60">
           {cooldownTime !== undefined &&
@@ -244,3 +249,9 @@ const Footer = ({ tags = [], className, ...props }: FooterProps) => (
 );
 
 export const ItemCard = { Root, Header, Body, Footer };
+export interface ItemCard {
+  RootProps: RootProps;
+  HeaderProps: HeaderProps;
+  BodyProps: BodyProps;
+  FooterProps: FooterProps;
+}
