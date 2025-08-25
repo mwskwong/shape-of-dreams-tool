@@ -7,6 +7,8 @@ import {
 } from "nuqs/server";
 
 import { getEssenceRarities } from "./essences";
+import { getMemoryRarities, getMemoryTags, getMemoryTypes } from "./memories";
+import { getTravelerIds } from "./travelers";
 
 export const essencesSearchParams = {
   search: parseAsString.withDefault(""),
@@ -19,10 +21,14 @@ export const loadEssencesSearchParams = createLoader(essencesSearchParams);
 
 export const memoriesSearchParams = {
   search: parseAsString.withDefault(""),
-  rarities: parseAsArrayOf(parseAsString).withDefault([]),
-  types: parseAsArrayOf(parseAsString).withDefault([]),
-  travelers: parseAsArrayOf(parseAsString).withDefault([]),
-  tags: parseAsArrayOf(parseAsString).withDefault([]),
+  rarities: parseAsArrayOf(
+    parseAsStringLiteral(getMemoryRarities()),
+  ).withDefault([]),
+  types: parseAsArrayOf(parseAsStringLiteral(getMemoryTypes())).withDefault([]),
+  travelers: parseAsArrayOf(parseAsStringLiteral(getTravelerIds())).withDefault(
+    [],
+  ),
+  tags: parseAsArrayOf(parseAsStringLiteral(getMemoryTags())).withDefault([]),
 };
 
 export const loadMemoriesSearchParams = createLoader(memoriesSearchParams);
