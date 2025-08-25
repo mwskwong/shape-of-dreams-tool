@@ -62,8 +62,8 @@ export const PageShell = ({
           </label>
         </nav>
 
-        {/* need overflow hidden here because tooltips may sometimes overflow the content in smaller screen */}
-        <main className="container overflow-hidden">{children}</main>
+        {/* need overflow clip here because tooltips may sometimes overflow the content in smaller screen */}
+        <main className="container overflow-x-clip">{children}</main>
 
         <footer className="footer bg-base-300 text-base-content">
           <div className="container flex flex-col items-center justify-between gap-4 py-4 text-center lg:flex-row">
