@@ -1,5 +1,6 @@
 import {
   ItemCardBody,
+  ItemCardFooter,
   ItemCardHeader,
   ItemCardRoot,
 } from "@/components/item-card";
@@ -62,6 +63,7 @@ const MemoriesPage = async ({ searchParams }: PageProps<"/memories">) => {
             mutuallyExclusive,
             rawDescVars,
             rawDesc,
+            tags,
           }) => (
             <ItemCardRoot key={id}>
               <ItemCardHeader
@@ -81,6 +83,7 @@ const MemoriesPage = async ({ searchParams }: PageProps<"/memories">) => {
               >
                 {rawDesc}
               </ItemCardBody>
+              <ItemCardFooter tags={tags} />
             </ItemCardRoot>
           ),
         )}
