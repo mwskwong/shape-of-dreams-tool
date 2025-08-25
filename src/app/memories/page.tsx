@@ -1,4 +1,4 @@
-import { type ResolvingMetadata } from "next";
+import { type Metadata, type ResolvingMetadata } from "next";
 
 import {
   ItemCardBody,
@@ -109,7 +109,7 @@ export const generateMetadata = async (
       ...openGraph,
       url: "/memories",
     },
-  };
+  } as Metadata;
 };
 
 export default MemoriesPage;
