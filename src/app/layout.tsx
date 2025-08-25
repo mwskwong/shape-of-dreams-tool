@@ -46,7 +46,7 @@ export const metadata: Metadata = {
     default: "Shape of Dreams Tool",
   },
   description:
-    "Discover Shape of Dreams Tool, featuring detailed character profiles, skills and items descriptions, and a character builder for an immersive gaming experience.",
+    "A community-driven resource with travelers (characters), memories (skills), essences (gems), and a versatile character builder to enhance your gameplay.",
   authors: { name: "Matthew Kwong", url: "https://mwskwong.com" },
   metadataBase: new URL(siteUrl),
   openGraph: { type: "website", siteName, url: "/" },
