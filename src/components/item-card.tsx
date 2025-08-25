@@ -13,6 +13,7 @@ import { type SetOptional } from "type-fest";
 import { type Essence } from "@/lib/essences";
 import { type Memory } from "@/lib/memories";
 import { getSpriteById } from "@/lib/sprites";
+import { getTravelerById } from "@/lib/travelers";
 import { cn } from "@/lib/utils";
 
 type Item = SetOptional<
@@ -46,9 +47,7 @@ export const ItemCardRoot = ({
 );
 
 export type ItemCardHeaderProps = Omit<ComponentProps<"header">, "children"> &
-  Pick<Item, "name" | "rarity" | "traveler" | "image"> & {
-    itemType?: "essence" | "memory";
-  };
+  Pick<Item, "name" | "rarity" | "traveler" | "image">;
 
 export const ItemCardHeader = ({
   name,
@@ -77,7 +76,10 @@ export const ItemCardHeader = ({
             "text-amber-400": rarity === "Traveler",
           })}
         >
-          {rarity} {traveler ? ` · ${traveler}` : undefined}
+          {rarity}{" "}
+          {traveler
+            ? ` · ${getTravelerById(traveler)?.name ?? traveler}`
+            : undefined}
         </p>
       </div>
     </header>

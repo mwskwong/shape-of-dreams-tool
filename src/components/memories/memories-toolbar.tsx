@@ -10,7 +10,7 @@ import {
   getMemoryTypes,
 } from "@/lib/memories";
 import { memoriesSearchParams } from "@/lib/search-params";
-import { getTravelerIds } from "@/lib/travelers";
+import { getTravelerById, getTravelerIds } from "@/lib/travelers";
 import { cn } from "@/lib/utils";
 
 const rarities = getMemoryRarities();
@@ -109,7 +109,7 @@ export const MemoriesToolbar = ({
           startTransition: tagsStartTransition,
         }),
     },
-  ];
+  ] as const;
 
   return (
     <header
@@ -174,7 +174,9 @@ export const MemoriesToolbar = ({
                 <li key={option}>
                   {/* @ts-expect-error -- In TS, calling a function typed as a union of distinct function signatures requires an argument that is assignable to the intersection of all parameter types across those signatures  */}
                   <button onClick={() => onValueChange(option)}>
-                    {option}
+                    {label === "Traveler"
+                      ? getTravelerById(option)?.name
+                      : option}
                     {value.includes(option) && (
                       <Check className="ml-auto" size="1.2em" />
                     )}
