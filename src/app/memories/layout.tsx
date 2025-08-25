@@ -1,3 +1,4 @@
+import { type ResolvingMetadata } from "next";
 import { Suspense } from "react";
 import { type BreadcrumbList, type WithContext } from "schema-dts";
 
@@ -29,5 +30,20 @@ const MemoriesLayout = ({ children }: LayoutProps<"/memories">) => (
     />
   </>
 );
+
+export const generateMetadata = async (
+  _: PageProps<"/memories">,
+  parent: ResolvingMetadata,
+) => {
+  const { openGraph } = await parent;
+
+  return {
+    title: "Memories",
+    openGraph: {
+      ...openGraph,
+      url: "/memories",
+    },
+  };
+};
 
 export default MemoriesLayout;

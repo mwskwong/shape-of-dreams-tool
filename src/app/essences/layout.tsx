@@ -1,3 +1,4 @@
+import { type ResolvingMetadata } from "next";
 import { Suspense } from "react";
 import { type BreadcrumbList, type WithContext } from "schema-dts";
 
@@ -29,5 +30,20 @@ const EssencesLayout = ({ children }: LayoutProps<"/essences">) => (
     />
   </>
 );
+
+export const generateMetadata = async (
+  _: PageProps<"/essences">,
+  parent: ResolvingMetadata,
+) => {
+  const { openGraph } = await parent;
+
+  return {
+    title: "Essences",
+    openGraph: {
+      ...openGraph,
+      url: "/essences",
+    },
+  };
+};
 
 export default EssencesLayout;
