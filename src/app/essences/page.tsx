@@ -1,3 +1,5 @@
+import { type ResolvingMetadata } from "next";
+
 import {
   ItemCardBody,
   ItemCardHeader,
@@ -64,6 +66,21 @@ const EssencesPage = async ({ searchParams }: PageProps<"/essences">) => {
         )}
     </div>
   );
+};
+
+export const generateMetadata = async (
+  _: PageProps<"/essences">,
+  parent: ResolvingMetadata,
+) => {
+  const { openGraph } = await parent;
+
+  return {
+    title: "Essences",
+    openGraph: {
+      ...openGraph,
+      url: "/essences",
+    },
+  };
 };
 
 export default EssencesPage;

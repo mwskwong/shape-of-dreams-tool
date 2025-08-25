@@ -1,3 +1,5 @@
+import { type ResolvingMetadata } from "next";
+
 import {
   ItemCardBody,
   ItemCardFooter,
@@ -93,6 +95,21 @@ const MemoriesPage = async ({ searchParams }: PageProps<"/memories">) => {
         )}
     </div>
   );
+};
+
+export const generateMetadata = async (
+  _: PageProps<"/memories">,
+  parent: ResolvingMetadata,
+) => {
+  const { openGraph } = await parent;
+
+  return {
+    title: "Memories",
+    openGraph: {
+      ...openGraph,
+      url: "/memories",
+    },
+  };
 };
 
 export default MemoriesPage;
