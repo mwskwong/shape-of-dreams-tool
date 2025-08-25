@@ -23,10 +23,10 @@ export const EssencesToolbar = ({
 
   return (
     <header
-      className={cn("flex flex-col gap-4 sm:flex-row", className)}
+      className={cn("flex flex-col gap-4 md:flex-row", className)}
       {...props}
     >
-      <label className="input w-full sm:w-72">
+      <label className="input w-full md:w-72">
         <Search className="shrink-0" size="1.2em" />
         <input
           aria-label="Search essences"
@@ -63,7 +63,7 @@ export const EssencesToolbar = ({
 
       <div className="dropdown">
         <summary
-          className="input w-full cursor-pointer select-none sm:w-auto"
+          className="input w-full cursor-pointer select-none md:w-auto"
           role="button"
           tabIndex={0}
         >
@@ -80,7 +80,7 @@ export const EssencesToolbar = ({
           )}
         </summary>
         <ul
-          className="menu dropdown-content card card-border mt-2 w-full shadow-2xl sm:min-w-48"
+          className="menu dropdown-content card card-border mt-2 w-full shadow-2xl md:min-w-48"
           // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex -- needed by daisyUI to prevent focus loss
           tabIndex={0}
         >

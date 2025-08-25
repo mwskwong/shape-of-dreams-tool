@@ -113,11 +113,14 @@ export const MemoriesToolbar = ({
           startTransition: tagsStartTransition,
         }),
     },
-  ] as const;
+  ];
 
   return (
-    <header className={cn("grid grid-cols-2 gap-4", className)} {...props}>
-      <label className="input col-span-2 w-full">
+    <header
+      className={cn("grid grid-cols-2 gap-4 md:flex", className)}
+      {...props}
+    >
+      <label className="input col-span-2 w-full md:w-72">
         <Search className="shrink-0" size="1.2em" />
         <input
           aria-label="Search memories"
@@ -173,7 +176,7 @@ export const MemoriesToolbar = ({
               )}
             </summary>
             <ul
-              className="menu dropdown-content card card-border mt-2 max-h-64 w-full overflow-x-auto shadow-2xl sm:min-w-48"
+              className="menu dropdown-content card card-border mt-2 w-full shadow-2xl md:min-w-48"
               // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex -- needed by daisyUI to prevent focus loss
               tabIndex={0}
             >
@@ -201,6 +204,7 @@ export const MemoriesToolbar = ({
           </div>
         ),
       )}
+
       <button
         className="btn btn-soft col-span-2"
         disabled={Object.values(queryStates).every((v) => v.length === 0)}
