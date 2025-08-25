@@ -31,3 +31,11 @@
 @utility container {
   @apply mx-auto px-4;
 }
+
+@utility navbar {
+  @apply z-[1000];
+}
+
+@utility drawer-side {
+  @apply z-[1100];
+}
