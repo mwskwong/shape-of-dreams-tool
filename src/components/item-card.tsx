@@ -68,12 +68,11 @@ export const ItemCardHeader = ({
       <div>
         <h2 className="card-title">{name}</h2>
         <p
-          className={cn({
+          className={cn("text-amber-400", {
             "text-zinc-400": rarity === "Common",
             "text-blue-400": rarity === "Rare",
             "text-purple-400": rarity === "Epic",
             "text-red-400": rarity === "Legendary",
-            "text-amber-400": rarity === "Traveler",
           })}
         >
           {rarity}{" "}

@@ -6,6 +6,7 @@ import {
 } from "@/components/item-card";
 import { getMemories } from "@/lib/memories";
 import { loadMemoriesSearchParams } from "@/lib/search-params";
+import { removeDiacritics } from "@/lib/utils";
 
 const memories = getMemories();
 
@@ -28,18 +29,21 @@ const MemoriesPage = async ({ searchParams }: PageProps<"/memories">) => {
             achievementName,
             achievementDescription,
           }) => {
-            const searchCleaned = search
-              .replaceAll(/\s+/g, " ")
-              .trim()
-              .toLowerCase();
+            const searchCleaned = removeDiacritics(
+              search.replaceAll(/\s+/g, " ").trim().toLowerCase(),
+            );
 
             return (
               (!searchCleaned ||
-                name.toLowerCase().includes(searchCleaned) ||
-                shortDescription.toLowerCase().includes(searchCleaned) ||
-                rawDesc.toLowerCase().includes(searchCleaned) ||
-                achievementName.toLowerCase().includes(searchCleaned) ||
-                achievementDescription.toLowerCase().includes(searchCleaned)) &&
+                [
+                  name,
+                  shortDescription,
+                  rawDesc,
+                  achievementName,
+                  achievementDescription,
+                ].some((text) =>
+                  removeDiacritics(text).toLowerCase().includes(searchCleaned),
+                )) &&
               (rarities.length === 0 || rarities.includes(rarity)) &&
               (types.length === 0 || types.includes(type)) &&
               (travelers.length === 0 || travelers.includes(traveler)) &&

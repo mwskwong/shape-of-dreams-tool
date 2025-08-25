@@ -5,6 +5,7 @@ import {
 } from "@/components/item-card";
 import { getEssences } from "@/lib/essences";
 import { loadEssencesSearchParams } from "@/lib/search-params";
+import { removeDiacritics } from "@/lib/utils";
 
 const essences = getEssences();
 
@@ -22,17 +23,18 @@ const EssencesPage = async ({ searchParams }: PageProps<"/essences">) => {
             achievementName,
             achievementDescription,
           }) => {
-            const searchCleaned = search
-              .replaceAll(/\s+/g, " ")
-              .trim()
-              .toLowerCase();
+            const searchCleaned = removeDiacritics(
+              search.replaceAll(/\s+/g, " ").trim().toLowerCase(),
+            );
 
             return (
               (!searchCleaned ||
-                name.toLowerCase().includes(searchCleaned) ||
-                rawDesc.toLowerCase().includes(searchCleaned) ||
-                achievementName.toLowerCase().includes(searchCleaned) ||
-                achievementDescription.toLowerCase().includes(searchCleaned)) &&
+                [name, rawDesc, achievementName, achievementDescription].some(
+                  (text) =>
+                    removeDiacritics(text)
+                      .toLowerCase()
+                      .includes(searchCleaned),
+                )) &&
               (rarities.length === 0 || rarities.includes(rarity))
             );
           },

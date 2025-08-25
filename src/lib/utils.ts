@@ -25,3 +25,6 @@ export const statsFormatter = new Intl.NumberFormat("en", {
 });
 
 export const cn = (...inputs: ClassValue[]) => twMerge(clsx(inputs));
+
+export const removeDiacritics = (str: string) =>
+  str.normalize("NFD").replaceAll(/[\u0300-\u036F]/g, "");

@@ -41,7 +41,7 @@ export const Select = <Option extends string>({
       )}
     </summary>
     <ul
-      className="menu dropdown-content card card-border mt-2 max-h-[calc(100svh-144px)] w-full flex-nowrap overflow-y-auto shadow-2xl md:min-w-48"
+      className="menu dropdown-content card card-border mt-2 max-h-[min(calc(100svh-144px),448px)] w-full flex-nowrap overflow-y-auto shadow-2xl md:min-w-48"
       // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex -- needed by daisyUI to prevent focus loss
       tabIndex={0}
     >
