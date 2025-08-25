@@ -1,12 +1,14 @@
 "use client";
 
-import { Check, ChevronDown, RotateCcw, Search } from "lucide-react";
+import { RotateCcw, Search } from "lucide-react";
 import { debounce, useQueryStates } from "nuqs";
 import { type ComponentProps, useTransition } from "react";
 
 import { getEssenceRarities } from "@/lib/essences";
 import { essencesSearchParams } from "@/lib/search-params";
 import { cn } from "@/lib/utils";
+
+import { Select } from "../select";
 
 const rarities = getEssenceRarities();
 
@@ -55,67 +57,25 @@ export const EssencesToolbar = ({
         {searchPending && <span className="loading loading-xs shrink-0" />}
       </label>
 
-      <div className="dropdown">
-        <summary
-          className="input w-full cursor-pointer select-none md:w-auto"
-          role="button"
-          tabIndex={0}
-        >
-          <span className="flex-1">Rarity</span>
-          {queryStates.rarities.length > 0 && (
-            <div className="badge badge-sm badge-primary">
-              {queryStates.rarities.length}
-            </div>
-          )}
-          {raritiesPending ? (
-            <span className="loading loading-xs" />
-          ) : (
-            <ChevronDown size="1.2em" />
-          )}
-        </summary>
-        <ul
-          className="menu dropdown-content card card-border mt-2 w-full shadow-2xl md:min-w-48"
-          // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex -- needed by daisyUI to prevent focus loss
-          tabIndex={0}
-        >
-          {rarities.map((rarity) => (
-            <li key={rarity}>
-              <button
-                onClick={() =>
-                  setQueryStates(
-                    (prev) => ({
-                      rarities: prev.rarities.includes(rarity)
-                        ? prev.rarities.filter((r) => r !== rarity)
-                        : [...prev.rarities, rarity],
-                    }),
-                    { startTransition: raritiesStartTransition },
-                  )
-                }
-              >
-                {rarity}
-                {queryStates.rarities.includes(rarity) && (
-                  <Check className="ml-auto" size="1.2em" />
-                )}
-              </button>
-            </li>
-          ))}
-          <li />
-          <li>
-            <button
-              className="btn btn-ghost"
-              disabled={queryStates.rarities.length === 0}
-              onClick={() =>
-                setQueryStates(
-                  { rarities: [] },
-                  { startTransition: raritiesStartTransition },
-                )
-              }
-            >
-              Reset
-            </button>
-          </li>
-        </ul>
-      </div>
+      <Select
+        label="Rarity"
+        options={rarities}
+        pending={raritiesPending}
+        value={queryStates.rarities}
+        onReset={() =>
+          setQueryStates(
+            { rarities: [] },
+            { startTransition: raritiesStartTransition },
+          )
+        }
+        onValueChange={(rarities) =>
+          setQueryStates(
+            { rarities },
+            { startTransition: raritiesStartTransition },
+          )
+        }
+      />
+
       <button
         className="btn btn-soft"
         disabled={Object.values(queryStates).every((v) => v.length === 0)}
