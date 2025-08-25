@@ -32,6 +32,10 @@
   @apply mx-auto px-4;
 }
 
+@utility input {
+  @apply bg-base-200;
+}
+
 @utility navbar {
   @apply z-[1000];
 }
