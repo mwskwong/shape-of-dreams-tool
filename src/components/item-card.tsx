@@ -275,7 +275,7 @@ export const ItemCardFooter = ({
   className,
   ...props
 }: ItemCardFooterProps) => (
-  <footer className={cn("flex gap-2")} {...props}>
+  <footer className={cn("flex flex-wrap gap-2")} {...props}>
     {tags.map((tag) => (
       <div key={tag} className="badge badge-sm badge-soft">
         {tag}
