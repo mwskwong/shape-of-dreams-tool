@@ -35,10 +35,7 @@ export const EssencesToolbar = ({
           value={queryStates.search}
           onChange={(e) =>
             setQueryStates(
-              (prev) => ({
-                ...prev,
-                search: e.currentTarget.value,
-              }),
+              { search: e.currentTarget.value },
               {
                 startTransition: searchStartTransition,
                 limitUrlUpdates:
@@ -49,10 +46,7 @@ export const EssencesToolbar = ({
           onKeyUp={(e) => {
             if (e.key === "Enter") {
               void setQueryStates(
-                (prev) => ({
-                  ...prev,
-                  search: e.currentTarget.value,
-                }),
+                { search: e.currentTarget.value },
                 { startTransition: searchStartTransition },
               );
             }
@@ -90,7 +84,6 @@ export const EssencesToolbar = ({
                 onClick={() =>
                   setQueryStates(
                     (prev) => ({
-                      ...prev,
                       rarities: prev.rarities.includes(rarity)
                         ? prev.rarities.filter((r) => r !== rarity)
                         : [...prev.rarities, rarity],
@@ -112,9 +105,10 @@ export const EssencesToolbar = ({
               className="btn btn-ghost"
               disabled={queryStates.rarities.length === 0}
               onClick={() =>
-                setQueryStates((prev) => ({ ...prev, rarities: [] }), {
-                  startTransition: raritiesStartTransition,
-                })
+                setQueryStates(
+                  { rarities: [] },
+                  { startTransition: raritiesStartTransition },
+                )
               }
             >
               Reset

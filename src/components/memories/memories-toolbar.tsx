@@ -41,7 +41,6 @@ export const MemoriesToolbar = ({
       onValueChange: (rarity: (typeof rarities)[number]) =>
         setQueryStates(
           (prev) => ({
-            ...prev,
             rarities: prev.rarities.includes(rarity)
               ? prev.rarities.filter((r) => r !== rarity)
               : [...prev.rarities, rarity],
@@ -61,7 +60,6 @@ export const MemoriesToolbar = ({
       onValueChange: (type: (typeof types)[number]) =>
         setQueryStates(
           (prev) => ({
-            ...prev,
             types: prev.types.includes(type)
               ? prev.types.filter((t) => t !== type)
               : [...prev.types, type],
@@ -81,7 +79,6 @@ export const MemoriesToolbar = ({
       onValueChange: (traveler: (typeof travelers)[number]) =>
         setQueryStates(
           (prev) => ({
-            ...prev,
             travelers: prev.travelers.includes(traveler)
               ? prev.travelers.filter((t) => t !== traveler)
               : [...prev.travelers, traveler],
@@ -101,7 +98,6 @@ export const MemoriesToolbar = ({
       onValueChange: (tag: (typeof tags)[number]) =>
         setQueryStates(
           (prev) => ({
-            ...prev,
             tags: prev.tags.includes(tag)
               ? prev.tags.filter((t) => t !== tag)
               : [...prev.tags, tag],
@@ -129,10 +125,7 @@ export const MemoriesToolbar = ({
           value={queryStates.search}
           onChange={(e) =>
             setQueryStates(
-              (prev) => ({
-                ...prev,
-                search: e.currentTarget.value,
-              }),
+              { search: e.currentTarget.value },
               {
                 startTransition: searchStartTransition,
                 limitUrlUpdates:
@@ -143,10 +136,7 @@ export const MemoriesToolbar = ({
           onKeyUp={(e) => {
             if (e.key === "Enter") {
               void setQueryStates(
-                (prev) => ({
-                  ...prev,
-                  search: e.currentTarget.value,
-                }),
+                { search: e.currentTarget.value },
                 { startTransition: searchStartTransition },
               );
             }
@@ -182,6 +172,7 @@ export const MemoriesToolbar = ({
             >
               {options.map((option) => (
                 <li key={option}>
+                  {/* @ts-expect-error -- In TS, calling a function typed as a union of distinct function signatures requires an argument that is assignable to the intersection of all parameter types across those signatures  */}
                   <button onClick={() => onValueChange(option)}>
                     {option}
                     {value.includes(option) && (
