@@ -139,7 +139,8 @@ const essences = {
         rendered: "26%<sprite=5>",
         format: "#,##0%",
         raw: "reducedRatio",
-        scalingType: "unknown",
+        scalingType: (quality: number) =>
+          1 - 1 / (1 + 18 * (1 + 0.01 * quality) * 0.01),
         data: null,
       },
     ],
@@ -288,7 +289,7 @@ const essences = {
         rendered: "7",
         format: "#,##0.#",
         raw: "totalTicks*tickInterval",
-        scalingType: "unknown",
+        scalingType: (quality: number) => 2 * (1 + 0.01 * quality * 0.45) * 14,
         data: null,
       },
     ],
@@ -541,7 +542,8 @@ const essences = {
         rendered: "55%<sprite=5>",
         format: "#,##0%",
         raw: "maxReducedRatio",
-        scalingType: "unknown",
+        scalingType: (quality: number) =>
+          1 - 1 / (1 + 55 * (1 + 0.01 * 1.25 * quality) * 0.01),
         data: null,
       },
     ],
@@ -993,7 +995,8 @@ const essences = {
         rendered: "60%<sprite=5>",
         format: "#,##0%",
         raw: "reducedRatio",
-        scalingType: "unknown",
+        scalingType: (quality: number) =>
+          1 - 1 / (1 + 75 * (1 + 0.01 * quality) * 0.01),
         data: null,
       },
     ],
@@ -1647,7 +1650,8 @@ const essences = {
         rendered: "37%<sprite=5>",
         format: "#,##0%",
         raw: "divMultiplier",
-        scalingType: "unknown",
+        scalingType: (quality: number) =>
+          1 - 1 / (1 + 0.1 * (1 + 0.01 * 5 * quality)),
         data: null,
       },
       {
@@ -1757,7 +1761,7 @@ const essences = {
         rendered: "5%<sprite=5>",
         format: "#,##0%",
         raw: "chargeRate",
-        scalingType: "unknown",
+        scalingType: (quality: number) => (0.55 * (1 + 0.01 * quality)) / 20,
         data: null,
       },
     ],
@@ -1883,7 +1887,8 @@ const essences = {
         rendered: "<sprite=1><color=#16D7FF>360%</color><sprite=5>",
         format: "#,##0",
         raw: "dmgFactor * tickCount",
-        scalingType: "unknown",
+        scalingType: (quality: number) =>
+          0.18 * (1 + 0.01 * quality) * (1.5 / 0.15),
         data: null,
       },
       {
@@ -1897,7 +1902,7 @@ const essences = {
         rendered: "9<sprite=5>",
         format: "#,##0",
         raw: "calTotalStack",
-        scalingType: "unknown",
+        scalingType: (quality: number) => 6 * (1 + 0.01 * 0.5 * quality),
         data: null,
       },
       {

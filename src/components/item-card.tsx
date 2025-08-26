@@ -117,31 +117,43 @@ export const ItemCardBody = ({
   const getScaling = (varIndex?: number) => {
     const rawDescVar =
       typeof varIndex === "number" ? rawDescVars[varIndex] : undefined;
-    const {
-      basicAD = 0,
-      basicAP = 0,
-      basicAddedMultiplierPerLevel = 0,
-      basicConstant = 0,
-      basicLvl = 0,
-    } = rawDescVar?.data ?? {};
+    const perLeveling = itemType === "memory" ? "lv" : "50% qlty";
 
-    let value =
-      basicAddedMultiplierPerLevel * (basicConstant + basicAP + basicAD) +
-      basicLvl * (1 + 2 * basicAddedMultiplierPerLevel);
+    // depends on the scaling type, use different formulas
+    let value;
+    if (rawDescVar?.scalingType === "basic") {
+      const {
+        basicAD = 0,
+        basicAP = 0,
+        basicAddedMultiplierPerLevel = 0,
+        basicConstant = 0,
+        basicLvl = 0,
+      } = rawDescVar.data;
+      value =
+        basicAddedMultiplierPerLevel * (basicConstant + basicAP + basicAD) +
+        basicLvl * (1 + 2 * basicAddedMultiplierPerLevel);
+    }
+
+    if (typeof rawDescVar?.scalingType === "function") {
+      value = rawDescVar.scalingType(itemType === "memory" ? 1 : 50);
+    }
+
+    // if no known scaling type found, return place holder
+    if (value === undefined) return `+??? / ${perLeveling}`;
+
+    // value might be percentage, some already * 100% , some haven't. Scale it up by 100 if it haven't
     if (
       rawDescVar?.rendered.includes("%") &&
       !rawDescVar.format.endsWith(String.raw`\%`)
     ) {
       value *= 100;
     }
+
     if (itemType === "essence") value *= 50;
 
     const unit = rawDescVar?.rendered.includes("%") ? "%" : "";
-    const perLeveling = itemType === "memory" ? "lv" : "50% qlty";
 
-    return rawDescVar?.scalingType === "basic"
-      ? `+${+value.toFixed(2)}${unit} / ${perLeveling}`
-      : `+??? / ${perLeveling}`;
+    return `+${+value.toFixed(2)}${unit} / ${perLeveling}`;
   };
 
   const options = {
