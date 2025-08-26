@@ -1,12 +1,15 @@
 import { Suspense } from "react";
 import { type BreadcrumbList, type WithContext } from "schema-dts";
 
-import { EssencesToolbar } from "@/components/essences/essences-toolbar";
+import {
+  EssencesToolbar,
+  EssencesToolbarFallback,
+} from "@/components/essences/essences-toolbar";
 
 const EssencesLayout = ({ children }: LayoutProps<"/essences">) => (
   <>
     <div className="flex flex-col gap-4 py-4">
-      <Suspense>
+      <Suspense fallback={<EssencesToolbarFallback />}>
         <EssencesToolbar />
       </Suspense>
       {children}

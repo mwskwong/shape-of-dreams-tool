@@ -94,3 +94,33 @@ export const EssencesToolbar = ({
     </header>
   );
 };
+
+export type EssencesToolbarFallbackProps = Omit<
+  ComponentProps<"div">,
+  "children"
+>;
+export const EssencesToolbarFallback = ({
+  className,
+  ...props
+}: EssencesToolbarFallbackProps) => (
+  <header
+    className={cn("flex flex-col gap-4 md:flex-row", className)}
+    {...props}
+  >
+    <label className="input w-full md:w-72">
+      <Search className="shrink-0" size="1.2em" />
+      <input
+        aria-label="Search essences"
+        placeholder="Search..."
+        type="search"
+      />
+    </label>
+
+    <Select label="Rarity" />
+
+    <button disabled className="btn btn-soft">
+      <RotateCcw size="1.2em" />
+      Reset
+    </button>
+  </header>
+);

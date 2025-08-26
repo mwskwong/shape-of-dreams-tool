@@ -154,3 +154,40 @@ export const MemoriesToolbar = ({
     </header>
   );
 };
+
+export type MemoriesToolbarFallbackProps = Omit<
+  ComponentProps<"div">,
+  "children"
+>;
+export const MemoriesToolbarFallback = ({
+  className,
+  ...props
+}: MemoriesToolbarFallbackProps) => (
+  <header
+    className={cn("grid grid-cols-2 gap-4 md:flex", className)}
+    {...props}
+  >
+    <label className="input col-span-2 w-full md:w-72">
+      <Search className="shrink-0" size="1.2em" />
+      <input
+        aria-label="Search memories"
+        placeholder="Search..."
+        type="search"
+      />
+    </label>
+
+    <Select label="Rarity" options={rarities} />
+    <Select label="Type" options={types} />
+    <Select
+      label="Traveler"
+      optionFormatter={(id) => getTravelerById(id)?.name ?? id}
+      options={travelers}
+    />
+    <Select label="Tag" options={tags} />
+
+    <button disabled className="btn btn-soft col-span-2">
+      <RotateCcw size="1.2em" />
+      Reset
+    </button>
+  </header>
+);
