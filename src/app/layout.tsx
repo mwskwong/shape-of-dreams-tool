@@ -1,7 +1,7 @@
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/next";
 import { type Metadata } from "next";
-import { Playfair_Display, Raleway } from "next/font/google";
+import { Merriweather, Raleway } from "next/font/google";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
 
 import { PageShell } from "@/components/page-shell";
@@ -13,14 +13,14 @@ const raleway = Raleway({
   style: ["normal", "italic"],
 });
 
-const playfairDisplay = Playfair_Display({
+const merriweather = Merriweather({
   subsets: ["latin"],
-  variable: "--font-playfair-display",
+  variable: "--font-merriweather",
 });
 
 const RootLayout = ({ children }: LayoutProps<"/">) => (
   <html
-    className={`${raleway.variable} ${playfairDisplay.variable} text-pretty antialiased`}
+    className={`${raleway.variable} ${merriweather.variable} text-pretty antialiased`}
     lang="en"
   >
     <body>
