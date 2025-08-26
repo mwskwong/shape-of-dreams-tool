@@ -1,7 +1,7 @@
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/next";
 import { type Metadata } from "next";
-import { Raleway, Spectral } from "next/font/google";
+import { Playfair_Display, Raleway } from "next/font/google";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
 
 import { PageShell } from "@/components/page-shell";
@@ -10,19 +10,17 @@ import { siteName, siteUrl } from "@/lib/site-config";
 const raleway = Raleway({
   subsets: ["latin"],
   variable: "--font-raleway",
+  style: ["normal", "italic"],
 });
 
-const spectral = Spectral({
+const playfairDisplay = Playfair_Display({
   subsets: ["latin"],
-  weight: ["400"],
-  style: "italic",
-  variable: "--font-spectral",
-  preload: false,
+  variable: "--font-playfair-display",
 });
 
 const RootLayout = ({ children }: LayoutProps<"/">) => (
   <html
-    className={`${raleway.variable} ${spectral.variable} text-pretty antialiased`}
+    className={`${raleway.variable} ${playfairDisplay.variable} text-pretty antialiased`}
     lang="en"
   >
     <body>

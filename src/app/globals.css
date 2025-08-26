@@ -3,7 +3,7 @@
 
 @theme inline {
   --font-sans: var(--font-raleway);
-  --font-serif: var(--font-spectral);
+  --font-serif: var(--font-playfair-display);
 }
 
 @plugin "daisyui" {
@@ -14,6 +14,19 @@
 :root,
 [data-theme] {
   --root-bg: var(--color-base-200);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  @apply font-serif;
+}
+
+em {
+  @apply font-medium;
 }
 
 @utility badge {

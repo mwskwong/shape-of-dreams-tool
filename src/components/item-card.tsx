@@ -188,7 +188,7 @@ export const ItemCardBody = ({
         if (name === "em" && attribs["data-color"]) {
           return (
             <em
-              className={cn("font-serif", {
+              className={cn({
                 "text-yellow-300": attribs["data-color"] === "yellow",
               })}
               style={{
@@ -247,7 +247,7 @@ export const ItemCardBody = ({
       {achievementName && (
         <p className="opacity-60">
           Unlock requirement -{" "}
-          <em className="font-serif text-yellow-300">{achievementName}</em>:{" "}
+          <em className="text-yellow-300">{achievementName}</em>:{" "}
           {achievementDescription}
         </p>
       )}
@@ -257,7 +257,7 @@ export const ItemCardBody = ({
           Mutually exclusive:{" "}
           {mutuallyExclusive.map((memory, index) => (
             <Fragment key={memory}>
-              <em key={memory} className="font-serif text-yellow-300">
+              <em key={memory} className="text-yellow-300">
                 {memory}
               </em>
               {index < mutuallyExclusive.length - 1 && ", "}
