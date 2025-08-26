@@ -2294,16 +2294,14 @@ export const getEssenceById = (id: string) => {
       rawDescVars: essence.rawDescVars.map(
         ({ rendered, format, scalingType, data }) => {
           let scaling;
+          const percentage =
+            rendered.includes("%") && !format.endsWith(String.raw`\%`);
           if (scalingType === "basic") {
-            scaling =
-              getItemBasicScaling(
-                data,
-                rendered.includes("%") && !format.endsWith(String.raw`\%`),
-              ) * 50;
+            scaling = getItemBasicScaling(data, percentage) * 50;
           }
 
           if (typeof scalingType === "function") {
-            scaling = scalingType(50);
+            scaling = scalingType(50) * (percentage ? 100 : 1);
           }
 
           const displayedScaling =

@@ -3925,15 +3925,14 @@ export const getMemoryById = (id: string) => {
       rawDescVars: memory.rawDescVars.map(
         ({ rendered, format, scalingType, data }) => {
           let scaling;
+          const percentage =
+            rendered.includes("%") && !format.endsWith(String.raw`\%`);
           if (scalingType === "basic") {
-            scaling = getItemBasicScaling(
-              data,
-              rendered.includes("%") && !format.endsWith(String.raw`\%`),
-            );
+            scaling = getItemBasicScaling(data, percentage);
           }
 
           // if (typeof scalingType === "function") {
-          //   scaling = scalingType(1);
+          //   scaling = scalingType(50) * (percentage ? 100 : 1);
           // }
 
           const displayedScaling =
