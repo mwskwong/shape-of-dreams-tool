@@ -69,7 +69,7 @@ import St_R_Smite from "@/images/St_R_Smite.png";
 import St_R_Tranquility from "@/images/St_R_Tranquility.png";
 import St_R_UnbreakableDetermination from "@/images/St_R_UnbreakableDetermination.png";
 
-import { compareRarities } from "./utils";
+import { compareRarities, getItemBasicScaling } from "./utils";
 
 const memories = {
   St_D_DoubleTap: {
@@ -3922,6 +3922,29 @@ export const getMemoryById = (id: string) => {
       id: memoryId,
       mutuallyExclusive: getMutuallyExclusiveMemories(memory),
       ...memory,
+      rawDescVars: memory.rawDescVars.map(
+        ({ rendered, format, scalingType, data }) => {
+          let scaling;
+          if (scalingType === "basic") {
+            scaling = getItemBasicScaling(
+              data,
+              rendered.includes("%") && !format.endsWith(String.raw`\%`),
+            );
+          }
+
+          // if (typeof scalingType === "function") {
+          //   scaling = scalingType(1);
+          // }
+
+          const displayedScaling =
+            scaling === undefined ? "???" : +scaling.toFixed(2);
+          const unit = rendered.includes("%") ? "%" : "";
+          return {
+            rendered,
+            scaling: `+${displayedScaling}${unit} / lv`,
+          };
+        },
+      ),
     } as const;
   }
 };

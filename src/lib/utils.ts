@@ -28,3 +28,27 @@ export const cn = (...inputs: ClassValue[]) => twMerge(clsx(inputs));
 
 export const removeDiacritics = (str: string) =>
   str.normalize("NFD").replaceAll(/[\u0300-\u036F]/g, "");
+
+export const getItemBasicScaling = (
+  {
+    basicConstant,
+    basicAP,
+    basicAD,
+    basicLvl,
+    basicAddedMultiplierPerLevel,
+  }: {
+    basicConstant: number;
+    basicAP: number;
+    basicAD: number;
+    basicLvl: number;
+    basicAddedMultiplierPerLevel: number;
+  },
+  percentage: boolean,
+) => {
+  const value =
+    basicAddedMultiplierPerLevel * (basicConstant + basicAP + basicAD) +
+    basicLvl * (1 + 2 * basicAddedMultiplierPerLevel);
+
+  if (percentage) return value * 100;
+  return value;
+};

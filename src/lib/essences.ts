@@ -53,7 +53,7 @@ import Gem_R_Spiral from "@/images/Gem_R_Spiral.png";
 import Gem_R_Wealth from "@/images/Gem_R_Wealth.png";
 import Gem_R_Wound from "@/images/Gem_R_Wound.png";
 
-import { compareRarities } from "./utils";
+import { compareRarities, getItemBasicScaling } from "./utils";
 
 const essences = {
   Gem_C_Charcoal: {
@@ -2291,6 +2291,30 @@ export const getEssenceById = (id: string) => {
     return {
       id: essenceId,
       ...essence,
+      rawDescVars: essence.rawDescVars.map(
+        ({ rendered, format, scalingType, data }) => {
+          let scaling;
+          if (scalingType === "basic") {
+            scaling =
+              getItemBasicScaling(
+                data,
+                rendered.includes("%") && !format.endsWith(String.raw`\%`),
+              ) * 50;
+          }
+
+          if (typeof scalingType === "function") {
+            scaling = scalingType(50);
+          }
+
+          const displayedScaling =
+            scaling === undefined ? "???" : +scaling.toFixed(2);
+          const unit = rendered.includes("%") ? "%" : "";
+          return {
+            rendered,
+            scaling: `+${displayedScaling}${unit} / 50% qlty`,
+          };
+        },
+      ),
     } as const;
   }
 };

@@ -1,5 +1,3 @@
-"use client";
-
 import parse, {
   type DOMNode,
   Element,
@@ -7,7 +5,7 @@ import parse, {
   domToReact,
 } from "html-react-parser";
 import Image from "next/image";
-import { type ComponentProps, Fragment, createContext, use } from "react";
+import { type ComponentProps, Fragment } from "react";
 import { type SetOptional } from "type-fest";
 
 import { type Essence } from "@/lib/essences";
@@ -27,8 +25,6 @@ type Item = SetOptional<
   Exclude<keyof Memory, keyof Essence>
 >;
 
-const ItemCardContext = createContext<{ itemType?: "memory" | "essence" }>({});
-
 export interface ItemCardRootProps extends ComponentProps<"article"> {
   itemType?: "memory" | "essence";
 }
@@ -39,11 +35,13 @@ export const ItemCardRoot = ({
   children,
   ...props
 }: ItemCardRootProps) => (
-  <ItemCardContext value={{ itemType }}>
-    <article className={cn("card card-border", className)} {...props}>
-      <div className="card-body">{children}</div>
-    </article>
-  </ItemCardContext>
+  <article
+    className={cn("card group card-border", className)}
+    data-item-type={itemType}
+    {...props}
+  >
+    <div className="card-body">{children}</div>
+  </article>
 );
 
 export type ItemCardHeaderProps = Omit<ComponentProps<"header">, "children"> &
@@ -54,36 +52,32 @@ export const ItemCardHeader = ({
   image,
   rarity,
   traveler,
-}: ItemCardHeaderProps) => {
-  const { itemType } = use(ItemCardContext);
-
-  return (
-    <header className="flex items-start gap-2">
-      <Image
-        alt=""
-        className={cn("avatar rounded-sm", { "p-1": itemType === "essence" })}
-        src={image}
-        width={48}
-      />
-      <div>
-        <h2 className="card-title">{name}</h2>
-        <p
-          className={cn("text-amber-400", {
-            "text-zinc-400": rarity === "Common",
-            "text-blue-400": rarity === "Rare",
-            "text-purple-400": rarity === "Epic",
-            "text-red-400": rarity === "Legendary",
-          })}
-        >
-          {rarity}{" "}
-          {traveler
-            ? ` · ${getTravelerById(traveler)?.name ?? traveler}`
-            : undefined}
-        </p>
-      </div>
-    </header>
-  );
-};
+}: ItemCardHeaderProps) => (
+  <header className="flex items-start gap-2">
+    <Image
+      alt=""
+      className={"avatar rounded-sm group-data-[item-type=essence]:p-1"}
+      src={image}
+      width={48}
+    />
+    <div>
+      <h2 className="card-title">{name}</h2>
+      <p
+        className={cn("text-amber-400", {
+          "text-zinc-400": rarity === "Common",
+          "text-blue-400": rarity === "Rare",
+          "text-purple-400": rarity === "Epic",
+          "text-red-400": rarity === "Legendary",
+        })}
+      >
+        {rarity}{" "}
+        {traveler
+          ? ` · ${getTravelerById(traveler)?.name ?? traveler}`
+          : undefined}
+      </p>
+    </div>
+  </header>
+);
 
 export type ItemCardBodyProps = ComponentProps<"div"> &
   SetOptional<
@@ -112,50 +106,6 @@ export const ItemCardBody = ({
   className,
   ...props
 }: ItemCardBodyProps) => {
-  const { itemType } = use(ItemCardContext);
-
-  const getScaling = (varIndex?: number) => {
-    const rawDescVar =
-      typeof varIndex === "number" ? rawDescVars[varIndex] : undefined;
-    const perLeveling = itemType === "memory" ? "lv" : "50% qlty";
-
-    // depends on the scaling type, use different formulas
-    let value;
-    if (rawDescVar?.scalingType === "basic") {
-      const {
-        basicAD = 0,
-        basicAP = 0,
-        basicAddedMultiplierPerLevel = 0,
-        basicConstant = 0,
-        basicLvl = 0,
-      } = rawDescVar.data;
-      value =
-        basicAddedMultiplierPerLevel * (basicConstant + basicAP + basicAD) +
-        basicLvl * (1 + 2 * basicAddedMultiplierPerLevel);
-    }
-
-    if (typeof rawDescVar?.scalingType === "function") {
-      value = rawDescVar.scalingType(itemType === "memory" ? 1 : 50);
-    }
-
-    // if no known scaling type found, return place holder
-    if (value === undefined) return `+??? / ${perLeveling}`;
-
-    // value might be percentage, some already * 100% , some haven't. Scale it up by 100 if it haven't
-    if (
-      rawDescVar?.rendered.includes("%") &&
-      !rawDescVar.format.endsWith(String.raw`\%`)
-    ) {
-      value *= 100;
-    }
-
-    if (itemType === "essence") value *= 50;
-
-    const unit = rawDescVar?.rendered.includes("%") ? "%" : "";
-
-    return `+${+value.toFixed(2)}${unit} / ${perLeveling}`;
-  };
-
   const options = {
     replace: (domNode) => {
       if (domNode instanceof Element) {
@@ -177,13 +127,15 @@ export const ItemCardBody = ({
             const varIndex =
               parentNode instanceof Element
                 ? Number.parseInt(parentNode.attribs["data-index"])
-                : undefined;
+                : -1;
 
             return (
               <span
                 className="tooltip"
                 data-tip={
-                  isUpgradableParam ? getScaling(varIndex) : sprite.name
+                  isUpgradableParam
+                    ? rawDescVars[varIndex].scaling
+                    : sprite.name
                 }
               >
                 <Image
