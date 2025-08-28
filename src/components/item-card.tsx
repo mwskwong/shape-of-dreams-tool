@@ -2,17 +2,28 @@ import parse, {
   type DOMNode,
   Element,
   type HTMLReactParserOptions,
+  Text,
   domToReact,
 } from "html-react-parser";
 import Image from "next/image";
-import { type ComponentProps, Fragment } from "react";
+import { format as formatNumber } from "numfmt";
+import {
+  Children,
+  type ComponentProps,
+  Fragment,
+  type ReactElement,
+  cloneElement,
+  isValidElement,
+} from "react";
 import { type SetOptional } from "type-fest";
 
 import { type Essence } from "@/lib/essences";
 import { type Memory } from "@/lib/memories";
 import { getSpriteById } from "@/lib/sprites";
 import { getTravelerById } from "@/lib/travelers";
-import { cn } from "@/lib/utils";
+import { cn, getItemBasicScaling } from "@/lib/utils";
+
+const baseEffectiveLevel = { essence: 100, memory: 1 };
 
 type Item = SetOptional<
   {
@@ -40,7 +51,17 @@ export const ItemCardRoot = ({
     data-item-type={itemType}
     {...props}
   >
-    <div className="card-body">{children}</div>
+    <div className="card-body">
+      {Children.map(children, (child) => {
+        if (isValidElement(child) && child.type === ItemCardBody) {
+          return cloneElement(child as ReactElement<ItemCardBodyProps>, {
+            itemType,
+          });
+        }
+
+        return child;
+      })}
+    </div>
   </article>
 );
 
@@ -79,6 +100,21 @@ export const ItemCardHeader = ({
   </header>
 );
 
+const getRawDescVarAncestorDomNode = (domNode: DOMNode) => {
+  let current = domNode.parent;
+  while (current) {
+    if (
+      domNode instanceof Element &&
+      domNode.name === "span" &&
+      domNode.attribs["data-index"]
+    ) {
+      return current as Element;
+    }
+
+    current = current.parent;
+  }
+};
+
 export type ItemCardBodyProps = ComponentProps<"div"> &
   SetOptional<
     Pick<
@@ -92,7 +128,8 @@ export type ItemCardBodyProps = ComponentProps<"div"> &
       | "rawDescVars"
     >,
     "achievementName" | "achievementDescription"
-  >;
+  > &
+  Pick<ItemCardRootProps, "itemType"> & { effectiveLevel?: number };
 
 export const ItemCardBody = ({
   cooldownTime,
@@ -104,12 +141,16 @@ export const ItemCardBody = ({
   rawDescVars,
   children,
   className,
+  itemType = "memory",
+  effectiveLevel: effectiveLevelProp,
   ...props
 }: ItemCardBodyProps) => {
+  const effectiveLevel = effectiveLevelProp ?? baseEffectiveLevel[itemType];
+
   const options = {
     replace: (domNode) => {
       if (domNode instanceof Element) {
-        const { name, attribs, children, parentNode } = domNode;
+        const { name, attribs, children } = domNode;
 
         if (name === "span" && attribs["data-index"]) {
           return (
@@ -123,21 +164,8 @@ export const ItemCardBody = ({
           const sprite = getSpriteById(attribs["data-sprite"]);
 
           if (sprite) {
-            const isUpgradableParam = attribs["data-sprite"] === "5";
-            const varIndex =
-              parentNode instanceof Element
-                ? Number.parseInt(parentNode.attribs["data-index"])
-                : -1;
-
             return (
-              <span
-                className="tooltip"
-                data-tip={
-                  isUpgradableParam
-                    ? rawDescVars[varIndex].scaling
-                    : sprite.name
-                }
-              >
+              <span className="tooltip" data-tip={sprite.name}>
                 <Image
                   alt={sprite.name}
                   className="inline-block h-[1em] w-auto align-middle"
@@ -168,7 +196,39 @@ export const ItemCardBody = ({
         }
       }
 
-      return;
+      const rawDescVarAncestor = getRawDescVarAncestorDomNode(domNode);
+      if (domNode instanceof Text && rawDescVarAncestor) {
+        const varIndex = Number(rawDescVarAncestor.attribs["data-index"]);
+        const { scalingType, data, format } = rawDescVars[varIndex];
+        const match = /^(\D*)(\d+)(\D*)$/.exec(domNode.data);
+        const prefix = match?.[1] ?? "";
+        const suffix = match?.[3] ?? "";
+
+        if (scalingType === "unknown") {
+          if (effectiveLevel === baseEffectiveLevel[itemType]) {
+            return domNode.data;
+          }
+
+          return `${prefix}???${suffix}`;
+        }
+
+        let value = 0;
+        if (scalingType === "basic") {
+          value = getItemBasicScaling(data, effectiveLevel);
+        }
+
+        if (typeof scalingType === "function") {
+          value = scalingType(effectiveLevel);
+        }
+
+        // No need suffix, since formatNumber already append the percentage symbol if the format suggest it is a percentage
+        return (
+          <>
+            {prefix}
+            {formatNumber(format, value)}
+          </>
+        );
+      }
     },
   } satisfies HTMLReactParserOptions;
 

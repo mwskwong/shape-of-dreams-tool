@@ -53,7 +53,7 @@ import Gem_R_Spiral from "@/images/Gem_R_Spiral.png";
 import Gem_R_Wealth from "@/images/Gem_R_Wealth.png";
 import Gem_R_Wound from "@/images/Gem_R_Wound.png";
 
-import { compareRarities, getItemBasicScaling } from "./utils";
+import { compareRarities } from "./utils";
 
 const essences = {
   Gem_C_Charcoal: {
@@ -63,7 +63,7 @@ const essences = {
     rawDescVars: [
       {
         rendered: "<sprite=1><color=#16D7FF>60%</color><sprite=5>",
-        format: "#,##0",
+        format: "#,##0%",
         raw: "normalDamage",
         scalingType: "basic",
         data: {
@@ -76,7 +76,7 @@ const essences = {
       },
       {
         rendered: "<sprite=1><color=#16D7FF>100%</color><sprite=5>",
-        format: "#,##0",
+        format: "#,##0%",
         raw: "fireDamage",
         scalingType: "basic",
         data: {
@@ -318,7 +318,7 @@ const essences = {
       },
       {
         rendered: "<sprite=1><color=#16D7FF>90%</color><sprite=5>",
-        format: "#,##0",
+        format: "#,##0%",
         raw: "arrowDamage",
         scalingType: "basic",
         data: {
@@ -405,7 +405,7 @@ const essences = {
       },
       {
         rendered: "<sprite=1><color=#16D7FF>480%</color><sprite=5>",
-        format: "#,##0",
+        format: "#,##0%",
         raw: "addedDamage",
         scalingType: "basic",
         data: {
@@ -442,7 +442,7 @@ const essences = {
       },
       {
         rendered: "<sprite=2><color=#FF8A2D>250%</color><sprite=5>",
-        format: "#,##0",
+        format: "#,##0%",
         raw: "damage",
         scalingType: "basic",
         data: {
@@ -560,7 +560,7 @@ const essences = {
     rawDescVars: [
       {
         rendered: "<sprite=1><color=#16D7FF>200%</color><sprite=5>",
-        format: "#,##0",
+        format: "#,##0%",
         raw: "damage",
         scalingType: "basic",
         data: {
@@ -741,7 +741,7 @@ const essences = {
       },
       {
         rendered: "<sprite=1><color=#16D7FF>117%</color><sprite=5>",
-        format: "#,##0",
+        format: "#,##0%",
         raw: "damage",
         scalingType: "basic",
         data: {
@@ -778,7 +778,7 @@ const essences = {
       },
       {
         rendered: "<sprite=1><color=#16D7FF>54%</color><sprite=5>",
-        format: "#,##0",
+        format: "#,##0%",
         raw: "dmgPerStack",
         scalingType: "basic",
         data: {
@@ -846,7 +846,7 @@ const essences = {
     rawDescVars: [
       {
         rendered: "<sprite=1><color=#16D7FF>100%</color><sprite=5>",
-        format: "#,##0",
+        format: "#,##0%",
         raw: "damage",
         scalingType: "basic",
         data: {
@@ -1101,7 +1101,7 @@ const essences = {
     rawDescVars: [
       {
         rendered: "<sprite=2><color=#FF8A2D>58%</color><sprite=5>",
-        format: "#,##0",
+        format: "#,##0%",
         raw: "dmgFactor",
         scalingType: "basic",
         data: {
@@ -1177,7 +1177,7 @@ const essences = {
       },
       {
         rendered: "<sprite=1><color=#16D7FF>130%</color><sprite=5>",
-        format: "#,##0",
+        format: "#,##0%",
         raw: "starDamage",
         scalingType: "basic",
         data: {
@@ -1214,7 +1214,7 @@ const essences = {
       },
       {
         rendered: "<sprite=2><color=#FF8A2D>50%</color><sprite=5>",
-        format: "#,##0",
+        format: "#,##0%",
         raw: "damage",
         scalingType: "basic",
         data: {
@@ -1338,7 +1338,7 @@ const essences = {
     rawDescVars: [
       {
         rendered: "<sprite=1><color=#16D7FF>160%</color><sprite=5>",
-        format: "#,##0",
+        format: "#,##0%",
         raw: "damage",
         scalingType: "basic",
         data: {
@@ -1512,7 +1512,7 @@ const essences = {
       },
       {
         rendered: "<sprite=1><color=#16D7FF>47%</color><sprite=5>",
-        format: "#,##0",
+        format: "#,##0%",
         raw: "dmgFactor",
         scalingType: "basic",
         data: {
@@ -1536,7 +1536,7 @@ const essences = {
     rawDescVars: [
       {
         rendered: "<sprite=1><color=#16D7FF>90%</color><sprite=5>",
-        format: "#,##0",
+        format: "#,##0%",
         raw: "damage",
         scalingType: "basic",
         data: {
@@ -1695,7 +1695,7 @@ const essences = {
       },
       {
         rendered: "<sprite=1><color=#16D7FF>102%</color><sprite=5>",
-        format: "#,##0",
+        format: "#,##0%",
         raw: "damage",
         scalingType: "basic",
         data: {
@@ -1885,7 +1885,7 @@ const essences = {
       },
       {
         rendered: "<sprite=1><color=#16D7FF>360%</color><sprite=5>",
-        format: "#,##0",
+        format: "#,##0%",
         raw: "dmgFactor * tickCount",
         scalingType: (quality: number) =>
           0.18 * (1 + 0.01 * quality) * (1.5 / 0.15),
@@ -2112,7 +2112,7 @@ const essences = {
     rawDescVars: [
       {
         rendered: "<sprite=1><color=#16D7FF>44%</color><sprite=5>",
-        format: "#,##0",
+        format: "#,##0%",
         raw: "hitDamage",
         scalingType: "basic",
         data: {
@@ -2138,7 +2138,7 @@ const essences = {
       },
       {
         rendered: "<sprite=1><color=#16D7FF>275%</color><sprite=5>",
-        format: "#,##0",
+        format: "#,##0%",
         raw: "explodeDamage",
         scalingType: "basic",
         data: {
@@ -2226,7 +2226,7 @@ const essences = {
       },
       {
         rendered: "<sprite=1><color=#16D7FF>130%</color><sprite=5>",
-        format: "#,##0",
+        format: "#,##0%",
         raw: "dmgFactor",
         scalingType: "basic",
         data: {
@@ -2291,28 +2291,6 @@ export const getEssenceById = (id: string) => {
     return {
       id: essenceId,
       ...essence,
-      rawDescVars: essence.rawDescVars.map(
-        ({ rendered, format, scalingType, data }) => {
-          let scaling;
-          const percentage =
-            rendered.includes("%") && !format.endsWith(String.raw`\%`);
-          if (scalingType === "basic") {
-            scaling = getItemBasicScaling(data, percentage) * 50;
-          }
-
-          if (typeof scalingType === "function") {
-            scaling = scalingType(50) * (percentage ? 100 : 1);
-          }
-
-          const displayedScaling =
-            scaling === undefined ? "???" : +scaling.toFixed(2);
-          const unit = rendered.includes("%") ? "%" : "";
-          return {
-            rendered,
-            scaling: `+${displayedScaling}${unit} / 50% qlty`,
-          };
-        },
-      ),
     } as const;
   }
 };

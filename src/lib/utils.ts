@@ -43,12 +43,8 @@ export const getItemBasicScaling = (
     basicLvl: number;
     basicAddedMultiplierPerLevel: number;
   },
-  percentage: boolean,
-) => {
-  const value =
-    basicAddedMultiplierPerLevel * (basicConstant + basicAP + basicAD) +
-    basicLvl * (1 + 2 * basicAddedMultiplierPerLevel);
-
-  if (percentage) return value * 100;
-  return value;
-};
+  // 1 memory level or 1% essence quality = 1 effective level
+  effectiveLevel: number,
+) =>
+  (basicConstant + basicAP + basicAD + basicLvl * effectiveLevel) *
+  (1 + basicAddedMultiplierPerLevel * (effectiveLevel - 1));

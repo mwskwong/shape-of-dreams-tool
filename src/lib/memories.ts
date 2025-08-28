@@ -69,7 +69,7 @@ import St_R_Smite from "@/images/St_R_Smite.png";
 import St_R_Tranquility from "@/images/St_R_Tranquility.png";
 import St_R_UnbreakableDetermination from "@/images/St_R_UnbreakableDetermination.png";
 
-import { compareRarities, getItemBasicScaling } from "./utils";
+import { compareRarities } from "./utils";
 
 const memories = {
   St_D_DoubleTap: {
@@ -125,7 +125,7 @@ const memories = {
     rawDescVars: [
       {
         rendered: "<sprite=1><color=#16D7FF>145%</color><sprite=5>",
-        format: "#,##0",
+        format: "#,##0%",
         raw: "explosionDamage",
         scalingType: "basic",
         data: {
@@ -169,7 +169,7 @@ const memories = {
     rawDescVars: [
       {
         rendered: "<sprite=1><color=#16D7FF>80%</color><sprite=5>",
-        format: "#,##0",
+        format: "#,##0%",
         raw: "factor",
         scalingType: "basic",
         data: {
@@ -182,7 +182,7 @@ const memories = {
       },
       {
         rendered: "<sprite=1><color=#16D7FF>180%</color><sprite=5>",
-        format: "#,##0",
+        format: "#,##0%",
         raw: "closeFactor",
         scalingType: "basic",
         data: {
@@ -239,7 +239,7 @@ const memories = {
       },
       {
         rendered: "<sprite=1><color=#16D7FF>100%</color><sprite=5>",
-        format: "#,##0",
+        format: "#,##0%",
         raw: "damage",
         scalingType: "basic",
         data: {
@@ -270,7 +270,7 @@ const memories = {
     rawDescVars: [
       {
         rendered: "<sprite=1><color=#16D7FF>150%</color><sprite=5>",
-        format: "#,##0",
+        format: "#,##0%",
         raw: "damageMin",
         scalingType: "basic",
         data: {
@@ -283,7 +283,7 @@ const memories = {
       },
       {
         rendered: "<sprite=1><color=#16D7FF>800%</color><sprite=5>",
-        format: "#,##0",
+        format: "#,##0%",
         raw: "damageMax",
         scalingType: "basic",
         data: {
@@ -367,7 +367,7 @@ const memories = {
       },
       {
         rendered: "<sprite=2><color=#FF8A2D>120%</color><sprite=5>",
-        format: "#,##0",
+        format: "#,##0%",
         raw: "dmg",
         scalingType: "basic",
         data: {
@@ -411,7 +411,7 @@ const memories = {
     rawDescVars: [
       {
         rendered: "<sprite=1><color=#16D7FF>85%</color><sprite=5>",
-        format: "#,##0",
+        format: "#,##0%",
         raw: "damage",
         scalingType: "basic",
         data: {
@@ -424,7 +424,7 @@ const memories = {
       },
       {
         rendered: "<sprite=1><color=#16D7FF>47%</color><sprite=5>",
-        format: "#,##0",
+        format: "#,##0%",
         raw: "shieldAmount",
         scalingType: "basic",
         data: {
@@ -475,7 +475,7 @@ const memories = {
     rawDescVars: [
       {
         rendered: "<sprite=2><color=#FF8A2D>140%</color><sprite=5>",
-        format: "#,##0",
+        format: "#,##0%",
         raw: "damage",
         scalingType: "basic",
         data: {
@@ -532,7 +532,7 @@ const memories = {
     rawDescVars: [
       {
         rendered: "<sprite=2><color=#FF8A2D>200%</color><sprite=5>",
-        format: "#,##0",
+        format: "#,##0%",
         raw: "dmgFactor",
         scalingType: "basic",
         data: {
@@ -602,7 +602,7 @@ const memories = {
       },
       {
         rendered: "<sprite=1><color=#16D7FF>360%</color><sprite=5>",
-        format: "#,##0",
+        format: "#,##0%",
         raw: "damage",
         scalingType: "basic",
         data: {
@@ -647,7 +647,7 @@ const memories = {
     rawDescVars: [
       {
         rendered: "<sprite=1><color=#16D7FF>400%</color><sprite=5>",
-        format: "#,##0",
+        format: "#,##0%",
         raw: "damage",
         scalingType: "basic",
         data: {
@@ -686,7 +686,7 @@ const memories = {
       },
       {
         rendered: "<sprite=1><color=#16D7FF>90%</color><sprite=5>",
-        format: "#,##0",
+        format: "#,##0%",
         raw: "dmgFactor",
         scalingType: "basic",
         data: {
@@ -787,7 +787,7 @@ const memories = {
     rawDescVars: [
       {
         rendered: "<sprite=1><color=#16D7FF>100%</color><sprite=5>",
-        format: "#,##0",
+        format: "#,##0%",
         raw: "damageMin",
         scalingType: "basic",
         data: {
@@ -800,7 +800,7 @@ const memories = {
       },
       {
         rendered: "<sprite=1><color=#16D7FF>350%</color><sprite=5>",
-        format: "#,##0",
+        format: "#,##0%",
         raw: "damageMax",
         scalingType: "basic",
         data: {
@@ -883,7 +883,7 @@ const memories = {
       },
       {
         rendered: "<sprite=1><color=#16D7FF>500%</color><sprite=5>",
-        format: "#,##0",
+        format: "#,##0%",
         raw: "startDamage",
         scalingType: "basic",
         data: {
@@ -896,7 +896,7 @@ const memories = {
       },
       {
         rendered: "<sprite=1><color=#16D7FF>200%</color><sprite=5>",
-        format: "#,##0",
+        format: "#,##0%",
         raw: "startShield",
         scalingType: "basic",
         data: {
@@ -1049,7 +1049,7 @@ const memories = {
     rawDescVars: [
       {
         rendered: "<sprite=1><color=#16D7FF>125%</color><sprite=5>",
-        format: "#,##0",
+        format: "#,##0%",
         raw: "damagePerStack",
         scalingType: "basic",
         data: {
@@ -1093,7 +1093,7 @@ const memories = {
     rawDescVars: [
       {
         rendered: "<sprite=1><color=#16D7FF>160%</color><sprite=5>",
-        format: "#,##0",
+        format: "#,##0%",
         raw: "Ai_Q_EtherealInfluence_Projectile_Forward::damage",
         scalingType: "basic",
         data: {
@@ -1106,7 +1106,7 @@ const memories = {
       },
       {
         rendered: "<sprite=1><color=#16D7FF>180%</color><sprite=5>",
-        format: "#,##0",
+        format: "#,##0%",
         raw: "explodeDamage",
         scalingType: "basic",
         data: {
@@ -1163,7 +1163,7 @@ const memories = {
       },
       {
         rendered: "<sprite=1><color=#16D7FF>200%</color><sprite=5>",
-        format: "#,##0",
+        format: "#,##0%",
         raw: "damage",
         scalingType: "basic",
         data: {
@@ -1220,7 +1220,7 @@ const memories = {
     rawDescVars: [
       {
         rendered: "<sprite=1><color=#16D7FF>150%</color><sprite=5>",
-        format: "#,##0",
+        format: "#,##0%",
         raw: "shieldAmount",
         scalingType: "basic",
         data: {
@@ -1272,7 +1272,7 @@ const memories = {
       },
       {
         rendered: "<sprite=1><color=#16D7FF>250%</color><sprite=5>",
-        format: "#,##0",
+        format: "#,##0%",
         raw: "Ai_R_Cataclysm_Meteor::dmgFactor",
         scalingType: "basic",
         data: {
@@ -1368,14 +1368,14 @@ const memories = {
       },
       {
         rendered: "<sprite=1><color=#16D7FF>507%</color><sprite=5>",
-        format: "#,##0",
+        format: "#,##0%",
         raw: "tickDamage/tickInterval",
         scalingType: "unknown",
         data: null,
       },
       {
         rendered: "<sprite=1><color=#16D7FF>73%</color><sprite=5>",
-        format: "#,##0",
+        format: "#,##0%",
         raw: "tickHeal/tickInterval",
         scalingType: "unknown",
         data: null,
@@ -1400,7 +1400,7 @@ const memories = {
     rawDescVars: [
       {
         rendered: "<sprite=2><color=#FF8A2D>175%</color><sprite=5>",
-        format: "#,##0",
+        format: "#,##0%",
         raw: "damage",
         scalingType: "basic",
         data: {
@@ -1444,7 +1444,7 @@ const memories = {
     rawDescVars: [
       {
         rendered: "<sprite=2><color=#FF8A2D>210%</color><sprite=5>",
-        format: "#,##0",
+        format: "#,##0%",
         raw: "dmgFactor",
         scalingType: "basic",
         data: {
@@ -1488,7 +1488,7 @@ const memories = {
       },
       {
         rendered: "<sprite=1><color=#16D7FF>230%</color><sprite=5>",
-        format: "#,##0",
+        format: "#,##0%",
         raw: "dmgFactor",
         scalingType: "basic",
         data: {
@@ -1514,7 +1514,7 @@ const memories = {
       },
       {
         rendered: "<sprite=1><color=#16D7FF>60%</color><sprite=5>",
-        format: "#,##0",
+        format: "#,##0%",
         raw: "perHitShield",
         scalingType: "basic",
         data: {
@@ -1545,7 +1545,7 @@ const memories = {
     rawDescVars: [
       {
         rendered: "<sprite=1><color=#16D7FF>130%</color><sprite=5>",
-        format: "#,##0",
+        format: "#,##0%",
         raw: "shieldFactor",
         scalingType: "basic",
         data: {
@@ -1571,7 +1571,7 @@ const memories = {
       },
       {
         rendered: "<sprite=1><color=#16D7FF>160%</color><sprite=5>",
-        format: "#,##0",
+        format: "#,##0%",
         raw: "dmgFactor",
         scalingType: "basic",
         data: {
@@ -1584,7 +1584,7 @@ const memories = {
       },
       {
         rendered: "<sprite=1><color=#16D7FF>60%</color><sprite=5>",
-        format: "#,##0",
+        format: "#,##0%",
         raw: "perHealFactor",
         scalingType: "basic",
         data: {
@@ -1615,7 +1615,7 @@ const memories = {
     rawDescVars: [
       {
         rendered: "<sprite=1><color=#16D7FF>140%</color><sprite=5>",
-        format: "#,##0",
+        format: "#,##0%",
         raw: "Ai_C_IceClaw::dmgFactor",
         scalingType: "basic",
         data: {
@@ -1641,7 +1641,7 @@ const memories = {
       },
       {
         rendered: "<sprite=1><color=#16D7FF>264%</color><sprite=5>",
-        format: "#,##0",
+        format: "#,##0%",
         raw: "Ai_C_IceClaw_Second::dmgFactor",
         scalingType: "basic",
         data: {
@@ -1685,7 +1685,7 @@ const memories = {
     rawDescVars: [
       {
         rendered: "<sprite=1><color=#16D7FF>180%</color><sprite=5>",
-        format: "#,##0",
+        format: "#,##0%",
         raw: "dmgFactor",
         scalingType: "basic",
         data: {
@@ -1698,7 +1698,7 @@ const memories = {
       },
       {
         rendered: "<sprite=1><color=#16D7FF>374%</color><sprite=5>",
-        format: "#,##0",
+        format: "#,##0%",
         raw: "dmgFactor*stunDmgRatio",
         scalingType: "unknown",
         data: null,
@@ -1749,7 +1749,7 @@ const memories = {
       },
       {
         rendered: "<sprite=1><color=#16D7FF>70%</color><sprite=5>",
-        format: "#,##0",
+        format: "#,##0%",
         raw: "dmgPerStar",
         scalingType: "basic",
         data: {
@@ -1787,7 +1787,7 @@ const memories = {
       },
       {
         rendered: "<sprite=1><color=#16D7FF>400%</color><sprite=5>",
-        format: "#,##0",
+        format: "#,##0%",
         raw: "dmgFactor",
         scalingType: "basic",
         data: {
@@ -1818,7 +1818,7 @@ const memories = {
     rawDescVars: [
       {
         rendered: "<sprite=1><color=#16D7FF>244%</color><sprite=5>",
-        format: "#,##0",
+        format: "#,##0%",
         raw: "damageAmount",
         scalingType: "basic",
         data: {
@@ -1862,7 +1862,7 @@ const memories = {
     rawDescVars: [
       {
         rendered: "<sprite=1><color=#16D7FF>400%</color><sprite=5>",
-        format: "#,##0",
+        format: "#,##0%",
         raw: "firstDamage",
         scalingType: "basic",
         data: {
@@ -1888,7 +1888,7 @@ const memories = {
       },
       {
         rendered: "<sprite=1><color=#16D7FF>185%</color><sprite=5>",
-        format: "#,##0",
+        format: "#,##0%",
         raw: "chainDamage",
         scalingType: "basic",
         data: {
@@ -1926,7 +1926,7 @@ const memories = {
       },
       {
         rendered: "<sprite=1><color=#16D7FF>336%</color><sprite=5>",
-        format: "#,##0",
+        format: "#,##0%",
         raw: "damage/minHitInterval",
         scalingType: "unknown",
         data: null,
@@ -1951,7 +1951,7 @@ const memories = {
     rawDescVars: [
       {
         rendered: "<sprite=1><color=#16D7FF>60%</color><sprite=5>",
-        format: "#,##0",
+        format: "#,##0%",
         raw: "firstHitDmgAmount",
         scalingType: "basic",
         data: {
@@ -1964,7 +1964,7 @@ const memories = {
       },
       {
         rendered: "<sprite=1><color=#16D7FF>240%</color><sprite=5>",
-        format: "#,##0",
+        format: "#,##0%",
         raw: "secondHitDmgAmount",
         scalingType: "basic",
         data: {
@@ -2021,7 +2021,7 @@ const memories = {
       },
       {
         rendered: "<sprite=2><color=#FF8A2D>52%</color><sprite=5>",
-        format: "#,##0",
+        format: "#,##0%",
         raw: "hitDamage",
         scalingType: "basic",
         data: {
@@ -2065,7 +2065,7 @@ const memories = {
     rawDescVars: [
       {
         rendered: "<sprite=1><color=#16D7FF>340%</color><sprite=5>",
-        format: "#,##0",
+        format: "#,##0%",
         raw: "dmgFactor",
         scalingType: "basic",
         data: {
@@ -2122,7 +2122,7 @@ const memories = {
       },
       {
         rendered: "<sprite=2><color=#FF8A2D>100%</color><sprite=5>",
-        format: "#,##0",
+        format: "#,##0%",
         raw: "dmgFactor",
         scalingType: "basic",
         data: {
@@ -2135,7 +2135,7 @@ const memories = {
       },
       {
         rendered: "<sprite=2><color=#FF8A2D>13%</color><sprite=5>",
-        format: "#,##0",
+        format: "#,##0%",
         raw: "healAmount",
         scalingType: "basic",
         data: {
@@ -2245,7 +2245,7 @@ const memories = {
       },
       {
         rendered: "<sprite=1><color=#16D7FF>35%</color><sprite=5>",
-        format: "#,##0",
+        format: "#,##0%",
         raw: "arrowDamage",
         scalingType: "basic",
         data: {
@@ -2276,7 +2276,7 @@ const memories = {
     rawDescVars: [
       {
         rendered: "<sprite=1><color=#16D7FF>575%</color><sprite=5>",
-        format: "#,##0",
+        format: "#,##0%",
         raw: "damagePerTick/damageInterval",
         scalingType: "unknown",
         data: null,
@@ -2302,7 +2302,7 @@ const memories = {
     rawDescVars: [
       {
         rendered: "<sprite=1><color=#16D7FF>370%</color><sprite=5>",
-        format: "#,##0",
+        format: "#,##0%",
         raw: "damage",
         scalingType: "basic",
         data: {
@@ -2315,7 +2315,7 @@ const memories = {
       },
       {
         rendered: "<sprite=1><color=#16D7FF>75%</color><sprite=5>",
-        format: "#,##0",
+        format: "#,##0%",
         raw: "healAmount",
         scalingType: "basic",
         data: {
@@ -2346,7 +2346,7 @@ const memories = {
     rawDescVars: [
       {
         rendered: "<sprite=1><color=#16D7FF>200%</color><sprite=5>",
-        format: "#,##0",
+        format: "#,##0%",
         raw: "dmgFactor",
         scalingType: "basic",
         data: {
@@ -2378,7 +2378,7 @@ const memories = {
     rawDescVars: [
       {
         rendered: "<sprite=1><color=#16D7FF>50%</color><sprite=5>",
-        format: "#,##0",
+        format: "#,##0%",
         raw: "firstDmg",
         scalingType: "basic",
         data: {
@@ -2391,7 +2391,7 @@ const memories = {
       },
       {
         rendered: "<sprite=1><color=#16D7FF>110%</color><sprite=5>",
-        format: "#,##0",
+        format: "#,##0%",
         raw: "firstShieldAmount",
         scalingType: "basic",
         data: {
@@ -2417,7 +2417,7 @@ const memories = {
       },
       {
         rendered: "<sprite=1><color=#16D7FF>180%</color><sprite=5>",
-        format: "#,##0",
+        format: "#,##0%",
         raw: "secondDmg",
         scalingType: "basic",
         data: {
@@ -2448,7 +2448,7 @@ const memories = {
     rawDescVars: [
       {
         rendered: "<sprite=1><color=#16D7FF>220%</color><sprite=5>",
-        format: "#,##0",
+        format: "#,##0%",
         raw: "dmgFactor",
         scalingType: "basic",
         data: {
@@ -2461,7 +2461,7 @@ const memories = {
       },
       {
         rendered: "<sprite=1><color=#16D7FF>385%</color><sprite=5>",
-        format: "#,##0",
+        format: "#,##0%",
         raw: "(1+centerDamageAmp)*dmgFactor",
         scalingType: "unknown",
         data: null,
@@ -2486,7 +2486,7 @@ const memories = {
     rawDescVars: [
       {
         rendered: "<sprite=1><color=#16D7FF>115%</color><sprite=5>",
-        format: "#,##0",
+        format: "#,##0%",
         raw: "dmgFactor",
         scalingType: "basic",
         data: {
@@ -2530,7 +2530,7 @@ const memories = {
     rawDescVars: [
       {
         rendered: "<sprite=1><color=#16D7FF>250%</color><sprite=5>",
-        format: "#,##0",
+        format: "#,##0%",
         raw: "initDamage",
         scalingType: "basic",
         data: {
@@ -2543,7 +2543,7 @@ const memories = {
       },
       {
         rendered: "<sprite=1><color=#16D7FF>275%</color><sprite=5>",
-        format: "#,##0",
+        format: "#,##0%",
         raw: "totalDamage",
         scalingType: "basic",
         data: {
@@ -2594,7 +2594,7 @@ const memories = {
       },
       {
         rendered: "<sprite=1><color=#16D7FF>240%</color><sprite=5>",
-        format: "#,##0",
+        format: "#,##0%",
         raw: "damage",
         scalingType: "basic",
         data: {
@@ -2651,7 +2651,7 @@ const memories = {
       },
       {
         rendered: "<sprite=2><color=#FF8A2D>100%</color><sprite=5>",
-        format: "#,##0",
+        format: "#,##0%",
         raw: "damage",
         scalingType: "basic",
         data: {
@@ -2708,7 +2708,7 @@ const memories = {
       },
       {
         rendered: "<sprite=2><color=#FF8A2D>65%</color><sprite=5>",
-        format: "#,##0",
+        format: "#,##0%",
         raw: "damage",
         scalingType: "basic",
         data: {
@@ -2752,7 +2752,7 @@ const memories = {
     rawDescVars: [
       {
         rendered: "<sprite=1><color=#16D7FF>150%</color><sprite=5>",
-        format: "#,##0",
+        format: "#,##0%",
         raw: "minDamage",
         scalingType: "basic",
         data: {
@@ -2765,7 +2765,7 @@ const memories = {
       },
       {
         rendered: "<sprite=1><color=#16D7FF>600%</color><sprite=5>",
-        format: "#,##0",
+        format: "#,##0%",
         raw: "maxDamage",
         scalingType: "basic",
         data: {
@@ -2835,7 +2835,7 @@ const memories = {
       },
       {
         rendered: "<sprite=1><color=#16D7FF>160%</color><sprite=5>",
-        format: "#,##0",
+        format: "#,##0%",
         raw: "damage",
         scalingType: "basic",
         data: {
@@ -2866,7 +2866,7 @@ const memories = {
     rawDescVars: [
       {
         rendered: "<sprite=2><color=#FF8A2D>110%</color><sprite=5>",
-        format: "#,##0",
+        format: "#,##0%",
         raw: "dmgFactor",
         scalingType: "basic",
         data: {
@@ -2937,7 +2937,7 @@ const memories = {
       },
       {
         rendered: "<sprite=1><color=#16D7FF>70%</color><sprite=5>",
-        format: "#,##0",
+        format: "#,##0%",
         raw: "dmgFactor",
         scalingType: "basic",
         data: {
@@ -3121,7 +3121,7 @@ const memories = {
     rawDescVars: [
       {
         rendered: "<sprite=2><color=#FF8A2D>68%</color><sprite=5>",
-        format: "#,##0",
+        format: "#,##0%",
         raw: "damageAmount",
         scalingType: "basic",
         data: {
@@ -3134,7 +3134,7 @@ const memories = {
       },
       {
         rendered: "<sprite=2><color=#FF8A2D>16%</color><sprite=5>",
-        format: "#,##0",
+        format: "#,##0%",
         raw: "healAmount",
         scalingType: "basic",
         data: {
@@ -3194,7 +3194,7 @@ const memories = {
     rawDescVars: [
       {
         rendered: "<sprite=1><color=#16D7FF>110%</color><sprite=5>",
-        format: "#,##0",
+        format: "#,##0%",
         raw: "damageAmount",
         scalingType: "basic",
         data: {
@@ -3207,7 +3207,7 @@ const memories = {
       },
       {
         rendered: "<sprite=1><color=#16D7FF>28%</color><sprite=5>",
-        format: "#,##0",
+        format: "#,##0%",
         raw: "healAmount",
         scalingType: "basic",
         data: {
@@ -3303,7 +3303,7 @@ const memories = {
     rawDescVars: [
       {
         rendered: "<sprite=2><color=#FF8A2D>125%</color><sprite=5>",
-        format: "#,##0",
+        format: "#,##0%",
         raw: "damageAmount",
         scalingType: "basic",
         data: {
@@ -3355,7 +3355,7 @@ const memories = {
       },
       {
         rendered: "<sprite=1><color=#16D7FF>60%</color><sprite=5>",
-        format: "#,##0",
+        format: "#,##0%",
         raw: "healAmount",
         scalingType: "basic",
         data: {
@@ -3416,7 +3416,7 @@ const memories = {
     rawDescVars: [
       {
         rendered: "<sprite=1><color=#16D7FF>200%</color><sprite=5>",
-        format: "#,##0",
+        format: "#,##0%",
         raw: "initDamageAmount",
         scalingType: "basic",
         data: {
@@ -3429,7 +3429,7 @@ const memories = {
       },
       {
         rendered: "<sprite=1><color=#16D7FF>60%</color><sprite=5>",
-        format: "#,##0",
+        format: "#,##0%",
         raw: "tickDamageAmount",
         scalingType: "basic",
         data: {
@@ -3474,7 +3474,7 @@ const memories = {
     rawDescVars: [
       {
         rendered: "<sprite=2><color=#FF8A2D>250%</color><sprite=5>",
-        format: "#,##0",
+        format: "#,##0%",
         raw: "hitDamage",
         scalingType: "basic",
         data: {
@@ -3531,7 +3531,7 @@ const memories = {
       },
       {
         rendered: "<sprite=1><color=#16D7FF>80%</color><sprite=5>",
-        format: "#,##0",
+        format: "#,##0%",
         raw: "firstDmgFactor",
         scalingType: "basic",
         data: {
@@ -3544,7 +3544,7 @@ const memories = {
       },
       {
         rendered: "<sprite=1><color=#16D7FF>200%</color><sprite=5>",
-        format: "#,##0",
+        format: "#,##0%",
         raw: "secondDmgFactor",
         scalingType: "basic",
         data: {
@@ -3576,7 +3576,7 @@ const memories = {
     rawDescVars: [
       {
         rendered: "<sprite=1><color=#16D7FF>400%</color><sprite=5>",
-        format: "#,##0",
+        format: "#,##0%",
         raw: "damage",
         scalingType: "basic",
         data: {
@@ -3646,7 +3646,7 @@ const memories = {
       },
       {
         rendered: "<sprite=1><color=#16D7FF>120%</color><sprite=5>",
-        format: "#,##0",
+        format: "#,##0%",
         raw: "dmgFactor",
         scalingType: "basic",
         data: {
@@ -3690,7 +3690,7 @@ const memories = {
     rawDescVars: [
       {
         rendered: "<sprite=1><color=#16D7FF>280%</color><sprite=5>",
-        format: "#,##0",
+        format: "#,##0%",
         raw: "damage",
         scalingType: "basic",
         data: {
@@ -3703,7 +3703,7 @@ const memories = {
       },
       {
         rendered: "<sprite=1><color=#16D7FF>45%</color><sprite=5>",
-        format: "#,##0",
+        format: "#,##0%",
         raw: "healAmount",
         scalingType: "basic",
         data: {
@@ -3734,7 +3734,7 @@ const memories = {
     rawDescVars: [
       {
         rendered: "<sprite=1><color=#16D7FF>200%</color><sprite=5>",
-        format: "#,##0",
+        format: "#,##0%",
         raw: "dmgFactor",
         scalingType: "basic",
         data: {
@@ -3778,7 +3778,7 @@ const memories = {
     rawDescVars: [
       {
         rendered: "<sprite=2><color=#FF8A2D>1,300%</color><sprite=5>",
-        format: "#,##0",
+        format: "#,##0%",
         raw: "dmgFactor",
         scalingType: "basic",
         data: {
@@ -3849,7 +3849,7 @@ const memories = {
       },
       {
         rendered: "<sprite=2><color=#FF8A2D>170%</color><sprite=5>",
-        format: "#,##0",
+        format: "#,##0%",
         raw: "dmgFactor*2",
         scalingType: "unknown",
         data: null,
@@ -3922,28 +3922,6 @@ export const getMemoryById = (id: string) => {
       id: memoryId,
       mutuallyExclusive: getMutuallyExclusiveMemories(memory),
       ...memory,
-      rawDescVars: memory.rawDescVars.map(
-        ({ rendered, format, scalingType, data }) => {
-          let scaling;
-          const percentage =
-            rendered.includes("%") && !format.endsWith(String.raw`\%`);
-          if (scalingType === "basic") {
-            scaling = getItemBasicScaling(data, percentage);
-          }
-
-          // if (typeof scalingType === "function") {
-          //   scaling = scalingType(50) * (percentage ? 100 : 1);
-          // }
-
-          const displayedScaling =
-            scaling === undefined ? "???" : +scaling.toFixed(2);
-          const unit = rendered.includes("%") ? "%" : "";
-          return {
-            rendered,
-            scaling: `+${displayedScaling}${unit} / lv`,
-          };
-        },
-      ),
     } as const;
   }
 };
