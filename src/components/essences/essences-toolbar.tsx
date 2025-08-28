@@ -78,7 +78,10 @@ export const EssencesToolbar = ({
 
       <button
         className="btn btn-soft"
-        disabled={Object.values(queryStates).every((v) => v.length === 0)}
+        // TODO: allow quality to be entered via a slider
+        disabled={Object.values(queryStates)
+          .filter((queryState) => typeof queryState !== "number")
+          .every((queryState) => queryState.length === 0)}
         onClick={() =>
           // eslint-disable-next-line unicorn/no-null
           setQueryStates(null, { startTransition: resetStartTransition })

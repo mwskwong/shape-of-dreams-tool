@@ -138,7 +138,10 @@ export const MemoriesToolbar = ({
 
       <button
         className="btn btn-soft col-span-2"
-        disabled={Object.values(queryStates).every((v) => v.length === 0)}
+        // TODO: allow level to be entered via a slider
+        disabled={Object.values(queryStates)
+          .filter((queryState) => typeof queryState !== "number")
+          .every((queryState) => queryState.length === 0)}
         onClick={() =>
           // eslint-disable-next-line unicorn/no-null
           setQueryStates(null, { startTransition: resetStartTransition })
