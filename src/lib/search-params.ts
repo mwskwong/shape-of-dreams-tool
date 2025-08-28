@@ -15,6 +15,7 @@ export const essencesSearchParams = {
   rarities: parseAsArrayOf(
     parseAsStringLiteral(getEssenceRarities()),
   ).withDefault([]),
+  quality: parseAsInteger.withDefault(100),
 };
 
 export const loadEssencesSearchParams = createLoader(essencesSearchParams);
@@ -29,6 +30,7 @@ export const memoriesSearchParams = {
     [],
   ),
   tags: parseAsArrayOf(parseAsStringLiteral(getMemoryTags())).withDefault([]),
+  level: parseAsInteger.withDefault(1),
 };
 
 export const loadMemoriesSearchParams = createLoader(memoriesSearchParams);

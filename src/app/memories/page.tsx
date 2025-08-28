@@ -13,7 +13,7 @@ import { removeDiacritics } from "@/lib/utils";
 const memories = getMemories();
 
 const MemoriesPage = async ({ searchParams }: PageProps<"/memories">) => {
-  const { search, rarities, types, travelers, tags } =
+  const { search, rarities, types, travelers, tags, level } =
     await loadMemoriesSearchParams(searchParams);
 
   return (
@@ -82,6 +82,7 @@ const MemoriesPage = async ({ searchParams }: PageProps<"/memories">) => {
                 achievementDescription={achievementDescription}
                 achievementName={achievementName}
                 cooldownTime={cooldownTime}
+                effectiveLevel={level}
                 maxCharges={maxCharges}
                 mutuallyExclusive={mutuallyExclusive}
                 rawDescVars={rawDescVars}

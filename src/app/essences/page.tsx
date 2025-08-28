@@ -12,7 +12,8 @@ import { removeDiacritics } from "@/lib/utils";
 const essences = getEssences();
 
 const EssencesPage = async ({ searchParams }: PageProps<"/essences">) => {
-  const { search, rarities } = await loadEssencesSearchParams(searchParams);
+  const { search, rarities, quality } =
+    await loadEssencesSearchParams(searchParams);
 
   return (
     <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
@@ -57,6 +58,7 @@ const EssencesPage = async ({ searchParams }: PageProps<"/essences">) => {
               <ItemCardBody
                 achievementDescription={achievementDescription}
                 achievementName={achievementName}
+                effectiveLevel={quality}
                 rawDescVars={rawDescVars}
               >
                 {rawDesc}
