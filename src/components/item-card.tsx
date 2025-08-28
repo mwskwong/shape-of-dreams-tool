@@ -104,11 +104,11 @@ const getRawDescVarAncestorDomNode = (domNode: DOMNode) => {
   let current = domNode.parent;
   while (current) {
     if (
-      domNode instanceof Element &&
-      domNode.name === "span" &&
-      domNode.attribs["data-index"]
+      current instanceof Element &&
+      current.name === "span" &&
+      current.attribs["data-index"]
     ) {
-      return current as Element;
+      return current;
     }
 
     current = current.parent;
@@ -146,7 +146,6 @@ export const ItemCardBody = ({
   ...props
 }: ItemCardBodyProps) => {
   const effectiveLevel = effectiveLevelProp ?? baseEffectiveLevel[itemType];
-
   const options = {
     replace: (domNode) => {
       if (domNode instanceof Element) {
