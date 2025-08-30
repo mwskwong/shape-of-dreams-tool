@@ -27,7 +27,7 @@
     "html-react-parser": "^5.2.6",
     "http-status": "^2.1.0",
     "lodash-es": "^4.17.21",
-    "next": "^15.4.6",
+    "next": "^15.5.2",
     "nextjs-better-unstable-cache": "^1.1.0",
     "nuqs": "^2.4.3",
     "react": "^19.1.1",
