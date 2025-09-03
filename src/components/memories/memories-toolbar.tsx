@@ -188,7 +188,7 @@ export const MemoriesToolbar = ({
         ) : (
           <RotateCcw size="1.2em" />
         )}
-        Resetopacity-20
+        Reset
       </button>
     </header>
   );
