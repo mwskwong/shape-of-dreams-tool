@@ -146,15 +146,15 @@ export const MemoriesToolbar = ({
       />
 
       <div className="col-span-2 lg:w-52">
-        <div className="flex items-center text-xs">
+        <div className="flex w-full items-center text-sm">
           <label className="opacity-60" htmlFor={levelSliderId}>
-            Level:
+            Level
           </label>
-          <span>&nbsp;{queryStates.level}</span>
           {levelPending && <span className="loading ml-2 w-[1.2em]" />}
+          <span className="ml-auto">{queryStates.level}</span>
         </div>
         <input
-          className="range range-xs w-full"
+          className="range range-sm w-full"
           id={levelSliderId}
           value={queryStates.level}
           {...levelSliderConfig}
@@ -239,14 +239,16 @@ export const MemoriesToolbarFallback = ({
       <Select label="Tag" options={tags} />
 
       <div className="col-span-2 lg:w-52">
-        <div className="flex items-center text-xs">
+        <div className="flex w-full items-center text-sm">
           <label className="opacity-60" htmlFor={levelSliderId}>
-            Level:
+            Level
           </label>
-          <span>&nbsp;{memoriesSearchParams.level.defaultValue}</span>
+          <span className="ml-auto">
+            {memoriesSearchParams.level.defaultValue}
+          </span>
         </div>
         <input
-          className="range range-xs w-full"
+          className="range range-sm w-full"
           id={levelSliderId}
           value={memoriesSearchParams.level.defaultValue}
           {...levelSliderConfig}
@@ -258,7 +260,7 @@ export const MemoriesToolbarFallback = ({
             (_, index) => (
               <div
                 key={index}
-                className="bg-base-content h-1.5 w-px opacity-20"
+                className="bg-base-content h-2 w-px opacity-10"
               />
             ),
           )}

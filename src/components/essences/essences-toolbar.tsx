@@ -89,15 +89,15 @@ export const EssencesToolbar = ({
       />
 
       <div className="min-w-52">
-        <div className="flex items-center text-xs">
+        <div className="flex w-full items-center text-sm">
           <label className="opacity-60" htmlFor={qualitySliderId}>
-            Quality:
+            Quality
           </label>
-          <span>&nbsp;{queryStates.quality}%</span>
           {qualityPending && <span className="loading ml-2 w-[1.2em]" />}
+          <span className="ml-auto">{queryStates.quality}%</span>
         </div>
         <input
-          className="range range-xs w-full"
+          className="range range-sm w-full"
           id={qualitySliderId}
           value={queryStates.quality}
           {...qualitySliderConfig}
@@ -118,7 +118,7 @@ export const EssencesToolbar = ({
             (_, index) => (
               <div
                 key={index}
-                className="bg-base-content h-1.5 w-px opacity-20"
+                className="bg-base-content h-2 w-px opacity-10"
               />
             ),
           )}
@@ -174,11 +174,13 @@ export const EssencesToolbarFallback = ({
       <Select label="Rarity" />
 
       <div className="md:w-52">
-        <div className="flex items-center text-xs">
+        <div className="flex w-full items-center text-sm">
           <label className="opacity-60" htmlFor={qualitySliderId}>
-            Quality:
+            Quality
           </label>
-          <span>&nbsp;{essencesSearchParams.quality.defaultValue}%</span>
+          <span className="ml-auto">
+            {essencesSearchParams.quality.defaultValue}%
+          </span>
         </div>
         <input
           className="range range-xs w-full"
