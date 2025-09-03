@@ -169,17 +169,6 @@ export const MemoriesToolbar = ({
             )
           }
         />
-        <div className="mx-2 mt-1 flex justify-between">
-          {Array.from(
-            { length: levelSliderConfig.max / levelSliderConfig.step },
-            (_, index) => (
-              <div
-                key={index}
-                className="bg-base-content h-1.5 w-px opacity-20"
-              />
-            ),
-          )}
-        </div>
       </div>
 
       <button
@@ -254,17 +243,6 @@ export const MemoriesToolbarFallback = ({
           {...levelSliderConfig}
           type="range"
         />
-        <div className="mx-2 mt-1 flex justify-between">
-          {Array.from(
-            { length: levelSliderConfig.max / levelSliderConfig.step },
-            (_, index) => (
-              <div
-                key={index}
-                className="bg-base-content h-2 w-px opacity-20"
-              />
-            ),
-          )}
-        </div>
       </div>
 
       <button disabled className="btn btn-soft col-span-2">
