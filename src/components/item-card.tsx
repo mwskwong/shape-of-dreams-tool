@@ -204,11 +204,13 @@ export const ItemCardBody = ({
         const suffix = match?.[3] ?? "";
 
         if (scalingType === "unknown") {
-          if (effectiveLevel === baseEffectiveLevel[itemType]) {
-            return domNode.data;
-          }
+          if (effectiveLevel === baseEffectiveLevel[itemType]) return;
 
-          return `${prefix}???${suffix}`;
+          return (
+            <>
+              {prefix}???{suffix}
+            </>
+          );
         }
 
         let value = 0;
