@@ -238,7 +238,7 @@ export const MemoriesToolbarFallback = ({
       />
       <Select label="Tag" options={tags} />
 
-      <div className="col-span-2 min-w-52">
+      <div className="col-span-2 lg:w-52">
         <div className="flex items-center text-xs">
           <label className="opacity-60" htmlFor={levelSliderId}>
             Level:

@@ -276,20 +276,13 @@ const essences = {
   Gem_C_Regeneration: {
     name: "Essence of Regeneration",
     rawDesc:
-      "If this memory is <color=yellow>Cast</color> <color=yellow>in Combat</color>, it <color=yellow>Restores</color> your health by {0} over {1} seconds.",
+      "If this memory is <color=yellow>Cast</color> <color=yellow>in Combat</color>, it <color=yellow>Restores</color> your health by {0} over 7 seconds.",
     rawDescVars: [
       {
         rendered: "41<sprite=5>",
         format: "#,##0",
         raw: "healPerTick * totalTicks",
         scalingType: (quality: number) => 2 * (1 + 0.01 * quality * 0.45) * 14,
-        data: null,
-      },
-      {
-        rendered: "7",
-        format: "#,##0.#",
-        raw: "totalTicks*tickInterval",
-        scalingType: "unknown",
         data: null,
       },
     ],
