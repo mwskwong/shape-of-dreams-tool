@@ -94,7 +94,7 @@ export const EssencesToolbar = ({
             Quality:
           </label>
           <span>&nbsp;{queryStates.quality}%</span>
-          {qualityPending && <span className="loading ml-1 w-[1em]" />}
+          {qualityPending && <span className="loading ml-2 w-[1.2em]" />}
         </div>
         <input
           className="range range-xs w-full"
@@ -173,7 +173,7 @@ export const EssencesToolbarFallback = ({
 
       <Select label="Rarity" />
 
-      <div className="min-w-52">
+      <div className="md:w-52">
         <div className="flex items-center text-xs">
           <label className="opacity-60" htmlFor={qualitySliderId}>
             Quality:

@@ -45,10 +45,10 @@ export const MemoriesToolbar = ({
 
   return (
     <header
-      className={cn("grid grid-cols-2 gap-4 md:flex", className)}
+      className={cn("grid grid-cols-2 gap-4 lg:flex", className)}
       {...props}
     >
-      <label className="input col-span-2 w-full md:w-72">
+      <label className="input col-span-2 w-full lg:w-72">
         <Search className="shrink-0" size="1.2em" />
         <input
           aria-label="Search memories"
@@ -145,13 +145,13 @@ export const MemoriesToolbar = ({
         }
       />
 
-      <div className="min-w-52">
+      <div className="col-span-2 lg:w-52">
         <div className="flex items-center text-xs">
           <label className="opacity-60" htmlFor={levelSliderId}>
             Level:
           </label>
           <span>&nbsp;{queryStates.level}</span>
-          {levelPending && <span className="loading ml-1 w-[1em]" />}
+          {levelPending && <span className="loading ml-2 w-[1.2em]" />}
         </div>
         <input
           className="range range-xs w-full"
@@ -217,10 +217,10 @@ export const MemoriesToolbarFallback = ({
 
   return (
     <header
-      className={cn("grid grid-cols-2 gap-4 md:flex", className)}
+      className={cn("grid grid-cols-2 gap-4 lg:flex", className)}
       {...props}
     >
-      <label className="input col-span-2 w-full md:w-72">
+      <label className="input col-span-2 w-full lg:w-72">
         <Search className="shrink-0" size="1.2em" />
         <input
           aria-label="Search memories"
@@ -238,7 +238,7 @@ export const MemoriesToolbarFallback = ({
       />
       <Select label="Tag" options={tags} />
 
-      <div className="min-w-52">
+      <div className="col-span-2 min-w-52">
         <div className="flex items-center text-xs">
           <label className="opacity-60" htmlFor={levelSliderId}>
             Level:
