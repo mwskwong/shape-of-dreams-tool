@@ -20,6 +20,12 @@ const types = getMemoryTypes();
 const travelers = getTravelerIds();
 const tags = getMemoryTags();
 
+const levelSliderConfig = {
+  min: memoriesSearchParams.level.defaultValue,
+  max: 10,
+  step: 1,
+};
+
 export type MemoriesToolbarProps = Omit<ComponentProps<"div">, "children">;
 export const MemoriesToolbar = ({
   className,
@@ -36,7 +42,6 @@ export const MemoriesToolbar = ({
   const [resetPending, resetStartTransition] = useTransition();
 
   const levelSliderId = useId();
-  const levelSliderConfig = { min: 1, max: 10, step: 1 };
 
   return (
     <header
@@ -179,10 +184,11 @@ export const MemoriesToolbar = ({
 
       <button
         className="btn btn-soft col-span-2"
-        // TODO: allow level to be entered via a slider
-        disabled={Object.values(queryStates)
-          .filter((queryState) => typeof queryState !== "number")
-          .every((queryState) => queryState.length === 0)}
+        disabled={Object.values(queryStates).every((queryState) =>
+          typeof queryState === "number"
+            ? queryState === memoriesSearchParams.level.defaultValue
+            : queryState.length === 0,
+        )}
         onClick={() =>
           // eslint-disable-next-line unicorn/no-null
           setQueryStates(null, { startTransition: resetStartTransition })
@@ -206,32 +212,63 @@ export type MemoriesToolbarFallbackProps = Omit<
 export const MemoriesToolbarFallback = ({
   className,
   ...props
-}: MemoriesToolbarFallbackProps) => (
-  <header
-    className={cn("grid grid-cols-2 gap-4 md:flex", className)}
-    {...props}
-  >
-    <label className="input col-span-2 w-full md:w-72">
-      <Search className="shrink-0" size="1.2em" />
-      <input
-        aria-label="Search memories"
-        placeholder="Search..."
-        type="search"
+}: MemoriesToolbarFallbackProps) => {
+  const levelSliderId = useId();
+
+  return (
+    <header
+      className={cn("grid grid-cols-2 gap-4 md:flex", className)}
+      {...props}
+    >
+      <label className="input col-span-2 w-full md:w-72">
+        <Search className="shrink-0" size="1.2em" />
+        <input
+          aria-label="Search memories"
+          placeholder="Search..."
+          type="search"
+        />
+      </label>
+
+      <Select label="Rarity" options={rarities} />
+      <Select label="Type" options={types} />
+      <Select
+        label="Traveler"
+        optionFormatter={(id) => getTravelerById(id)?.name ?? id}
+        options={travelers}
       />
-    </label>
+      <Select label="Tag" options={tags} />
 
-    <Select label="Rarity" options={rarities} />
-    <Select label="Type" options={types} />
-    <Select
-      label="Traveler"
-      optionFormatter={(id) => getTravelerById(id)?.name ?? id}
-      options={travelers}
-    />
-    <Select label="Tag" options={tags} />
+      <div className="min-w-52">
+        <div className="flex items-center text-xs">
+          <label className="opacity-60" htmlFor={levelSliderId}>
+            Level:
+          </label>
+          <span>&nbsp;{memoriesSearchParams.level.defaultValue}</span>
+        </div>
+        <input
+          className="range range-xs w-full"
+          id={levelSliderId}
+          value={memoriesSearchParams.level.defaultValue}
+          {...levelSliderConfig}
+          type="range"
+        />
+        <div className="mx-1.5 mt-1 flex justify-between">
+          {Array.from(
+            { length: levelSliderConfig.max / levelSliderConfig.step },
+            (_, index) => (
+              <div
+                key={index}
+                className="bg-base-content h-1.5 w-px opacity-20"
+              />
+            ),
+          )}
+        </div>
+      </div>
 
-    <button disabled className="btn btn-soft col-span-2">
-      <RotateCcw size="1.2em" />
-      Reset
-    </button>
-  </header>
-);
+      <button disabled className="btn btn-soft col-span-2">
+        <RotateCcw size="1.2em" />
+        Reset
+      </button>
+    </header>
+  );
+};

@@ -12,6 +12,12 @@ import { Select } from "../select";
 
 const rarities = getEssenceRarities();
 
+const qualitySliderConfig = {
+  min: essencesSearchParams.quality.defaultValue,
+  max: 1000,
+  step: 100,
+};
+
 export type EssencesToolbarProps = Omit<ComponentProps<"div">, "children">;
 export const EssencesToolbar = ({
   className,
@@ -25,7 +31,6 @@ export const EssencesToolbar = ({
   const [resetPending, resetStartTransition] = useTransition();
 
   const qualitySliderId = useId();
-  const qualitySliderConfig = { min: 100, max: 1000, step: 100 };
 
   return (
     <header
@@ -122,9 +127,11 @@ export const EssencesToolbar = ({
 
       <button
         className="btn btn-soft"
-        disabled={Object.values(queryStates)
-          .filter((queryState) => typeof queryState !== "number")
-          .every((queryState) => queryState.length === 0)}
+        disabled={Object.values(queryStates).every((queryState) =>
+          typeof queryState === "number"
+            ? queryState === essencesSearchParams.quality.defaultValue
+            : queryState.length === 0,
+        )}
         onClick={() =>
           // eslint-disable-next-line unicorn/no-null
           setQueryStates(null, { startTransition: resetStartTransition })
@@ -148,25 +155,55 @@ export type EssencesToolbarFallbackProps = Omit<
 export const EssencesToolbarFallback = ({
   className,
   ...props
-}: EssencesToolbarFallbackProps) => (
-  <header
-    className={cn("flex flex-col gap-4 md:flex-row", className)}
-    {...props}
-  >
-    <label className="input w-full md:w-72">
-      <Search className="shrink-0" size="1.2em" />
-      <input
-        aria-label="Search essences"
-        placeholder="Search..."
-        type="search"
-      />
-    </label>
+}: EssencesToolbarFallbackProps) => {
+  const qualitySliderId = useId();
+  return (
+    <header
+      className={cn("flex flex-col gap-4 md:flex-row", className)}
+      {...props}
+    >
+      <label className="input w-full md:w-72">
+        <Search className="shrink-0" size="1.2em" />
+        <input
+          aria-label="Search essences"
+          placeholder="Search..."
+          type="search"
+        />
+      </label>
 
-    <Select label="Rarity" />
+      <Select label="Rarity" />
 
-    <button disabled className="btn btn-soft">
-      <RotateCcw size="1.2em" />
-      Reset
-    </button>
-  </header>
-);
+      <div className="min-w-52">
+        <div className="flex items-center text-xs">
+          <label className="opacity-60" htmlFor={qualitySliderId}>
+            Quality:
+          </label>
+          <span>&nbsp;{essencesSearchParams.quality.defaultValue}%</span>
+        </div>
+        <input
+          className="range range-xs w-full"
+          id={qualitySliderId}
+          value={essencesSearchParams.quality.defaultValue}
+          {...qualitySliderConfig}
+          type="range"
+        />
+        <div className="mx-1.5 mt-1 flex justify-between">
+          {Array.from(
+            { length: qualitySliderConfig.max / qualitySliderConfig.step },
+            (_, index) => (
+              <div
+                key={index}
+                className="bg-base-content h-1.5 w-px opacity-20"
+              />
+            ),
+          )}
+        </div>
+      </div>
+
+      <button disabled className="btn btn-soft">
+        <RotateCcw size="1.2em" />
+        Reset
+      </button>
+    </header>
+  );
+};
