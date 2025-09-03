@@ -2,7 +2,7 @@
 
 import { RotateCcw, Search } from "lucide-react";
 import { debounce, useQueryStates } from "nuqs";
-import { type ComponentProps, useTransition } from "react";
+import { type ComponentProps, useId, useTransition } from "react";
 
 import { getEssenceRarities } from "@/lib/essences";
 import { essencesSearchParams } from "@/lib/search-params";
@@ -21,11 +21,18 @@ export const EssencesToolbar = ({
 
   const [searchPending, searchStartTransition] = useTransition();
   const [raritiesPending, raritiesStartTransition] = useTransition();
+  const [qualityPending, qualityStartTransition] = useTransition();
   const [resetPending, resetStartTransition] = useTransition();
+
+  const qualitySliderId = useId();
+  const qualitySliderConfig = { min: 100, max: 1000, step: 100 };
 
   return (
     <header
-      className={cn("flex flex-col gap-4 md:flex-row", className)}
+      className={cn(
+        "flex flex-col gap-4 md:flex-row md:items-center",
+        className,
+      )}
       {...props}
     >
       <label className="input w-full md:w-72">
@@ -76,9 +83,45 @@ export const EssencesToolbar = ({
         }
       />
 
+      <div className="min-w-52">
+        <div className="flex items-center text-xs">
+          <label className="opacity-60" htmlFor={qualitySliderId}>
+            Quality:
+          </label>
+          <span>&nbsp;{queryStates.quality}%</span>
+          {qualityPending && <span className="loading ml-1 w-[1em]" />}
+        </div>
+        <input
+          className="range range-xs w-full"
+          id={qualitySliderId}
+          value={queryStates.quality}
+          {...qualitySliderConfig}
+          type="range"
+          onChange={(e) =>
+            setQueryStates(
+              { quality: Number.parseInt(e.target.value) },
+              {
+                startTransition: qualityStartTransition,
+                limitUrlUpdates: debounce(500),
+              },
+            )
+          }
+        />
+        <div className="mx-1.5 mt-1 flex justify-between">
+          {Array.from(
+            { length: qualitySliderConfig.max / qualitySliderConfig.step },
+            (_, index) => (
+              <div
+                key={index}
+                className="bg-base-content h-1.5 w-px opacity-20"
+              />
+            ),
+          )}
+        </div>
+      </div>
+
       <button
         className="btn btn-soft"
-        // TODO: allow quality to be entered via a slider
         disabled={Object.values(queryStates)
           .filter((queryState) => typeof queryState !== "number")
           .every((queryState) => queryState.length === 0)}

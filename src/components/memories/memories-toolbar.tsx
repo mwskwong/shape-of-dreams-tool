@@ -2,7 +2,7 @@
 
 import { RotateCcw, Search } from "lucide-react";
 import { debounce, useQueryStates } from "nuqs";
-import { type ComponentProps, useTransition } from "react";
+import { type ComponentProps, useId, useTransition } from "react";
 
 import {
   getMemoryRarities,
@@ -32,7 +32,11 @@ export const MemoriesToolbar = ({
   const [typesPending, typesStartTransition] = useTransition();
   const [travelersPending, travelersStartTransition] = useTransition();
   const [tagsPending, tagsStartTransition] = useTransition();
+  const [levelPending, levelStartTransition] = useTransition();
   const [resetPending, resetStartTransition] = useTransition();
+
+  const levelSliderId = useId();
+  const levelSliderConfig = { min: 1, max: 10, step: 1 };
 
   return (
     <header
@@ -135,6 +139,43 @@ export const MemoriesToolbar = ({
           setQueryStates({ tags }, { startTransition: tagsStartTransition })
         }
       />
+
+      <div className="min-w-52">
+        <div className="flex items-center text-xs">
+          <label className="opacity-60" htmlFor={levelSliderId}>
+            Level:
+          </label>
+          <span>&nbsp;{queryStates.level}</span>
+          {levelPending && <span className="loading ml-1 w-[1em]" />}
+        </div>
+        <input
+          className="range range-xs w-full"
+          id={levelSliderId}
+          value={queryStates.level}
+          {...levelSliderConfig}
+          type="range"
+          onChange={(e) =>
+            setQueryStates(
+              { level: Number.parseInt(e.target.value) },
+              {
+                startTransition: levelStartTransition,
+                limitUrlUpdates: debounce(500),
+              },
+            )
+          }
+        />
+        <div className="mx-1.5 mt-1 flex justify-between">
+          {Array.from(
+            { length: levelSliderConfig.max / levelSliderConfig.step },
+            (_, index) => (
+              <div
+                key={index}
+                className="bg-base-content h-1.5 w-px opacity-20"
+              />
+            ),
+          )}
+        </div>
+      </div>
 
       <button
         className="btn btn-soft col-span-2"
