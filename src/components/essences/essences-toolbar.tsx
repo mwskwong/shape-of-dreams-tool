@@ -93,7 +93,7 @@ export const EssencesToolbar = ({
           <label className="opacity-60" htmlFor={qualitySliderId}>
             Quality
           </label>
-          {qualityPending && <span className="loading ml-2 w-[1.2em]" />}
+          {qualityPending && <span className="loading loading-xs ml-2" />}
           <span className="ml-auto">{queryStates.quality}%</span>
         </div>
         <input
@@ -112,13 +112,13 @@ export const EssencesToolbar = ({
             )
           }
         />
-        <div className="mx-1.5 mt-1 flex justify-between">
+        <div className="mx-2 mt-1 flex justify-between">
           {Array.from(
             { length: qualitySliderConfig.max / qualitySliderConfig.step },
             (_, index) => (
               <div
                 key={index}
-                className="bg-base-content h-2 w-px opacity-10"
+                className="bg-base-content h-2 w-px opacity-20"
               />
             ),
           )}
@@ -189,7 +189,7 @@ export const EssencesToolbarFallback = ({
           {...qualitySliderConfig}
           type="range"
         />
-        <div className="mx-1.5 mt-1 flex justify-between">
+        <div className="mx-2 mt-1 flex justify-between">
           {Array.from(
             { length: qualitySliderConfig.max / qualitySliderConfig.step },
             (_, index) => (

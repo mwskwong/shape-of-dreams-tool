@@ -150,7 +150,7 @@ export const MemoriesToolbar = ({
           <label className="opacity-60" htmlFor={levelSliderId}>
             Level
           </label>
-          {levelPending && <span className="loading ml-2 w-[1.2em]" />}
+          {levelPending && <span className="loading loading-xs ml-2" />}
           <span className="ml-auto">{queryStates.level}</span>
         </div>
         <input
@@ -169,7 +169,7 @@ export const MemoriesToolbar = ({
             )
           }
         />
-        <div className="mx-1.5 mt-1 flex justify-between">
+        <div className="mx-2 mt-1 flex justify-between">
           {Array.from(
             { length: levelSliderConfig.max / levelSliderConfig.step },
             (_, index) => (
@@ -199,7 +199,7 @@ export const MemoriesToolbar = ({
         ) : (
           <RotateCcw size="1.2em" />
         )}
-        Reset
+        Resetopacity-20
       </button>
     </header>
   );
@@ -254,13 +254,13 @@ export const MemoriesToolbarFallback = ({
           {...levelSliderConfig}
           type="range"
         />
-        <div className="mx-1.5 mt-1 flex justify-between">
+        <div className="mx-2 mt-1 flex justify-between">
           {Array.from(
             { length: levelSliderConfig.max / levelSliderConfig.step },
             (_, index) => (
               <div
                 key={index}
-                className="bg-base-content h-2 w-px opacity-10"
+                className="bg-base-content h-2 w-px opacity-20"
               />
             ),
           )}
