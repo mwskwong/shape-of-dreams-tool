@@ -66,6 +66,7 @@ const config = {
   experimental: {
     typedEnv: true,
     reactCompiler: true,
+    ppr: true,
   },
 } satisfies NextConfig;
 
